@@ -19,7 +19,7 @@
 <script lang="ts">
 import {prefixCls} from '../prefix'
 import pType from '../util/pType'
-import {reactive, toRefs, onMounted, nextTick, onBeforeUnmount, defineComponent} from 'vue'
+import {reactive, toRefs, onMounted, nextTick, watch, defineComponent} from 'vue'
 import {getScrollbarWidth} from '../util/dom'
 
 export default defineComponent({
@@ -30,12 +30,16 @@ export default defineComponent({
     spinner: pType.string(), // 自定义加载图标类名
     lock: pType.bool(),
     el: pType.object(),
-    zIndex: pType.number()
+    zIndex: pType.number(),
+    modelValue: pType.bool()
   },
   setup(props) {
     const state = reactive({
-      visible: false,
+      visible: props.modelValue,
       scrollbarWidth: 17
+    })
+    watch(() => props.modelValue, (bool: boolean) => {
+      state.visible = bool
     })
     onMounted(() => {
       nextTick(() => {

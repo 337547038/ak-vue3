@@ -5,7 +5,7 @@
       <li v-for="item in dataTree" :key="item.id">
         <span
           class="tree-box"
-          :class="{'has-child':item.hasChild||lazy,'selected':selected(item)}"
+          :class="{'has-child':item.hasChild,'selected':selected(item)}"
           @click.stop="slideToggle(item)">
           <i
             :class="{'open-child':item.open,[`${prefixCls}-icon`]:true}"
@@ -17,8 +17,8 @@
             @click.stop=""
             @change="checkboxChange(item,$event)" />
           <span class="tree-label">{{ item.label }}</span>
-          <span v-if="lazy" class="lazy-loading">
-            <Loading ref="loadingEl" :key="item.id" />
+          <span v-if="lazy&&item.hasChild" class="lazy-loading">
+            <Loading :model-value="item.id===loadingId" :key="item.id" />
           </span>
           <node-content :data="item" />
         </span>
@@ -43,6 +43,13 @@ import NodeContent from './nodeContent.vue'
 import Loading from '../loading/loading.vue'
 import Checkbox from '../checkbox/checkbox.vue'
 
+interface StateReactive {
+  lazy: boolean
+  showCheckbox: boolean
+  itemRefs?: string[]
+  loadingId: string
+}
+
 export default defineComponent({
   name: 'TreeLi',
   components: {vTransition, NodeContent, Loading, Checkbox},
@@ -50,33 +57,40 @@ export default defineComponent({
     tid: pType.string()
   },
   emits: ['toggle'],
-  setup(props, {emit, slots}) {
+  setup(props, {emit}) {
     // const instance = getCurrentInstance()
     // const childList = instance.props.data
     const propsData = inject('propsData') as AnyPropName
-    const state = reactive({
+    const state = reactive<StateReactive>({
       lazy: propsData.lazy,
-      showCheckbox: propsData.showCheckbox
-      // lazyLoading: false
+      showCheckbox: propsData.showCheckbox,
+      loadingId: ''
     })
-    const loadingEl = ref()
     const dataTree = computed(() => {
       return propsData.dataList.filter((item: any) => {
         return item.tid === props.tid
       })
     })
     const slideToggle = (item: TreeList) => {
+      if (state.loadingId) {
+        // 表示正在加载中
+        return
+      }
       item.open = !item.open
-      propsData.lazy && loadingEl.value.open()
+      if (propsData.lazy && item.hasChild) {
+        state.loadingId = item.id
+      }
       emit('toggle', item, () => {
-        propsData.lazy && loadingEl.value.close()
+        if (propsData.lazy && item.hasChild) {
+          state.loadingId = ''
+        }
       })
     }
     const selected = (item: TreeList) => {
       if (typeof propsData.modelValue === 'object') {
         return propsData.modelValue.indexOf(item.id) !== -1
       } else {
-        return propsData.modelValue === item.id
+        return propsData.modelValue === item.id && item.id
       }
     }
     const slideToggleChild = (item: TreeList) => {
@@ -95,7 +109,7 @@ export default defineComponent({
       slideToggleChild,
       prefixCls,
       ...toRefs(state),
-      loadingEl,
+      // loadingEl,
       checkboxChange
     }
   }

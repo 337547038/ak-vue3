@@ -89,12 +89,16 @@ export default defineComponent({
     watch(() => props.modelValue, (val: AnyPropName) => {
       state.modelValue = val
     })
+    const getRandom = (label: string) => {
+      return label + '-' + Math.random().toString(36).substr(2, 8)
+    }
     // 格式化数据
     const formatData = (data: AnyPropName, tid?: string) => {
       data && data.forEach((item: TreeList) => {
         const newItem = JSON.parse(JSON.stringify(item))
         delete newItem.children
-        const hasChild = item.children && item.children.length > 0
+        // 异步加载时，当前项没有设置lazy属性时也为true，
+        const hasChild = (item.children && item.children.length > 0) || (props.lazy && item.hasChild !== false)
         let checked = {}
         if (props.showCheckbox) {
           // 添加选中属性
@@ -102,7 +106,7 @@ export default defineComponent({
         }
         // 如果没有id时，根据label自动生成一个
         if (!newItem.id) {
-          newItem.id = item.label + '-' + Math.random().toString(36).substr(2, 8)
+          newItem.id = getRandom(item.label)
         }
         state.dataList.push(Object.assign({}, checked, newItem, {tid: tid, hasChild: hasChild}))
         if (hasChild) {
@@ -112,10 +116,10 @@ export default defineComponent({
     }
     formatData(props.data)
     const toggle = (item: TreeList, loading: any) => {
-      if (props.lazy) {
+      if (props.lazy && item.hasChild !== false) {
         // 异步加载时
         emit('click', item, (result: any) => {
-          item.lazy = true // 用来表示已经加载过数据了
+          item.isLoad = true // 用来表示已经加载过数据了
           item.hasChild = true // 添加有子节点标识，才会展开子级
           loading && loading(false) // 关闭加载等待
           let checked = {}
@@ -125,6 +129,9 @@ export default defineComponent({
           }
           // 将数据添加上父节点信息，追加到数据列表
           result.forEach((re: TreeList) => {
+            if (!re.id) {
+              re.id = getRandom(re.label)
+            }
             state.dataList.push(Object.assign({}, checked, re, {tid: item.id}))
           })
         })
@@ -146,9 +153,25 @@ export default defineComponent({
         emit('update:modelValue', item.id)
       }
     }
+    // 提供方法用于取值
+    const getValue = (bool: boolean) => {
+      let temp: AnyPropName = []
+      let tempId: string[] = []
+      state.dataList.forEach((item: TreeList) => {
+        if (item.checked) {
+          temp.push({
+            id: item.id,
+            label: item.label
+          })
+          tempId.push(item.id)
+        }
+      })
+      return bool ? temp : tempId
+    }
     return {
       prefixCls,
-      toggle
+      toggle,
+      getValue
     }
   }
 })

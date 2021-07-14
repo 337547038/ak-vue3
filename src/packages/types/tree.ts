@@ -4,10 +4,10 @@ interface TreeList {
   open?: boolean
   children?: any
   tid?: string
-  lazy?: boolean
   hasChild?: boolean
   checked?: boolean
   someChecked?: boolean
+  isLoad?: boolean
 }
 
 export {TreeList}

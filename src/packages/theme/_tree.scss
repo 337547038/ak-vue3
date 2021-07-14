@@ -14,4 +14,7 @@
   .lazy-loading {position: relative;width: 20px;
     .loading-svg {width: 15px;height: 15px;}
   }
+  @include ns(checkbox) {
+    margin-left: 3px;
+  }
 }

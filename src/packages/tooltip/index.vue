@@ -14,6 +14,15 @@ import pType from '../util/pType'
 import {defineComponent, reactive, ref, onMounted, onBeforeUnmount, toRefs, nextTick, getCurrentInstance} from 'vue'
 import {getOffset, getWindow} from '../util/dom'
 
+interface CssStyle {
+  maxWidth: string
+  left?: string
+  bottom?: string
+  transform?: string
+  top?: string
+  right?: string
+}
+
 export default defineComponent({
   name: `${prefixCls}Tooltip`,
   props: {
@@ -31,7 +40,7 @@ export default defineComponent({
   setup(props) {
     const tooltipEl = ref()
     const state = reactive({
-      clearTime: '',
+      clearTime: 0,
       visible: false,
       tooltipStyle: {}
     })
@@ -39,7 +48,7 @@ export default defineComponent({
     const instance = getCurrentInstance()
     onMounted(() => {
       nextTick(() => {
-        const sel = instance&&instance.proxy&&instance.proxy.$el.nextElementSibling
+        const sel = instance && instance.proxy && instance.proxy.$el.nextElementSibling
         if (!sel) {
           return
         }
@@ -66,19 +75,19 @@ export default defineComponent({
     })
     const translate = (px: number) => {
       // 通过transform平移标签时，如平移的单位为非偶数，会出现字体模糊，这里强制取偶
-      if (parseInt(px) % 2 === 0) {
+      if (px % 2 === 0) {
         // 偶数
-        return parseInt(px)
+        return px
       } else {
-        return parseInt(px) + 1
+        return px + 1
       }
     }
     const setPosition = () => {
       const offset = getOffset(el.value)
       const windowWidth = getWindow().width
       const space = props.y// 当前标签与提示语之间的距离
-      let style = {
-        maxWidth: props.maxWidth + 'px'
+      let style: CssStyle = {
+        maxWidth: props.maxWidth + 'px',
       }
       const windowHeight = getWindow().height
       const bottom = windowHeight - offset.top + space + 'px'

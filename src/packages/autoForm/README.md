@@ -393,7 +393,7 @@ export default {
 |参数|类型|说明|
 |----------|--------------|--------|
 |type           | string         |组件类型，支持input,radio,checkbox,datePicker,select,switch,textarea,grid,tabs|
-|name           | string   | 用单字段名，唯一性|  
+|name           | string   |表单控件字段名，唯一性|  
 |formItem       | object   |组件formItem的props|
 |control        | object   |对应类type型的props|
 |columns        | array    |type=grid/tabs时有效，用于布局，表多分多少列/有多少tabs|

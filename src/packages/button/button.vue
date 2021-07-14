@@ -49,16 +49,17 @@ export default defineComponent({
   },
   emits: ['click'],
   setup(props, {emit}) {
-    const btnClick = inject('btnClick', '') as (event: Element, name: string) => void
+    const btnClick = inject('btnClick') as (event: Element, name: string) => void
     const groupConfig: GroupConfig = inject('groupConfig', {})
     const btnWidth = ref(props.width || groupConfig.width)
     const classStyle = computed(() => {
+      let size = props.size || groupConfig.size || ''
       return {
         [`${prefixCls}-btn`]: true,
         'is-round': props.round || groupConfig.round,
         [`${prefixCls}-btn-` + props.type]: props.type,
         'disabled': props.disabled || groupConfig.disabled,
-        [props.size || groupConfig.size]: props.size || groupConfig.size
+        [size]: size
       }
     })
     const routerHref = computed(() => {
