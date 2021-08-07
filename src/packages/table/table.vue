@@ -14,7 +14,7 @@
                'no-ellipsis':!ellipsis,
                [className]:className}">
       <colgroup>
-        <col v-for="(col,index) in colWidth" :key="index" :width="col">
+        <col v-for="(col,index) in colWidth" :key="index" :width="col" :class="`column${index}`">
       </colgroup>
       <table-head
         ref="tableHeadEl"

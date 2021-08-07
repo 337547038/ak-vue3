@@ -38,6 +38,7 @@
           </tab-pane>
         </Tabs>
       </template>
+      <div v-else-if="item.type==='text'" class="form-title" v-html="item.name"></div>
       <form-control v-else :ref="formControlEl" :item="item" />
     </template>
   </vForm>

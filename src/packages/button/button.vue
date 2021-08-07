@@ -49,7 +49,9 @@ export default defineComponent({
   },
   emits: ['click'],
   setup(props, {emit}) {
-    const btnClick = inject('btnClick') as (event: Element, name: string) => void
+    // const btnClick = inject('btnClick') as (event: Element, name: string) => void
+    const btnClick: any = inject('btnClick', '')
+    console.log(btnClick)
     const groupConfig: GroupConfig = inject('groupConfig', {})
     const btnWidth = ref(props.width || groupConfig.width)
     const classStyle = computed(() => {
@@ -75,7 +77,7 @@ export default defineComponent({
       }
     })
     const handleClick = (event: Element) => {
-      if (!props.disabled) {
+      if (!props.disabled && !groupConfig.disabled) {
         emit('click', event)
         btnClick && btnClick(event, props.name)
       }

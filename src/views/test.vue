@@ -1,11 +1,12 @@
 <template>
   <div>
     <!--    {{value}}-->
-    <ak-tree :data="data" :show-checkbox="true" @click="click">
-      <!--      <template #default="row">
+<!--    <ak-tree :data="data" :show-checkbox="true" @click="click">
+      &lt;!&ndash;      <template #default="row">
               {{ row }}
-            </template>-->
-    </ak-tree>
+            </template>&ndash;&gt;
+    </ak-tree>-->
+    <ak-button>默认按钮</ak-button>
   </div>
 </template>
 <script>
