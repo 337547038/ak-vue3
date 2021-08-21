@@ -122,6 +122,56 @@ export default {
 </script>
 ```
 
+
+### 异步搜索
+
+`filterable=true` `async="true"` `@searchChange="searchChange"`
+
+```vue demo
+<template>
+  <ak-select
+    v-model="value1"
+    placeholder="请选择"
+    :options="options"
+    :filterable="true"
+    :async="true"
+    @searchChange="searchChange" />
+</template>
+<script>
+import {ref} from 'vue'
+
+export default {
+  setup() {
+    const options = ref([
+      {label: '选项1', value: '1'},
+      {label: '选项2', value: '2'},
+      {label: '选项3', value: '3'},
+      {label: '选项4', value: '4', disabled: true},
+      {label: '选项5', value: '5'},
+      {value: '6'},
+      {label: '选项7', value: '7'},
+      {label: '选项8', value: '8'},
+      {label: '选项9', value: '9'},
+      {label: '选项10', value: '10', class: 'red'}
+    ])
+    const value1 = ref('')
+    const searchChange = val => {
+      console.log(val)
+      options.value = [
+        {label: '输入搜索', value: '1'}
+      ]
+    }
+    return {
+      options,
+      value1,
+      searchChange
+    }
+  }
+}
+</script>
+
+```
+
 ### 可多选
 
 `multiple=true`。多选时`v-model`必须是数组，同时可设置`multiple-limit`最多选择的个数及提示信息
@@ -343,6 +393,7 @@ export default {
 |disabled          | boolean/false         |是否禁用|
 |placeholder       | string                |占位符,value为空时显示。占位符为空时显示options第一项|
 |filterable        | boolean/false         |是否可搜索，对当前下拉数据筛选|
+|async             | boolean/false         |异步搜索，filterable=true时有效|
 |options           | array                 |下拉选项数据|
 |clear             | boolean/false         |是否可以清空选项|
 |downHeight        | Number                |最大下拉高度|
@@ -366,10 +417,11 @@ export default {
 ### Select Events
 
 |参数|类型|说明|
-|----------|--------------|--------|
-|change            | function              |选中值发生变化时触发|
-|beforeChange      | function              |选择前事件|
-|limitChange       | function              |超出最大选择数时事件，仅`multiple=true`和设定了`multipleLimit`时有效|
+|----------|--------|
+|change             |选中值发生变化时触发|
+|beforeChange       |选择前事件|
+|limitChange        |超出最大选择数时事件，仅`multiple=true`和设定了`multipleLimit`时有效|
+|searchChange       |可搜索时，搜索框事件|
 
 ### Select Method
 
