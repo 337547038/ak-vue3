@@ -67,6 +67,8 @@ export default defineComponent({
           toggle: props.toggle,
           parentRow: props.parentRow
         })
+      } else if (props.column.formatter) {
+        return props.column.formatter(props.row, props.column, props.row[props.column.prop], props.index)
       } else if (props.column.type === 'selection') {
         return h(Checkbox, {
           modelValue: checkValue.value,
