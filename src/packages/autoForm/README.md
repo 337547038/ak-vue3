@@ -10,7 +10,7 @@
 
 <template>
   <div>
-    <ak-auto-form :data="data" ref="autoFormEl"/>
+    <ak-auto-form :data="data" ref="autoFormEl" />
     <ak-button @click="submit">submit</ak-button>
     <ak-button @click="setValue">setValue</ak-button>
     <ak-button @click="reset">reset</ak-button>
@@ -384,6 +384,7 @@ export default {
 |trigger        | string/change  |表单控件校验触发类型，change和blur两种|
 |labelWidth     | string         |label的宽度|
 |required       | boolean/true   |是否根据验证规则自动生成必填样式名|
+|disabled       | boolean/false  |禁用表单所有控件|
 
 ### AutoForm Methods
 
