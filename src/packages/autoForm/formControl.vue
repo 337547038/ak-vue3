@@ -6,7 +6,7 @@
       v-model="modelValue"
       :disabled="disabled"
       v-bind="item.control"
-      :type="item.type" />
+      :type="item.type==='password'?'password':'text'" />
     <radio-group
       v-if="item.type==='radio'"
       v-model="modelValue"
@@ -42,7 +42,7 @@
 
 <script lang="ts">
 import pType from '../util/pType'
-import {ref, defineComponent, computed} from 'vue'
+import {ref, defineComponent} from 'vue'
 import ControlInput from '../input/index.vue'
 import {RadioGroup} from '../radio/index'
 import {CheckboxGroup} from '../checkbox/index'

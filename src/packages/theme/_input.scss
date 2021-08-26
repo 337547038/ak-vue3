@@ -10,6 +10,11 @@
     .icon-close {display: block}
   }
   .has-prefix {padding-left: 30px}
+  &.input-prepend, &.input-append {display: flex;justify-content: space-between;align-items: stretch;
+    .prepend, .append {border: 1px solid $border;display: flex;align-items: center;padding: 0 5px;}
+    .prepend {border-radius: 3px 0 0 3px;border-right: none;margin-right: -1px}
+    .append {border-radius: 0 3px 3px 0;border-left: none;margin-left: -1px}
+  }
 }
 @include ns(input-control) {
   height: 38px;line-height: 38px;border: 1px solid $border;border-radius: 3px;background: none;outline: none;padding: 0 10px;font-size: 14px;overflow: hidden;box-sizing: border-box;width: 100%;
