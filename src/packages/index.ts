@@ -34,6 +34,7 @@ import Tooltip from './tooltip/index.vue'
 import Loading from './loading'
 import Lazy from './lazy'
 import Tree from './tree/index.vue'
+import Tag from './tag/index.vue'
 import './theme/index.scss'
 const component = [
   BackTop,
@@ -63,7 +64,8 @@ const component = [
   Progress,
   Tooltip,
   Tree,
-  Icon
+  Icon,
+  Tag
 ]
 
 /*

@@ -135,8 +135,8 @@ export default {
 |showEye        | boolean/false  |密码框显示明文切换|
 |width          | string         |设置宽度属性|
 |size           | string         |添加的大小尺寸样式|
-|prefixIcon     | string         |前缀icon图标，支持slots|
-|suffixIcon     | string         |后缀icon图标，支持slots|
+|prefixIcon     | string         |前缀icon图标|
+|suffixIcon     | string         |后缀icon图标|
 |-              |                |其它原生所有属性|
 
 ### Input Slots
@@ -144,4 +144,6 @@ export default {
 |参数|说明|
 |----------|--------|
 |prepend         |输入框前置内容|
-|append          |输入框后置内容||
+|append          |输入框后置内容|
+|prefix          |前缀icon图标|
+|suffix          |后缀icon图标|

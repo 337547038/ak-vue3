@@ -1,83 +1,16 @@
 <template>
   <div>
-    <!--    {{value}}-->
-<!--    <ak-tree :data="data" :show-checkbox="true" @click="click">
-      &lt;!&ndash;      <template #default="row">
-              {{ row }}
-            </template>&ndash;&gt;
-    </ak-tree>-->
-    <ak-button>默认按钮</ak-button>
+    <ak-tag>标签一</ak-tag>
+    <ak-tag type="info">标签二</ak-tag>
+    <ak-tag type="warning">标签三</ak-tag>
+    <ak-tag type="danger">标签四</ak-tag>
   </div>
 </template>
 <script>
 import {ref} from 'vue'
 
 export default {
-  components: {},
   setup() {
-    const data = [
-      {
-        id: 'a',
-        label: 'a',
-        children: [
-          {
-            id: 'aa',
-            label: 'aa'
-          },
-          {
-            id: 'ab',
-            label: 'ab',
-            children: [
-              {
-                id: 'ccc',
-                label: 'ccc'
-              },
-              {
-                id: 'ccc2',
-                label: 'ccc'
-              },
-              {
-                id: 'ccc3',
-                label: 'ccc'
-              },
-              {
-                id: 'ccc4',
-                label: 'ccc'
-              }
-            ]
-          },
-          {
-            id: 'ac',
-            label: 'ac'
-          }
-        ]
-      },
-      {
-        id: 'b',
-        label: 'b'
-      },
-      {
-        id: 'c',
-        label: 'c'
-      }
-    ]
-    const value = ref('b')
-    const click = (item, lazy) => {
-      console.log(item)
-      if (item.open && !item.lazy) {
-        const data = [
-          {id: 'dd', label: 'dd'}
-        ]
-        setTimeout(() => {
-          lazy && lazy(data)
-        }, 500)
-      }
-    }
-    return {
-      data,
-      value,
-      click
-    }
   }
 }
 </script>

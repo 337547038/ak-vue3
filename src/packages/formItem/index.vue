@@ -3,6 +3,7 @@
   <div :class="{className,[prefixCls+'-form-item-error']:errorTips!=='',[prefixCls+'-form-item']:true}">
     <label
       v-if="label || $slots.label"
+      v-show="!labelVisible"
       :class="{'required':isRequired,[prefixCls+'-form-label']:true}"
       :style="labelStyle">
       <slot name="label">{{ label }}</slot>
@@ -33,6 +34,7 @@ export default defineComponent({
   props: {
     className: pType.string(),
     label: pType.string(),
+    labelVisible:pType.bool(false),
     prop: pType.string(),
     required: pType.bool(true),
     verify: pType.string(),  // 用于快速验证，formItem带验证规则时，使用默认提示
