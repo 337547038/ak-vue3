@@ -45,15 +45,9 @@
     <ak-tag :closable="true">标签一</ak-tag>
     <ak-tag :closable="true" type='info'>标签二</ak-tag>
     <ak-tag :closable="true" type='warning'>标签三</ak-tag>
-    <ak-tag :closable="true" type='danger'>标签四</ak-tag>
+    <ak-tag :closable="true" type='danger'>标签3</ak-tag>
    </div>
 </template>
-<script>
-import {ref} from 'vue'
-export default {
-  setup(){
-}
-</script>
 ```
 
 ### 动态编辑标签
