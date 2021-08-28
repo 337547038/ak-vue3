@@ -1,0 +1,14 @@
+@charset "UTF-8";
+@include ns(drawer) {
+  position: fixed;top: 0;bottom: 0;right: 0;border-radius: 0;
+  @include ns(dialog-header){}
+}
+@include ns(drawer-left) {
+  right: auto;left: 0;
+}
+@include ns(drawer-bottom) {
+  right: 0;left: 0;top:auto;bottom: 0;width: 100%!important;
+}
+@include ns(drawer-top) {
+  right: 0;left: 0;top:0;bottom: auto;width: 100%!important;
+}

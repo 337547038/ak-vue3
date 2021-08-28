@@ -35,6 +35,7 @@ import Loading from './loading'
 import Lazy from './lazy'
 import Tree from './tree/index.vue'
 import Tag from './tag/index.vue'
+import Drawer from './drawer/index.vue'
 import './theme/index.scss'
 const component = [
   BackTop,
@@ -65,7 +66,8 @@ const component = [
   Tooltip,
   Tree,
   Icon,
-  Tag
+  Tag,
+  Drawer
 ]
 
 /*
