@@ -37,5 +37,5 @@ export default {
 
 |参数|类型|说明|
 |----------|--------------|--------|
-|direction        | string/right  |显示方向|
+|direction        | string/right  |显示方向，left/right/top/bottom|
 |-                | -             |其他所有参数同[dialog](/#/dialog)|
