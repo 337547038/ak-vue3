@@ -6,15 +6,15 @@
 ```vue demo
 
 <template>
-  <div>
-    <p>打开抽屉 <span @click="visible1=true" class="green">试一试</span></p>
-    <ak-drawer
-      v-model="visible1"
-      title="我是标题"
-      :direction="direction"
-      width="400px">
-      <span>我来啦!</span>
-    </ak-drawer>
+  <div style="margin: 100px">
+    <div class="tooltip-demo">
+      <ak-tooltip direction="top" trigger="click">
+        <ak-button>内容为slot</ak-button>
+        <template #content>
+          这里是提示内容
+        </template>
+      </ak-tooltip>
+    </div>
   </div>
 </template>
 <script>

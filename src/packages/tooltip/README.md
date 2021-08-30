@@ -140,3 +140,10 @@
 |transition     |String           |自定义显示隐藏过渡动画名称，需要手动添加相应的css样式|
 |appendToBody   |Boolean/true     |提示内容是否插入到body|
 |className      |String           |自定样式类名|
+|trigger        |String/hover     |事件触发方式，hover/click两种|
+
+### Tooltip Event
+
+|参数|说明|
+|----------|--------------|
+|click     |点击事件，trigger=click时|

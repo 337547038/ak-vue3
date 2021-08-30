@@ -56,3 +56,4 @@ https://gitee.com/q337547038/ak-vue
 - [ ] Image 图片
 - [x] Drawer 抽屉
 - [x] Tag 标签
+- [x] Popover 提示框

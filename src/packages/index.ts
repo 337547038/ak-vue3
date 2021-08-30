@@ -31,12 +31,14 @@ import Message from './message'
 import ColorPicker from './colorPicker/index.vue'
 import Progress from './progress/index.vue'
 import Tooltip from './tooltip/index.vue'
+import Popover from './popover/index.vue'
 import Loading from './loading'
 import Lazy from './lazy'
 import Tree from './tree/index.vue'
 import Tag from './tag/index.vue'
 import Drawer from './drawer/index.vue'
 import './theme/index.scss'
+
 const component = [
   BackTop,
   Badge,
@@ -67,7 +69,8 @@ const component = [
   Tree,
   Icon,
   Tag,
-  Drawer
+  Drawer,
+  Popover
 ]
 
 /*

@@ -5,6 +5,12 @@
     animation="slide"
     :class-name="`${prefixCls}-drawer ${prefixCls}-drawer-${direction}`">
     <slot></slot>
+    <template #title>
+      <slot name="title"></slot>
+    </template>
+    <template #footer>
+      <slot name="footer"></slot>
+    </template>
   </Dialog>
 </template>
 

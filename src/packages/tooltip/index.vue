@@ -2,7 +2,12 @@
 <template>
   <slot></slot>
   <transition :name="transition">
-    <div v-show="visible" ref="tooltipEl" :class="[`${prefixCls}-tooltip`,direction,className]" :style="tooltipStyle">
+    <div
+      v-show="visible"
+      ref="tooltipEl"
+      :class="[`${prefixCls}-tooltip`,direction,className]"
+      :style="tooltipStyle"
+      @click.stop="">
       <span v-if="content" v-html="content"></span>
       <slot v-else name="content"></slot>
     </div>
@@ -11,7 +16,17 @@
 <script lang="ts">
 import {prefixCls} from '../prefix'
 import pType from '../util/pType'
-import {defineComponent, reactive, ref, onMounted, onBeforeUnmount, toRefs, nextTick, getCurrentInstance} from 'vue'
+import {
+  defineComponent,
+  reactive,
+  ref,
+  onMounted,
+  onBeforeUnmount,
+  toRefs,
+  nextTick,
+  getCurrentInstance,
+  watch
+} from 'vue'
 import {getOffset, getWindow} from '../util/dom'
 
 interface CssStyle {
@@ -35,9 +50,12 @@ export default defineComponent({
     transition: pType.string('fade'),
     y: pType.number(8), // 当前标签与提示语之间的距离，用于微调
     x: pType.number(0), // x轴微调
-    className: pType.string()
+    className: pType.string(),
+    trigger: pType.oneOfString(['hover', 'click'], 'hover'),
+    style: pType.object()
   },
-  setup(props) {
+  emits: ['click'],
+  setup(props, {emit}) {
     const tooltipEl = ref()
     const state = reactive({
       clearTime: 0,
@@ -59,16 +77,24 @@ export default defineComponent({
           state.visible = true
           setPosition()
         }
-        sel.addEventListener('mouseenter', mouseEnter, false)
-        sel.addEventListener('mouseleave', mouseLeave, false)
+        if (props.trigger === 'click') {
+          document.addEventListener('click', mouseClick, false)
+        } else {
+          sel.addEventListener('mouseenter', mouseEnter, false)
+          sel.addEventListener('mouseleave', mouseLeave, false)
+        }
         if (props.appendToBody) {
           document.body.appendChild(tooltipEl.value)
         }
       })
     })
     onBeforeUnmount(() => {
-      el.value.removeEventListener('mouseenter', mouseEnter, false)
-      el.value.removeEventListener('mouseleave', mouseLeave, false)
+      if (props.trigger === 'click') {
+        document.removeEventListener('click', mouseClick, false)
+      } else {
+        el.value.removeEventListener('mouseenter', mouseEnter, false)
+        el.value.removeEventListener('mouseleave', mouseLeave, false)
+      }
       if (props.appendToBody && tooltipEl.value) {
         document.body.removeChild(tooltipEl.value)
       }
@@ -87,7 +113,7 @@ export default defineComponent({
       const windowWidth = getWindow().width
       const space = props.y// 当前标签与提示语之间的距离
       let style: CssStyle = {
-        maxWidth: props.maxWidth + 'px',
+        maxWidth: props.maxWidth + 'px'
       }
       const windowHeight = getWindow().height
       const bottom = windowHeight - offset.top + space + 'px'
@@ -132,7 +158,7 @@ export default defineComponent({
           style.top = offset.top + offset.height + space + 'px'
           break
       }
-      state.tooltipStyle = style
+      state.tooltipStyle = Object.assign(props.style, style)
     }
     const mouseEnter = () => {
       if (!props.always) {
@@ -160,10 +186,26 @@ export default defineComponent({
       tooltipEl.value.removeEventListener('mouseenter', toolTipEnter, false)
       tooltipEl.value.removeEventListener('mouseleave', toolTipLeave, false)
     }
+    const mouseClick = (e: MouseEvent) => {
+      if (!props.always) {
+        if (e && el.value.contains(e.target)) {
+          setPosition()
+          state.visible = true
+        } else {
+          state.visible = false
+        }
+      }
+      emit('click', state.visible)
+    }
+    // 提供一个关闭的方法
+    const close = () => {
+      state.visible = false
+    }
     return {
       prefixCls,
       ...toRefs(state),
-      tooltipEl
+      tooltipEl,
+      close
     }
   }
 })

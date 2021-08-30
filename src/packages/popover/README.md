@@ -1,7 +1,13 @@
+# popover（Tooltip） 弹出框
+
+
+### 基本用法
+  基于`tooltip`提示
+```vue demo
 <template>
-  <div style="margin: 100px">
+  <div>
     <div class="tooltip-demo">
-      <ak-popover v-model="visible" className="ab">
+    <ak-popover v-model="visible">
         <ak-button>内容为slot</ak-button>
         <template #content>
           <p>这是一段内容这是一段内容确定删除吗？</p>
@@ -12,7 +18,7 @@
         </template>
       </ak-popover>
     </div>
-  </div>
+</div>
 </template>
 <script>
 import {reactive, toRefs} from 'vue'
@@ -28,3 +34,14 @@ export default {
   }
 }
 </script>
+
+```
+
+## API
+
+### Popover Props
+
+|参数|类型|说明|
+|----------|--------------|--------|
+|v-model        | bool/false         |仅可用于关闭当前提示层|
+|-              | -                  |其他同[Tooltip](/#/tooltip)|
