@@ -1,81 +1,39 @@
 <template>
   <div>
-    <!--    {{value}}-->
-    <ak-tree :data="data" :show-checkbox="true" @click="click">
-      <!--      <template #default="row">
-              {{ row }}
-            </template>-->
-    </ak-tree>
+    {{files}}
+    <ak-upload
+      v-model="files"
+      :action="url"
+      :multiple="true"
+      :max-size="1024"
+      format="jpg,gif"
+      @success="success"
+      @error="error">
+      上传图片
+    </ak-upload>
   </div>
 </template>
 <script>
-import {ref} from 'vue'
+import {ref, reactive, toRefs} from 'vue'
 
 export default {
-  components: {},
   setup() {
-    const data = [
-      {
-        id: 'a',
-        label: 'a',
-        children: [
-          {
-            id: 'aa',
-            label: 'aa'
-          },
-          {
-            id: 'ab',
-            label: 'ab',
-            children: [
-              {
-                id: 'ccc',
-                label: 'ccc'
-              },
-              {
-                id: 'ccc2',
-                label: 'ccc'
-              },
-              {
-                id: 'ccc3',
-                label: 'ccc'
-              },
-              {
-                id: 'ccc4',
-                label: 'ccc'
-              }
-            ]
-          },
-          {
-            id: 'ac',
-            label: 'ac'
-          }
-        ]
-      },
-      {
-        id: 'b',
-        label: 'b'
-      },
-      {
-        id: 'c',
-        label: 'c'
-      }
-    ]
-    const value = ref('b')
-    const click = (item, lazy) => {
-      console.log(item)
-      if (item.open && !item.lazy) {
-        const data = [
-          {id: 'dd', label: 'dd'}
-        ]
-        setTimeout(() => {
-          lazy && lazy(data)
-        }, 500)
-      }
+    const state = reactive({
+      files: [],
+      url: 'http://192.168.2.102/uploadTest/upload.php'
+    })
+    const success = (res,callback) => {
+      console.log('success')
+      callback(res.data)
+    }
+    const error = (obj) => {
+      console.log('error')
+      console.log(obj)
     }
     return {
-      data,
-      value,
-      click
+      ...toRefs(state),
+      error,
+      success
     }
   }
 }

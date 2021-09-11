@@ -34,7 +34,9 @@ import Tooltip from './tooltip/index.vue'
 import Loading from './loading'
 import Lazy from './lazy'
 import Tree from './tree/index.vue'
+import {Upload, ImgCrop} from "./upload"
 import './theme/index.scss'
+
 const component = [
   BackTop,
   Badge,
@@ -63,7 +65,8 @@ const component = [
   Progress,
   Tooltip,
   Tree,
-  Icon
+  Icon,
+  Upload, ImgCrop
 ]
 
 /*
