@@ -31,9 +31,12 @@ import Message from './message'
 import ColorPicker from './colorPicker/index.vue'
 import Progress from './progress/index.vue'
 import Tooltip from './tooltip/index.vue'
+import Popover from './popover/index.vue'
 import Loading from './loading'
 import Lazy from './lazy'
 import Tree from './tree/index.vue'
+import Tag from './tag/index.vue'
+import Drawer from './drawer/index.vue'
 import {Upload, ImgCrop} from "./upload"
 import './theme/index.scss'
 
@@ -65,6 +68,10 @@ const component = [
   Progress,
   Tooltip,
   Tree,
+  Icon,
+  Tag,
+  Drawer,
+  Popover,
   Icon,
   Upload, ImgCrop
 ]

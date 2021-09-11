@@ -7,6 +7,7 @@
 ### 基本使用
 
 ```vue demo
+
 <template>
   <div>
     <ak-auto-form :data="data" ref="autoFormEl" />
@@ -16,104 +17,108 @@
   </div>
 </template>
 <script>
-import {ref} from 'vue'
+  import {ref} from 'vue'
 
-export default {
-  setup() {
-    const data = [
-      {
-        type: 'input',
-        name: 'test',
-        formItem: {
-          label: 'test'
+  export default {
+    setup() {
+      const data = [
+        {
+          type: 'text',
+          name: '基本信息'
         },
-        control: {
-          value: ''
-        }
-      },
-      {
-        type: 'input',
-        name: 'userName',
-        formItem: {
-          label: 'userName'
-        },
-        control: {
-          value: ''
-        },
-        rules: [
-          {type: 'required', msg: '请输入用户名'}
-        ]
-      },
-      {
-        type: 'password',
-        name: 'password',
-        formItem: {
-          label: 'password'
-        },
-        control: {
-          value: '123'
-        },
-        rules: [
-          {type: 'required', msg: '请输入用户名'}
-        ]
-      },
-      {
-        type: 'grid',
-        columns: [
-          {
-            span: 12,
-            controlList: [
-              {
-                type: 'input',
-                name: 'userName2',
-                formItem: {
-                  label: 'userName'
-                },
-                control: {
-                  value: ''
-                },
-                rules: [
-                  {type: 'required', msg: '请输入用户名'}
-                ]
-              }
-            ]
+        {
+          type: 'input',
+          name: 'test',
+          formItem: {
+            label: 'test'
           },
-          {
-            span: 6,
-            controlList: []
-          },
-          {
-            span: 6,
-            controlList: []
+          control: {
+            value: ''
           }
-        ]
+        },
+        {
+          type: 'input',
+          name: 'userName',
+          formItem: {
+            label: 'userName'
+          },
+          control: {
+            value: ''
+          },
+          rules: [
+            {type: 'required', msg: '请输入用户名'}
+          ]
+        },
+        {
+          type: 'password',
+          name: 'password',
+          formItem: {
+            label: 'password'
+          },
+          control: {
+            value: '123'
+          },
+          rules: [
+            {type: 'required', msg: '请输入用户名'}
+          ]
+        },
+        {
+          type: 'grid',
+          columns: [
+            {
+              span: 12,
+              controlList: [
+                {
+                  type: 'input',
+                  name: 'userName2',
+                  formItem: {
+                    label: 'userName'
+                  },
+                  control: {
+                    value: ''
+                  },
+                  rules: [
+                    {type: 'required', msg: '请输入用户名'}
+                  ]
+                }
+              ]
+            },
+            {
+              span: 6,
+              controlList: []
+            },
+            {
+              span: 6,
+              controlList: []
+            }
+          ]
+        }
+      ]
+      const autoFormEl = ref()
+      const submit = () => {
+        autoFormEl.value.validate()
+            .then(res => {
+              console.log(res)
+            })
+            .catch(res => {
+              console.log(res)
+            })
       }
-    ]
-    const autoFormEl = ref()
-    const submit = () => {
-      autoFormEl.value.validate()
-        .then(res => {
-          console.log(res)
-        })
-        .catch(res => {
-          console.log(res)
-        })
-    }
-    const setValue = () => {
-      autoFormEl.value.setValue({userName: '12345'})
-    }
-    const reset=()=>{
-      autoFormEl.value.resetForm()
-    }
-    return {
-      data,
-      submit,
-      autoFormEl,
-      setValue,
-      reset
+      const setValue = () => {
+        autoFormEl.value.setValue({userName: '12345'})
+      }
+      const reset = () => {
+        autoFormEl.value.resetForm()
+      }
+      return {
+        data,
+        submit,
+        autoFormEl,
+        setValue,
+        reset
+      }
     }
   }
-}
 </script>
 
 ```
@@ -379,6 +384,7 @@ export default {
 |trigger        | string/change  |表单控件校验触发类型，change和blur两种|
 |labelWidth     | string         |label的宽度|
 |required       | boolean/true   |是否根据验证规则自动生成必填样式名|
+|disabled       | boolean/false  |禁用表单所有控件|
 
 ### AutoForm Methods
 
@@ -392,7 +398,7 @@ export default {
 
 |参数|类型|说明|
 |----------|--------------|--------|
-|type           | string         |组件类型，支持input,radio,checkbox,datePicker,select,switch,textarea,grid,tabs|
+|type           | string         |组件类型，支持input,radio,checkbox,datePicker,select,switch,textarea,grid,tabs,text|
 |name           | string   |表单控件字段名，唯一性|  
 |formItem       | object   |组件formItem的props|
 |control        | object   |对应类type型的props|

@@ -1,6 +1,7 @@
 <!-- Created by 337547038 on 2021.6 0015. -->
 <template>
-  <div :class="`${prefixCls}-form-input`" :style="{width:width}">
+  <div :class="{[prefixCls+'-form-input']:true,'input-prepend':$slots.prepend,'input-append':$slots.append}" :style="{width:width}">
+    <div v-if="$slots.prepend" class="prepend"><slot name="prepend"></slot></div>
     <input
       v-bind="$attrs"
       ref="inputEl"
@@ -11,6 +12,7 @@
       @input="inputHandler"
       @focus="focusHandler"
       @blur="blurHandler">
+    <div v-if="$slots.append" class="append"><slot name="append"></slot></div>
     <span v-if="$slots.prefix||prefixIcon" class="prefix-icon">
       <i v-if="prefixIcon" :class="[prefixIcon]"></i>
       <slot name="prefix"></slot>
@@ -79,7 +81,7 @@ export default defineComponent({
       emit('update:modelValue', '')
       emit('change', '')
     }
-    // 通过el.value.foucs()设置焦点事件
+    // 通过el.value.focus()设置焦点事件
     const focus = () => {
       inputEl.value.focus()
     }

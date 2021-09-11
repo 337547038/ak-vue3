@@ -184,6 +184,7 @@ export default {
 |参数|类型|说明|
 |----------|--------------|--------|
 |label          | string         |显示的标签名|
+|labelVisible   | boolean/false  |隐藏label|
 |prop           | string         |表单校验时关联表单的校验规则|
 |required       | boolean/true   |是否根据验证规则自动生成必填样式名|
 |verify         | string         |快速验证，支持required, mobile, tel, mail, digits, number,phone 多个用逗号隔开|

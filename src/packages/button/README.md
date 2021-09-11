@@ -137,9 +137,9 @@
     </ak-button-group>
   </p>
   <p>
-    <ak-button-group :disabled="true">
+    <ak-button-group :disabled="true" @click="groupClick">
       <ak-button>默认按钮</ak-button>
-      <ak-button type="primary">确认按钮</ak-button>
+      <ak-button type="primary" @click="groupSingleClick">确认按钮</ak-button>
       <ak-button type="cancel">取消按钮</ak-button>
       <ak-button type="text">文字按钮</ak-button>
     </ak-button-group>
@@ -151,6 +151,17 @@ export default {
     const btnGroupClick=(evt,name)=>{
       console.log(name) // 用于区分点击了哪个按钮
 	}
+	const groupClick = ()=>{
+      console.log('groupClick')
+    }
+    const groupSingleClick = ()=>{
+      console.log('groupClick')
+    }
+	return {
+      btnGroupClick,
+      groupClick,
+      groupSingleClick
+    }
   }
 }
 </script>

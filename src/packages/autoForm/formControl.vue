@@ -4,31 +4,38 @@
     <control-input
       v-if="item.type==='input'||item.type==='password'"
       v-model="modelValue"
+      :disabled="disabled"
       v-bind="item.control"
-      :type="item.type" />
+      :type="item.type==='password'?'password':'text'" />
     <radio-group
       v-if="item.type==='radio'"
       v-model="modelValue"
+      :disabled="disabled"
       v-bind="item.control" />
     <checkbox-group
       v-if="item.type==='checkbox'"
       v-model="modelValue"
+      :disabled="disabled"
       v-bind="item.control" />
     <date-picker
       v-if="item.type==='datePicker'"
       v-model="modelValue"
+      :disabled="disabled"
       v-bind="item.control" />
     <Select
       v-if="item.type==='select'"
       v-model="modelValue"
+      :disabled="disabled"
       v-bind="item.control" />
     <control-switch
       v-if="item.type==='switch'"
       v-model="modelValue"
+      :disabled="disabled"
       v-bind="item.control" />
     <Textarea
       v-if="item.type==='textarea'"
       v-model="modelValue"
+      :disabled="disabled"
       v-bind="item.control" />
   </form-item>
 </template>
@@ -49,7 +56,8 @@ export default defineComponent({
   name: 'Control',
   components: {ControlInput, RadioGroup, CheckboxGroup, DatePicker, Select, ControlSwitch, Textarea, FormItem},
   props: {
-    item: pType.object()
+    item: pType.object(),
+    disabled: pType.bool()
   },
   setup(props) {
     const modelValue = ref(props.item.control.value)

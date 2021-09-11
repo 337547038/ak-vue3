@@ -100,6 +100,7 @@ export default defineComponent({
     beforeChange: pType.func(true),
     disabled: pType.bool(),
     filterable: pType.bool(), // 是否可搜索
+    async: pType.bool(false), // 异步搜索，filterable=true时有效
     clear: pType.bool(), // 是否可以清空选项
     downHeight: pType.number(0), // 显示下拉最大高度，超出显示滚动条
     downStyle: pType.object(), // 下拉面板样式
@@ -109,7 +110,7 @@ export default defineComponent({
     width: pType.string(),
     size: pType.string()
   },
-  emits: ['update:modelValue', 'change', 'limitChange'],
+  emits: ['update:modelValue', 'change', 'limitChange', 'searchChange'],
   setup(props, {emit, slots}) {
     const el = ref()
     const selectDown = ref()
@@ -248,7 +249,7 @@ export default defineComponent({
     }
     const itemClick = (item: FormControlOption, evt: MouseEvent) => {
       if (!item.disabled) {
-        if (props.beforeChange&&!props.beforeChange(item)) {
+        if (props.beforeChange && !props.beforeChange(item)) {
           state.visible = false
           evt.stopPropagation()
           return
@@ -297,10 +298,16 @@ export default defineComponent({
       // 可搜索时输入框改变事件
       const {value} = evt.target as HTMLInputElement
       state.keywords = value
-      props.options.forEach(item => {
-        const itemValue = item.label || item.value
-        item._disabled = itemValue.indexOf(value) === -1
-      })
+      if (props.async) {
+        // 发送emit事件，
+        emit('searchChange', value)
+      } else {
+        // 从当前下拉列表筛选
+        props.options.forEach(item => {
+          const itemValue = item.label || item.value
+          item._disabled = itemValue.indexOf(value) === -1
+        })
+      }
     }
     const searchBlur = (evt: InputEvent) => {
       // 搜索输入框失焦时，判断输入的值是否符合

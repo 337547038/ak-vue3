@@ -4,11 +4,9 @@
 
 基于 Vue3 + Typescript + Vite，用于学习研究，欢迎交流，QQ/微信:337547038
 
-[Vue2 版本的请点击这里](https://337547038.github.io/akvue/)
-
 ## 全局引入（推荐）
 
-在入口页面 main.js 中如下配置：
+将资源包复制到项目，如src目录下，然后在入口页面 main.js 中如下配置：
 
 ```javascript
 import Component from '../packages/index'

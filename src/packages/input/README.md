@@ -81,6 +81,25 @@ export default {
 </template>
 ```
 
+### 复合型输入框
+
+可前置或后置元素，一般为标签或按钮
+
+```vue demo
+<template>
+<p>
+   <ak-input placeholder="请输入内容">
+      <template #append>CM</template>
+   </ak-input>
+   </p>
+   <p>
+   <ak-input placeholder="请输入内容" >
+      <template #prepend>http://</template>
+   </ak-input>
+   </p>
+</template>
+```
+
 ### 设置大小
 
 使用`size="medium/small/mini"`设置按钮大小
@@ -119,3 +138,12 @@ export default {
 |prefixIcon     | string         |前缀icon图标|
 |suffixIcon     | string         |后缀icon图标|
 |-              |                |其它原生所有属性|
+
+### Input Slots
+
+|参数|说明|
+|----------|--------|
+|prepend         |输入框前置内容|
+|append          |输入框后置内容|
+|prefix          |前缀icon图标|
+|suffix          |后缀icon图标|

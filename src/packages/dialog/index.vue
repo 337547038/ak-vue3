@@ -182,7 +182,6 @@ export default defineComponent({
         props.callback(close) // 回调时使用return true关闭
         return false
       }
-
       if (props.beforeClose && !props.beforeClose(type, close)) {
         // beforeClose返回false时阻止关闭
         // props.beforeClose(type, close)

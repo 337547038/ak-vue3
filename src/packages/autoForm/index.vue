@@ -13,7 +13,7 @@
           class="grid-col"
           :style="{width:col.span/24*100+'%'}">
           <template v-for="(list,listIndex) in col.controlList" :key="listIndex">
-            <form-control :ref="formControlEl" :item="list" />
+            <form-control :ref="formControlEl" :item="list" :disabled="disabled" />
           </template>
         </div>
       </div>
@@ -28,17 +28,18 @@
                 <template v-for="(col,colIndex) in tabs.columns" :key="colIndex">
                   <div class="grid-row" :style="{width:col.span/24*100+'%'}">
                     <template v-for="(list,listIndex) in col.controlList" :key="listIndex">
-                      <form-control :ref="formControlEl" :item="list" />
+                      <form-control :ref="formControlEl" :item="list" :disabled="disabled" />
                     </template>
                   </div>
                 </template>
               </div>
-              <form-control v-else :item="tabs" />
+              <form-control v-else :item="tabs" :disabled="disabled" />
             </template>
           </tab-pane>
         </Tabs>
       </template>
-      <form-control v-else :ref="formControlEl" :item="item" />
+      <div v-else-if="item.type==='text'" class="form-title" v-html="item.name"></div>
+      <form-control v-else :ref="formControlEl" :item="item" :disabled="disabled" />
     </template>
   </vForm>
 </template>
@@ -60,7 +61,8 @@ export default defineComponent({
     showMessage: pType.bool(),
     trigger: pType.oneOfString(['change', 'blur'], 'change'),
     labelWidth: pType.string(),
-    required: pType.bool(true)
+    required: pType.bool(true),
+    disabled: pType.bool()
   },
   setup(props) {
     const state = reactive<AnyPropName>({

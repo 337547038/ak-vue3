@@ -831,6 +831,7 @@ export default {
 | hasChild      | boolean/true  | 是否包含子节点数据，为true时，当 `row` 中包含 `children` 字段时，被视为子节点数据|
 | lazyLoad      | function      | 设置了`lazyLoad`时，被视为子节点使用懒加载方式，function(row,resolve) row当前行信息|
 | sortSingle    | boolean/false | 如果设置了排序功能，开启后只能按其中一个字段排序|
+| formatter     | function | 用来格式化内容,Function(row, column, cellValue, index)|
 
 ### Table Event
 
