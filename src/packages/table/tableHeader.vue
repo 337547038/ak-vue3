@@ -18,7 +18,8 @@
           value="1"
           @change="checkboxChange" />
         <template v-else>
-          {{ th.label }}
+          <table-header v-if="th.slots&&th.slots.header" :data="th" :index="thIndex" />
+          <span v-else>{{ th.label }}</span>
           <span v-if="th.sortBy" class="caret-wrapper">
             <i class="sort-caret asc" :class="{active:sortBy[th.prop] === 'asc'}" @click="sortClick(th.prop,'asc')"></i>
             <i
@@ -41,10 +42,11 @@ import pType from '../util/pType'
 import {defineComponent, reactive, toRefs, inject, watch, ref} from 'vue'
 import {Checkbox} from '../checkbox/index'
 import {AnyPropName} from '../types'
+import TableHeader from './headerSlot.vue'
 
 export default defineComponent({
   name: 'TableHead',
-  components: {Checkbox},
+  components: {Checkbox, TableHeader},
   props: {
     showHeader: pType.bool(),
     drag: pType.bool(),
@@ -65,15 +67,6 @@ export default defineComponent({
     watch(() => props.selectChecked, (v: number) => {
       state.checkboxChecked = v.toString()
     })
-
-    /*onMounted(() => {
-
-    })*/
-    /*const columnsFilter = computed(() => {
-      return getColumns.value.filter((item: any) => {
-        return item.type !== 'extend' && !item.children
-      })
-    })*/
     const getColumnsFilter = (index: number) => {
       return getColumns.value.filter((item: any) => {
         return item.type !== 'extend' && item.layer === index
