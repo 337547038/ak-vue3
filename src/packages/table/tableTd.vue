@@ -59,7 +59,7 @@ export default defineComponent({
       emit('toggleExtend')
     }
     const defaultSlots = () => {
-      if (props.column.slots && Object.keys(props.column.slots).length > 0) {
+      if (props.column.slots && props.column.slots.default) {
         return props.column.slots.default({
           row: props.row,
           index: props.index,

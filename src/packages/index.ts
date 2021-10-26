@@ -37,7 +37,7 @@ import Lazy from './lazy'
 import Tree from './tree/index.vue'
 import Tag from './tag/index.vue'
 import Drawer from './drawer/index.vue'
-import {Upload, ImgCrop} from "./upload"
+import {Upload, ImgCrop} from './upload'
 import './theme/index.scss'
 
 const component = [

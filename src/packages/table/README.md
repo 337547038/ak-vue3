@@ -550,13 +550,16 @@ export default {
 ```
 
 ### 表头参数也支持slots
-
+默认slots为当前props，表头时为当前props-header
 ```vue demo
 <template>
   <div>
     <ak-table :data="tableData" :columns="columns">
       <template #control="scope">
         <a @click="delClick(scope)">删除</a>
+      </template>
+      <template #date-header="scope">
+        {{scope.column.label}}slot表头
       </template>
     </ak-table>
   </div>
@@ -831,7 +834,6 @@ export default {
 | hasChild      | boolean/true  | 是否包含子节点数据，为true时，当 `row` 中包含 `children` 字段时，被视为子节点数据|
 | lazyLoad      | function      | 设置了`lazyLoad`时，被视为子节点使用懒加载方式，function(row,resolve) row当前行信息|
 | sortSingle    | boolean/false | 如果设置了排序功能，开启后只能按其中一个字段排序|
-| formatter     | function | 用来格式化内容,Function(row, column, cellValue, index)|
 
 ### Table Event
 
@@ -866,9 +868,11 @@ export default {
 | sortBy    | Boolean/false | 当前列显示排序按钮
 | title     | Boolean/false | 鼠标滑过单元格时显示 title 提示，仅当 table 的 title 为 false 时有效 |
 | drag      | Boolean/true  | 允许当前单元格拖动，仅在table的drag=true时有效|
+| formatter | function | 用来格式化内容,Function(row, column, cellValue, index)|
 
-### Table-column Scoped Slot
+### Table-column Slot
 
 | 参数       | 说明|
 |----------|--------------|
-| slot-scope | 自定义列的内容，参数为 { row, index, extend } |
+| default | 自定义列的内容，参数为 { row, index, extend } |
+| header | 自定义表头的内容，参数为 { column, index } |

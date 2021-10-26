@@ -37,7 +37,7 @@
     i {cursor: pointer}
   }
 }
-@include ns(select-down) {position: absolute;left: 0;top: 37px;background: #fff;border: 1px solid $primary;box-sizing: border-box;width: 100%;z-index: 50; border-radius: 0 0 2px 2px;
+@include ns(select-down) {position: absolute;left: 0;background: #fff;border: 1px solid $primary;box-sizing: border-box;width: 100%;z-index: 50; border-radius: 0 0 2px 2px;border-top: 0;
   ul {padding: 5px 0}
   li {list-style: none;height: 25px;line-height: 25px;padding: 0 10px;margin: 0;cursor: pointer;width: 100%;display: block;box-sizing: border-box;white-space: nowrap;text-overflow: ellipsis;overflow: hidden;user-select: none;
     &:hover {background: $primary;color: #fff}

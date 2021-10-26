@@ -19,7 +19,8 @@ export default defineComponent({
     modelValue: pType.object({}),
     trigger: pType.oneOfString(['change', 'blur'], 'change'),
     labelWidth: pType.string(),
-    required:pType.bool(true)
+    required:pType.bool(true),
+    size: pType.string()
   },
   setup(props) {
     const state = reactive({

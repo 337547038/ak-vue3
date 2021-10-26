@@ -192,6 +192,7 @@ export default {
 |showMessage    | boolean/true   |显示错误提示，在form使用时，优先使用form的设置|
 |trigger        | string/change  |change和blur两种，在form使用时，优先使用form的设置|
 |labelWidth     | string         |label的宽度|
+|size           | string         |用于控制该表单内组件的尺寸，medium / small / mini|
 
 ### FormItem Rules 验证规则
 

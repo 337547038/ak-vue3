@@ -416,7 +416,7 @@ export default {
 
 ### Select Events
 
-|参数|类型|说明|
+|参数|说明|
 |----------|--------|
 |change             |选中值发生变化时触发|
 |beforeChange       |选择前事件|

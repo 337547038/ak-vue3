@@ -1,6 +1,7 @@
 <!-- Created by 337547038 on 2021/6/14. -->
 <template>
-  <div :class="{className,[prefixCls+'-form-item-error']:errorTips!=='',[prefixCls+'-form-item']:true}">
+  <div
+    :class="{className,[prefixCls+'-form-item-error']:errorTips!=='',[prefixCls+'-form-item']:true,['form-item-'+formSize]:formSize}">
     <label
       v-if="label || $slots.label"
       v-show="!labelVisible"
@@ -34,14 +35,15 @@ export default defineComponent({
   props: {
     className: pType.string(),
     label: pType.string(),
-    labelVisible:pType.bool(false),
+    labelVisible: pType.bool(false),
     prop: pType.string(),
     required: pType.bool(true),
     verify: pType.string(),  // 用于快速验证，formItem带验证规则时，使用默认提示
     rules: pType.array<AnyPropName>([]),
     showMessage: pType.bool(true),
     trigger: pType.oneOfString(['change', 'blur'], 'change'),
-    labelWidth: pType.string()
+    labelWidth: pType.string(),
+    size: pType.string()
   },
   setup(props) {
     const formProps: AnyPropName = inject('formProps', {})
@@ -68,7 +70,8 @@ export default defineComponent({
       rules2: rules,
       trigger2: getFormProps(props.trigger, formProps.trigger),
       messageShow: getFormProps(props.showMessage, formProps.showMessage),// 优先使用form的
-      controlValue: '' // 组件的值，改变事件时*/
+      controlValue: '', // 组件的值，改变事件时*/
+      formSize: props.size ? props.size : formProps && formProps.size
     })
     // 有快速校验规则，追加
     if (props.verify) {

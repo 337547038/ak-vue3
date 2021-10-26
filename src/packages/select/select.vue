@@ -48,7 +48,7 @@
     <div v-if="$slots.default">
       <slot></slot>
     </div>
-    <transition :name="downDirection?'slide-toggle-top':'slide-toggle'">
+    <transition :name="downDirection?'slide-toggle-top':'slide-toggle'" appear>
       <div
         v-show="visible"
         ref="selectDown"

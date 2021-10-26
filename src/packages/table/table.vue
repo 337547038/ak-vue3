@@ -56,7 +56,7 @@
 import {prefixCls} from '../prefix'
 import Pagination from '../pagination/index.vue'
 
-import TableHead from './tableHead.vue'
+import TableHead from './tableHeader.vue'
 import TableBody from './tableBody.vue'
 import {reactive, provide, toRefs, onMounted, defineComponent, computed, onUnmounted, nextTick, ref, watch} from 'vue'
 import pType from '../util/pType'
@@ -154,9 +154,16 @@ export default defineComponent({
           if (Object.keys(slots).length) {
             for (let key in slots) {
               if (item.prop === key) {
-                item.slots = {
-                  default: slots[key]
+                if (!item.slots) {
+                  item.slots = {}
                 }
+                Object.assign(item.slots, {default: slots[key]})
+              }
+              if (item.prop + '-header' === key) {
+                if (!item.slots) {
+                  item.slots = {}
+                }
+                Object.assign(item.slots, {header: slots[key]})
               }
             }
           }

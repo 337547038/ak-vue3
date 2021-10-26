@@ -1,20 +1,18 @@
-
 # Drawer 抽屉对话框
 
 ### 基本用法
+
 用法和所有参数同`Dialog`一样
+
 ```vue demo
 
 <template>
-  <div style="margin: 100px">
-    <div class="tooltip-demo">
-      <ak-tooltip direction="top" trigger="click">
-        <ak-button>内容为slot</ak-button>
-        <template #content>
-          这里是提示内容
-        </template>
-      </ak-tooltip>
-    </div>
+  <div>
+    <ak-button @click="open('left')">左边</ak-button>
+    <ak-button @click="open('top')">项部</ak-button>
+    <ak-button @click="open('right')">右边</ak-button>
+    <ak-button @click="open('bottom')">底部</ak-button>
+    <ak-drawer v-model="visible" title="title" :direction="direction">this content</ak-drawer>
   </div>
 </template>
 <script>
@@ -22,13 +20,21 @@ import {ref} from 'vue'
 
 export default {
   setup() {
-    const visible1 = ref(false)
+    const direction = ref('left')
+    const visible = ref(false)
+    const open = type => {
+      direction.value = type
+      visible.value = true
+    }
     return {
-      visible1
+      direction,
+      visible,
+      open
     }
   }
 }
 </script>
+
 ```
 
 ## API
