@@ -14,7 +14,7 @@ export default defineComponent({
   },
   setup(props, {slots}) {
     // console.log(slots.label)
-    const childrenList = inject('childrenList') as AnyPropName
+    const childrenList = inject(`${prefixCls}ChildrenList`) as AnyPropName
     childrenList.push(Object.assign({}, props, {slots: slots}))
     return {
       childrenList

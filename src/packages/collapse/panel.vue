@@ -28,8 +28,8 @@ export default defineComponent({
   },
   setup(props, {slots}) {
     const randomName = props.name || Math.random().toString(36).substr(2, 8)
-    const parentProps = inject('props') as AnyPropName
-    const changePanel = inject('changePanel') as VoidFun
+    const parentProps = inject(`${prefixCls}Props`) as AnyPropName
+    const changePanel = inject(`${prefixCls}ChangePanel`) as VoidFun
     const visible = computed(() => {
       return parentProps.modelValue.indexOf(randomName) !== -1
     })

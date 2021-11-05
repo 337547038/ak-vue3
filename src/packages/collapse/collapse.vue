@@ -23,8 +23,8 @@ export default defineComponent({
       console.log('provideChangePanel')*/
       emit('change', v)
     }
-    provide('changePanel', provideChangePanel)
-    provide('props', reactive({
+    provide(`${prefixCls}ChangePanel`, provideChangePanel)
+    provide(`${prefixCls}Props`, reactive({
       modelValue: props.modelValue,
       accordion: props.accordion
     }))

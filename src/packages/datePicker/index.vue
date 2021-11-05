@@ -76,11 +76,11 @@ export default defineComponent({
         left: ''
       } // 当前input位置坐标
     })
-    const controlChange: any = inject('controlChange', '')
-    provide('setInnerText', (date: Date) => {
+    const controlChange: any = inject(`${prefixCls}ControlChange`, '')
+    provide(`${prefixCls}SetInnerText`, (date: Date) => {
       return props.innerText&&props.innerText(date)
     })
-    provide('setDisabledDate', (date: Date, type: string) => {
+    provide(`${prefixCls}SetDisabledDate`, (date: Date, type: string) => {
       return props.disabledDate&&props.disabledDate(date, type)
     })
     const emitCom = (value: string) => {

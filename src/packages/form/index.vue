@@ -19,16 +19,17 @@ export default defineComponent({
     modelValue: pType.object({}),
     trigger: pType.oneOfString(['change', 'blur'], 'change'),
     labelWidth: pType.string(),
-    required:pType.bool(true),
-    size: pType.string()
+    required: pType.bool(true),
+    size: pType.string(),
+    disabled: pType.bool()
   },
   setup(props) {
     const state = reactive({
       defaultValue: '' // 用于保存所有表单元素初始值
     })
     let formItemFields: AnyPropName = [] // 所有formItem
-    provide('formProps', props)
-    provide('getFormItemFields', (formItem: any) => {
+    provide(`${prefixCls}FormProps`, props)
+    provide(`${prefixCls}GetFormItemFields`, (formItem: any) => {
       formItemFields.push(formItem)
     })
     const setValue = (obj: AnyPropName, type?: string) => {

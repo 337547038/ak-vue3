@@ -4,7 +4,7 @@
     :class="{
       [prefixCls+'-switch']:true,
       'switch-checked':status,
-      'disabled':disabled}"
+      'disabled':disabledOk}"
     :style="style"
     @click="click">
     <i :class="`${prefixCls}-switch-inner`"></i>
@@ -18,6 +18,7 @@
 import {prefixCls} from '../prefix'
 import pType from '../util/pType'
 import {defineComponent, inject, computed, watch, onMounted} from 'vue'
+import {getFormDisabled} from '../util/form'
 
 export default defineComponent({
   name: `${prefixCls}Switch`,
@@ -35,7 +36,7 @@ export default defineComponent({
   emits: ['update:modelValue', 'change'],
   setup(props, {emit}) {
     // formItem
-    const controlChange: any = inject('controlChange', '')
+    const controlChange: any = inject(`${prefixCls}ControlChange`, '')
     const status = computed(() => {
       if (props.activeValue) {
         // 指定了选中值时
@@ -61,8 +62,11 @@ export default defineComponent({
       }
       return elStyle
     })
+    const disabledOk = computed(() => {
+      return getFormDisabled(props.disabled)
+    })
     const click = () => {
-      if (!props.disabled) {
+      if (!disabledOk.value) {
         let checked
         if (!status.value) {
           if (props.activeValue) {
@@ -95,7 +99,8 @@ export default defineComponent({
       prefixCls,
       status,
       style,
-      click
+      click,
+      disabledOk
     }
   }
 })

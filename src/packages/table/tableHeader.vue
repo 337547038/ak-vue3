@@ -43,7 +43,7 @@ import {defineComponent, reactive, toRefs, inject, watch, ref} from 'vue'
 import {Checkbox} from '../checkbox/index'
 import {AnyPropName} from '../types'
 import TableHeader from './headerSlot.vue'
-
+import {prefixCls} from '../prefix'
 export default defineComponent({
   name: 'TableHead',
   components: {Checkbox, TableHeader},
@@ -58,7 +58,7 @@ export default defineComponent({
   emits: ['event'],
   setup(props, {emit}) {
     const el = ref()
-    const getColumns = inject('getColumns', []) as AnyPropName
+    const getColumns = inject(`${prefixCls}GetColumns`, []) as AnyPropName
     const state = reactive<AnyPropName>({
       checkboxChecked: props.selectChecked.toString(),
       // columns: getColumns,

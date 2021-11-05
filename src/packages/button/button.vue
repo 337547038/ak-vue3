@@ -8,20 +8,20 @@
     v-bind="$attrs"
     :type="nativeType"
     :class="classStyle"
-    :disabled="disabled"
+    :disabled="disabledOk"
     :style="{width:btnWidth}"
     @click="handleClick">
-    <i v-if="icon" :class="`icon-${[icon]} ${prefixCls}-icon`"></i>
+    <i v-if="icon2" :class="`icon-${[icon2]} ${prefixCls}-icon`"></i>
     <slot></slot>
   </button>
   <a
     v-else
     v-bind="$attrs"
     :class="classStyle"
-    :href="disabled?null:routerHref"
+    :href="disabledOk?null:routerHref"
     :style="{width:btnWidth}"
     @click="handleClick">
-    <i v-if="icon" :class="`icon-${[icon]} ${prefixCls}-icon`"></i>
+    <i v-if="icon2" :class="`icon-${[icon2]} ${prefixCls}-icon`"></i>
     <slot></slot>
   </a>
 </template>
@@ -32,6 +32,7 @@ import pType from '../util/pType'
 import {computed, defineComponent, inject, ref} from 'vue'
 import {useRouter} from 'vue-router'
 import {GroupConfig} from '../types/button'
+import {getFormDisabled} from '../util/form'
 
 export default defineComponent({
   name: `${prefixCls}Button`,
@@ -45,14 +46,20 @@ export default defineComponent({
     disabled: pType.bool(),
     nativeType: pType.oneOfString(['', 'button', 'submit', 'reset']),
     width: pType.string(),
-    name: pType.string() // btn group中作为唯一标识
+    name: pType.string(), // btn group中作为唯一标识
+    loading: pType.bool() // 是否加载中状态
   },
   emits: ['click'],
   setup(props, {emit}) {
-    // const btnClick = inject('btnClick') as (event: Element, name: string) => void
-    const btnClick: any = inject('btnClick', '')
-    console.log(btnClick)
-    const groupConfig: GroupConfig = inject('groupConfig', {})
+    const groupConfig: GroupConfig = inject(`${prefixCls}GroupConfig`, {})
+    const btnClick: any = inject(`${prefixCls}BtnClick`, '')
+    const disabledOk = computed(() => {
+      if (props.loading) {
+        return true // loading情况下一定为禁用状态
+      } else {
+        return getFormDisabled(groupConfig.disabled || props.disabled)
+      }
+    })
     const btnWidth = ref(props.width || groupConfig.width)
     const classStyle = computed(() => {
       let size = props.size || groupConfig.size || ''
@@ -60,7 +67,7 @@ export default defineComponent({
         [`${prefixCls}-btn`]: true,
         'is-round': props.round || groupConfig.round,
         [`${prefixCls}-btn-` + props.type]: props.type,
-        'disabled': props.disabled || groupConfig.disabled,
+        'disabled': disabledOk.value,
         [size]: size
       }
     })
@@ -77,17 +84,23 @@ export default defineComponent({
       }
     })
     const handleClick = (event: Element) => {
-      if (!props.disabled && !groupConfig.disabled) {
+      if (!disabledOk.value) {
         emit('click', event)
         btnClick && btnClick(event, props.name)
       }
     }
+    const icon2 = computed(() => {
+      // 使用加载状态的icon
+      return props.loading ? 'loading' : props.icon
+    })
     return {
       classStyle,
       routerHref,
       handleClick,
       btnWidth,
-      prefixCls
+      prefixCls,
+      icon2,
+      disabledOk
     }
   }
 })

@@ -84,7 +84,7 @@ export default {
 ```vue demo
 <template>
   <div>
-    <ak-form ref="formEl" v-model="formValue" :rules="formRules" size="mini">
+    <ak-form ref="formEl" v-model="formValue" :rules="formRules" size="mini" :disabled="true">
       <ak-form-item label="用户名" prop="userName">
         <ak-input v-model="formValue.userName" placeholder="请输入用户名" />
       </ak-form-item>
@@ -287,6 +287,7 @@ export default {
 |labelWidth     | string         |label的宽度|
 |required       | boolean/true   |是否根据验证规则自动生成必填样式名|
 |size           | string         |用于控制该表单内组件的尺寸，medium / small / mini|
+|disabled       | boolean/true   |表单禁用状态，影响子级formItem,button及formItem下所有表单控件|
 
 ### Form Methods
 

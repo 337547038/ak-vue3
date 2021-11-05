@@ -60,7 +60,7 @@ export default defineComponent({
   setup(props, {emit}) {
     // const instance = getCurrentInstance()
     // const childList = instance.props.data
-    const propsData = inject('propsData') as AnyPropName
+    const propsData = inject(`${prefixCls}PropsData`) as AnyPropName
     const state = reactive<StateReactive>({
       lazy: propsData.lazy,
       showCheckbox: propsData.showCheckbox,
@@ -96,7 +96,7 @@ export default defineComponent({
     const slideToggleChild = (item: TreeList) => {
       emit('toggle', item)
     }
-    const change = inject('checkboxChange') as (item: TreeList) => void
+    const change = inject(`${prefixCls}CheckboxChange`) as (item: TreeList) => void
     const checkboxChange = (item: TreeList) => {
       nextTick(() => {
         change && change(item)

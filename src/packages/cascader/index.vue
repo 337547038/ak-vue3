@@ -1,11 +1,11 @@
 <!--Created by 337547038 on 2021.6.-->
 <template>
-  <div ref="el" :class="{[`${prefixCls}-cascader`]:true,'disabled':disabled}" :style="{width:width}">
+  <div ref="el" :class="{[`${prefixCls}-cascader`]:true,'disabled':disabledOk}" :style="{width:width}">
     <div
       :class="{[prefixCls+'-input-control']:true,
                'focus':show,
                'placeholder':showPlaceholder,
-               'disabled':disabled}"
+               'disabled':disabledOk}"
       v-text="showValue"></div>
     <span class="group-icon">
       <i v-if="clear&&modelValue.length>0" class="icon-close clear" title="清空" @click="clearClick"></i>
@@ -52,6 +52,7 @@ import {
   inject
 } from 'vue'
 import pType from '../util/pType'
+import {getFormDisabled} from '../util/form'
 
 type cityProps = {
   name: string
@@ -134,9 +135,12 @@ export default defineComponent({
       }
       return array
     })
+    const disabledOk = computed(() => {
+      return getFormDisabled(props.disabled)
+    })
     const showHide = (e: MouseEvent) => {
       if (el.value && el.value.contains(e.target)) {
-        if (props.disabled === true) {
+        if (disabledOk.value === true) {
           return
         }
         state.show = !state.show
@@ -244,7 +248,7 @@ export default defineComponent({
       controlChangeEvent(v, 'mounted')
     })
     // formItem
-    const controlChange: any = inject('controlChange', '')
+    const controlChange: any = inject(`${prefixCls}ControlChange`, '')
     const controlChangeEvent = (val: any, type?: string) => {
       controlChange && controlChange(val, type)
     }
@@ -256,7 +260,8 @@ export default defineComponent({
       el,
       clearClick,
       stopPropagation,
-      childrenClick
+      childrenClick,
+      disabledOk
     }
   }
 })

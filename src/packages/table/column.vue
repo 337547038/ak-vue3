@@ -23,10 +23,10 @@ export default defineComponent({
   },
   setup(props, {slots}) {
     onMounted(() => {
-      const columnsType: boolean = inject('columnsType', false)
+      const columnsType: boolean = inject(`${prefixCls}ColumnsType`, false)
       if (!columnsType) {
         // 没有通过表头参数传参时
-        const getColumns = inject('getColumns') as AnyPropName
+        const getColumns = inject(`${prefixCls}GetColumns`) as AnyPropName
         const columns = getColumns.value
         // 判断下不重复添加
         let has = false

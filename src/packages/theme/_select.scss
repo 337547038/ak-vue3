@@ -2,7 +2,7 @@
 @include ns(select) {display: inline-block;position: relative;min-width: 200px;
   @include ns(select-control) {
     .group-icon {display: flex;position: absolute;right: 10px;top: 50%;transform: translateY(-50%);font-size: 20px;cursor: pointer;transition: all .3s;height: 30px;text-align: center;line-height: 30px;align-items: center;justify-content: center}
-    .icon-arrow {font-size: 14px;display: block;transition: all .3s;
+    .icon-arrow {font-size: 12px;display: block;transition: all .3s;
       &.open {transform: translateY(0) rotate(180deg)}
     }
     /*清空*/
@@ -34,7 +34,7 @@
   @include ns(input-control){padding-right: 30px}
   .multiple-text {display: flex;align-items: center;
     li {line-height: inherit;margin-right: 5px;height: 36px}
-    i {cursor: pointer}
+    i {cursor: pointer;font-size: 12px}
   }
 }
 @include ns(select-down) {position: absolute;left: 0;background: #fff;border: 1px solid $primary;box-sizing: border-box;width: 100%;z-index: 50; border-radius: 0 0 2px 2px;border-top: 0;

@@ -20,8 +20,8 @@ export default defineComponent({
   },
   emits: ['click'],
   setup(props, {emit}) {
-    provide('groupConfig', props)
-    provide('btnClick', (event: Element, name: string) => {
+    provide(`${prefixCls}GroupConfig`, props)
+    provide(`${prefixCls}BtnClick`, (event: Element, name: string) => {
       if (!props.disabled) {
         emit('click', event, name)
       }

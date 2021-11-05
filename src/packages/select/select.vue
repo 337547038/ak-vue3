@@ -18,9 +18,9 @@
           [size]:size,
           'focus':visible,
           'placeholder':placeholder&&modelValue.length===0,
-          'disabled':disabled}"
+          'disabled':disabledOk}"
         :placeholder="placeholder"
-        :disabled="disabled"
+        :disabled="disabledOk"
         :value="keywords"
         @input="searchChange"
         @blur="searchBlur">
@@ -30,13 +30,26 @@
           [prefixCls+'-input-control']:true,
           [size]:size,
           'focus':visible,
-          'disabled':disabled}"
+          'disabled':disabledOk}"
         :placeholder="!text?placeholder:''">
         <ul v-if="multiple&&text" class="multiple-text" :placeholder="!text?placeholder:''">
-          <li v-for="(item,index) in text.split(',')" :key="index">
-            <span v-text="item"></span>
-            <i class="icon-error" @click.stop="deleteText(item,index)"></i>
-          </li>
+          <template v-if="collapseTags">
+            <li>
+              <span v-text="textArray[0]"></span>
+              <i class="icon-error" @click.stop="deleteText(textArray[0],0)"></i>
+            </li>
+            <li v-if="textArray.length>1">
+              <tag size="mini" type="info">
+                +{{ textArray.length }}
+              </tag>
+            </li>
+          </template>
+          <template v-else>
+            <li v-for="(item,index) in textArray" :key="index">
+              <span v-text="item"></span>
+              <i class="icon-error" @click.stop="deleteText(item,index)"></i>
+            </li>
+          </template>
         </ul>
         <span v-else-if="text" v-text="text"></span>
       </div>
@@ -88,9 +101,12 @@ import {
 } from 'vue'
 import pType from '../util/pType'
 import {FormControlOption} from '../types'
+import {getFormDisabled} from '../util/form'
+import Tag from '../tag/index.vue'
 
 export default defineComponent({
   name: `${prefixCls}Select`,
+  components: {Tag},
   props: {
     modelValue: pType.oneOfType([pType.array(), pType.string(), pType.number()]),
     multiple: pType.bool(), // 是否多选
@@ -108,7 +124,8 @@ export default defineComponent({
     direction: pType.number(0), // 下拉弹出方向，0自动，1向上，2向下
     appendToBody: pType.bool(),
     width: pType.string(),
-    size: pType.string()
+    size: pType.string(),
+    collapseTags: pType.bool() // 多选时是否将选中值按文字的形式展示
   },
   emits: ['update:modelValue', 'change', 'limitChange', 'searchChange'],
   setup(props, {emit, slots}) {
@@ -133,6 +150,9 @@ export default defineComponent({
     watch(() => props.options, () => {
       setFirstText()
     })
+    const disabledOk = computed(() => {
+      return getFormDisabled(props.disabled)
+    })
     // 下拉面板style样式
     const downPanelStyle = computed(() => {
       let style = {}
@@ -144,6 +164,13 @@ export default defineComponent({
       }
       style = Object.assign({}, state.appendStyle, props.downStyle || {}, style)
       return style
+    })
+    const textArray = computed(() => {
+      if (state.text) {
+        return state.text.split(',')
+      } else {
+        return []
+      }
     })
     onMounted(() => {
       nextTick(() => {
@@ -169,7 +196,7 @@ export default defineComponent({
     }
     const downToggle = (evt: MouseEvent) => {
       if (evt && el.value.contains(evt.target)) {
-        if (!props.disabled) {
+        if (!disabledOk.value) {
           // 非禁用状态下才能点击
           state.visible = true
           setPosition(evt)
@@ -285,7 +312,7 @@ export default defineComponent({
       }
       evt.stopPropagation()
     }
-    const controlChange: any = inject('controlChange', '')
+    const controlChange: any = inject(`${prefixCls}ControlChange`, '')
     const emitCom = (value: any, item: any, type: number) => {
       // type 0系统触发，1手动触发
       emit('update:modelValue', value)
@@ -367,7 +394,7 @@ export default defineComponent({
         return label
       }
     }
-    provide('getChildOption', (item: FormControlOption) => {
+    provide(`${prefixCls}GetChildOption`, (item: FormControlOption) => {
       optionsList.value.push(item)
     })
     return {
@@ -385,7 +412,9 @@ export default defineComponent({
       clearClick,
       deleteText,
       getItemText,
-      slideUp
+      slideUp,
+      disabledOk,
+      textArray
     }
   }
 })

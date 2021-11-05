@@ -71,7 +71,7 @@ export default defineComponent({
       moveDirection: 0, // 移动方向1右-1左
       defaultMove: 0 // 初始移动位置
     })
-    provide('childrenList', state.children)
+    provide(`${prefixCls}ChildrenList`, state.children)
     const domEl = ref()
     const style = computed(() => {
       const len = state.children.length

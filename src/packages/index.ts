@@ -72,7 +72,6 @@ const component = [
   Tag,
   Drawer,
   Popover,
-  Icon,
   Upload, ImgCrop
 ]
 

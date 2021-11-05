@@ -39,7 +39,7 @@ export default defineComponent({
       children: [],
       active: props.modelValue
     })
-    provide('childrenList', state.children)
+    provide(`${prefixCls}ChildrenList`, state.children)
     const tabsClick = (item: any, index: number) => {
       if (props.beforeLeave&&props.beforeLeave(item)) {
         // 判断阻止点击

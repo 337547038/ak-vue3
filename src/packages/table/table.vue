@@ -103,7 +103,7 @@ export default defineComponent({
       isSetThWidth: false, // 用于记录是否已经重新设置过表头的实际宽
       headMaxLayer: 1 // 表头的层级
     })
-    provide('columnsType', !!props.columns) // column组件用来判断添加表头数据
+    provide(`${prefixCls}ColumnsType`, !!props.columns) // column组件用来判断添加表头数据
     const selectChecked = computed(() => {
       // 表头checkbox勾选状态0全不选，1全选，2半选
       const len = state.selectedRows.length
@@ -175,8 +175,8 @@ export default defineComponent({
     if (props.columns) {
       getColumns(props.columns)
     }
-    provide('getColumns', columnsData) // columns.value的形式不是双向的
-    provide('setSelectedRows', (bool: boolean, row: any, index: number) => {
+    provide(`${prefixCls}GetColumns`, columnsData) // columns.value的形式不是双向的
+    provide(`${prefixCls}SetSelectedRows`, (bool: boolean, row: any, index: number) => {
       // 由单元格勾选时触发，添加或删除
       const indexOf = state.selectedRows.indexOf(row)
       if (bool && indexOf === -1) {

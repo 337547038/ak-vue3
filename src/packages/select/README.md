@@ -389,7 +389,7 @@ export default {
 |----------|--------------|--------|
 |v-model           | string,array          |通过v-model绑定，multiple时为array|
 |multiple          | boolean/false         |是否多选|
-|multipleLimit     | boolean/false         |多选时用户最多可以选择的项目数，为 0 则不限制|
+|multipleLimit     | number/0              |多选时用户最多可以选择的项目数，为 0 则不限制|
 |disabled          | boolean/false         |是否禁用|
 |placeholder       | string                |占位符,value为空时显示。占位符为空时显示options第一项|
 |filterable        | boolean/false         |是否可搜索，对当前下拉数据筛选|

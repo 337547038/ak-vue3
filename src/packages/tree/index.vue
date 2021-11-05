@@ -30,8 +30,8 @@ export default defineComponent({
       showCheckbox: props.showCheckbox,
       modelValue: props.modelValue
     })
-    provide('propsData', state)
-    provide('treeSlots', slots)
+    provide(`${prefixCls}PropsData`, state)
+    provide(`${prefixCls}TreeSlots`, slots)
     // checkbox点击事件
     const checkboxChange = (item: TreeList) => {
       emit('change', item)
@@ -82,7 +82,7 @@ export default defineComponent({
         }
       })
     }
-    provide('checkboxChange', checkboxChange)
+    provide(`${prefixCls}CheckboxChange`, checkboxChange)
     watch(() => props.data, (val: AnyPropName) => {
       formatData(val)
     })

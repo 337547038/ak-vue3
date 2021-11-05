@@ -12,7 +12,7 @@ export default defineComponent({
     className: pType.string()
   },
   setup(props) {
-    const getChildOption:any = inject('getChildOption', '')
+    const getChildOption:any = inject(`${prefixCls}GetChildOption`, '')
     onMounted(() => {
       getChildOption && getChildOption({
         label: props.label,

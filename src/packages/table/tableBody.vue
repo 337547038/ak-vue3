@@ -60,7 +60,7 @@ import {reactive, inject, toRefs, defineComponent, computed, ref} from 'vue'
 import TableTd from './tableTd.vue'
 import {AnyPropName} from '../types'
 import pType from '../util/pType'
-
+import {prefixCls} from '../prefix'
 export default defineComponent({
   name: 'TableBody',
   components: {TableTd},
@@ -75,7 +75,7 @@ export default defineComponent({
   },
   emits: ['rowClick', 'cellClick'],
   setup(props, {emit}) {
-    const getColumns = inject('getColumns') as AnyPropName
+    const getColumns = inject(`${prefixCls}GetColumns`) as AnyPropName
     const state = reactive<any>({
       toggle: {}, // {1: true, 2: false, 0: false} // 对应每行展开或收起状态
       rowspanColspanList: []

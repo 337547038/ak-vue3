@@ -8,7 +8,7 @@ export default defineComponent({
     className: String
   },
   setup(props, {slots}) {
-    const childrenList = inject('childrenList') as AnyPropName
+    const childrenList = inject(`${prefixCls}ChildrenList`) as AnyPropName
     childrenList.push({
       slots: slots,
       props: props

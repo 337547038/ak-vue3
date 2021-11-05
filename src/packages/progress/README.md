@@ -101,4 +101,5 @@ export default {
 |duration       | Number/1000    |持续时间，单位毫秒|
 |showText       | Boolean/true   |显示进度文字|
 |followText     | Boolean/true   |进度文字跟随进度的位置,type=line时有效|
+|className      | String         |样式类名|
 

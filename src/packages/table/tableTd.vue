@@ -2,7 +2,7 @@
 import {h, defineComponent, ref, computed, inject, watch} from 'vue'
 import pType from '../util/pType'
 import {Checkbox} from '../checkbox/index'
-
+import {prefixCls} from '../prefix'
 export default defineComponent({
   name: 'TableTd',
   components: {Checkbox},
@@ -23,7 +23,7 @@ export default defineComponent({
   setup(props, {emit}) {
     /*onMounted(() => {
     })*/
-    const setSelectedRows = inject('setSelectedRows') as any
+    const setSelectedRows = inject(`${prefixCls}SetSelectedRows`) as any
 
     let classNameTd = ref(props.column.fixed)
     const pcl = ref(props.column.className)

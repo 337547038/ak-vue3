@@ -1,6 +1,6 @@
 <!--Created by 337547038 on 2021.6.-->
 <template>
-  <label :class="{[prefixCls+'-checkbox']:true,'checked':checked,'disabled':disabled}" @click="changeHandler">
+  <label :class="{[prefixCls+'-checkbox']:true,'checked':checked,'disabled':disabledOk}" @click="changeHandler">
     <span>
       <span class="checkbox-inner icon-check" :class="{'checked':checked}"></span>
       <span v-if="$slots.default" class="checkbox-text"><slot></slot></span>
@@ -12,6 +12,7 @@
 import {prefixCls} from '../prefix'
 import pType from '../util/pType'
 import {defineComponent, computed, inject, onMounted, watch} from 'vue'
+import {getFormDisabled} from "../util/form";
 
 export default defineComponent({
   name: `${prefixCls}Checkbox`,
@@ -24,6 +25,9 @@ export default defineComponent({
   },
   emits: ['change', 'update:modelValue'],
   setup(props, {emit}) {
+    const disabledOk = computed(() => {
+      return getFormDisabled(props.disabled)
+    })
     const checked = computed(() => {
       // value为真时，当v-model=value时为选中状态
       // 否则，当v-model=true时为选中状态
@@ -40,13 +44,13 @@ export default defineComponent({
       return bool
     })
     // formItem
-    const controlChange: any = inject('controlChange', '')
+    const controlChange: any = inject(`${prefixCls}ControlChange`, '')
     const changeHandler = () => {
-      if (props.beforeChange&&!props.beforeChange()) {
+      if (props.beforeChange && !props.beforeChange()) {
         return
       }
       // 点击后只有选中状态
-      if (props.disabled) {
+      if (disabledOk.value) {
         return
       }
       let val
@@ -91,7 +95,8 @@ export default defineComponent({
     return {
       prefixCls,
       checked,
-      changeHandler
+      changeHandler,
+      disabledOk
     }
   }
 })

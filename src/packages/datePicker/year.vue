@@ -14,7 +14,7 @@
 <script lang="ts">
 import {defineComponent, computed, inject} from 'vue'
 import pType from '../util/pType'
-
+import {prefixCls} from '../prefix'
 export default defineComponent({
   name: 'Year',
   props: {
@@ -40,7 +40,7 @@ export default defineComponent({
         emit('click', item.toString())
       }
     }
-    const setDisabledDate: any = inject('setDisabledDate', '')
+    const setDisabledDate: any = inject(`${prefixCls}SetDisabledDate`, '')
     const getClass = (item: number) => {
       let time = new Date(item.toString())
       return {

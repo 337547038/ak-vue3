@@ -15,12 +15,15 @@
   }
   &.form-item-mini{line-height: 28px;
     @include ns(input-control){height: 28px; line-height: 28px;}
+    @include ns(btn){height: 28px; line-height: 28px;}
   }
   &.form-item-small{line-height: 32px;
     @include ns(input-control){height: 32px;line-height: 32px;}
+    @include ns(btn){height: 32px;line-height: 32px;}
   }
   &.form-item-medium{line-height: 36px;
     @include ns(input-control){height: 36px; line-height: 36px;}
+    @include ns(btn){height: 36px; line-height: 36px;}
   }
 }
 @include ns(form-item-error) {

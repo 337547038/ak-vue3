@@ -2,7 +2,7 @@
 <template>
   <label
     :class="{
-      'disabled':disabled,
+      'disabled':disabledOk,
       'checked':checked,[prefixCls+'-radio']:true}"
     @click="changeHandler">
     <span>
@@ -18,6 +18,7 @@
 import {prefixCls} from '../prefix'
 import pType from '../util/pType'
 import {inject, computed, defineComponent, onMounted, watch} from 'vue'
+import {getFormDisabled} from '../util/form'
 
 export default defineComponent({
   name: `${prefixCls}Radio`,
@@ -29,6 +30,9 @@ export default defineComponent({
   },
   emits: ['change', 'update:modelValue'],
   setup(props, {emit}) {
+    const disabledOk = computed(() => {
+      return getFormDisabled(props.disabled)
+    })
     const checked = computed(() => {
       // 存在value时，当v-model=value时为选中状态
       // 不存在value时，当v-model=true时为选中状态
@@ -41,10 +45,10 @@ export default defineComponent({
       return bool
     })
     // formItem
-    const controlChange: any = inject('controlChange', '')
+    const controlChange: any = inject(`${prefixCls}ControlChange`, '')
     const changeHandler = () => {
       // 点击后只有选中状态
-      if (props.disabled) {
+      if (disabledOk.value) {
         return
       }
       const val = props.value || true
@@ -61,7 +65,8 @@ export default defineComponent({
     return {
       prefixCls,
       checked,
-      changeHandler
+      changeHandler,
+      disabledOk
     }
   }
 })

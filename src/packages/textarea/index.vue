@@ -3,15 +3,16 @@
   <textarea
     ref="textareaEl"
     v-model="textValue"
-    :class="{[`${prefixCls}-textarea ${prefixCls}-input-control`]:true,disabled:disabled}"
+    :class="{[`${prefixCls}-textarea ${prefixCls}-input-control`]:true,disabled:disabledOk}"
     :style="style"
-    :disabled="disabled"
+    :disabled="disabledOk"
     @input="change"></textarea>
 </template>
 <script lang="ts">
 import {prefixCls} from '../prefix'
 import pType from '../util/pType'
 import {defineComponent, inject, computed, ref, onMounted, watch} from 'vue'
+import {getFormDisabled} from '../util/form'
 
 export default defineComponent({
   name: `${prefixCls}Textarea`,
@@ -28,6 +29,9 @@ export default defineComponent({
     const textValue = ref(props.modelValue)
     const border = ref(2)
     const textareaEl = ref()
+    const disabledOk = computed(() => {
+      return getFormDisabled(props.disabled)
+    })
     const style = computed(() => {
       return {
         width: props.width,
@@ -45,7 +49,7 @@ export default defineComponent({
       const {value} = evt.target as HTMLInputElement
       emitChange(value)
     }
-    const controlChange: any = inject('controlChange', '')
+    const controlChange: any = inject(`${prefixCls}ControlChange`, '')
     const emitChange = (value: string) => {
       emit('update:modelValue', value)
       controlChangeEvent(value)
@@ -72,7 +76,8 @@ export default defineComponent({
       textValue,
       style,
       textareaEl,
-      change
+      change,
+      disabledOk
     }
   }
 })

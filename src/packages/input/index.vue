@@ -11,8 +11,8 @@
       ref="inputEl"
       :value="modelValue"
       :type="inputType"
-      :class="{'disabled':disabled,[prefixCls+'-input-control']:true,'has-prefix':$slots.prefix||prefixIcon,[size]:size}"
-      :disabled="disabled"
+      :class="{'disabled':disabledOk,[prefixCls+'-input-control']:true,'has-prefix':$slots.prefix||prefixIcon,[size]:size}"
+      :disabled="disabledOk"
       @input="inputHandler"
       @focus="focusHandler"
       @blur="blurHandler">
@@ -41,6 +41,7 @@
 import {prefixCls} from '../prefix'
 import {ref, defineComponent, computed, watch, inject, onMounted} from 'vue'
 import pType from '../util/pType'
+import {getFormDisabled} from "../util/form"
 
 export default defineComponent({
   name: `${prefixCls}Input`,
@@ -61,6 +62,9 @@ export default defineComponent({
   setup(props, {emit}) {
     const inputEl = ref()
     const eyeShow = ref(false)
+    const disabledOk = computed(() => {
+      return getFormDisabled(props.disabled)
+    })
     const inputType = computed(() => {
       if (eyeShow.value) {
         return 'text'
@@ -98,7 +102,7 @@ export default defineComponent({
       controlChangeEvent(v, 'mounted')
     })
     // formItem
-    const controlChange: any = inject('controlChange', '')
+    const controlChange: any = inject(`${prefixCls}ControlChange`, '')
     const controlChangeEvent = (val: any, type?: string) => {
       controlChange && controlChange(val, type)
     }
@@ -115,7 +119,8 @@ export default defineComponent({
       eyeShow,
       focus,
       blur,
-      inputEl
+      inputEl,
+      disabledOk
     }
   }
 })

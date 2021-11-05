@@ -95,7 +95,7 @@ export default defineComponent({
         emitComm(val)
       }
     }
-    const controlChange: any = inject('controlChange', '')
+    const controlChange: any = inject(`${prefixCls}ControlChange`, '')
     const controlChangeEvent = (val: any, type?: string) => {
       controlChange && controlChange(val, type)
     }

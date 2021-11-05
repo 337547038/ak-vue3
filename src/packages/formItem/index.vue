@@ -15,8 +15,10 @@
         <div v-if="errorTips===''" :class="`${prefixCls}-form-tips ${iconType}`"></div>
         <div
           v-else
-          :class="`${prefixCls}-form-tips ${iconType}`"
-          v-text="errorTips"></div>
+          :class="`${prefixCls}-form-tips`">
+          <i :class="[iconType]"></i>
+          <span v-text="errorTips"></span>
+        </div>
       </template>
     </div>
     <slot name="other"></slot>
@@ -46,7 +48,7 @@ export default defineComponent({
     size: pType.string()
   },
   setup(props) {
-    const formProps: AnyPropName = inject('formProps', {})
+    const formProps: AnyPropName = inject(`${prefixCls}FormProps`, {})
     let formRules
     if (formProps && formProps.rules && formProps.rules[props.prop]) {
       formRules = formProps.rules[props.prop]
@@ -165,7 +167,7 @@ export default defineComponent({
       state.errorTips = ''
       state.iconType = ''
     }
-    const getFormItemFields: any = inject('getFormItemFields', '')
+    const getFormItemFields: any = inject(`${prefixCls}GetFormItemFields`, '')
     const getAllFormItemFields = () => {
       // 所有带校验规则的
       if (state.rules2.length > 0 && getFormItemFields) {
@@ -176,7 +178,7 @@ export default defineComponent({
         })
       }
     }
-    provide('controlChange', (val: any, type: string) => {
+    provide(`${prefixCls}ControlChange`, (val: any, type: string) => {
       state.controlValue = val
       // 将组件值存起来，不触发其他操作，在没有手动触发时也使用validate来校验
       if (type === 'mounted') {

@@ -46,7 +46,8 @@ export default defineComponent({
     borderColor: pType.string('#41a259'),// 进度条颜色
     duration: pType.number(1000),// 动画持续时间，单位毫秒
     showText: pType.bool(true),// 显示进度数字
-    followText: pType.bool(true)// 进度数字跟进进度
+    followText: pType.bool(true),// 进度数字跟进进度
+    className: pType.string()
   },
   setup(props) {
     const state = reactive({
@@ -62,7 +63,7 @@ export default defineComponent({
     })
     const animation = () => {
       // 这里还是用js控制，css控制不了，因为大于50%后还要处理其他
-      let clearTime=-1
+      let clearTime = -1
       clearTime = window.setInterval(() => {
         if (state.percent < props.modelValue && state.percent < 100) {
           state.percent++
@@ -81,14 +82,14 @@ export default defineComponent({
         style.left = `-${props.border}px`
         style.top = `-${props.border}px`
         if (state.percent > 50) {
-          style.clip= 'rect(auto,auto,auto,auto)'
+          style.clip = 'rect(auto,auto,auto,auto)'
         } else {
-          style.clip=`rect(0,${props.radius * 2}px,${props.radius * 2}px,${props.radius}px)`
+          style.clip = `rect(0,${props.radius * 2}px,${props.radius * 2}px,${props.radius}px)`
         }
       } else if (type === 'left') {
         style.border = `${props.border}px solid ${props.borderColor}`
         style.clip = `rect(0, ${props.radius}px, ${props.radius * 2}px, 0px)`
-        style.transform= 'rotate(' + 3.6 * state.percent + 'deg)'
+        style.transform = 'rotate(' + 3.6 * state.percent + 'deg)'
       } else if (type === 'right') {
         style.border = `${props.border}px solid ${props.borderColor}`
         style.clip = `rect(0, ${props.radius * 2}px, ${props.radius * 2}px, ${props.radius}px)`

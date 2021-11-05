@@ -14,7 +14,7 @@
 <script lang="ts">
 import {defineComponent, inject} from 'vue'
 import pType from '../util/pType'
-
+import {prefixCls} from '../prefix'
 export default defineComponent({
   name: 'Month',
   props: {
@@ -24,7 +24,7 @@ export default defineComponent({
   emits: ['click'],
   setup(props, {emit}) {
     const monthList = ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月']
-    const setDisabledDate: any = inject('setDisabledDate', '')
+    const setDisabledDate: any = inject(`${prefixCls}SetDisabledDate`, '')
     const getClass = (index: number) => {
       const time = new Date(props.modelValue.getFullYear(), props.modelValue.getMonth()).toDateString()
       const timeSelect = new Date(props.bodyValue.getFullYear(), index).toDateString()

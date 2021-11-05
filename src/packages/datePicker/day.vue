@@ -47,7 +47,7 @@
 import {defineComponent, computed, reactive, toRefs, inject} from 'vue'
 import pType from '../util/pType'
 import {AnyPropName} from '../types'
-
+import {prefixCls} from '../prefix'
 export default defineComponent({
   name: 'Day',
   components: {},
@@ -64,8 +64,8 @@ export default defineComponent({
       minutes: props.modelValue.getMinutes(),
       seconds: props.modelValue.getSeconds()
     })
-    const setInnerText: any = inject('setInnerText', '')
-    const setDisabledDate: any = inject('setDisabledDate', '')
+    const setInnerText: any = inject(`${prefixCls}SetInnerText`, '')
+    const setDisabledDate: any = inject(`${prefixCls}SetDisabledDate`, '')
     const days = computed(() => {
       let days = []
       const year = props.modelValue.getFullYear()

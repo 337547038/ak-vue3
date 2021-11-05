@@ -4,7 +4,7 @@ $btnPri: $primary $primary #fff; // type=primary
 $btnCancel: #e3e3e3 #f7f7f7 #333; // type=cancel
 $btnText: transparent transparent $primary; // type=text
 @include ns(btn){
-  display: inline-block;line-height: 1;white-space: nowrap;cursor: pointer;border: 1px solid transparent; text-align: center; box-sizing: border-box;outline: none;padding: 12px 20px;border-radius: 4px;font-size: 14px;transition: .1s;@include BBT($btn);user-select: none;
+  display: inline-block;white-space: nowrap;cursor: pointer;border: 1px solid transparent; text-align: center; box-sizing: border-box;outline: none;padding: 0 20px;border-radius: 4px;font-size: 14px;transition: .1s;@include BBT($btn);user-select: none;height: 40px;line-height: 40px;
   @include ns(icon){margin-right: 5px;display: inline-block;vertical-align: middle}
   &:hover{
     opacity: .8;
@@ -27,10 +27,16 @@ $btnText: transparent transparent $primary; // type=text
     @include BBT($btnText);border: 0;padding: 0; border-radius: 0;
   }
   // 尺寸大小
-  &.medium{padding: 10px 20px;border-radius: 4px;font-size: 14px;}
-  &.small{padding: 9px 15px;border-radius: 3px;font-size: 12px;}
-  &.mini{padding: 7px 15px;border-radius: 4px;font-size: 12px;}
+  &.medium{padding: 0 20px;border-radius: 4px;font-size: 14px;height: 36px;line-height: 36px}
+  &.small{padding: 0 15px;border-radius: 3px;font-size: 12px;height: 32px;line-height: 32px}
+  &.mini{padding: 0 15px;border-radius: 4px;font-size: 12px;height: 28px;line-height: 28px}
   /*+ .-btn{margin-left: 10px}*/
   + .#{$namespace}btn{margin-left: 10px}
+  // loading动画
+  .icon-loading{animation: iconLoading 2s linear infinite;margin: 0}
 }
 @include ns(btn-group){}
+@keyframes iconLoading {
+  0%{transform: rotate(0)}
+  100%{transform: rotate(360deg)}
+}

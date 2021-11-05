@@ -181,6 +181,7 @@ export default {
 |href      |String        |a标签链接地址|
 |disabled  |boolean/false |是否禁用状态|
 |icon      |String        |前缀icon|
+|loading   |boolean/false |是否加载中状态|
 |nativeType|String        |原生 type 属性，button / submit / reset|
 |name      |String        |按钮组时有效，按钮组点击事件时返回当前按钮唯一标识|
 |-         | -            |其它原生属性|
