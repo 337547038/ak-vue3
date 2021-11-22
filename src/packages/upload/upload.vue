@@ -1,17 +1,18 @@
 <!--Created by 337547038 on 2019/2.-->
 <template>
-  <div :class="`${prefixCls}-upload`">
-    <label :for="randomId" class="upload-file" :class="{'drag-file':drag}" @dragover="fileDragOver" @drop="fileDrop">
+  <div :class="{[`${prefixCls}-upload`]: true,disabled:disabled}">
+    <label class="upload-file" :class="{'drag-file':drag}" @dragover="fileDragOver" @drop="fileDrop">
+      <input
+        style="display: none"
+        ref="inputEl"
+        type="file"
+        :multiple="multiple"
+        :accept="accept"
+        :name="name"
+        :disabled="disabled"
+        @change="onFileChange">
       <slot></slot>
     </label>
-    <input
-      :id="randomId"
-      ref="inputEl"
-      type="file"
-      :multiple="multiple"
-      :accept="accept"
-      :name="name"
-      @change="onFileChange">
   </div>
 </template>
 <script lang="ts">
@@ -32,21 +33,74 @@ export default defineComponent({
     data: pType.object(), // 附加请求的参数
     headers: pType.object(), // 上传请求 header 数据
     format: pType.string(), // 支持的文件类型，与 accept 不同的是，format 是识别文件的后缀名，accept 为 input 标签原生的 accept 属性，会在选择文件时过滤，可以两者结合使用，多个用豆号隔开
-    maxSize: pType.number(1024), // 最大上传限制kb
+    maxSize: pType.number(0), // 最大上传限制kb
     timeout: pType.number(0), // `timeout` 指定请求超时的毫秒数(0 表示无超时时间)
     auto: pType.bool(true),  // 是否需要点击按钮上传,false需要点击
-    drag: pType.bool() // 允许拖动上传
+    drag: pType.bool(), // 允许拖动上传
+    disabled: pType.bool(false) // 允许拖动上传
   },
   emits: ['change', 'update:modelValue', 'error', 'success'],
   setup(props, {emit}) {
     const inputEl = ref()
     const state = reactive<AnyPropName>({
-      randomId: Math.random().toString(36).substr(2, 10),
       tempFiles: [],
       tempUpload: [], // 存储待上传文件，用于手动上传
       index: 0, // 批量上传时记录当前第几个，用于更新当前进度
       source: ''
     })
+    const onFileChange = (evt: any, type: string) => {
+      console.log(evt)
+      console.log(type)
+      emit('change', evt)
+      if (!props.multiple) { // 多个时上传后再清除
+        state.tempFiles = []
+        state.tempUpload = []
+      }
+      let file = evt
+      if (type !== 'drag') {
+        file = evt.target && evt.target.files
+      }
+      if (file) {
+        for (let i = 0; i < file.length; i++) {
+          const checkResult = check(file[i])
+          console.log(checkResult)
+          if (!checkResult.code) {
+            // 校验通过
+            let src = undefined
+            if (/image\/\w+/.test(file[i].type)) {
+              src = getObjectURL(file[i])
+            }
+            state.tempFiles.push({
+              size: unitFormat(file[i].size), // 大小
+              loaded: '0%', // 上传进度
+              name: file[i].name,
+              src: src, // 预览用的src
+              type: file[i].type,
+              status: 0 // 上传状态，0等待上传，1正在上传，2成功，-1失败，由接口返回后修改
+              // verify: checkResult // 验证结果，批量上传时
+            })
+            if (props.auto) {
+              axiosUpload(file[i], i)
+            } else {
+              // 手动上传时保存
+              state.tempUpload.push({file: file[i], index: i})
+            }
+          } else {
+            // 存在没有校验通过的
+            if (!props.multiple) {
+              // 单个文件上传时，放error里提示
+              emit('error', checkResult)
+              return false
+            }
+          }
+        }
+      }
+      if (props.multiple) { // 多个时返回数组
+        emit('update:modelValue', state.tempFiles)
+      } else { // 单个时返回object
+        emit('update:modelValue', state.tempFiles[0])
+      }
+    }
     const axiosUpload = (file: File, index: number) => {
       let param = new FormData()
       // 图片裁切时是通过base64转为blob数据流，因此要在后面添加文件名，否则上传的是一个blob文件
@@ -119,62 +173,12 @@ export default defineComponent({
         }
       }
       let fileSize = file.size
-      if (fileSize && fileSize > props.maxSize * 1024) {
+      if (fileSize && fileSize > (props.maxSize && props.maxSize * 1024)) {
         error = {code: 1, msg: '超出上传限制'}
       }
       return error
     }
-    const onFileChange = (evt: any, type: string) => {
-      emit('change', evt)
-      if (!props.multiple) { // 多个时上传后再清除
-        state.tempFiles = []
-        state.tempUpload = []
-      }
-      let file = evt
-      if (type !== 'drag') {
-        file = evt.target && evt.target.files
-      }
-      if (file) {
-        for (let i = 0; i < file.length; i++) {
-          const checkResult = check(file[i])
-          console.log(checkResult)
-          if (!checkResult.code) {
-            // 校验通过
-            let src = undefined
-            if (/image\/\w+/.test(file[i].type)) {
-              src = getObjectURL(file[i])
-            }
-            state.tempFiles.push({
-              size: unitFormat(file[i].size), // 大小
-              loaded: '0%', // 上传进度
-              name: file[i].name,
-              src: src, // 预览用的src
-              type: file[i].type,
-              status: 0 // 上传状态，0等待上传，1正在上传，2成功，-1失败，由接口返回后修改
-              // verify: checkResult // 验证结果，批量上传时
-            })
-            if (props.auto) {
-              axiosUpload(file[i], i)
-            } else {
-              // 手动上传时保存
-              state.tempUpload.push({file: file[i], index: i})
-            }
-          } else {
-            // 存在没有校验通过的
-            if (!props.multiple) {
-              // 单个文件上传时，放error里提示
-              emit('error', checkResult)
-              return false
-            }
-          }
-        }
-      }
-      if (props.multiple) { // 多个时返回数组
-        emit('update:modelValue', state.tempFiles)
-      } else { // 单个时返回object
-        emit('update:modelValue', state.tempFiles[0])
-      }
-    }
+
     const fileDrop = () => {
     }
     const fileDragOver = () => {

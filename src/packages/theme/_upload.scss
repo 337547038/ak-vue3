@@ -1,7 +1,6 @@
 @charset "utf-8";
 @include ns(upload) { display: inline-block;position: relative;
   .upload-file {cursor: pointer;}
-  input {display: none}
   .drag-file {height: 200px;width: 300px;border: dashed 1px gray;margin-bottom: 10px;color: #777;background: #fff;text-align: center;line-height: 200px;}
 }
 @include ns(upload-crop) {display: inline-block;
