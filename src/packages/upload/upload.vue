@@ -1,18 +1,37 @@
 <!--Created by 337547038 on 2019/2.-->
 <template>
-  <div :class="{[`${prefixCls}-upload`]: true,disabled:disabled}">
-    <label class="upload-file" :class="{'drag-file':drag}" @dragover="fileDragOver" @drop="fileDrop">
+  <div :class="{[`${prefixCls}-upload`]: true,disabled:disabled,['upload-'+listType]:listType}">
+    <label
+      v-if="!(limit&&limit<=tempFiles.length)"
+      class="upload-file"
+      :class="{'drag-file':drag}"
+      @dragover="fileDragOver"
+      @drop="fileDrop">
       <input
-        style="display: none"
         ref="inputEl"
+        style="display: none"
         type="file"
         :multiple="multiple"
         :accept="accept"
         :name="name"
         :disabled="disabled"
         @change="onFileChange">
-      <slot></slot>
+      <slot v-if="$slots.default"></slot>
+      <i v-else class="default-btn icon-plus"></i>
     </label>
+    <div v-if="showFileList" class="upload-list">
+      <ul>
+        <li v-for="(item,index) in tempFiles" :key="item.url" :class="['status-'+(item.status||'')]">
+          <span v-if="listType==='text'">{{ item.name }}</span>
+          <img v-else :src="item.url" alt="">
+          <span v-if="item.status!==undefined" class="status">
+            <b>{{ getStatusName(item) }}</b>
+            <i v-if="item.status===1" class="progress" :style="{width:item.loaded+'%'}"></i>
+          </span>
+          <i class="icon-del" @click="remove(index)"></i>
+        </li>
+      </ul>
+    </div>
   </div>
 </template>
 <script lang="ts">
@@ -20,7 +39,7 @@ import {prefixCls} from '../prefix'
 import {defineComponent, reactive, toRefs, ref} from 'vue'
 import pType from '../util/pType'
 import {AnyPropName} from '../types'
-import axios from 'axios'
+import {getObjectURL, axiosUpload} from './comm'
 
 export default defineComponent({
   name: `${prefixCls}Upload`,
@@ -28,24 +47,27 @@ export default defineComponent({
     modelValue: pType.oneOfType([pType.array(), pType.object()]),
     name: pType.string('file'), // input标签的 name 属性
     action: pType.string(), // 上传地址
-    multiple: pType.bool(),// 是否支持多选文件
+    multiple: pType.bool(false),// 是否支持多选文件
     accept: pType.string(), // h5原生属性，接受上传的文件类型，即打开上传框时默认选择的类型
     data: pType.object(), // 附加请求的参数
     headers: pType.object(), // 上传请求 header 数据
     format: pType.string(), // 支持的文件类型，与 accept 不同的是，format 是识别文件的后缀名，accept 为 input 标签原生的 accept 属性，会在选择文件时过滤，可以两者结合使用，多个用豆号隔开
-    maxSize: pType.number(0), // 最大上传限制kb
+    maxSize: pType.number(0), // 最大上传限制kb，0不限制
     timeout: pType.number(0), // `timeout` 指定请求超时的毫秒数(0 表示无超时时间)
     auto: pType.bool(true),  // 是否需要点击按钮上传,false需要点击
     drag: pType.bool(), // 允许拖动上传
-    disabled: pType.bool(false) // 允许拖动上传
+    disabled: pType.bool(false),
+    limit: pType.number(0), // 允许上传的最大数量0不限制
+    showFileList: pType.bool(true), // 是否显示已上传文件列表
+    listType: pType.string('text') // 文件列表的类型 text/picture
   },
-  emits: ['change', 'update:modelValue', 'error', 'success'],
+  emits: ['change', 'update:modelValue', 'error', 'success', 'remove'],
   setup(props, {emit}) {
+    const isObject = Object.prototype.toString.call(props.modelValue) === '[object Object]'
     const inputEl = ref()
     const state = reactive<AnyPropName>({
-      tempFiles: [],
+      tempFiles: isObject ? [props.modelValue] : (props.modelValue || []),
       tempUpload: [], // 存储待上传文件，用于手动上传
-      index: 0, // 批量上传时记录当前第几个，用于更新当前进度
       source: ''
     })
     const onFileChange = (evt: any, type: string) => {
@@ -70,20 +92,25 @@ export default defineComponent({
             if (/image\/\w+/.test(file[i].type)) {
               src = getObjectURL(file[i])
             }
+            const id = file[i].size + new Date().getTime().toString() // 弄个唯一标识
+            // 判断超出个数限制
+            if (props.limit && state.tempFiles.length >= props.limit) {
+              return
+            }
             state.tempFiles.push({
               size: unitFormat(file[i].size), // 大小
-              loaded: '0%', // 上传进度
+              loaded: 0, // 上传进度
               name: file[i].name,
-              src: src, // 预览用的src
+              url: src, // 预览用的src
               type: file[i].type,
-              status: 0 // 上传状态，0等待上传，1正在上传，2成功，-1失败，由接口返回后修改
-              // verify: checkResult // 验证结果，批量上传时
+              status: 0, // 上传状态，0等待上传，1正在上传，2成功，-1失败，由接口返回后修改
+              id: id
             })
             if (props.auto) {
-              axiosUpload(file[i], i)
+              getAxiosUpload(file[i], id)
             } else {
               // 手动上传时保存
-              state.tempUpload.push({file: file[i], index: i})
+              state.tempUpload.push({file: file[i], index: id})
             }
           } else {
             // 存在没有校验通过的
@@ -95,59 +122,48 @@ export default defineComponent({
           }
         }
       }
-      if (props.multiple) { // 多个时返回数组
-        emit('update:modelValue', state.tempFiles)
-      } else { // 单个时返回object
-        emit('update:modelValue', state.tempFiles[0])
-      }
+      updateModelValue()
     }
-    const axiosUpload = (file: File, index: number) => {
-      let param = new FormData()
-      // 图片裁切时是通过base64转为blob数据流，因此要在后面添加文件名，否则上传的是一个blob文件
-      param.append(props.name, file, file.name)
-      if (props.data) {
-        for (let i in props.data) {
-          param.append(i, props.data[i])
+    const getAxiosUpload = (file: File, id: string) => {
+      const data = {
+        fileName: state.fileName, // 上传文件名，如123.jpg
+        name: props.name, // 文件域的name值
+        action: props.action,
+        headers: props.headers,
+        data: props.data,
+        timeout: props.timeout
+      }
+      let index = 0
+      state.tempFiles.forEach((item: any, i: number) => {
+        if (item.id === id) {
+          index = i
         }
-      }
-      state.source = axios.CancelToken.source()
-      const cancelToken = state.source.token
-      let config = {
-        cancelToken,
-        headers: Object.assign({'Content-Type': 'multipart/form-data'}, props.headers),
-        timeout: props.timeout, // `timeout` 指定请求超时的毫秒数(0 表示无超时时间)
-        onUploadProgress: (progressEvent: AnyPropName) => {
-          const complete = (progressEvent.loaded / progressEvent.total * 100 | 0) + '%'
-          // 上传进度
-          console.log(complete)
-          state.tempFiles[index].loaded = complete // 更新进度
+      })
+      state.tempFiles[index].status = 1 // 更新状态正在上传
+      axiosUpload(file, data, (res: any, type: string) => {
+        switch (type) {
+          case 'source':
+            state.source = res
+            break
+          case 'loaded':
+            state.tempFiles[index].loaded = res
+            break
+          case 'success':
+            emit('success', res, (url?: string, status?: number) => {
+              state.tempFiles[index].status = status || 2
+              if (url) {
+                state.tempFiles[index].url = url // 使用服务端返回的地址
+              }
+            })
+            clear()
+            break
+          case 'error':
+            emit('error', res)
+            state.tempFiles[index].status = -1
+            clear()
+            break
         }
-      }
-      state.tempFiles[index].status = 1 // 更新状态
-      axios.post(props.action, param, config)
-        .then((res: any) => {
-          console.log(res)
-          emit('success', res, (url?: string, status?: number) => {
-            state.tempFiles[index].status = status || 2
-            if (url) {
-              state.tempFiles[index].src = url // 使用服务端返回的地址
-            }
-          })
-        })
-        .catch((res: any) => {
-          console.log(res, 'catch')
-          emit('error', res)
-          state.tempFiles[index].status = -1
-        })
-    }
-    const getObjectURL = (file: File) => {
-      let url = null
-      if (window.URL !== undefined) { // mozilla(firefox)兼容火狐
-        url = window.URL.createObjectURL(file)
-      } else if (window.webkitURL !== undefined) { // webkit or chrome
-        url = window.webkitURL.createObjectURL(file)
-      }
-      return url
+      })
     }
     // 单位换算
     const unitFormat = (size: number) => {
@@ -173,22 +189,68 @@ export default defineComponent({
         }
       }
       let fileSize = file.size
-      if (fileSize && fileSize > (props.maxSize && props.maxSize * 1024)) {
+      if (fileSize && fileSize && props.maxSize > props.maxSize * 1024) {
         error = {code: 1, msg: '超出上传限制'}
       }
       return error
     }
-
-    const fileDrop = () => {
+    const fileDrop = (e: any) => {
+      e.preventDefault()
+      // const file = e.dataTransfer.files[0] // 获取到第一个上传的文件对象
+      onFileChange(e.dataTransfer.files, 'drag')
     }
-    const fileDragOver = () => {
+    const fileDragOver = (e: any) => {
+      e.preventDefault()
     }
     // 取消事件
     const cancelRequest = () => { // 给点击取消的元素绑定上即可 ， 取消上传请求
       if (state.source) {
         state.source.cancel('cancel upload') // 这里传递的什么字符串，在上面的rej.message值就是什么
-        inputEl.value.value = ''
+        clear()
       }
+    }
+    // 删除事件
+    const remove = (index: number) => {
+      emit('remove', state.tempFiles[index])
+      state.tempFiles.splice(index, 1)
+      updateModelValue()
+    }
+    const updateModelValue = () => {
+      if (props.multiple) { // 多个时返回数组
+        emit('update:modelValue', state.tempFiles)
+      } else { // 单个时返回object
+        emit('update:modelValue', state.tempFiles[0] || {})
+      }
+    }
+    // 手动上传
+    const upload = () => {
+      if (!props.auto) {
+        state.tempUpload.forEach(async (item: any) => {
+          await getAxiosUpload(item.file, item.index)
+        })
+      }
+    }
+    // 上传后清空input的值，否则不能上传相同的
+    const clear = () => {
+      inputEl.value.value = ''
+    }
+    const getStatusName = (obj: any) => {
+      let text = ''
+      switch (obj.status) {
+        case 0:
+          text = '待上传'
+          break
+        case 1:
+          text = '正在上传' + obj.loaded + '%'
+          break
+        case 2:
+          text = '上传成功'
+          break
+        case -1:
+          text = '上传失败'
+          break
+      }
+      return text
     }
     return {
       prefixCls,
@@ -197,6 +259,9 @@ export default defineComponent({
       fileDrop,
       fileDragOver,
       cancelRequest,
+      remove,
+      upload,
+      getStatusName,
       inputEl
     }
   }

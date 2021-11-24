@@ -41,6 +41,7 @@ https://gitee.com/q337547038/ak-vue
 - [x] Lazy 图片延时加载
 - [x] Loading 加载等待
 - [ ] Menu 菜单
+- [ ] Dropdown 下拉菜单
 - [x] Pagination 分页
 - [x] Progress 进度条
 - [x] Radio 单选框

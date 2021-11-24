@@ -1,9 +1,43 @@
 @charset "utf-8";
 @include ns(upload) { display: inline-block;position: relative;
+  .default-btn {border: 1px dotted $border;width: 120px;height: 120px;display: flex;align-items: center;justify-content: center;border-radius: 5px;font-size: 28px;
+    &:hover {opacity: .8}
+  }
   .upload-file {cursor: pointer;}
-  .drag-file {height: 200px;width: 300px;border: dashed 1px gray;margin-bottom: 10px;color: #777;background: #fff;text-align: center;line-height: 200px;}
+  &.disabled {
+    .default-btn, .upload-file, .upload-file a {cursor: not-allowed;opacity: .8}
+  }
+  .upload-list {padding: 5px 0;
+    li {display: flex;align-items: center;justify-content: space-between;height: 25px}
+    b {font-weight: 400}
+    i {cursor: pointer;font-size: 14px;}
+    .status--1 {color: red;
+      .status {color: #f00 !important;}
+    }
+  }
+  &.upload-picture {display: flex;flex-wrap: wrap;align-items: center;
+    .upload-file {order: 2}
+    .upload-list {order: 1;
+      ul {display: flex;flex-wrap: wrap;}
+      li {width: 120px;height: 120px;position: relative;margin: 0 5px 5px 0;overflow: hidden;
+        img {display: block;width: 100%;}
+        .icon-del {position: absolute;left: 50%;top: 50%;transform: translate(-50%, -50%);opacity: 0;transition: all .3s}
+        &:hover {
+          .icon-del {opacity: 1}
+          img {opacity: .8}
+        }
+        .status {position: absolute;left: 0;bottom: 0;width: 100%;text-align: center;display: block;background: rgba(0, 0, 0, .5);color: #fff;font-size: 12px;padding: 2px;
+          b {z-index: 2;position: relative}
+        }
+        .progress {position: absolute;left: 0;bottom: 0;display: block;background: #2d8cf0;height: 100%;}
+      }
+    }
+  }
+  .drag-file {height: 200px;width: 300px;border: dashed 1px $border;margin-bottom: 10px;color: #777;background: #fff;text-align: center;line-height: 200px;border-radius: 5px;display: flex;align-items: center;justify-content: center;
+    .default-btn {border: 0}
+  }
 }
-@include ns(upload-crop) {display: inline-block;
+@include ns(upload-crop) {display: inline-block;position: relative;
   .main-crop {
     border: 1px solid #999;
     position: relative;
@@ -145,4 +179,7 @@
     .crop-upload {position: absolute;right: 0}
   }
   .image-file {opacity: 0;position: absolute;}
+  .progress {position: absolute;height: 3px;width: 100%;left: 0;top: 0;
+    i {display: block;height: 100%;background: #2d8cf0;position: absolute;left: 0;transition: all .3s}
+  }
 }

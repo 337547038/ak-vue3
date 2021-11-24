@@ -1,20 +1,19 @@
 <!-- Created by 337547038 on 2019/9/10 0010. -->
 <template>
   <div :class="`${prefixCls}-upload-crop`">
-    <!--<img :src="imgsrc" border="1">-->
-    <div ref="mainCrop" class="main-crop" :style="{width:boxWidthPx,height:boxHeightPx}">
+    <div ref="mainCrop" class="main-crop" :style="{width:boxWidth+'px',height:boxHeight+'px'}">
       <a
         v-show="!drawImg.img"
         href="javascript:;"
         class="select-img"
-        :style="{lineHeight:boxHeightPx}"
-        @click="_selectImg">选择图片</a>
+        :style="{lineHeight:boxHeight+'px'}"
+        @click="selectImg">{{ text[0] }}</a>
       <!--裁切框，zIndex为最顶层-->
       <div
         v-show="drawImg.img!==null"
         class="control-box"
         :style="controlBoxStyle"
-        @mousedown="_controlBoxMouseDown">
+        @mousedown="controlBoxMouseDown">
         <div class="select-area-tips">
           w:{{ parseInt(controlBox.width) }} h:{{ parseInt(controlBox.height) }}
           (x:{{ parseInt(controlBox.left) }},y:{{ parseInt(controlBox.top) }},scale:{{ scale }})
@@ -24,7 +23,7 @@
           :key="index"
           :class="item"
           class="control-btn"
-          @mousedown="_controlBtnMouseDown($event,item)"></span>
+          @mousedown="controlBtnMouseDown($event,item)"></span>
         <div class="box-line box-line-1"></div>
         <div class="box-line box-line-2"></div>
         <div class="box-line box-line-3"></div>
@@ -35,83 +34,63 @@
         v-show="drawImg.img"
         ref="canvasSelectBox"
         class="canvas-crop"
-        :width="boxWidthPx"
-        :height="boxHeightPx"
-        @mousedown="_controlCanvasMouseDown"></canvas>
+        :width="boxWidth"
+        :height="boxHeight"
+        @mousedown="controlCanvasMouseDown"></canvas>
       <!--将图片画在这里作为底图，zIndex为最底层-->
       <canvas
         v-show="drawImg.img"
         ref="canvas"
         class="canvas-crop-img"
-        :width="boxWidthPx"
-        :height="boxHeightPx"></canvas>
+        :width="boxWidth"
+        :height="boxHeight"></canvas>
     </div>
     <div class="crop-btn">
-      <a href="javascript:;" class="crop-select" @click="_selectImg">选择图片</a>
-      <a href="javascript:;" class="crop-upload" @click="_cropPicture"><slot></slot></a>
+      <a v-if="text[1]" href="javascript:;" class="crop-select" @click="selectImg">{{ text[1] }}</a>
+      <a href="javascript:;" class="crop-upload" @click="cropPicture">
+        {{ text[2] }}
+      </a>
     </div>
     <form ref="formReset">
-      <input ref="inputFile" type="file" accept="image/*" class="image-file" @change="_fileChange">
+      <input ref="inputFile" type="file" accept="image/*" class="image-file" @change="fileChange">
     </form>
+    <span v-if="progress" class="progress"><i :style="{width:progress+'%'}"></i></span>
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import {prefixCls} from '../prefix'
-export default {
+import {defineComponent, reactive, toRefs, ref, computed, onMounted, nextTick, onUnmounted} from 'vue'
+import pType from '../util/pType'
+import {getObjectURL, axiosUpload} from './comm'
+
+export default defineComponent({
   name: `${prefixCls}ImgCrop`,
-  components: {},
   props: {
-    boxWidth: {
-      type: Number,
-      default: 600
-    }, // 显示的宽
-    boxHeight: {
-      type: Number,
-      default: 400
-    },
-    imgWidth: {
-      type: Number,
-      default: 150
-    }, // 裁切图片的最小宽
-    imgHeight: {
-      type: Number,
-      default: 100
-    }, // 最小高
-    fixedScale: {
-      // 约束比例
-      type: Boolean,
-      default: true
-    },
-    maxSize: {
-      // 最大上传限制kb
-      type: Number,
-      default: 1024
-    },
-    value: [Array, String],
-    name: {
-      // input标签的 name 属性
-      type: String,
-      default: 'file'
-    },
-    data: Object, // 附加请求的参数
-    headers: Object, // 上传请求 header 数据
-    action: String,
-    error: Function,
-    success: Function,
-    timeout: {
-      // `timeout` 指定请求超时的毫秒数(0 表示无超时时间)
-      type: Number,
-      default: 0
-    }
+    boxWidth: pType.number(600), // 显示的宽
+    boxHeight: pType.number(400),
+    imgWidth: pType.number(150), // 裁切图片的最小宽
+    imgHeight: pType.number(150), // 最小高
+    fixedScale: pType.bool(true),// 约束比例
+    maxSize: pType.number(0),// 最大上传限制kb,
+    name: pType.string('file'),// input标签的 name 属性,
+    data: pType.object(), // 附加请求的参数
+    headers: pType.object(), // 上传请求 header 数据
+    action: pType.string(),
+    timeout: pType.number(0),// `timeout` 指定请求超时的毫秒数(0 表示无超时时间)
+    text: pType.array(['选择图片', '重新选择', '确定'])
   },
-  data () {
-    return {
+  emits: ['error','success'],
+  setup(props, {emit}) {
+    const mainCrop = ref()
+    const inputFile = ref()
+    const canvas = ref()
+    const canvasSelectBox = ref()
+    const formReset = ref()
+    const state = reactive({
       prefixCls: prefixCls,
-      /* imgsrc: '', */
-      axiosUpload: true, // 使用哪种方式上传
       fileName: '', // 上传的文件名
-      imgRealWidth: '', // 上传图片实际宽
+      imgRealWidth: 0, // 上传图片实际宽
       drawImg: {
         img: null, // 规定要使用的图像、画布或视频
         x: 0, // 在画布上放置图像的 x 坐标位置
@@ -121,10 +100,10 @@ export default {
       },
       controlBox: {
         // 裁切框
-        width: this.imgWidth, // 这里初始设为裁切图片的最小宽
-        height: this.imgHeight,
-        left: this.boxWidth / 2 - this.imgWidth / 2, // 初始显示位置 这里应该设置为居中
-        top: this.boxHeight / 2 - this.imgHeight / 2
+        width: props.imgWidth, // 这里初始设为裁切图片的最小宽
+        height: props.imgHeight,
+        left: props.boxWidth / 2 - props.imgWidth / 2, // 初始显示位置 这里应该设置为居中
+        top: props.boxHeight / 2 - props.imgHeight / 2
       },
       controlBtnList: [
         'leftUp',
@@ -135,19 +114,11 @@ export default {
         'downCenter',
         'leftCenter',
         'rightCenter'
-      ] // 显示改变大小的8个位置点名
-    }
-  },
-  computed: {
-    boxWidthPx () {
-      return this.boxWidth + 'px'
-    },
-    boxHeightPx () {
-      return this.boxHeight + 'px'
-    },
-    // 返回裁切控制框的大小和位置
-    controlBoxStyle () {
-      const {height, width, left, top} = this.controlBox
+      ], // 显示改变大小的8个位置点名
+      progress: 0 // 上传进度
+    })
+    const controlBoxStyle = computed(() => {
+      const {height, width, left, top} = state.controlBox
       return {
         height: height + 'px',
         width: width + 'px',
@@ -156,80 +127,46 @@ export default {
         position: 'absolute',
         cursor: 'move'
       }
-    },
-    scale () {
-      // 使用显示的宽/图片实际宽
-      return (this.drawImg.width / this.imgRealWidth).toFixed(2)
-    }
-  },
-  mounted () {
-    this.$nextTick(() => {
-      let mousewheelevt = /Firefox/i.test(navigator.userAgent) ? 'DOMMouseScroll' : 'mousewheel'
-      if (mousewheelevt === 'mousewheel') {
-        this.$refs['mainCrop'].onmousewheel = this._scaleImgWheel
-      } else {
-        this.$refs['mainCrop'].addEventListener('DOMMouseScroll', this._scaleImgWheel)
-      }
     })
-  },
-  destroyed () {
-    if (this.$refs['mainCrop']) {
-      this.$refs['mainCrop'].removeEventListener('DOMMouseScroll', this._scaleImgWheel)
-    }
-  },
-  methods: {
+    const scale = computed(() => {
+      return (state.drawImg.width / state.imgRealWidth).toFixed(2)
+    })
     // 选择上传图片
-    _selectImg () {
-      this.$refs.inputFile.click()
-    },
+    const selectImg = () => {
+      inputFile.value.click()
+    }
     // file改变时
-    _fileChange (e) {
+    const fileChange = (e: any) => {
       const fileObj = e.target
       if (fileObj && fileObj.files && fileObj.files[0]) {
-        this.axiosUpload = true
-        this.fileName = fileObj.files[0].name
-        const blob = this.getObjectURL(fileObj.files[0])
-        this._imgToCanvas(blob, fileObj.files[0])
-        /* const reader = new FileReader()
-        reader.readAsDataURL(fileObj.files[0])
-        reader.onload = e => {
-          const newUrl = e.target.result
-          this._imgToCanvas(newUrl, fileObj.files[0])
-        } */
-      } else if (fileObj) {
-        // ie9低版本浏览器
-        this.axiosUpload = false
-        fileObj.select()
-        fileObj.blur()
-        const dataURL = document.selection.createRange().text
-        const len = dataURL.lastIndexOf('/')
-        this.fileName = dataURL.substr(len + 1) // 截取文件名
-        this._imgToCanvas(dataURL)
+        state.fileName = fileObj.files[0].name
+        const blob = getObjectURL(fileObj.files[0])
+        imgToCanvas(blob, fileObj.files[0])
       }
-    },
-    _imgToCanvas (src, file) {
+    }
+    const imgToCanvas = (src: any, file: any) => {
       console.log(file)
       const img = new Image()
       img.crossOrigin = 'Anonymous'
-      img.onload = e => {
+      img.onload = (e: any) => {
         const imgHeight = img.height
         const imgWidth = img.width
-        const boxHeight = this.boxHeight
-        const boxWidth = this.boxWidth
-        this.imgRealWidth = img.width
+        const boxHeight = props.boxHeight
+        const boxWidth = props.boxWidth
+        state.imgRealWidth = img.width
         let imgSize = e.target.fileSize
         if (file && file.size) {
           imgSize = file.size
         }
         console.log('imgSize')
         console.log(imgSize)
-        if (imgSize && imgSize > this.maxSize * 1024) {
-          this._emit(1)
+        if (imgSize && imgSize && props.maxSize > props.maxSize * 1024) {
+          emitEvent(1)
           return
         }
         const rFilter = /^(image\/jpeg|image\/png|image\/jpg)$/i
         if (file && !rFilter.test(file.type)) {
-          this._emit(3)
+          emitEvent(3)
           return
         }
         let rate
@@ -243,36 +180,40 @@ export default {
             rate = boxWidth / imgWidth
           }
         }
-        this.drawImg = {
+        state.drawImg = {
           img: img, // 规定要使用的图像、画布或视频
           x: (boxWidth - imgWidth * rate) / 2, // 在画布上放置图像的 x 坐标位置
           y: (boxHeight - imgHeight * rate) / 2, // 在画布上放置图像的 y 坐标位置
           width: imgWidth * rate, // 要使用的图像的宽度
           height: imgHeight * rate // 要使用的图像的高度
         }
-        this._drawImg()
+        drawImg()
       }
       img.src = src
-      this._drawControlBox()
-    },
+      drawControlBox()
+    }
     // 在canvas上画图
-    _drawImg () {
-      if (this.drawImg.img) {
-        let c = this.$refs['canvas']
+    const drawImg = () => {
+      console.log('drawImg')
+      console.log(state.drawImg.img)
+      console.log(canvas.value)
+      if (state.drawImg.img) {
+        let c = canvas.value
         let ctx = c.getContext('2d')
         ctx.clearRect(0, 0, c.width, c.height)
         ctx.drawImage(
-          this.drawImg.img,
-          this.drawImg.x,
-          this.drawImg.y,
-          this.drawImg.width,
-          this.drawImg.height
+          state.drawImg.img,
+          state.drawImg.x,
+          state.drawImg.y,
+          state.drawImg.width,
+          state.drawImg.height
         )
+        console.log('drawImagedrawImagedrawImage')
       }
-    },
+    }
     // 裁切框
-    _drawControlBox () {
-      let {width, height, left, top} = this.controlBox
+    const drawControlBox = () => {
+      let {width, height, left, top} = state.controlBox
       // 限制框的位置
       if (left < 0) {
         left = 0
@@ -280,29 +221,29 @@ export default {
       if (top < 0) {
         top = 0
       }
-      if (left + width > this.boxWidth) {
-        left = this.boxWidth - width
+      if (left + width > props.boxWidth) {
+        left = props.boxWidth - width
       }
-      if (top + height > this.boxHeight) {
-        top = this.boxHeight - height
+      if (top + height > props.boxHeight) {
+        top = props.boxHeight - height
       }
       // 设置位置
-      this.controlBox.left = left
-      this.controlBox.top = top
+      state.controlBox.left = left
+      state.controlBox.top = top
       // 同时在画布上画一个拖动层
-      let c = this.$refs['canvasSelectBox']
+      let c = canvasSelectBox.value
       let ctx = c.getContext('2d')
       ctx.fillStyle = 'rgba(0,0,0,0.6)' // 遮罩层颜色
       ctx.clearRect(0, 0, c.width, c.height)
       ctx.fillRect(0, 0, c.width, c.height)
       ctx.clearRect(left, top, width, height)
-    },
+    }
     // 裁切框鼠标事件
-    _controlBoxMouseDown (e) {
+    const controlBoxMouseDown = (e: any) => {
       let flag = true
       if (flag) {
-        const offSetX = this.controlBox.left
-        const offSetY = this.controlBox.top
+        const offSetX = state.controlBox.left
+        const offSetY = state.controlBox.top
         const x = e.pageX - offSetX
         const y = e.pageY - offSetY
         document.onmousemove = ev => {
@@ -310,10 +251,10 @@ export default {
           const left = ev.pageX - x
           const top = ev.pageY - y
           // 修改值
-          this.controlBox.left = left
-          this.controlBox.top = top
+          state.controlBox.left = left
+          state.controlBox.top = top
           // 同步画布上的框位置
-          this._drawControlBox()
+          drawControlBox()
         }
         document.onmouseup = function () {
           document.onmousemove = null
@@ -321,14 +262,14 @@ export default {
           flag = false
         }
       }
-    },
+    }
     // 裁切框拖放改变大小
-    _controlBtnMouseDown (e, direction) {
+    const controlBtnMouseDown = (e: any, direction: string) => {
       let flag = true
       if (flag) {
         const x = e.pageX
         const y = e.pageY
-        let {width, height, left, top} = this.controlBox
+        let {width, height, left, top} = state.controlBox
         document.onmousemove = ev => {
           const mx = ev.pageX - x // 移动的位置
           const my = ev.pageY - y
@@ -337,13 +278,13 @@ export default {
           let mLeft = left
           let mTop = top
           // 宽高比例
-          const scaleHeight = this.imgWidth / this.imgHeight
-          const scaleWidth = this.imgHeight / this.imgWidth
+          const scaleHeight = props.imgWidth / props.imgHeight
+          const scaleWidth = props.imgHeight / props.imgWidth
           switch (direction) {
             case 'leftUp':
               // 左上
               mWidth = width - mx
-              if (this.fixedScale) {
+              if (props.fixedScale) {
                 // 约束比例时
                 mHeight = mWidth * scaleWidth
                 mTop = top - (mHeight - height) // 原来的top+所增加的高（移动后的高－原来的高＝增加的高）
@@ -357,7 +298,7 @@ export default {
               // 向左
               mWidth = width - mx
               mLeft = left + mx
-              if (this.fixedScale) {
+              if (props.fixedScale) {
                 // 先简单往下增加高，应该是上下两边同时增加高才适合点的
                 mHeight = mWidth * scaleWidth
               }
@@ -366,7 +307,7 @@ export default {
               // 左下
               mWidth = width - mx
               mLeft = left + mx
-              if (this.fixedScale) {
+              if (props.fixedScale) {
                 mHeight = mWidth * scaleWidth
               } else {
                 mHeight = height + my
@@ -375,19 +316,19 @@ export default {
             case 'topCenter':
               mHeight = height - my
               mTop = top + my
-              if (this.fixedScale) {
+              if (props.fixedScale) {
                 mWidth = mHeight * scaleHeight
               }
               break
             case 'downCenter':
               mHeight = height + my
-              if (this.fixedScale) {
+              if (props.fixedScale) {
                 mWidth = mHeight * scaleHeight
               }
               break
             case 'rightUp':
               mWidth = width + mx
-              if (this.fixedScale) {
+              if (props.fixedScale) {
                 mHeight = mWidth * scaleWidth
                 mTop = top - (mHeight - height)
               } else {
@@ -397,13 +338,13 @@ export default {
               break
             case 'rightCenter':
               mWidth = width + mx
-              if (this.fixedScale) {
+              if (props.fixedScale) {
                 mHeight = mWidth * scaleWidth
               }
               break
             case 'rightDown':
               mWidth = width + mx
-              if (this.fixedScale) {
+              if (props.fixedScale) {
                 mHeight = mWidth * scaleWidth
               } else {
                 mHeight = height + my
@@ -412,17 +353,17 @@ export default {
           }
           // 重新设置值
           // 限制最小选择范围
-          if (mWidth < this.imgWidth || mHeight < this.imgHeight) {
+          if (mWidth < props.imgWidth || mHeight < props.imgHeight) {
             return
           }
-          this.controlBox = {
+          state.controlBox = {
             width: mWidth,
             height: mHeight,
             left: mLeft,
             top: mTop
           }
           // 同步画布
-          this._drawControlBox()
+          drawControlBox()
         }
         document.onmouseup = function () {
           document.onmousemove = null
@@ -432,17 +373,17 @@ export default {
         }
       }
       e.stopPropagation()
-    },
+    }
     // 控制底层canvas图片大小位置
-    _controlCanvasMouseDown (e) {
+    const controlCanvasMouseDown = (e: any) => {
       let flag = true
       if (flag) {
-        const x = e.pageX - this.drawImg.x
-        const y = e.pageY - this.drawImg.y
+        const x = e.pageX - state.drawImg.x
+        const y = e.pageY - state.drawImg.y
         document.onmousemove = ev => {
-          this.drawImg.x = ev.pageX - x // 移动的位置
-          this.drawImg.y = ev.pageY - y // 移动的位置
-          this._drawImg() // 重绘
+          state.drawImg.x = ev.pageX - x // 移动的位置
+          state.drawImg.y = ev.pageY - y // 移动的位置
+          drawImg() // 重绘
         }
         document.onmouseup = function () {
           document.onmousemove = null
@@ -450,11 +391,11 @@ export default {
           flag = false
         }
       }
-    },
+    }
     // 鼠标滚轮事件
-    _scaleImgWheel (e) {
+    const scaleImgWheel = (e: any) => {
       console.log('_scaleImgWheel')
-      if (this.drawImg.img) {
+      if (state.drawImg.img) {
         let scale
         // e是FF的事件。window.event是chrome/ie/opera的事件
         let ee = e || window.event
@@ -465,76 +406,72 @@ export default {
           // Firefox
           scale = ee.detail
         }
-        let {x, y, height, width} = this.drawImg
-        this.drawImg.x = x + scale * 3
-        this.drawImg.y = y + scale * 3
-        this.drawImg.width = width - scale * 9
-        this.drawImg.height = (width - scale * 9) / (width / height)
-        this._drawImg()
+        let {x, y, height, width} = state.drawImg
+        state.drawImg.x = x + scale * 3
+        state.drawImg.y = y + scale * 3
+        state.drawImg.width = width - scale * 9
+        state.drawImg.height = (width - scale * 9) / (width / height)
+        drawImg()
       }
       return false
-    },
+    }
     // 导出图片
-    _cropPicture () {
-      // ie9上传时，因为使用的是硬盘映射绝对路径显示图片预览，不兼容导出。这里只能将图片传后台上裁切（）
-      if (!this.axiosUpload) {
-        this._emit(5)
-        return
-      }
+    const cropPicture = () => {
       // 原理：先将底层canvas图片导出，再写到canvas里通过裁切，最后再导出
-      if (!this.drawImg.img) {
-        this._emit(2)
+      if (!state.drawImg.img) {
+        emitEvent(2)
         return
       }
-      const canvas = this.$refs['canvas']
       const tempImg = new Image()
-      const {left, top} = this.controlBox // 裁切框的大小和位置
-      const width = this.controlBox.width
-      const height = this.controlBox.height
-      const imgWidth = this.imgWidth
-      const imgHeight = this.imgHeight
+      const {left, top} = state.controlBox // 裁切框的大小和位置
+      const width = state.controlBox.width
+      const height = state.controlBox.height
+      const imgWidth = props.imgWidth
+      const imgHeight = props.imgHeight
       tempImg.onload = () => {
         // 这里新创建一个canvas
         const newCanv = document.createElement('canvas')
         newCanv.width = imgWidth
         newCanv.height = imgHeight
         const ctx = newCanv.getContext('2d')
-        ctx.clearRect(0, 0, imgWidth, imgHeight)
-        ctx.drawImage(tempImg, left, top, width, height, 0, 0, imgWidth, imgHeight)
-        const data = {
-          fileName: this.fileName, // 上传文件名，如123.jpg
-          name: this.name, // 文件域的name值
-          action: this.action,
-          headers: this.headers,
-          data: this.data,
-          timeout: this.timeout
+        if (ctx) {
+          ctx.clearRect(0, 0, imgWidth, imgHeight)
+          ctx.drawImage(tempImg, left, top, width, height, 0, 0, imgWidth, imgHeight)
         }
-        // this.imgsrc = newCanv.toDataURL()
-        const img1 = this._dataURLtoBlobToFile(newCanv.toDataURL('image/png', 1))
-        this.getUpload(img1, data, this.axiosUpload, this._uploadStatus) // 将图片上传
+        const data = {
+          fileName: state.fileName, // 上传文件名，如123.jpg
+          name: props.name, // 文件域的name值
+          action: props.action,
+          headers: props.headers,
+          data: props.data,
+          timeout: props.timeout
+        }
+        const img1 = dataURLtoBlobToFile(newCanv.toDataURL('image/png', 1))
+        axiosUpload(img1, data, uploadStatus)
       }
-      tempImg.src = canvas.toDataURL()
-    },
+      tempImg.src = canvas.value.toDataURL()
+    }
     // 上传回调事件
-    _uploadStatus (res, type) {
+    const uploadStatus = (res: any, type: string) => {
       console.log('_uploadStatus')
+      console.log(res)
+      console.log(type)
       switch (type) {
         case 'loaded':
-          this.$emit('input', res) // value只返回进度
+          state.progress = res
           break
         case 'success':
-          this.$emit('success', res)
-          this.success && this.success(res)
-          this.reset()
+          emit('success', res)
+          reset()
           break
         case 'catch':
-          this._emit(4, res)
-          this.reset()
+          emitEvent(4,res)
+          reset()
           break
       }
-    },
-    _emit (type, res) {
-      let error = {code: type}
+    }
+    const emitEvent = (type: number, res?: any) => {
+      let error = {code: type, msg: '', data: ''}
       switch (type) {
         case 1:
           error.msg = '超出上传限制'
@@ -549,15 +486,11 @@ export default {
           error.msg = '请求异常'
           error.data = res
           break
-        case 5:
-          error.msg = '暂不支持ie10以下裁切上传'
-          break
       }
-      this.$emit('error', error)
-      this.error && this.error(error)
-    },
+      emit('error', error)
+    }
     // 将blob转换为file
-    _dataURLtoBlobToFile (dataurl) {
+    const dataURLtoBlobToFile = (dataurl: any) => {
       // const blob = this._dataURLtoBlob(dataurl)
       const arr = dataurl.split(',')
       const mime = arr[0].match(/:(.*?);/)[1]
@@ -567,35 +500,55 @@ export default {
       while (n--) {
         u8arr[n] = bstr.charCodeAt(n)
       }
-      /* return new Blob([u8arr], {type: mime}) */
-      /* let blob = new Blob([u8arr], {type: mime})
-      // 先转blob再转file
-      blob.lastModifiedDate = new Date()
-      // ie没有new File
-      return new File([blob], this.fileName, {
-        type: mime,
-        lastModified: Date.now()
-      }) */
-
       let blob = new Blob([u8arr], {type: mime})
+      // eslint-disable-next-line
       blob.lastModifiedDate = new Date()
-      blob.name = this.fileName
+      // eslint-disable-next-line
+      blob.name = state.fileName
       return blob
-    },
+    }
     // 重置，上传成功或提供给外部调用
-    reset () {
-      this.drawImg = {
+    const reset = () => {
+      state.drawImg = {
         img: null, // 规定要使用的图像、画布或视频
         x: 0, // 在画布上放置图像的 x 坐标位置
         y: 0, // 在画布上放置图像的 y 坐标位置
         width: 0, // 要使用的图像的宽度
         height: 0 // 要使用的图像的高度
       }
-      this.$refs.formReset.reset()
+      formReset.value.reset()
+    }
+    onMounted(() => {
+      nextTick(() => {
+        let mousewheelevt = /Firefox/i.test(navigator.userAgent) ? 'DOMMouseScroll' : 'mousewheel'
+        if (mousewheelevt === 'mousewheel') {
+          mainCrop.value.onmousewheel = scaleImgWheel
+        } else {
+          mainCrop.value.addEventListener('DOMMouseScroll', scaleImgWheel)
+        }
+      })
+    })
+    onUnmounted(() => {
+      if (mainCrop.value) {
+        mainCrop.value.removeEventListener('DOMMouseScroll', scaleImgWheel)
+      }
+    })
+    return {
+      ...toRefs(state),
+      controlBoxStyle,
+      scale,
+      mainCrop,
+      inputFile,
+      canvas,
+      formReset,
+      canvasSelectBox,
+      selectImg,
+      fileChange,
+      controlBoxMouseDown,
+      controlBtnMouseDown,
+      controlCanvasMouseDown,
+      cropPicture
     }
   }
-}
+})
 </script>
-<style lang="scss">
-
-</style>
