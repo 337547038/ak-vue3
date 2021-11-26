@@ -1,0 +1,58 @@
+@charset "UTF-8";
+@include ns(select-down) {display: inline-block;position: relative;min-width: 200px;
+  .select-control {position: relative;
+    .group-icon {display: flex;position: absolute;right: 0;top: 50%;transform: translateY(-50%);cursor: pointer;transition: all .3s;height: 20px;text-align: center;line-height: 30px;align-items: center;justify-content: center;
+      i {margin-right: 6px;font-size: 14px;transition: all .3s}
+      .down {transform: translateY(0) rotate(-180deg)}
+      .icon-close {opacity: 0}
+    }
+    &:hover {
+      .icon-close {opacity: 1}
+    }
+  }
+  &.disabled {cursor: not-allowed;
+    .icon-close {display: none}
+    .icon-arrow {color: #999}
+    input {cursor: not-allowed}
+  }
+  .multiple-text {height: auto;line-height: normal;display: flex;align-items: center;min-height: 40px;
+    ul{
+      &:empty:before{content: attr(placeholder);color: #999}
+    }
+    &.medium {min-height: 36px;}
+    &.small {min-height: 32px;}
+    &.mini {min-height: 28px;}
+    ul {display: flex;flex-wrap: wrap;align-items: center;}
+    li {margin-right: 10px;
+      &:last-child {margin-right: 0}
+      i {margin-left: 5px;font-size: 14px;}
+    }
+    .input {flex: 2}
+    input {width: 100%;outline: none;border: 0;display: inline-block;height: 26px;line-height: 26px;}
+  }
+  &.is-down {
+    .multiple-text,.select-control input {border-color: $primary}
+  }
+}
+@include ns(select-down-pane) {
+  position: absolute;left: 0;background: #fff;border: 1px solid $primary;box-sizing: border-box;width: 100%;z-index: 50; border-radius: 0 0 2px 2px;border-top: 0;
+  &.top{
+    bottom: 37px;
+  }
+}
+/*transition通用下拉动画 select dataPicker……*/
+.slide-toggle-enter-active { animation: slideDown .3s; transform-origin: center top }
+.slide-toggle-leave-active { animation: slideUp .3s; transform-origin: center top }
+.top .slide-toggle-enter-active, .top .slide-toggle-leave-active {
+  transform-origin: center bottom;
+}
+.slide-toggle-top-enter-active { animation: slideDown .3s; transform-origin: center bottom }
+.slide-toggle-top-leave-active { animation: slideUp .3s; transform-origin: center bottom }
+@keyframes slideDown {
+  0% { opacity: 0; transform: scaleY(0); }
+  100% { opacity: 1; transform: scaleY(1); }
+}
+@keyframes slideUp {
+  0% { opacity: 1; transform: scaleY(1); }
+  100% { opacity: 0; transform: scaleY(0); }
+}

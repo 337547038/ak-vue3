@@ -38,6 +38,7 @@ import Tree from './tree/index.vue'
 import Tag from './tag/index.vue'
 import Drawer from './drawer/index.vue'
 import {Upload, ImgCrop} from './upload'
+import SelectDown from './selectDown/index.vue'
 import './theme/index.scss'
 
 const component = [
@@ -72,7 +73,8 @@ const component = [
   Tag,
   Drawer,
   Popover,
-  Upload, ImgCrop
+  Upload, ImgCrop,
+  SelectDown
 ]
 
 /*

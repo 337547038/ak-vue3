@@ -30,7 +30,7 @@ export default {
       {label: '选项3', value: '3'},
       {label: '选项4', value: '4', disabled: true},
       {label: '选项5', value: '5'},
-      {value: '6'},
+      {label: '6'},
       {label: '选项7', value: '7'},
       {label: '选项8', value: '8'},
       {label: '选项9', value: '9'},
@@ -71,7 +71,7 @@ export default {
       {label: '选项3', value: '3'},
       {label: '选项4', value: '4', disabled: true},
       {label: '选项5', value: '5'},
-      {value: '6'},
+      {label: '6'},
       {label: '选项7', value: '7'},
       {label: '选项8', value: '8'},
       {label: '选项9', value: '9'},
@@ -106,7 +106,7 @@ export default {
       {label: '选项3', value: '3'},
       {label: '选项4', value: '4', disabled: true},
       {label: '选项5', value: '5'},
-      {value: '6'},
+      {label: '6'},
       {label: '选项7', value: '7'},
       {label: '选项8', value: '8'},
       {label: '选项9', value: '9'},
@@ -148,7 +148,7 @@ export default {
       {label: '选项3', value: '3'},
       {label: '选项4', value: '4', disabled: true},
       {label: '选项5', value: '5'},
-      {value: '6'},
+      {label: '6'},
       {label: '选项7', value: '7'},
       {label: '选项8', value: '8'},
       {label: '选项9', value: '9'},
@@ -197,7 +197,7 @@ export default {
       {label: '选项3', value: '3'},
       {label: '选项4', value: '4', disabled: true},
       {label: '选项5', value: '5'},
-      {value: '6'},
+      {label: '6'},
       {label: '选项7', value: '7'},
       {label: '选项8', value: '8'},
       {label: '选项9', value: '9'},
@@ -216,55 +216,8 @@ export default {
 }
 </script>
 
-
 ```
 
-### 自定下拉模板
-
-options及其他部分参数将无效，选择后可通过`slideUp`方法收起下拉
-
-```vue demo
-<template>
-  <div>
-    当前值：{{ value1 }}<br>
-    <ak-select ref="select9" v-model="value1" placeholder="请选择">
-      <template #template>
-        <div
-          v-for="item in options"
-          :key="item.value"
-          @click.stop="click(item)">
-          {{ item.label }}
-        </div>
-      </template>
-    </ak-select>
-  </div>
-</template>
-<script>
-import {ref} from 'vue'
-
-export default {
-  setup() {
-    const options = ref([
-      {label: '自定模板选项1', value: '1'},
-      {label: '自定模板选项2', value: '2'},
-      {label: '自定模板选项3', value: '3'}
-    ])
-    const value1 = ref('')
-    const select9 = ref()
-    const click = item => {
-      select9.value.slideUp()
-      value1.value = item.label
-    }
-    return {
-      options,
-      value1,
-      click,
-      select9
-    }
-  }
-}
-</script>
-```
 
 ### 改变前拉截事件
 
@@ -283,7 +236,7 @@ export default {
       {label: '选项3', value: '3'},
       {label: '选项4', value: '4', disabled: true},
       {label: '选项5', value: '5'},
-      {value: '6'},
+      {label: '6'},
       {label: '选项7', value: '7'},
       {label: '选项8', value: '8'},
       {label: '选项9', value: '9'},
@@ -330,7 +283,7 @@ export default {
       {label: '选项3', value: '3'},
       {label: '选项4', value: '4', disabled: true},
       {label: '选项5', value: '5'},
-      {value: '6'},
+      {label: '6'},
       {label: '选项7', value: '7'},
       {label: '选项8', value: '8'},
       {label: '选项9', value: '9'},
@@ -364,7 +317,7 @@ export default {
       {label: '选项3', value: '3'},
       {label: '选项4', value: '4', disabled: true},
       {label: '选项5', value: '5'},
-      {value: '6'},
+      {label: '6'},
       {label: '选项7', value: '7'},
       {label: '选项8', value: '8'},
       {label: '选项9', value: '9'},
@@ -429,8 +382,3 @@ export default {
 |----------|--------------|
 |slideUp            |用于收起下拉|
 
-### Select Slots
-
-|参数|说明|
-|----------|--------------|
-|template       |自定义下拉内容|

@@ -1,26 +1,38 @@
 <template>
-  <ak-upload
-    :action="action"
-    listType="picture"
+  <ak-select
+    v-model="value1"
+    placeholder="请选择"
+    :options="options"
     :multiple="true"
-    @success="success">
-  </ak-upload>
+    :multiple-limit="3"
+    :filterable="true"
+    @limitChange="limitChange" />
 </template>
 <script>
-import {reactive, toRefs, ref} from 'vue'
+import {ref} from 'vue'
 
 export default {
   setup() {
-    const state = reactive({
-      action: 'http://localhost/upload/upload.php'
-    })
-    // 更新上传的文件地址为服务器返回的地址，同时更新状态2＝上传成功
-    const success = (res, callback) => {
-      // callback(res.data, 2)
+    const options = ref([
+      {label: '选项1', value: '1'},
+      {label: '选项2', value: '2'},
+      {label: '选项3', value: '3'},
+      {label: '选项4', value: '4', disabled: true},
+      {label: '选项5', value: '5'},
+      {label: '6'},
+      {label: '选项7', value: '7'},
+      {label: '选项8', value: '8'},
+      {label: '选项9', value: '9'},
+      {label: '选项10', value: '10', class: 'red'}
+    ])
+    const value1 = ref([])
+    const limitChange = () => {
+      alert('最多选择3项')
     }
     return {
-      ...toRefs(state),
-      success
+      options,
+      value1,
+      limitChange
     }
   }
 }
