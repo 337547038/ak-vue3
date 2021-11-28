@@ -304,7 +304,7 @@ export default {
 
 ```vue demo
 <template>
-  <ak-select placeholder="请选择" v-model="value1" :options="options" :direction="1"/>
+  <ak-select placeholder="请选择" v-model="value1" :options="options" :direction="2"/>
 </template>
 <script>
 import {ref} from 'vue'

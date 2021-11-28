@@ -144,12 +144,14 @@ export default {
 |downStyle   | object            |下拉面板样式|
 |appendToBody| boolean/false     |下拉插入到body|
 |downHeight  | number            |下拉的面板的高|
+|icon        | string            |icon图标|
 
 ### SelectDown Event
 
 |参数|说明|
 |----------|--------------|
 |change       |可搜索时输入框改变事件|
+|input        |可搜索时输入框改变事件|
 |blur         |可搜索时输入框焦点事件|
 |toggleClick  |点击展开收起事件|
 |clear        |清空事件|

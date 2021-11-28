@@ -33,7 +33,8 @@
               type="text"
               :disabled="disabledOk"
               :placeholder="valueLabel.length===0?placeholder:''"
-              @input="inputChange"
+              @input="inputInput"
+              @change="inputChange"
               @blur="inputBlur($event,1)">
           </li>
         </ul>
@@ -45,7 +46,8 @@
         :placeholder="placeholder"
         :class="inputCls"
         :disabled="disabledOk"
-        @input="inputChange"
+        @input="inputInput"
+        @change="inputChange"
         @blur="inputBlur">
       <span class="group-icon">
         <i
@@ -53,7 +55,7 @@
           class="icon-close"
           title="清空"
           @click="clearClick"></i>
-        <i :class="{'down':visible,'icon-arrow':true}"></i>
+        <i :class="{'down':visible,[`icon-${icon}`]:true}"></i>
       </span>
     </div>
     <transition :name="direction2===2?'slide-toggle-top':'slide-toggle'">
@@ -92,11 +94,12 @@ export default defineComponent({
     direction: pType.number(0),//0自动　1向下　2向上
     downClass: pType.string(),
     downStyle: pType.object(),
-    appendToBody: pType.bool(true),
+    appendToBody: pType.bool(false),
     downHeight: pType.number(0), // 显示下拉最大高度，超出显示滚动条
-    options: pType.array() // 参数非必要，来自于select
+    options: pType.array(), // 参数非必要，来自于select
+    icon: pType.string('arrow')
   },
-  emits: ['update:modelValue', 'change', 'blur', 'toggleClick', 'clear', 'delete'],
+  emits: ['update:modelValue', 'change', 'blur', 'toggleClick', 'clear', 'delete','input'],
   setup(props, {emit}) {
     const el = ref()
     const selectDown = ref()
@@ -171,6 +174,12 @@ export default defineComponent({
       if (props.filterable) {
         const {value} = e.target as HTMLInputElement
         emit('change', value)
+      }
+    }
+    const inputInput=(e: Event)=>{
+      if (props.filterable) {
+        const {value} = e.target as HTMLInputElement
+        emit('input', value)
       }
     }
     const inputBlur = (e: any, type?: number) => {
@@ -258,6 +267,7 @@ export default defineComponent({
       selectDown,
       inputCls,
       inputChange,
+      inputInput,
       inputBlur,
       downPanelStyle,
       slideUp,

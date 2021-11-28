@@ -7,7 +7,7 @@
     :model-value="showLabel"
     @clear="clearClick"
     @delete="deleteClick"
-    @change="inputChange"
+    @input="inputChange"
     @blur="inputBlur">
     <ul :class="`${prefixCls}-select`">
       <li

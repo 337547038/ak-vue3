@@ -1,5 +1,5 @@
 @charset "UTF-8";
-@include ns(select-down) {display: inline-block;position: relative;min-width: 200px;
+@include ns(select-down) {display: inline-block;position: relative;min-width: 150px;
   .select-control {position: relative;
     .group-icon {display: flex;position: absolute;right: 0;top: 50%;transform: translateY(-50%);cursor: pointer;transition: all .3s;height: 20px;text-align: center;line-height: 30px;align-items: center;justify-content: center;
       i {margin-right: 6px;font-size: 14px;transition: all .3s}
@@ -15,7 +15,7 @@
     .icon-arrow {color: #999}
     input {cursor: not-allowed}
   }
-  .multiple-text {height: auto;line-height: normal;display: flex;align-items: center;min-height: 40px;
+  .multiple-text {height: auto;line-height: normal;display: flex;align-items: center;min-height: 40px;padding-right: 25px;
     ul{
       &:empty:before{content: attr(placeholder);color: #999}
     }

@@ -1,15 +1,7 @@
 @charset "utf-8";
 @include ns(date-picker) {display: inline-block; position: relative;
-  &.date-picker-clear {
-    // 输入框有值时鼠标经过隐藏日期icon
-    &:hover {
-      .icon-date {display: none}
-      .icon-date.disabled {display: block;cursor: not-allowed}
-    }
-  }
-  .icon-date {
-    position: absolute; right: 10px; top: 50%; transform: translateY(-50%); font-size: 20px; cursor: pointer;
-    &:before {display: inline-block;}
+  .select-control .group-icon{
+   .down{transform: rotate(0deg)}
   }
 }
 @include ns(date-picker-down) { position: absolute; background: #fff; border: 1px solid $border; box-shadow: 0 1px 6px #ddd; z-index: 99; padding: 5px; overflow: hidden;box-sizing: border-box;

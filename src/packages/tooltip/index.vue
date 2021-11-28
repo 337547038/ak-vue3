@@ -158,7 +158,7 @@ export default defineComponent({
           style.top = offset.top + offset.height + space + 'px'
           break
       }
-      state.tooltipStyle = Object.assign(props.style, style)
+      state.tooltipStyle = Object.assign({}, props.style, style)
     }
     const mouseEnter = () => {
       if (!props.always) {

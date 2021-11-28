@@ -44,10 +44,11 @@
 </template>
 
 <script lang="ts">
-import {defineComponent, computed, reactive, toRefs, inject} from 'vue'
+import {defineComponent, computed, reactive, toRefs, inject, watch} from 'vue'
 import pType from '../util/pType'
 import {AnyPropName} from '../types'
 import {prefixCls} from '../prefix'
+
 export default defineComponent({
   name: 'Day',
   components: {},
@@ -63,6 +64,9 @@ export default defineComponent({
       hours: props.modelValue.getHours(),
       minutes: props.modelValue.getMinutes(),
       seconds: props.modelValue.getSeconds()
+    })
+    watch(() => props.bodyValue, (val: Date) => {
+      state.selectValue = val
     })
     const setInnerText: any = inject(`${prefixCls}SetInnerText`, '')
     const setDisabledDate: any = inject(`${prefixCls}SetDisabledDate`, '')
