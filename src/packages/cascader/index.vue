@@ -1,43 +1,43 @@
 <!--Created by 337547038 on 2021.6.-->
 <template>
-  <div ref="el" :class="{[`${prefixCls}-cascader`]:true,'disabled':disabledOk}" :style="{width:width}">
-    <div
-      :class="{[prefixCls+'-input-control']:true,
-               'focus':show,
-               'placeholder':showPlaceholder,
-               'disabled':disabledOk}"
-      v-text="showValue"></div>
-    <span class="group-icon">
-      <i v-if="clear&&modelValue.length>0" class="icon-close clear" title="清空" @click="clearClick"></i>
-      <i class="icon-arrow" :class="{'is-down':show}"></i>
-    </span>
-    <span v-show="show" class="mask"></span>
-    <transition name="slide-toggle">
-      <div v-show="show" class="cascader-down" @click="stopPropagation">
-        <p v-if="tipsText" class="tips" v-text="tipsText"></p>
-        <div class="cascader-tab">
-          <ul class="clearfix">
-            <li
-              v-for="(item,index) in selectValue"
-              :key="index"
-              :class="{'active':index===activeLayer}"
-              @click="activeLayer=index"
-              v-text="item.name"></li>
-          </ul>
-        </div>
-        <div class="cascader-area">
-          <ul class="clearfix">
-            <li v-for="(item,index) in children" :key="index" :title="item.name">
-              <a @click="childrenClick(item)" v-text="item.name"></a>
-            </li>
-          </ul>
-        </div>
+  <select-down
+    v-bind="$props"
+    ref="selectDown"
+    :options="[]"
+    :class="{[`${prefixCls}-cascader`]:true}"
+    :model-value="showLabel"
+    @clear="clearClick"
+    @delete="deleteClick"
+    @input="inputChange"
+    @blur="inputBlur"
+    @toggleClick="toggleClick">
+    <div :class="{[`${prefixCls}-cascader-down`]:true}" @click.stop="">
+      <slot name="tips"></slot>
+      <!--      <div class="cascader-tab">
+              <ul class="clearfix">
+                <li
+                  v-for="(item,index) in selectValue"
+                  :key="index"
+                  :class="{'active':index===activeLayer}"
+                  @click="activeLayer=index"
+                  v-text="item.label"></li>
+              </ul>
+            </div>-->
+      <div class="cascader-area">
+        <ul v-for="(item,index) in downDataList" :key="index">
+          <li
+            v-for="li in item"
+            :key="li.label"
+            :class="getChecked(li,index)"
+            v-text="li.label"
+            @click="childrenClick(li,index,$event)">
+          </li>
+        </ul>
       </div>
-    </transition>
-  </div>
+    </div>
+  </select-down>
 </template>
 <script lang="ts">
-import cityData from './cityData.json'
 import {prefixCls} from '../prefix'
 import {
   defineComponent,
@@ -53,30 +53,208 @@ import {
 } from 'vue'
 import pType from '../util/pType'
 import {getFormDisabled} from '../util/form'
+import SelectDown from '../selectDown/index.vue'
 
 type cityProps = {
-  name: string
-  children: any
+  label: string
+  value?: [string, number]
+  children?: any
 }
 export default defineComponent({
   name: `${prefixCls}Cascader`,
+  components: {SelectDown},
   props: {
     modelValue: pType.array([]),
+    width: pType.string(),
+    multiple: pType.bool(),
+    collapseTags: pType.bool(), // 多选模式下是否折叠Tag
+    clear: pType.bool(),// 是否支持清空选项
+    filterable: pType.bool(),// 是否可搜索选项
+    size: pType.string(), // 尺寸
     placeholder: pType.string(),
     disabled: pType.bool(),
-    tipsText: pType.string(), // 下拉框下面的提示文字
+    direction: pType.number(0),//0自动　1向下　2向上
+    downClass: pType.string(),
+    downStyle: pType.object(),
+    appendToBody: pType.bool(false),
+    downHeight: pType.number(0), // 显示下拉最大高度，超出显示滚动条
+    options: pType.array<cityProps>(), // 参数非必要，来自于select
+    // icon: pType.string('arrow'),
     selectText: pType.array(['请选择省', '请选择市', '请选择区']),
-    data: pType.array<cityProps>(cityData),// 下拉选项数据
-    clear: pType.bool(false), // 显示清空按钮
-    width: pType.string()
+    listType: pType.string('city'), // 显示类型，这种模式只能单选multiple=false
+    lazy: pType.bool(),
+    checkAny: pType.bool() // 选择任意一级选项
   },
   emits: ['update:modelValue', 'change'],
   setup(props, {emit}) {
+    const state = reactive<any>({
+      downDataList: [], // 下拉面板的数据
+      checked: [], // 用来判断点击选中状态
+      checkedMultiple: []// 用来判断点击选中状态，多选时需要使用，多选时临时点击
+    })
+    const selectDown = ref()
+    // 用于展示的值，格式化后显示于输入框的值
+    const showLabel = computed(() => {
+      // modelValue=[0,1,2] // 值模式
+      // modelValue=[[0,1,2],[3,4,5]] // 值模式 multiple=true
+      // 根据选择的值返回label
+      let labelArray: any = []
+      getLabel(props.modelValue, labelArray)
+      return labelArray
+
+      function getLabel(data: any, labelArray: any) {
+        const temp: any = []
+        let options = props.options
+        data.forEach((item: any) => {
+          if (typeof item === 'object') {
+            // 多选
+            getLabel(item, labelArray)
+          } else {
+            // getLabelValue里有对downDataList赋值的方法，多选时不赋值
+            const val = getOptionsItem(options, item, 'label')
+            // console.log('push:' + val)
+            val && temp.push(val.label)
+            options = val.children
+          }
+        })
+        if (temp.length > 0) {
+          labelArray.push(temp.join('/'))
+        }
+      }
+    })
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    const clearClick = () => {
+
+    }
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    const deleteClick = () => {
+
+    }
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    const inputChange = () => {
+
+    }
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    const inputBlur = () => {
+
+    }
+    // 下拉项点击
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    const childrenClick = (obj, index, evt) => {
+      if (!props.multiple && evt.target.className === 'checked') {
+        return // 单选状态下点击选中的不处理
+      }
+      // 先从downDataList中称除下面所有子组
+      state.downDataList.splice(index + 1, state.downDataList.length - index + 1)
+      // 追加当前项的子集
+      if (obj.children) {
+        state.downDataList.push(obj.children)
+      }
+    }
+    // 根据value值返回相应值
+    // type= true 返回当前项
+    // type= 返回data
+    const getOptionsItem = (data: any, val: [string, number], type: string) => {
+      for (const key in data) {
+        const value = data[key].value
+        const hasValue = value === undefined ? data[key].label === val.toString() : value === val
+        if (hasValue) {
+          if (type) {
+            return data[key]
+          } else {
+            return JSON.parse(JSON.stringify(data))
+          }
+        }
+        const labelV: string = getOptionsItem(data[key].children, val, type)
+        if (labelV) {
+          return labelV
+        }
+      }
+      return null
+    }
+    // 根据value值返回对就的label，没有value时匹配label
+    /*const getLabelValue = (data: any, val: [string, number], setDown = true) => {
+      for (const key in data) {
+        const value = data[key].value
+        const hasValue = value === undefined ? data[key].label === val.toString() : value === val
+        if (hasValue) {
+          // const copyData = JSON.parse(JSON.stringify(data))
+          // setDown && state.downDataList.push(copyData)
+          return data[key].label
+        }
+        const labelV: string = getLabelValue(data[key].children, val, setDown)
+        if (labelV) {
+          return labelV
+        }
+      }
+      return null
+    }*/
+    // 返回当前选中的栏目类名
+    const getChecked = (li: cityProps, index: number) => {
+      if (state.checked.length > 0) {
+        const label = li.value === undefined ? li.label : li.value
+        // console.log(label)
+        if (props.multiple) {
+          for (const key in state.checked) {
+            const h = has(label, state.checked[key], index)
+            if (h) {
+              return h
+            }
+          }
+        } else {
+          return has(label, state.checked, index)
+        }
+
+        // 判断当前值是否存在于modelValue中
+
+        function has(val: any, checked: any, index: number) {
+          return checked[index] === val ? 'checked' : ''
+        }
+      }
+    }
+    // 展开下拉
+    const toggleClick = () => {
+      const length = props.modelValue.length
+      if (length === 0) {
+        // 没有值时返回第一层
+        state.downDataList = [props.options]
+      } else {
+        // 多选时返回第一个选项
+        const value: any = props.multiple ? props.modelValue[0] : props.modelValue
+        // 重新对downDataList设值
+        for (const key in value) {
+          const val = getOptionsItem(props.options, value[key], '')
+          if (val) {
+            state.downDataList.push(val) // 每次点击下拉重新设置下拉的选项，恢复上次点击的状态
+          }
+        }
+      }
+      if (length > 0) {
+        // 处理下拉选中高亮
+        state.checked = JSON.parse(JSON.stringify(props.modelValue))
+      }
+    }
+    onMounted(() => {
+
+    })
+    return {
+      ...toRefs(state),
+      selectDown,
+      clearClick,
+      deleteClick,
+      inputChange,
+      inputBlur,
+      childrenClick,
+      getChecked,
+      showLabel,
+      toggleClick,
+      prefixCls
+    }
+  }
+  /*setup001(props, {emit}) {
     const state = reactive({
-      show: false,
       activeLayer: 0, // 当前第几级
-      showValue: props.placeholder, // 用于展示的值，格式化后显示于输入框的值
-      showPlaceholder: !!props.placeholder
+      showLabel: [] // 用于展示的值，格式化后显示于输入框的值
     })
     // [index: string]: any;
     const selectValue = ref<any>([])// 暂存的值，加工后的数组，同时保存了当前值所在数组的位置
@@ -263,6 +441,6 @@ export default defineComponent({
       childrenClick,
       disabledOk
     }
-  }
+  }*/
 })
 </script>

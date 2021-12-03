@@ -9,6 +9,7 @@
     &:hover {
       .icon-close {opacity: 1}
     }
+    >input{padding-right: 25px;overflow: hidden;white-space: nowrap;text-overflow: ellipsis} //预留方向icon位置
   }
   &.disabled {cursor: not-allowed;
     .icon-close {display: none}

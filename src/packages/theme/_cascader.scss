@@ -1,4 +1,14 @@
 @charset "utf-8";
+@include ns(cascader) {
+  .cascader-area {display: flex;
+    ul {margin: 0 10px;}
+    .checked {color: $primary}
+  }
+  @include ns(select-down-pane) {
+    width: auto;
+  }
+}
+/*
 @include ns(cascader) { display: inline-block; position: relative;
   //用个标签挡住输入框底边线
   .mask { content: ''; height: 2px; background: #fff; position: absolute; left: 0; top: 36px; width: 100%; display: block; z-index: 100; border-left: 1px solid $primary; border-right: 1px solid $primary; box-sizing: border-box; }
@@ -35,3 +45,4 @@
     }
   }
 }
+*/
