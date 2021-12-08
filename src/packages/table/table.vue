@@ -1,54 +1,56 @@
 <!-- Created by 337547038 on 2021/6/22 0022. -->
 <template>
-  <div
-    ref="el"
-    :class="{[prefixCls+'-table']:true,[className]:className}"
-    :style="{width:width,height:height,overflowY: height?'auto':'',overflowX: width?'auto':''}">
-    <div style="display: none">
-      <slot></slot>
-    </div>
-    <table
-      :class="{'no-stripe':!stripe,
+  <div>
+    <div
+      ref="el"
+      :class="{[prefixCls+'-table']:true,[className]:className}"
+      :style="{width:width,height:height,overflowY: height?'auto':'',overflowX: width?'auto':''}">
+      <div style="display: none">
+        <slot></slot>
+      </div>
+      <table
+        :class="{'no-stripe':!stripe,
                'no-border':!border,
                'no-hover':!hover,
                'no-ellipsis':!ellipsis,
                [className]:className}">
-      <colgroup>
-        <col v-for="(col,index) in colWidth" :key="index" :width="col" :class="`column${index}`">
-      </colgroup>
-      <table-head
-        ref="tableHeadEl"
-        :drag="drag"
-        :title="title"
-        :sort-single="sortSingle"
-        :show-header="showHeader"
-        :select-checked="selectChecked"
-        :head-max-layer="headMaxLayer"
-        @event="tableHeadEvent" />
-      <tbody v-if="data.length===0">
-        <tr>
-          <td :colspan="columnsData.length" class="empty">
-            {{ emptyText }}
-          </td>
-        </tr>
-      </tbody>
-      <table-body
-        v-else
-        :data="data"
-        :row-col-span="rowColSpan"
-        :has-child="hasChild"
-        :lazy-load="lazyLoad"
-        :extend-toggle="extendToggle"
-        :title="title"
-        :selected-rows="selectedRows"
-        @rowClick="rowClick"
-        @cellClick="cellClick" />
-    </table>
+        <colgroup>
+          <col v-for="(col,index) in colWidth" :key="index" :width="col" :class="`column${index}`">
+        </colgroup>
+        <table-head
+          ref="tableHeadEl"
+          :drag="drag"
+          :title="title"
+          :sort-single="sortSingle"
+          :show-header="showHeader"
+          :select-checked="selectChecked"
+          :head-max-layer="headMaxLayer"
+          @event="tableHeadEvent" />
+        <tbody v-if="data.length===0">
+          <tr>
+            <td :colspan="columnsData.length" class="empty">
+              {{ emptyText }}
+            </td>
+          </tr>
+        </tbody>
+        <table-body
+          v-else
+          :data="data"
+          :row-col-span="rowColSpan"
+          :has-child="hasChild"
+          :lazy-load="lazyLoad"
+          :extend-toggle="extendToggle"
+          :title="title"
+          :selected-rows="selectedRows"
+          @rowClick="rowClick"
+          @cellClick="cellClick" />
+      </table>
+      <div v-if="dragLine&&drag&&dragHead.mouseDown" class="table-drag-line"></div>
+    </div>
     <Pagination
       v-if="Object.keys(pagination).length>0"
       :total="data&&data.length"
       v-bind="pagination" />
-    <div v-if="dragLine&&drag&&dragHead.mouseDown" class="table-drag-line"></div>
   </div>
 </template>
 
@@ -89,7 +91,7 @@ export default defineComponent({
     columns: pType.array(), // 表头数据
     pagination: pType.object() // 分页相关参数
   },
-  emits: ['selectClick', 'sortChange', 'rowClick', 'cellClick', 'dragChange'],
+  emits: ['selectClick', 'sortChange', 'rowClick', 'cellClick', 'dragChange', 'scroll'],
   setup(props, {emit, slots}) {
     const el = ref()
     const tableHeadEl = ref()
@@ -386,12 +388,27 @@ export default defineComponent({
     const getSelectAll = () => {
       return state.selectedRows
     }
+    // 监听表格滚到
+    const watchScroll = () => {
+      const scrollTop = el.value.scrollTop // 滚到条的位置
+      const tableHeight = el.value.clientHeight // 窗口高度
+      const scrollHeight = el.value.scrollHeight // 文档高度
+      let bottom = false
+      if (scrollTop + tableHeight === scrollHeight) {
+        // 到底部
+        bottom = true
+      }
+      emit('scroll', scrollTop, bottom, el.value)
+    }
     onMounted(() => {
       getColWidth()
       window.addEventListener('keydown', keydown)
       window.addEventListener('keyup', keyup)
       if (props.drag) {
         document.addEventListener('mouseup', headMouseUp)
+      }
+      if (props.height) {
+        el.value.addEventListener('scroll', watchScroll)
       }
       // 固定表头和列初始
       nextTick(() => {
@@ -404,6 +421,9 @@ export default defineComponent({
       // window.removeEventListener('resize', resize)
       if (props.drag) {
         document.removeEventListener('mouseup', headMouseUp)
+      }
+      if (props.height) {
+        el.value && el.value.removeEventListener('scroll', watchScroll)
       }
     })
     return {
