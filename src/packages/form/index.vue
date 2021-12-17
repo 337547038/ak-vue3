@@ -46,6 +46,18 @@ export default defineComponent({
         item.clear()
       })
     }
+    // 清空校验提示
+    const clearValidate = (field?: string[]) => {
+      formItemFields && formItemFields.forEach((item: any) => {
+        if (field) {
+          if (field.indexOf(item.prop) !== -1) {
+            item.clear()
+          }
+        } else {
+          item.clear()
+        }
+      })
+    }
     const validate = (field?: string[]) => {
       let allTips: string[] = []
       let validateFields = formItemFields
@@ -91,6 +103,7 @@ export default defineComponent({
       ...toRefs(state),
       setValue,
       resetForm,
+      clearValidate,
       validate
     }
   }

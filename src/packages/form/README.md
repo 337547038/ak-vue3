@@ -291,8 +291,9 @@ export default {
 
 ### Form Methods
 
-|参数|说明|
-|----------|--------------|
-|validate       |对单个表单项进行校验的方法，Promise返回验证结果|
-|resetForm      |重置表单|
-|setValue       |使用resetForm功能时，当表单数据发生改变，需使用setValue设置|
+|参数| 说明                                               |
+|----------|--------------------------------------------------|
+|validate       | 对单个表单项进行校验的方法，Promise返回验证结果                      |
+|clearValidate  | 移除表单项的校验结果。传入待移除的表单项的 prop 组成的数组，如不传则移除整个表单的校验结果 |
+|resetForm      | 重置表单                                             |
+|setValue       | 使用resetForm功能时，当表单数据发生改变，需使用setValue设置           |
