@@ -132,6 +132,35 @@ export default {
 </script>
 ```
 
+### 异步控制
+
+`beforeChange`切换前事件，`return false`阻止切换
+
+```vue demo
+<template>
+  <p>
+    <ak-switch v-model="switch7" :beforeChange="beforeChange" />
+  </p>
+</template>
+<script>
+import {ref} from 'vue'
+
+export default {
+  setup() {
+    const switch7 = ref(false)
+    const beforeChange=()=>{
+      alert('不能切换')
+      return false
+    }
+    return {
+      switch7,
+      beforeChange
+    }
+  }
+}
+</script>
+```
+
 ## API
 
 ### Switch
@@ -144,6 +173,7 @@ export default {
 |activeColor    | String         |设置打开时颜色值|
 |closeValue     | String         |设置关闭状态时的值|
 |activeValue    | String         |设置打开状态时的值|
+|beforeChange   | Function       |选项改变前事件,return false阻止选择|
 
 ### Switch Event
 

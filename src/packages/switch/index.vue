@@ -31,7 +31,8 @@ export default defineComponent({
     activeColor: pType.string(), // 打开时的颜色
     closeColor: pType.string(), // 关闭时的颜色
     activeValue: [String, Number], // switch 打开时的值
-    closeValue: [String, Number] // switch 关闭时的值
+    closeValue: [String, Number], // switch 关闭时的值
+    beforeChange: pType.func()
   },
   emits: ['update:modelValue', 'change'],
   setup(props, {emit}) {
@@ -67,6 +68,9 @@ export default defineComponent({
     })
     const click = () => {
       if (!disabledOk.value) {
+        if (props.beforeChange && !props.beforeChange()) {
+          return
+        }
         let checked
         if (!status.value) {
           if (props.activeValue) {
