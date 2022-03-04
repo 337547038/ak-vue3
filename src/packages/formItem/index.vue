@@ -1,21 +1,21 @@
 <!-- Created by 337547038 on 2021/6/14. -->
 <template>
   <div
-    :class="{className,[prefixCls+'-form-item-error']:errorTips!=='',[prefixCls+'-form-item']:true,['form-item-'+formSize]:formSize}">
+      :class="{className,[prefixCls+'-form-item-error']:errorTips!=='',[prefixCls+'-form-item']:true,['form-item-'+formSize]:formSize}">
     <label
-      v-if="label || $slots.label"
-      v-show="!labelVisible"
-      :class="{'required':isRequired,[prefixCls+'-form-label']:true}"
-      :style="labelStyle">
+        v-if="label || $slots.label"
+        v-show="!labelVisible"
+        :class="{'required':isRequired,[prefixCls+'-form-label']:true}"
+        :style="labelStyle">
       <slot name="label">{{ label }}</slot>
     </label>
     <div :class="`${prefixCls}-form-box`">
       <slot></slot>
-      <template v-if="iconType&&messageShow&&rules2&&rules2.length>0">
+      <template v-if="iconType&&messageShow&&(rules2&&rules2.length>0 || error)">
         <div v-if="errorTips===''" :class="`${prefixCls}-form-tips ${iconType}`"></div>
         <div
-          v-else
-          :class="`${prefixCls}-form-tips`">
+            v-else
+            :class="`${prefixCls}-form-tips`">
           <i :class="[iconType]"></i>
           <span v-text="errorTips"></span>
         </div>
@@ -28,7 +28,7 @@
 <script lang="ts">
 import {prefixCls} from '../prefix'
 import Validate from './validate'
-import {provide, defineComponent, reactive, computed, toRefs, inject, onMounted} from 'vue'
+import {provide, defineComponent, reactive, computed, toRefs, inject, onMounted, watch} from 'vue'
 import pType from '../util/pType'
 import {AnyPropName} from '../types'
 
@@ -45,7 +45,8 @@ export default defineComponent({
     showMessage: pType.bool(true),
     trigger: pType.oneOfString(['change', 'blur'], 'change'),
     labelWidth: pType.string(),
-    size: pType.string()
+    size: pType.string(),
+    error: pType.string()
   },
   setup(props) {
     const formProps: AnyPropName = inject(`${prefixCls}FormProps`, {})
@@ -74,6 +75,17 @@ export default defineComponent({
       messageShow: getFormProps(props.showMessage, formProps.showMessage),// 优先使用form的
       controlValue: '', // 组件的值，改变事件时*/
       formSize: props.size ? props.size : formProps && formProps.size
+    })
+    // 手动自定义错误设置
+    const setError = (error: string) => {
+      if (error) {
+        state.errorTips = error
+        state.iconType = 'icon-failure'
+      }
+    }
+    setError(props.error)
+    watch(() => props.error, (val: string) => {
+      setError(val)
     })
     // 有快速校验规则，追加
     if (props.verify) {
@@ -129,7 +141,10 @@ export default defineComponent({
         value2 = state.controlValue
       }
       return new Promise((resolve, reject) => {
-        if (state.rules2) {
+        // 当手动设置了error时，则为不通过状态
+        if (props.error) {
+          reject(state.errorTips)
+        } else if (state.rules2) {
           const result = Validate(value2, state.rules2)
           if (result === true) {
             // 通过
@@ -170,7 +185,7 @@ export default defineComponent({
     const getFormItemFields: any = inject(`${prefixCls}GetFormItemFields`, '')
     const getAllFormItemFields = () => {
       // 所有带校验规则的
-      if (state.rules2.length > 0 && getFormItemFields) {
+      if ((state.rules2.length > 0 || props.error) && getFormItemFields) {
         getFormItemFields({
           validate: validate,
           clear: clearTips,

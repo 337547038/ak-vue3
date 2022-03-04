@@ -181,18 +181,19 @@ export default {
 
 ### FormItem Props
 
-|参数|类型|说明|
-|----------|--------------|--------|
-|label          | string         |显示的标签名|
-|labelVisible   | boolean/false  |隐藏label|
-|prop           | string         |表单校验时关联表单的校验规则|
-|required       | boolean/true   |是否根据验证规则自动生成必填样式名|
-|verify         | string         |快速验证，支持required, mobile, tel, mail, digits, number,phone 多个用逗号隔开|
-|rules          | array          |校验规则|
-|showMessage    | boolean/true   |显示错误提示，在form使用时，优先使用form的设置|
-|trigger        | string/change  |change和blur两种，在form使用时，优先使用form的设置|
-|labelWidth     | string         |label的宽度|
-|size           | string         |用于控制该表单内组件的尺寸，medium / small / mini|
+| 参数           |类型|说明|
+|--------------|--------------|--------|
+| label        | string         |显示的标签名|
+| labelVisible | boolean/false  |隐藏label|
+| prop         | string         |表单校验时关联表单的校验规则|
+| required     | boolean/true   |是否根据验证规则自动生成必填样式名|
+| verify       | string         |快速验证，支持required, mobile, tel, mail, digits, number,phone 多个用逗号隔开|
+| rules        | array          |校验规则|
+| showMessage  | boolean/true   |显示错误提示，在form使用时，优先使用form的设置|
+| trigger      | string/change  |change和blur两种，在form使用时，优先使用form的设置|
+| labelWidth   | string         |label的宽度|
+| size         | string         |用于控制该表单内组件的尺寸，medium / small / mini|
+| error        | string         |表单域验证错误信息, 设置该值会使表单验证状态变为error，并显示该错误信息|
 
 ### FormItem Rules 验证规则
 
