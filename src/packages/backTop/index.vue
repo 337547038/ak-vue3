@@ -4,7 +4,7 @@
     ref="element"
     :class="`${prefixCls}-back-top`"
     :style="{right:right+'px',bottom:bottom+'px',opacity:show?1:0,visibility:show?'visible':'hidden'}"
-    @click="elClick">
+    @click.stop="elClick">
     <a href="javascript:;" class="icon-top" v-text="text"></a>
   </div>
 </template>
@@ -28,27 +28,33 @@ export default defineComponent({
     const show = ref(false)
     // const element = ref<HTMLInputElement>()
     const element = ref()
+    let stop: any = null
     const elClick = () => {
       smoothscroll()
 
       function smoothscroll() {
         const currentScroll = scrollTop()
         if (currentScroll > 0) {
-          window.requestAnimationFrame(smoothscroll)
+          stop = window.requestAnimationFrame(smoothscroll)
           window.scrollTo(0, currentScroll - (currentScroll / 5))
         }
       }
 
       emit('click')
     }
+    const documentClick = () => {
+      stop && window.cancelAnimationFrame(stop)//可以取消该次动画
+    }
     onMounted(() => {
       nextTick(() => {
         document.body.appendChild(element.value)
         window.addEventListener('scroll', windowScroll)
+        document.addEventListener('click', documentClick)
       })
     })
     onBeforeUnmount(() => {
       window.removeEventListener('scroll', windowScroll)
+      document.removeEventListener('click', documentClick)
       if (element.value && element.value.parentNode) {
         element.value.parentNode.removeChild(element.value)
       }
