@@ -312,12 +312,12 @@ export default {
 
 ### CheckboxGroup
 
-> options
 
 |参数|类型|说明|
 |----------|--------------|--------|
 |v-model        | Array           |当前选中的值|
 |options        | Array           |选项数据|
+| optionsKey    | object        | 指定选择数据的label和value属于，默认{label:'label',value:'value'} |
 |max            | number          |可被勾选的 checkbox 的最大数量|
 |min            | number          |可被勾选的 checkbox 的最小数量|
 |disabled       | Boolean/false   |禁用组|

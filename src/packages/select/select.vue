@@ -15,9 +15,9 @@
         v-show="!item._disabled"
         :key="index"
         :class="{'disabled':item.disabled,'active':getActive(item),[item.class]:item.class}"
-        :title="item.label"
+        :title="item[optionsKey.label]"
         @click="itemClick(item,$event)"
-        v-html="getItemText(item.label)">
+        v-html="getItemText(item[optionsKey.label])">
       </li>
     </ul>
     <slot></slot>
@@ -49,6 +49,7 @@ export default defineComponent({
     multipleLimit: pType.number(0),
     placeholder: pType.string(), // 默认显示的文本
     options: pType.array<FormControlOption>([]), // 下拉选顶
+    optionsKey: pType.object({label: 'label', value: 'value'}),
     beforeChange: pType.func(true),
     disabled: pType.bool(),
     filterable: pType.bool(), // 是否可搜索
@@ -79,19 +80,25 @@ export default defineComponent({
     watch(() => props.options, () => {
       setFirstText()
     })
+
+    // const optLabel = 'label'
+    //const optionsKey = toRef(props, 'optionsKey').value
+    const {optionsKey} = toRefs(props)
+    const optLabel = optionsKey.value.label
+    const optValue = optionsKey.value.value
     const inputBlur = (value: string) => {
       // 搜索输入框失焦时，判断输入的值是否符合
       if (!props.filterable) {
         return
       }
       const filter = props.options.filter(item => {
-        return item.label === value && !item.disabled
+        return item[optLabel] === value && !item.disabled
       })
       if (filter.length > 0) {
         // 输入框符合要求，检查下当前项是不是已选择
         let hasItem = false
         state.checked.forEach((item: any) => {
-          if (item.label === filter[0].label) {
+          if (item[optLabel] === filter[0][optLabel]) {
             hasItem = true
           }
         })
@@ -118,7 +125,7 @@ export default defineComponent({
       if (!props.async) {
         // 从当前下拉列表筛选
         props.options.forEach(item => {
-          item._disabled = item.label.indexOf(value) === -1
+          item._disabled = item[optLabel].indexOf(value) === -1
         })
       }
       state.setFirst = true
@@ -160,7 +167,7 @@ export default defineComponent({
       }
     }
     const getValueLabel = (obj: any) => {
-      return obj.value === undefined ? obj.label : obj.value
+      return obj[optValue] === undefined ? obj[optLabel] : obj[optValue]
     }
     const itemClick = (item: FormControlOption, evt: MouseEvent) => {
       if (!item.disabled) {
@@ -228,7 +235,7 @@ export default defineComponent({
     }
     // 选中的文本值
     const showLabel = computed(() => {
-      return state.checked.map((item: any) => item.label)
+      return state.checked.map((item: any) => item[optLabel])
     })
     // 清空事件
     const clearClick = () => {

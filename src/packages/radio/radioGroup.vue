@@ -5,10 +5,10 @@
       v-for="(item,index) in options"
       :key="index"
       v-model="groupValue"
-      :value="item.value"
+      :value="item[optionsKey.value]"
       :disabled="disabled||item.disabled"
       @change="change($event,item)">
-      {{ item.label }}
+      {{ item[optionsKey.label] }}
     </Radio>
   </div>
 </template>
@@ -25,6 +25,7 @@ export default defineComponent({
   props: {
     modelValue: pType.string(),
     options: pType.array<FormControlOption>(),
+    optionsKey: pType.object({label: 'label', value: 'value'}),
     disabled: pType.bool() // 控制整个组
   },
   emits: ['update:modelValue', 'change'],

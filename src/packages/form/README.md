@@ -84,7 +84,7 @@ export default {
 ```vue demo
 <template>
   <div>
-    <ak-form ref="formEl" v-model="formValue" :rules="formRules" size="mini" :disabled="true">
+    <ak-form ref="formEl" v-model="formValue" :rules="formRules" size="mini">
       <ak-form-item label="用户名" prop="userName">
         <ak-input v-model="formValue.userName" placeholder="请输入用户名" />
       </ak-form-item>

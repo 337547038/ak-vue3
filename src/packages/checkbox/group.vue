@@ -5,8 +5,8 @@
       v-for="(item,index) in options"
       :key="index"
       v-model="groupValue"
-      :value="item.value"
-      :label="item.label||item.value"
+      :value="item[optionsKey.value]"
+      :label="item[optionsKey.label]||item[optionsKey.value]"
       :disabled="disabled||item._disabled||item.disabled"
       :class="item.class"
       :before-change="beforeChange"
@@ -17,7 +17,7 @@
 import Checkbox from './checkbox.vue'
 import {prefixCls} from '../prefix'
 import pType from '../util/pType'
-import {defineComponent, ref, watch} from 'vue'
+import {defineComponent, ref, watch,toRefs} from 'vue'
 import {FormControlOption} from '../types'
 
 export default defineComponent({
@@ -25,6 +25,7 @@ export default defineComponent({
   components: {Checkbox},
   props: {
     options: pType.array<FormControlOption>(),
+    optionsKey: pType.object({label: 'label', value: 'value'}),
     modelValue: pType.array<string[]>([]),
     name: String,
     max: pType.number(),
@@ -38,19 +39,21 @@ export default defineComponent({
     watch(() => props.modelValue, (v: any) => {
       groupValue.value = v
     })
+    const {optionsKey} = toRefs(props)
+    const optValue = optionsKey.value.value
     const setChecked = (arr: string[]) => {
       const newLen = arr.length
       if (newLen >= props.max) {
         // 将所有未勾选的设为禁用状态
         props.options.forEach((item: any) => {
-          if (arr.indexOf(item.value) === -1) {
+          if (arr.indexOf(item[optValue]) === -1) {
             item._disabled = true
           }
         })
       } else if (newLen <= props.min) {
         // 将所有已勾选的设为禁用状态
         props.options.forEach((item: any) => {
-          if (arr.indexOf(item.value) !== -1) {
+          if (arr.indexOf(item[optValue]) !== -1) {
             item._disabled = true
           }
         })
@@ -72,16 +75,16 @@ export default defineComponent({
       props.options && props.options.forEach((item: any) => {
         if (boolean) {
           // 全选时
-          if (item.disabled && props.modelValue.indexOf(item.value) === -1) {
+          if (item.disabled && props.modelValue.indexOf(item[optValue]) === -1) {
             // 禁用且没有勾选的过滤
           } else {
-            value.push(item.value)
+            value.push(item[optValue])
           }
         } else {
           // 取消选择时
-          if (item.disabled && props.modelValue.indexOf(item.value) !== -1) {
+          if (item.disabled && props.modelValue.indexOf(item[optValue]) !== -1) {
             // 禁用且没有勾选的过滤
-            value.push(item.value)
+            value.push(item[optValue])
           }
         }
       })
@@ -90,7 +93,7 @@ export default defineComponent({
     // 返回所选值
     const getValue = () => {
       return props.options.filter((item: any) => {
-        return props.modelValue.indexOf(item.value) !== -1
+        return props.modelValue.indexOf(item[optValue]) !== -1
       })
     }
     return {

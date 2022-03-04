@@ -160,6 +160,7 @@ export default {
 |----------|--------------|--------|
 |v-model         | string         |Radio组 的 v-model|
 |options         | array          |组数据|
+| optionsKey    | object        | 指定选择数据的label和value属于，默认{label:'label',value:'value'} |
 |disabled        | Boolean/false   |禁用组|
 
 ### Radio Group Event

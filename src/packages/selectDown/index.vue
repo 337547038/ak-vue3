@@ -99,7 +99,7 @@ export default defineComponent({
     options: pType.array(), // 参数非必要，来自于select
     icon: pType.string('arrow')
   },
-  emits: ['update:modelValue', 'change', 'blur', 'toggleClick', 'clear', 'delete','input'],
+  emits: ['update:modelValue', 'change', 'blur', 'toggleClick', 'clear', 'delete', 'input'],
   setup(props, {emit}) {
     const el = ref()
     const selectDown = ref()
@@ -110,7 +110,8 @@ export default defineComponent({
         top: '',
         width: '',
         bottom: '',
-        left: ''
+        left: '',
+        '--var-min-width': ''
       },
       direction2: props.direction
     })
@@ -176,7 +177,7 @@ export default defineComponent({
         emit('change', value)
       }
     }
-    const inputInput=(e: Event)=>{
+    const inputInput = (e: Event) => {
       if (props.filterable) {
         const {value} = e.target as HTMLInputElement
         emit('input', value)
@@ -206,7 +207,8 @@ export default defineComponent({
           bottom: 'auto',
           width: offset.width + 'px',
           left: offset.left + 'px',
-          top: (offset.top + offset.height) + 'px'
+          top: (offset.top + offset.height) + 'px',
+          '--var-min-width': offset.width + 'px'
         }
         if (state.direction2 === 2) { // 向上
           state.appendStyle.top = 'auto'
