@@ -7,7 +7,7 @@
 ```vue demo
 <template>
   <div>
-    <ak-textarea v-model="textarea1" placeholder="placeholder" />
+    <ak-textarea v-model="textarea1" placeholder="placeholder"/>
   </div>
 </template>
 <script>
@@ -68,13 +68,37 @@ export default {
 
 ```
 
+### 显示输入字数
+在使用 `maxlength` 属性限制最大输入长度的同时，可通过设置 `show-word-limit` 属性来展示字数统计
+```vue demo
+<template>
+  <div>
+    <ak-textarea v-model="textarea1" placeholder="placeholder" :maxlength="10" showWordLimit/>
+  </div>
+</template>
+<script>
+import {ref} from 'vue'
+
+export default {
+  setup() {
+    const textarea1 = ref('')
+    return {
+      textarea1
+    }
+  }
+}
+</script>
+```
+
 ## API
 
 ### Textarea
 
-|参数|类型|说明|
-|----------|--------------|--------|
-|v-model        | String         |绑定的值|
-|autoHeight     | boolean/true   |自动高|
-|width          | String         |要带单位px/%|
-|height         | String         ||
+| 参数            | 类型            |说明|
+|---------------|---------------|--------|
+| v-model       | String        |绑定的值|
+| autoHeight    | boolean/true  |自动高|
+| width         | String        |要带单位px/%|
+| height        | String        ||
+| showWordLimit | boolena/false |原生属性，最大输入长度|
+| maxlength     | number        |是否显示输入字数统计|

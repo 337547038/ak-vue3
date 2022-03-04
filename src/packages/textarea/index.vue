@@ -1,12 +1,17 @@
 <!-- Created by 337547038 on 2021/6 0006. -->
 <template>
-  <textarea
-    ref="textareaEl"
-    v-model="textValue"
-    :class="{[`${prefixCls}-textarea ${prefixCls}-input-control`]:true,disabled:disabledOk}"
-    :style="style"
-    :disabled="disabledOk"
-    @input="change"></textarea>
+  <div :class="[`${prefixCls}-textarea`]">
+    <textarea
+      ref="textareaEl"
+      v-bind="$attrs"
+      v-model="textValue"
+      :class="{[`${prefixCls}-input-control`]:true,disabled:disabledOk}"
+      :style="style"
+      :disabled="disabledOk"
+      :maxlength="maxlength"
+      @input="change"></textarea>
+    <span v-if="showWordLimit&&maxlength" class="input-count">{{textValue.length}}/{{maxlength}}</span>
+  </div>
 </template>
 <script lang="ts">
 import {prefixCls} from '../prefix'
@@ -22,7 +27,9 @@ export default defineComponent({
     autoHeight: pType.bool(true),
     width: pType.string('100%'),
     height: pType.string('80px'),
-    disabled: pType.bool()
+    disabled: pType.bool(),
+    maxlength: pType.number(),
+    showWordLimit: pType.bool()
   },
   emits: ['update:modelValue'],
   setup(props, {emit}) {
