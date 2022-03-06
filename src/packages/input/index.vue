@@ -41,7 +41,7 @@
 import {prefixCls} from '../prefix'
 import {ref, defineComponent, computed, watch, inject, onMounted} from 'vue'
 import pType from '../util/pType'
-import {getFormDisabled} from "../util/form"
+import {getFormDisabled} from '../util/form'
 
 export default defineComponent({
   name: `${prefixCls}Input`,
