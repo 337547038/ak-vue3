@@ -394,7 +394,7 @@ export default defineComponent({
       const tableHeight = el.value.clientHeight // 窗口高度
       const scrollHeight = el.value.scrollHeight // 文档高度
       let bottom = false
-      if (scrollTop + tableHeight === scrollHeight) {
+      if (scrollTop + tableHeight >= scrollHeight - 3) {
         // 到底部
         bottom = true
       }
