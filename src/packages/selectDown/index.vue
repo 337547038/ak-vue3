@@ -108,7 +108,7 @@ export default defineComponent({
       valueLabel: JSON.parse(JSON.stringify(props.modelValue || [])),
       appendStyle: {
         top: '',
-        width: '',
+        minWidth: '',
         bottom: '',
         left: ''
       },
@@ -204,7 +204,7 @@ export default defineComponent({
         const offset = getOffset(el.value)
         state.appendStyle = {
           bottom: 'auto',
-          width: offset.width + 'px',
+          minWidth: offset.width + 'px',
           left: offset.left + 'px',
           top: (offset.top + offset.height) + 'px'
         }
