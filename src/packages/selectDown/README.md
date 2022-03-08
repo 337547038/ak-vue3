@@ -124,6 +124,36 @@ export default {
 
 ```
 
+### 插入到body中
+
+```vue demo
+<template>
+  <ak-select-down
+    v-model="modelValue"
+    appendToBody
+    placeholder="placeholder">
+    <p>21311</p>
+    <p>21311</p>
+  </ak-select-down>
+</template>
+<script>
+import {reactive, toRefs} from 'vue'
+
+export default {
+  components: {},
+  setup() {
+    const state = reactive({
+      modelValue: ['reactive']
+    })
+    return {
+      ...toRefs(state)
+    }
+  }
+}
+</script>
+
+```
+
 ## API
 
 ### SelectDown Props

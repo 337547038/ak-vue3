@@ -550,7 +550,9 @@ export default {
 ```
 
 ### 表头参数也支持slots
+
 默认slots为当前props，表头时为当前props-header
+
 ```vue demo
 <template>
   <div>
@@ -837,13 +839,14 @@ export default {
 
 ### Table Event
 
-| 参数 | 说明 |
-|----------|--------------|
-| selectClick    | 勾选单列事件，function(list,checked,row, index) list所有已勾选的row集合，checked当前状态，row当前点击行信息，index当前行序号|
-| sortChange     | 排序点击事件 |
-| rowClick       | 当前行点击事件，即tr点击事件，function(row,index) |
-| cellClick      | 当前列点击事件，即td点击事件，function(row,column,rowIndex, columnIndex) |
-| dragChange     | 拖动改变列表事件，返回所有列的宽度信息|
+| 参数          | 说明                                                                               |
+|-------------|----------------------------------------------------------------------------------|
+| selectClick | 勾选单列事件，function(list,checked,row, index) list所有已勾选的row集合，checked当前状态，row当前点击行信息，index当前行序号 |
+| sortChange  | 排序点击事件                                                                           |
+| rowClick    | 当前行点击事件，即tr点击事件，function(row,index)                                              |
+| cellClick   | 当前列点击事件，即td点击事件，function(row,column,rowIndex, columnIndex)                       |
+| dragChange  | 拖动改变列表事件，返回所有列的宽度信息                                                              |
+| scroll      | 表时滚动时的滚动事件，function(scrollTop,bottom,el)，scrollTop滚动条的位置，bottom是否滚动到底部,el当前滚动的对象 |
 
 ### Table Methods
 
@@ -856,19 +859,19 @@ export default {
 
 ### Table-column
 
-| 参数      | 类型          | 说明 |
-|----------|--------------|--------|
+| 参数           | 类型            | 说明|
+|----------|---------------|--------|
 | prop      | String        | 对应列内容的字段名|
 | label     | String        | 显示的标题|
 | width     | String        | 对应列的宽度|
 | className | String        | 对应列的类名|
 | align     | String        | 对齐方式，可选 left/center/right|
 | type      | String        | 对应列类型，可选 selection（多选）/index 序号/extend 扩展列|
-| fixed     | Boolean/false | 固定列，可选 left/right
-| sortBy    | Boolean/false | 当前列显示排序按钮
+| fixed     | Boolean/false | 固定列，可选 left/right|
+| sortBy    | Boolean/false | 当前列显示排序按钮|
 | title     | Boolean/false | 鼠标滑过单元格时显示 title 提示，仅当 table 的 title 为 false 时有效 |
 | drag      | Boolean/true  | 允许当前单元格拖动，仅在table的drag=true时有效|
-| formatter | function | 用来格式化内容,Function(row, column, cellValue, index)|
+| formatter | function      | 用来格式化内容,Function(row, column, cellValue, index)|
 
 ### Table-column Slot
 

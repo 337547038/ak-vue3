@@ -17,8 +17,8 @@
     input {cursor: not-allowed}
   }
   .multiple-text {height: auto;line-height: normal;display: flex;align-items: center;min-height: 40px;padding-right: 25px;
-    ul{
-      &:empty:before{content: attr(placeholder);color: #999}
+    ul {
+      &:empty:before {content: attr(placeholder);color: #999}
     }
     &.medium {min-height: 36px;}
     &.small {min-height: 32px;}
@@ -32,12 +32,12 @@
     input {width: 100%;outline: none;border: 0;display: inline-block;height: 26px;line-height: 26px;}
   }
   &.is-down {
-    .multiple-text,.select-control input {border-color: $primary}
+    .multiple-text, .select-control input {border-color: $primary}
   }
 }
 @include ns(select-down-pane) {
-  position: absolute;left: 0;background: #fff;border: 1px solid $primary;box-sizing: border-box;width: 100%;z-index: 50; border-radius: 0 0 2px 2px;border-top: 0;
-  &.top{
+  position: absolute;left: 0;background: #fff;border: 1px solid $primary;box-sizing: border-box;min-width: 100%;z-index: 50; border-radius: 0 0 2px 2px;border-top: 0;display: inline-block;
+  &.top {
     bottom: 37px;
   }
 }

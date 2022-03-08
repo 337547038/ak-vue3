@@ -26,8 +26,7 @@
 </template>
 <script lang="ts">
 import {
-  ref, reactive, defineComponent, toRefs, onMounted,
-  onBeforeUnmount, provide, inject, nextTick, watch
+  ref, reactive, defineComponent, toRefs, provide, inject, watch
 } from 'vue'
 import {prefixCls} from '../prefix'
 import DatePicker from './datePicker.vue'
