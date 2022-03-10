@@ -36,13 +36,13 @@ import {defineComponent, ref} from 'vue'
 
 export default defineComponent({
   setup() {
-    let visible = false
+    let visible = true
     const getName = (name: string) => {
       return name.substring(0, 1).toUpperCase() + name.substring(1)
     }
     let routesListFilter = ref<any>([])
     routesList.forEach((item: any) => {
-      if (item.name.indexOf('-README') !== -1) {
+      if (item.name.indexOf('-README') !== -1 && item.name.indexOf('.bak') === -1) {
         routesListFilter.value.push({
           name: item.name.replace('-README', ''),
           path: item.path.replace('/readme', '')

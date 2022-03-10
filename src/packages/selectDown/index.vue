@@ -65,6 +65,7 @@
         :class="{[prefixCls+'-select-down-pane']:true,[downClass]:downClass,top:direction2===2}"
         :style="downPanelStyle">
         <slot></slot>
+        <span class="down-arrow"></span>
       </div>
     </transition>
   </div>
@@ -110,8 +111,7 @@ export default defineComponent({
         top: '',
         minWidth: '',
         bottom: '',
-        left: '',
-        '--var-min-width': ''
+        left: ''
       },
       direction2: props.direction
     })
@@ -143,13 +143,13 @@ export default defineComponent({
       } else {
         state.visible = false
       }
-      emit('toggleClick', evt, state.visible)
+      emit('toggleClick', state.visible, evt)
       evt.stopPropagation()
     }
     // 添加一个事件，在展开的时候点击收起
     const selectControlClick = (evt: MouseEvent) => {
-      if (state.visible) {
-        slideUp()
+      if (state.visible && !props.filterable) { // 可搜索时不能关上
+        slideUp(evt)
         evt.stopPropagation()
       }
     }
@@ -165,8 +165,15 @@ export default defineComponent({
       emit('clear')
       evt.stopPropagation()
     }
-    const slideUp = () => {
-      state.visible = false
+    const slideUp = (evt: MouseEvent) => {
+      if (state.visible) { // =true就没必要执行了
+        evt && emit('toggleClick', false, evt)
+        state.visible = false
+      }
+    }
+    // 再次打开时可以调用这方法，首次使用没经过位置计算
+    const slideDown = () => {
+      state.visible = true
     }
     const updateModel = () => {
       emit('update:modelValue', state.valueLabel)
@@ -199,20 +206,25 @@ export default defineComponent({
     }
     // 计算插入body的位置样式
     const setAppendToBodyStyle = () => {
+      const offset = getOffset(el.value)
       if (props.appendToBody) {
         // let {getWindow, getOffset} = getDom()
         const ww = getWindow()
-        const offset = getOffset(el.value)
         state.appendStyle = {
           bottom: 'auto',
           minWidth: offset.width + 'px',
           left: offset.left + 'px',
-          top: (offset.top + offset.height) + 'px',
-          '--var-min-width': offset.width + 'px'
+          top: (offset.top + offset.height + 5) + 'px'
         }
         if (state.direction2 === 2) { // 向上
           state.appendStyle.top = 'auto'
           state.appendStyle.bottom = (ww.height - offset.top) + 'px'
+        }
+      } else {
+        state.appendStyle.top = (offset.height + 5) + 'px'
+        if (state.direction2 === 2) { // 向上
+          state.appendStyle.top = 'auto'
+          state.appendStyle.bottom = (offset.height + 5) + 'px'
         }
       }
     }
@@ -273,6 +285,7 @@ export default defineComponent({
       inputBlur,
       downPanelStyle,
       slideUp,
+      slideDown,
       prefixCls
     }
   }

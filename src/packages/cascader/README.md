@@ -2,95 +2,101 @@
 
 # Cascader 级联选择器
 
-地区数据来源：使用网上省市三级联系的地区js数据
-
 ### 基础用法
 
 ```vue demo
 <template>
   <div>
     <p>当前值：{{ value1 }}</p>
-    <ak-cascader v-model="value1" placeholder="请选择"/>
+    <ak-cascader v-model="value1" placeholder="请选择" :options="options"/>
   </div>
 </template>
-<script>
+<script setup>
 import {ref} from 'vue'
-
-export default {
-  setup() {
-    const value1 = ref([])
-    return {
-      value1
-    }
-  }
-}
+import options from './demo.json'
+const value1 = ref([])
 </script>
 ```
 
-### 初始值
-
+### 默认初始值
 ```vue demo
 <template>
   <div>
     <p>当前值：{{ value1 }}</p>
-    <ak-cascader v-model="value1" placeholder="请选择" />
+    <ak-cascader v-model="value1" placeholder="请选择" :options="options"/>
   </div>
 </template>
-<script>
+<script setup>
 import {ref} from 'vue'
-
-export default {
-  setup() {
-    const value1 = ref(["广东", "广州市", "天河区"])
-    return {
-      value1
-    }
-  }
-}
+import options from './demo.json'
+const value1 = ref(["广东,广州,白云"])
 </script>
 ```
 
-### 自定义下拉数据
-
+### 禁用选项
+通过在数据源中设置 `disabled` 字段来声明该选项是禁用的
 ```vue demo
 <template>
   <div>
-    <p>当前值：{{value5}}</p>
-    <ak-cascader v-model="value5" placeholder="请选择" :data="data"/>
+    <p>当前值：{{ value1 }}</p>
+    <ak-cascader v-model="value1" placeholder="请选择" :options="options"/>
   </div>
 </template>
-<script>
+<script setup>
 import {ref} from 'vue'
-export default {
-  setup () {
-  const value5 = ref([])
-  const data= [
-        {
-          name: '广东',
-          children: [
-            {
-              name: '广州',
-              children: ['天河', '白云', '越秀', '海珠']
-            },
-            {
-              name: '深圳'
-            },
-            {
-              name: '东莞'
-            }
-          ]
-        },
-        {
-          name: '北京',
-          children: ['东城区', '西城区', '朝阳区', '丰台区']
-        }
-      ]
-  return {
-     value5,
-     data
-  }
-  }
-}
+import options from './demo.json'
+const value1 = ref(["广东,广州,白云"])
+</script>
+```
+
+### 可清空
+通过在数据源中设置 `disabled` 字段来声明该选项是禁用的
+```vue demo
+<template>
+  <div>
+    <p>当前值：{{ value1 }}</p>
+    <ak-cascader v-model="value1" placeholder="请选择" :options="options" :clear="true"/>
+  </div>
+</template>
+<script setup>
+import {ref} from 'vue'
+import options from './demo.json'
+const value1 = ref(["广东,广州,白云"])
+</script>
+```
+
+### 多选
+通过在数据源中设置 `disabled` 字段来声明该选项是禁用的
+```vue demo
+<template>
+  <div>
+    <ak-cascader v-model="value1" placeholder="请选择" :options="options" :multiple="true"/>
+    <p>使用`collapseTags`折叠多选项</p>
+    <ak-cascader v-model="value1" placeholder="请选择" :options="options" :multiple="true" collapseTags/>
+  </div>
+</template>
+<script setup>
+import {ref} from 'vue'
+import options from './demo.json'
+const value1 = ref(["广东,广州,白云","上海,黄蒲区"])
+</script>
+```
+
+### 可搜索
+开启`filterable`可以快捷地搜索选项并选择
+```vue demo
+<template>
+  <div>
+  <p>单选可搜索</p>
+    <ak-cascader v-model="value1" placeholder="请选择" :options="options" filterable/>
+    <p>多选可搜索</p>
+    <ak-cascader v-model="value1" placeholder="请选择" :options="options" filterable multiple/>
+  </div>
+</template>
+<script setup>
+import {ref} from 'vue'
+import options from './demo.json'
+const value1 = ref(["广东,广州,白云"])
 </script>
 ```
 
@@ -98,24 +104,43 @@ export default {
 
 ### Cascader
 
-|参数|类型|说明|
-|----------|--------------|--------|
-|v-model        | Array          |当前值|
-|placeholder    | String         |提示点位|
-|disabled       | Boolean/false  |禁用|
-|tipsText       | String         |下拉提示文字|
-|selectText     | Array          |选择提示，默认['请选择省', '请选择市', '请选择区']|
-|data           | Array          |自定义下拉数据|
+| 参数            | 类型            | 说明                                                                                            |
+|---------------|---------------|-----------------------------------------------------------------------------------------------|
+| v-model       | array         | 显示的值                                                                                          |
+| width         | string        | 组件宽                                                                                           |
+| multiple      | boolean/false | 多选模式                                                                                          |
+| collapseTags  | boolean/false | 多选模式下是否折叠Tag                                                                                  |
+| clear         | boolean/false | 是否可清空                                                                                         |
+| filterable    | boolean/false | 是否可搜索选项                                                                                       |
+| size          | string        | 大小                                                                                            |
+| placeholder   | string        | 占位符                                                                                           |
+| disabled      | boolean/false | 禁用状态                                                                                          |
+| direction     | number        | 下拉的方向动画，0默认　1向下　2向上                                                                           |
+| downClass     | string        | 下拉面板类                                                                                         |
+| downStyle     | object        | 下拉面板样式                                                                                        |
+| appendToBody  | boolean/false | 下拉插入到body                                                                                     |
+| downHeight    | number        | 下拉的面板的高                                                                                       |
+| icon          | string        | icon图标                                                                                        |
+| options       | object        | 下拉面板选项数据                                                                                      |
+| optionsKey    | object        | 指定选择数据的`label`和`value`属于，默认{label:‘label’,value:‘value’}                                      |
+| showAllLevels | boolean/true  | 定义了是否显示完整的路径，将其赋值为`false`则仅显示最后一级                                                             |
+| lazy          | boolean/false | 是否动态加载子节点，需与 `lazyLoad` 方法结合使用                                                                |
+| lazyLoad      | function      | 加载动态数据的方法，仅在 `lazy` 为 `true` 时有效,function(node, resolve)，node为当前点击的节点，resolve为数据加载完成的回调(必须调用) |
+| checkAny      | boolean/false | 启用该功能后，选择任意一级选项。                                                                              |
+| emptyText      | string        | 无下拉数据提示文案                                                                                     |
 
 ### Cascader Event
 
-|参数| 说明|
-|----------|--------|
-|change      |选择回调|
+|参数| 说明          |
+|----------|-------------|
+|change      | 选择事件        |
+|searchChange| 可搜索时输入框输入事件 |
 
-### data
+### Cascader Options
 
-|参数|类型|说明|
-|----------|--------------|--------|
-|name           | String          |选项名称|
-|children       | Array           |子级数据，见自定义数据格式|
+| 参数       | 类型            | 说明            |
+|----------|---------------|---------------|
+| label    | String        | 选项名称          |
+| value    | String/number | 选项对应的值，应唯一    |
+| disabled | boolean       | 禁用当前项         |
+| children | Array         | 子级数据，见自定义数据格式 |

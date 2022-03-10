@@ -1,0 +1,137 @@
+[
+  {
+    "value": "广东",
+    "label": "广东",
+    "children": [
+      {
+        "value": "广州",
+        "label": "广州",
+        "children": [
+          {
+            "value": "天河",
+            "label": "天河"
+          },
+          {
+            "value": "白云",
+            "label": "白云"
+          },
+          {
+            "value": "越秀",
+            "label": "越秀"
+          },
+          {
+            "value": "海珠",
+            "label": "海珠"
+          }
+        ]
+      },
+      {
+        "value": "深圳",
+        "label": "深圳",
+        "children": [
+          {
+            "value": "罗湖区",
+            "label": "罗湖区"
+          },
+          {
+            "value": "宝安区",
+            "label": "宝安区"
+          },
+          {
+            "value": "南山区",
+            "label": "南山区"
+          },
+          {
+            "value": "龙岗区",
+            "label": "龙岗区"
+          },
+          {
+            "value": "盐田区",
+            "label": "盐田区"
+          }
+        ]
+      },
+      {
+        "value": "东莞",
+        "label": "东莞",
+        "children": [
+          {
+            "value": "长安",
+            "label": "长安"
+          },
+          {
+            "value": "虎门",
+            "label": "虎门"
+          },
+          {
+            "value": "茶山",
+            "label": "茶山"
+          }
+        ]
+      },
+      {
+        "label": "禁用测试",
+        "disabled": true,
+        "value": "1",
+        "children": [
+          {
+            "label": "禁用测试2",
+            "value": "2"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "value": "北京",
+    "label": "北京",
+    "children": [
+      {
+        "value": "西城区",
+        "label": "西城区"
+      },
+      {
+        "value": "崇文区",
+        "label": "崇文区"
+      },
+      {
+        "value": "宣武区",
+        "label": "宣武区"
+      },
+      {
+        "value": "朝阳区",
+        "label": "朝阳区"
+      },
+      {
+        "value": "丰台区",
+        "label": "丰台区"
+      },
+      {
+        "value": "海淀区",
+        "label": "海淀区"
+      }
+    ]
+  },
+  {
+    "value": "上海",
+    "label": "上海",
+    "children": [
+      {
+        "value": "黄浦区",
+        "label": "黄浦区"
+      },
+      {
+        "value": "卢湾区",
+        "label": "卢湾区"
+      },
+      {
+        "value": "徐汇区",
+        "label": "徐汇区"
+      },
+      {
+        "value": "广州1",
+        "label": "广州"
+      }
+    ]
+  }
+]

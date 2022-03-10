@@ -34,7 +34,7 @@
 </template>
 <script lang="ts">
 import {prefixCls} from '../prefix'
-import {defineComponent, ref, inject, getCurrentInstance, computed, reactive, toRefs, nextTick} from 'vue'
+import {defineComponent, inject, computed, reactive, toRefs, nextTick} from 'vue'
 import pType from '../util/pType'
 import vTransition from '../transition/index.vue'
 import {TreeList} from '../types/tree'

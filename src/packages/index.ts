@@ -41,14 +41,15 @@ import {Upload, ImgCrop} from './upload'
 import SelectDown from './selectDown/index.vue'
 import {Dropdown, DropdownItem} from './dropdown'
 import './theme/index.scss'
+import {prefixCls} from './prefix'
 
 const component = [
+  {name: 'Cascader', component: Cascader},
   BackTop,
   Badge,
   Breadcrumb,
   Button, ButtonGroup,
   Carousel, CarouselItem,
-  Cascader,
   Collapse, CollapsePanel,
   Transition,
   Input,
@@ -78,7 +79,7 @@ const component = [
   SelectDown,
   Dropdown, DropdownItem
 ]
-
+//console.log(component)
 /*
 const install = function (Vue, options) {
   component.forEach(item => {
@@ -93,10 +94,13 @@ const install = function (Vue, options) {
   /!*Vue.use(Loading.directive)*!/
 }
 export default install*/
-
 export default (app: App): void => {
-  component.forEach(item => {
-    app.component(item.name, item)
+  component.forEach((item: any) => {
+    if (item.component) {
+      app.component(prefixCls + item.name, item.component)
+    } else {
+      app.component(item.name, item)
+    }
   })
   // message
   app.config.globalProperties.$alert = Message.alert

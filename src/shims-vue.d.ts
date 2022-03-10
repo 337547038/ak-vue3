@@ -13,3 +13,4 @@ declare module 'virtual:generated-pages' {
     const component: DefineComponent<{}, {}, any>
     export default component
 }
+

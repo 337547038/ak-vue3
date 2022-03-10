@@ -7,6 +7,7 @@ export interface VoidFun {
 }
 // radio/checkbox/select
 export interface FormControlOption {
+    [key: string]: any // 使用动态变量时不会报错
     label:string
     value:[string|number]
     disabled?:boolean

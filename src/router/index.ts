@@ -5,6 +5,7 @@ import routesList from 'virtual:generated-pages'
 // console.log(routesList)
 const routes = []
 routesList.forEach((item: any) => {
+  console.log(item.name.indexOf('.'))
   if (item.name.indexOf('-README') !== -1) {
     routes.push({
       name: item.name.replace('-README', ''),
