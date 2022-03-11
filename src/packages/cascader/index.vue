@@ -185,7 +185,7 @@ const toggleClick = (visible: boolean) => {
     state.checked = (props.modelValue.join(',')).split(',')
     const firstOpt = filterFormatOptions()
     if (firstOpt && firstOpt.length > 0) {
-      state.downDataList.push() // 首先添加第一级，第一级的_tid为空
+      state.downDataList.push(firstOpt) // 首先添加第一级，第一级的_tid为空
     }
     const value: any = props.modelValue[0] // 多选时默认展开第一组
     if (value && value.length > 0) {
