@@ -64,7 +64,7 @@ export default defineComponent({
     size: pType.string(),
     collapseTags: pType.bool() // 多选时是否将选中值按文字的形式展示
   },
-  emits: ['update:modelValue', 'change', 'limitChange', 'searchChange'],
+  emits: ['update:modelValue', 'change', 'limitChange', 'input', 'delete', 'blur', 'clear'],
   setup(props, {emit}) {
     const el = ref()
     const selectDown = ref()
@@ -115,6 +115,7 @@ export default defineComponent({
           delete item._disabled
         })
       }, 500)
+      emit('blur', value)
     }
     const inputChange = (value: string) => {
       // 默认情况下仅对当前下拉数据进行筛选
@@ -129,7 +130,7 @@ export default defineComponent({
         })
       }
       state.setFirst = true
-      emit('searchChange', value)
+      emit('input', value)
     }
     // 设置初始值
     const setFirstText = () => {
@@ -241,11 +242,13 @@ export default defineComponent({
     const clearClick = () => {
       state.checked = []
       emitCom()
+      emit('clear')
     }
     // 删除选项事件
     const deleteClick = (index: number) => {
       state.checked.splice(index, 1)
       emitCom()
+      emit('delete')
     }
     provide(`${prefixCls}GetChildOption`, (item: FormControlOption) => {
       // options.value.push(item)

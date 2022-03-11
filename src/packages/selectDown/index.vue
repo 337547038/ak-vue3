@@ -34,8 +34,8 @@
               :disabled="disabledOk"
               :placeholder="valueLabel.length===0?placeholder:''"
               @input="inputInput"
-              @change="inputChange"
-              @blur="inputBlur($event,1)">
+              @focus="inputFocus"
+              @blur="inputBlur">
           </li>
         </ul>
       </div>
@@ -45,10 +45,7 @@
         :readonly="!filterable"
         :placeholder="placeholder"
         :class="inputCls"
-        :disabled="disabledOk"
-        @input="inputInput"
-        @change="inputChange"
-        @blur="inputBlur">
+        :disabled="disabledOk">
       <span class="group-icon">
         <i
           v-if="clear&&modelValue.length>0"
@@ -100,7 +97,7 @@ export default defineComponent({
     options: pType.array(), // 参数非必要，来自于select
     icon: pType.string('arrow')
   },
-  emits: ['update:modelValue', 'change', 'blur', 'toggleClick', 'clear', 'delete', 'input'],
+  emits: ['update:modelValue', 'change', 'blur', 'toggleClick', 'clear', 'delete', 'input', 'focus'],
   setup(props, {emit}) {
     const el = ref()
     const selectDown = ref()
@@ -177,20 +174,21 @@ export default defineComponent({
     }
     const updateModel = () => {
       emit('update:modelValue', state.valueLabel)
+      emit('change', state.valueLabel)
     }
-    const inputChange = (e: Event) => {
+    /*const inputChange = (e: Event) => {
       if (props.filterable) {
         const {value} = e.target as HTMLInputElement
         emit('change', value)
       }
-    }
+    }*/
     const inputInput = (e: Event) => {
       if (props.filterable) {
         const {value} = e.target as HTMLInputElement
         emit('input', value)
       }
     }
-    const inputBlur = (e: any, type?: number) => {
+    const inputBlur = (e: any) => {
       if (props.filterable) {
         const {value} = e.target as HTMLInputElement
         emit('blur', value)
@@ -199,9 +197,15 @@ export default defineComponent({
         }*/
         // 恢复输入框的值
         state.valueLabel = JSON.parse(JSON.stringify(props.modelValue || []))
-        if (type === 1) {
-          e.target.value = ''
-        }
+        //if (type === 1) {
+        e.target.value = ''
+        //}
+      }
+    }
+    const inputFocus = (e: any) => {
+      if (props.filterable) {
+        const {value} = e.target as HTMLInputElement
+        emit('focus', value)
       }
     }
     // 计算插入body的位置样式
@@ -280,9 +284,10 @@ export default defineComponent({
       el,
       selectDown,
       inputCls,
-      inputChange,
+      // inputChange,
       inputInput,
       inputBlur,
+      inputFocus,
       downPanelStyle,
       slideUp,
       slideDown,

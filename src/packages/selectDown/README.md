@@ -178,14 +178,15 @@ export default {
 
 ### SelectDown Event
 
-|参数| 说明           |
-|----------|--------------|
-|change       | 可搜索时输入框改变事件  |
-|input        | 可搜索时输入框改变事件  |
-|blur         | 可搜索时输入框焦点事件  |
-|toggleClick  | 点击展开收起事件     |
-|clear        | 清空事件         |
-|delete       | 删除单个选项,多选时有效 |
+| 参数          | 说明             |
+|-------------|----------------|
+| change      | movelValue改变事件 |
+| input       | 可搜索时输入框改变事件    |
+| blur        | 可搜索时输入框焦点事件    |
+| focus       | 可搜索时输入框获得焦点事件  |
+| toggleClick | 点击展开收起事件       |
+| clear       | 清空事件           |
+| delete      | 删除单个选项,多选时有效   |
 
 ### SelectDown Methods
 

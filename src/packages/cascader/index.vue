@@ -89,7 +89,7 @@ const props = defineProps({
   lazyLoad: pType.func(),// todo 开发中
   checkAny: pType.bool() // 选择任意一级选项 // todo 开发中
 })
-const emit = defineEmits(['update:modelValue', 'change', 'searchChange'])
+const emit = defineEmits(['update:modelValue', 'change', 'input'])
 const state = reactive<any>({
   downDataList: [], // 下拉面板的数据
   showLabel: [], // 用于展示的值，格式化后显示于输入框的值
@@ -390,6 +390,6 @@ const inputChange = (val: string) => {
     }
     state.downDataList.push(temp)
   }, 500)
-  emit('searchChange', val)
+  emit('input', val)
 }
 </script>

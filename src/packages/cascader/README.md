@@ -134,7 +134,11 @@ const value1 = ref(["广东,广州,白云"])
 |参数| 说明          |
 |----------|-------------|
 |change      | 选择事件        |
-|searchChange| 可搜索时输入框输入事件 |
+| input       | 可搜索时输入框改变事件    |
+| blur        | 可搜索时输入框焦点事件    |
+| focus       | 可搜索时输入框获得焦点事件  |
+| clear       | 清空事件           |
+| delete      | 删除单个选项,多选时有效   |
 
 ### Cascader Options
 

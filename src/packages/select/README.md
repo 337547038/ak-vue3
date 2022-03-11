@@ -375,7 +375,11 @@ export default {
 |change             |选中值发生变化时触发|
 |beforeChange       |选择前事件|
 |limitChange        |超出最大选择数时事件，仅`multiple=true`和设定了`multipleLimit`时有效|
-|searchChange       |可搜索时，搜索框事件|
+| input       | 可搜索时输入框改变事件    |
+| blur        | 可搜索时输入框焦点事件    |
+| focus       | 可搜索时输入框获得焦点事件  |
+| clear       | 清空事件           |
+| delete      | 删除单个选项,多选时有效   |
 
 ### Select Method
 
