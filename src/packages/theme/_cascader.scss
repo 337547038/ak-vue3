@@ -22,4 +22,12 @@
     a {color: $primary}
     .icon-hook {display: block}
   }
+  @include ns(loading) {
+    @include ns(loading-spinner) {display: flex; align-items: center;justify-content: center;
+      .loading-svg {width: 20px;height: 20px;}
+    }
+    &.loading {position: static;
+      @include ns(loading-spinner) {position: static;transform: translate(0)}
+    }
+  }
 }

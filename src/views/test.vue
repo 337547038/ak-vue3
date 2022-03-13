@@ -1,308 +1,100 @@
 <template>
   <div>
     <p>当前值：{{ value1 }}</p>
-
-    <ak-cascader v-model="value1" placeholder="请选择" :options="options" />
-    <ak-cascader v-model="value2" placeholder="请选择" :options="options" :multiple="true" />
-    <ak-cascader v-model="value3" placeholder="请选择" :options="options" :multiple="true" />
-
-
-<!--    <div>
-      <ak-select-down
-        v-model="modelValue"
-        :multiple="true"
-        placeholder="placeholder">
-        <p>21311</p>
-        <p>21311</p>
-      </ak-select-down>
-    </div>-->
+    <ak-cascader
+      v-model="value1"
+      placeholder="请选择"
+      lazy
+      :lazy-load="lazyLoad"
+      @searchChange="searchChange" />
+    <br><br><br>
+    <p>当前值：{{ value2 }}</p>
+    <ak-cascader v-model="value2" placeholder="请选择（没有初始值）" lazy :lazy-load="lazyLoad" />
+    <br><br><br>
+    <p>可搜索异步加载</p>
+    <p>当前值：{{ value3 }}</p>
+    <ak-cascader
+      v-model="value3"
+      placeholder="请选择"
+      lazy
+      :lazy-load="lazyLoad"
+      :options="options"
+      filterable
+      @searchChange="searchChange" />
   </div>
 </template>
-<script>
+<script setup>
 import {ref} from 'vue'
 
-export default {
-  setup() {
-    const value1 = ref(['component', 'form', 'checkbox'])
-    const value2 = ref([['component', 'form', 'checkbox'],['guide', 'navigation', 'top nav']])
-    const value3 = ref([])
-    // const value2 = ref([])
-    const modelValue = ref([])
-    const options = [
+const value1 = ref(['广东,广州,白云'])
+const value2 = ref([])
+const value3 = ref([])
+const options = ref([])
+const lazyLoad = (obj, resolve) => {
+  setTimeout(() => {
+    let temp = []
+    if (!obj) {
+      // 加载第一级
+      temp = [
+        {
+          'value': '广东',
+          'label': '广东',
+          children: []
+        },
+        {
+          'value': '北京',
+          'label': '北京',
+          children: []
+        },
+        {
+          'value': '上海',
+          'label': '上海'
+        }
+      ]
+      //resolve(temp)
+    }
+    if (obj && obj.value === '广东') {
+      temp = [
+        {
+          'value': '广州',
+          'label': '广州'
+        },
+        {
+          'value': '深圳',
+          'label': '深圳'
+        }
+      ]
+    }
+    if (obj && obj.value === '广州') {
+      temp = [
+        {
+          'value': '天河',
+          'label': '天河'
+        },
+        {
+          'value': '白云',
+          'label': '白云'
+        }
+      ]
+    }
+    resolve(temp)
+  }, 1000)
+}
+const searchChange = val => {
+  // console.log('12')
+  if (val) {
+    options.value = [
       {
-        value: 'guide',
-        label: 'Guide',
+        'value': '广东',
+        'label': '广东',
         children: [
           {
-            value: 'disciplines',
-            label: 'Disciplines',
-            children: [
-              {
-                value: 'consistency',
-                label: 'Consistency'
-              },
-              {
-                value: 'feedback',
-                label: 'Feedback'
-              },
-              {
-                value: 'efficiency',
-                label: 'Efficiency'
-              },
-              {
-                value: 'controllability',
-                label: 'Controllability'
-              }
-            ]
-          },
-          {
-            value: 'navigation',
-            label: 'Navigation',
-            children: [
-              {
-                value: 'side nav',
-                label: 'Side Navigation'
-              },
-              {
-                value: 'top nav',
-                label: 'Top Navigation'
-              }
-            ]
-          }
-        ]
-      },
-      {
-        value: 'component',
-        label: 'Component',
-        children: [
-          {
-            value: 'basic',
-            label: 'Basic',
-            children: [
-              {
-                value: 'layout',
-                label: 'Layout'
-              },
-              {
-                value: 'color',
-                label: 'Color'
-              },
-              {
-                value: 'typography',
-                label: 'Typography'
-              },
-              {
-                value: 'icon',
-                label: 'Icon'
-              },
-              {
-                value: 'button',
-                label: 'Button'
-              }
-            ]
-          },
-          {
-            value: 'form',
-            label: 'Form',
-            children: [
-              {
-                value: 'radio',
-                label: 'Radio'
-              },
-              {
-                value: 'checkbox',
-                label: 'Checkbox'
-              },
-              {
-                value: 'input',
-                label: 'Input'
-              },
-              {
-                value: 'input-number',
-                label: 'InputNumber'
-              },
-              {
-                value: 'select',
-                label: 'Select'
-              },
-              {
-                value: 'cascader',
-                label: 'Cascader'
-              },
-              {
-                value: 'switch',
-                label: 'Switch'
-              },
-              {
-                value: 'slider',
-                label: 'Slider'
-              },
-              {
-                value: 'time-picker',
-                label: 'TimePicker'
-              },
-              {
-                value: 'date-picker',
-                label: 'DatePicker'
-              },
-              {
-                value: 'datetime-picker',
-                label: 'DateTimePicker'
-              },
-              {
-                value: 'upload',
-                label: 'Upload'
-              },
-              {
-                value: 'rate',
-                label: 'Rate'
-              },
-              {
-                value: 'form',
-                label: 'Form'
-              }
-            ]
-          },
-          {
-            value: 'data',
-            label: 'Data',
-            children: [
-              {
-                value: 'table',
-                label: 'Table'
-              },
-              {
-                value: 'tag',
-                label: 'Tag'
-              },
-              {
-                value: 'progress',
-                label: 'Progress'
-              },
-              {
-                value: 'tree',
-                label: 'Tree'
-              },
-              {
-                value: 'pagination',
-                label: 'Pagination'
-              },
-              {
-                value: 'badge',
-                label: 'Badge'
-              }
-            ]
-          },
-          {
-            value: 'notice',
-            label: 'Notice',
-            children: [
-              {
-                value: 'alert',
-                label: 'Alert'
-              },
-              {
-                value: 'loading',
-                label: 'Loading'
-              },
-              {
-                value: 'message',
-                label: 'Message'
-              },
-              {
-                value: 'message-box',
-                label: 'MessageBox'
-              },
-              {
-                value: 'notification',
-                label: 'Notification'
-              }
-            ]
-          },
-          {
-            value: 'navigation',
-            label: 'Navigation',
-            children: [
-              {
-                value: 'menu',
-                label: 'Menu'
-              },
-              {
-                value: 'tabs',
-                label: 'Tabs'
-              },
-              {
-                value: 'breadcrumb',
-                label: 'Breadcrumb'
-              },
-              {
-                value: 'dropdown',
-                label: 'Dropdown'
-              },
-              {
-                value: 'steps',
-                label: 'Steps'
-              }
-            ]
-          },
-          {
-            value: 'others',
-            label: 'Others',
-            children: [
-              {
-                value: 'dialog',
-                label: 'Dialog'
-              },
-              {
-                value: 'tooltip',
-                label: 'Tooltip'
-              },
-              {
-                value: 'popover',
-                label: 'Popover'
-              },
-              {
-                value: 'card',
-                label: 'Card'
-              },
-              {
-                value: 'carousel',
-                label: 'Carousel'
-              },
-              {
-                value: 'collapse',
-                label: 'Collapse'
-              }
-            ]
-          }
-        ]
-      },
-      {
-        value: 'resource',
-        label: 'Resource',
-        children: [
-          {
-            value: 'axure',
-            label: 'Axure Components'
-          },
-          {
-            value: 'sketch',
-            label: 'Sketch Templates'
-          },
-          {
-            value: 'docs',
-            label: 'Design Documentation'
+            'value': '深圳',
+            'label': '深圳'
           }
         ]
       }
     ]
-    return {
-      value1,
-      value2,
-      value3,
-      options,
-      modelValue
-    }
   }
 }
 </script>

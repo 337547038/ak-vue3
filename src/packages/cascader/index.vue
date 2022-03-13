@@ -13,12 +13,10 @@
     @delete="deleteClick"
     @input="inputChange"
     @toggleClick="toggleClick">
-    <ul v-if="lazy&&downDataList.length===0">
-      <li>
-        <Loading :model-value="true" />
-      </li>
-    </ul>
-    <ul v-if="downDataList.length===0" class="empty-text">
+    <p v-if="lazy&&downDataList.length===0">
+      <Loading :model-value="true" text="加载中" background="#fff" />
+    </p>
+    <ul v-else-if="downDataList.length===0" class="empty-text">
       <li>{{ emptyText }}</li>
     </ul>
     <ul v-for="(item,index) in downDataList" :key="index" @click.stop="">
@@ -36,11 +34,14 @@
           :class="{'some-select':li.someSelect}"
           @change="checkboxMultipleChange(li,$event)"
           @click.stop="" />
-        <a>{{ li[optionsKey.label] }}</a><i v-if="li.hasChild" class="icon-arrow"></i>
+        <a>{{ li[optionsKey.label] }}</a>
         <Loading
-          v-if="lazy&&li[optionsKey.label]===loadingId"
+          v-if="lazy&&li[optionsKey.value]===loadingId"
           :key="item[optionsKey.label]"
+          class="loading"
+          background="#fff"
           :model-value="true" />
+        <i v-if="li.hasChild" class="icon-arrow"></i>
       </li>
     </ul>
   </select-down>
@@ -85,8 +86,8 @@ const props = defineProps({
   optionsKey: pType.object({label: 'label', value: 'value'}),
   showAllLevels: pType.bool(true),
   emptyText: pType.string('暂无数据'),
-  lazy: pType.bool(),// todo 开发中
-  lazyLoad: pType.func(),// todo 开发中
+  lazy: pType.bool(),//
+  lazyLoad: pType.func(),//
   checkAny: pType.bool() // 选择任意一级选项 // todo 开发中
 })
 const emit = defineEmits(['update:modelValue', 'change', 'searchChange'])
@@ -96,13 +97,22 @@ const state = reactive<any>({
   checked: [], // 用来判断点击选中状态
   multipleChecked: [],// 多选时，用于临时保存勾选的值
   loadingId: '', // 异步加载时用于显示加载状态
-  timer: 0
+  timer: 0,
+  lazyOptions: props.options
 })
 const {downDataList, loadingId, showLabel} = toRefs(state)
 const {optionsKey} = toRefs(props)
 const labelKey = optionsKey.value.label
 const valueKey = optionsKey.value.value
 const selectDownEl = ref()
+watch(() => props.options, (val: any) => {
+  state.lazyOptions = val
+  if (props.filterable) {
+    // 搜索状态改变options
+    // console.log('watch')
+    formatFilterOptions('`')
+  }
+})
 // 返回下拉样式
 const downClass2 = computed(() => {
   const down = prefixCls + '-cascader-down'
@@ -111,7 +121,11 @@ const downClass2 = computed(() => {
 // 格式化options下拉数据
 const formatOptions = computed(() => {
   let temp: any = []
-  formatData(props.options, {})
+  if (props.lazy) {
+    formatData(state.lazyOptions, {})
+  } else {
+    formatData(props.options, {})
+  }
   return temp
 
   function formatData(data: any, obj: any) {
@@ -120,7 +134,7 @@ const formatOptions = computed(() => {
       delete newItem.children
       delete newItem._fullLabel
       delete newItem._fullValue
-      const hasChild = item.children && item.children.length > 0
+      const hasChild = item.children && (item.children.length > 0 || props.lazy) // 异步加载时有children:[]表示有下级
       item._fullLabel = obj.fullLabel ? obj.fullLabel + ',' + item[labelKey] : ''
       item._fullValue = obj.fullValue ? obj.fullValue + ',' + item[valueKey] : ''
       temp.push(Object.assign({}, newItem, {
@@ -144,7 +158,12 @@ const setDefaultShowLabel = () => {
   // 单选 ['广东,广州,白云']
   // 多选 ['广东,广州,白云','广东,深圳,宝安区']
   if (props.modelValue && props.modelValue.length > 0) {
-    state.showLabel = JSON.parse(JSON.stringify(props.modelValue)) // 默认为value，从选项数据中匹配到相同value值时返回label，否则使用传入的值
+    // state.showLabel = JSON.parse(JSON.stringify(props.modelValue)) // 默认为value，从选项数据中匹配到相同value值时返回label，否则使用传入的值
+    state.showLabel = []
+    props.modelValue.forEach((item: any) => {
+      // console.log(item)
+      state.showLabel.push(item.replace(/,/g, '/'))
+    })
     for (let i = 0; i < props.modelValue.length; i++) {
       // console.log(props.modelValue[i])
       formatOptions.value.forEach((opt: cityProps) => {
@@ -179,23 +198,31 @@ const updateModelValue = (val: any) => {
   emit('change', val)
   selectDownEl.value.slideUp()
 }
+const setDefaultDownList = () => {
+  state.downDataList = [] // 先清空
+  const firstOpt = filterFormatOptions()
+  if (firstOpt && firstOpt.length > 0) {
+    state.downDataList.push(firstOpt) // 首先添加第一级，第一级的_tid为空
+  }
+  const value: any = props.modelValue[0] // 多选时默认展开第一组 添加第一级后面的
+  if (value && value.length > 0) {
+    const valueObj = value.split(',')
+    for (let i = 0; i < valueObj.length - 1; i++) {
+      const val = filterFormatOptions(valueObj[i])
+      if (val && val.length > 0) {
+        state.downDataList.push(val) // 每次点击下拉重新设置下拉的选项，恢复上次点击的状态
+      }
+    }
+  }
+}
 const toggleClick = (visible: boolean) => {
   if (visible) {
-    state.downDataList = [] // 先清空
     state.checked = (props.modelValue.join(',')).split(',')
-    const firstOpt = filterFormatOptions()
-    if (firstOpt && firstOpt.length > 0) {
-      state.downDataList.push() // 首先添加第一级，第一级的_tid为空
-    }
-    const value: any = props.modelValue[0] // 多选时默认展开第一组
-    if (value && value.length > 0) {
-      const valueObj = value.split(',')
-      for (let i = 0; i < valueObj.length - 1; i++) {
-        const val = filterFormatOptions(valueObj[i])
-        if (val && val.length > 0) {
-          state.downDataList.push(val) // 每次点击下拉重新设置下拉的选项，恢复上次点击的状态
-        }
-      }
+    if (props.lazy && formatOptions.value.length === 0) {
+      // 异步加载，先把数据加载回来再调用setDefaultDownList
+      lazyLoad()
+    } else {
+      setDefaultDownList()
     }
     if (props.multiple) {
       state.multipleChecked = JSON.parse(JSON.stringify(props.modelValue))
@@ -220,12 +247,16 @@ const childrenClick = (obj: cityProps, index: number, evt: any) => {
     state.downDataList.push(children)
   } else {
     // 表示最后一级
-    if (!props.multiple) {
+    if ((!props.multiple && !props.lazy) || !obj.hasChild) {
       // 收起下拉，多选时点空白处收起
       //const val = obj.fullValue
       //state.showLabel = [obj.fullLabel.replace(/,/g, '/')]
       // modelValue更新后会自动更新showlabel
       updateModelValue([obj.fullValue])
+    }
+    if (props.lazy) { // 当加载进来的数据没有children:[]时，也去请求，没结果时才收起
+      state.loadingId = obj[valueKey]
+      lazyLoad(obj, 'childrenClick')
     }
   }
   // 记录当前点击路径，用于高亮
@@ -369,27 +400,95 @@ const deleteClick = (index: number) => {
   val.splice(index, 1)
   updateModelValue(val)
 }
+const formatFilterOptions = (val: string) => {
+  state.downDataList = []
+  const temp: any = []
+  formatOptions.value.forEach((item: cityProps) => {
+    if (!item.hasChild && (item.fullLabel.indexOf(val) !== -1 || val === '`')) {
+      temp.push({
+        [labelKey]: item.fullLabel.replace(/,/g, '/'),
+        [valueKey]: item.fullValue,
+        fullLabel: item.fullLabel,
+        fullValue: item.fullValue
+      })
+    }
+  })
+  if (!val) {
+    // 简单些，清空下拉
+    temp.splice(0, temp.length)
+  }
+  state.downDataList.push(temp)
+  // return temp
+}
 const inputChange = (val: string) => {
   clearTimeout(state.timer)
   state.timer = setTimeout(() => {
-    state.downDataList = []
-    const temp: any = []
-    formatOptions.value.forEach((item: cityProps) => {
-      if (!item.hasChild && item.fullLabel.indexOf(val) !== -1) {
-        temp.push({
-          [labelKey]: item.fullLabel.replace(/,/g, '/'),
-          [valueKey]: item.fullValue,
-          fullLabel: item.fullLabel,
-          fullValue: item.fullValue
-        })
+    if (!props.lazy) { // 异步时直接从接口获取
+      formatFilterOptions(val)
+    }
+    emit('searchChange', val)
+  }, 500)
+}
+// 异步加载
+const lazyLoad = async (obj?: any, type?: string) => {
+  if (!props.lazyLoad) {
+    return
+  }
+  await getLazyLoad(obj, type)
+  // 展开时，如果有选中的值，则根据值去加载子级
+  if (!type && props.modelValue.length > 0) {
+    const value: any = props.modelValue[0] // 多选时默认展开第一组 添加第一级后面的
+    if (value && value.length > 0) {
+      const valueObj = value.split(',')
+      for (let i = 0; i < valueObj.length - 1; i++) {
+        const val = {[valueKey]: valueObj[i]}
+        await getLazyLoad(val, type)
+      }
+    }
+  }
+
+  async function getLazyLoad(obj: any, type?: string) {
+    // console.log(obj)
+    props.lazyLoad && props.lazyLoad(obj, (resolve: cityProps) => {
+      if (!resolve || resolve && resolve.length === 0) {
+        // 表示没有子级了
+        updateModelValue([obj.fullValue || obj[valueKey]])
+        state.loadingId = ''
+        return
+      }
+      if (!obj) {
+        // 一级
+        state.lazyOptions = resolve
+      } else {
+        obj.hasChild = true
+        setChildren(state.lazyOptions, obj, resolve)
+        if (type) { // 追加到下拉列表
+          const children = filterFormatOptions(obj[valueKey])
+          // console.log(children)
+          if (children && children.length > 0) {
+            state.downDataList.push(children)
+          }
+        }
+        state.loadingId = ''
+      }
+      if (!type) {
+        setDefaultDownList()
       }
     })
-    if (!val) {
-      // 简单些，清空下拉
-      temp.splice(0, temp.length)
-    }
-    state.downDataList.push(temp)
-  }, 500)
-  emit('searchChange', val)
+  }
+
+  function setChildren(data: cityProps, obj: cityProps, resolve: cityProps) {
+    // console.log(obj)
+    data.forEach((item: cityProps) => {
+      let has = false
+      if (item[valueKey] === obj[valueKey]) {
+        item.children = resolve
+        has = true
+      }
+      if (!has && item.children) {
+        setChildren(item.children, obj, resolve)
+      }
+    })
+  }
 }
 </script>
