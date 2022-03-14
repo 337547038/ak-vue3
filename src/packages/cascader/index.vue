@@ -26,7 +26,8 @@
         :class="{'checked':getChecked(li),'disabled'
           :li.disabled}"
         @click="childrenClick(li,index,$event)">
-        <i v-if="!li.hasChild&&!multiple" class="icon-hook"></i>
+        <i v-if="!li.hasChild&&!multiple&&!checkAny" class="icon-hook"></i>
+        <Radio v-model="radioValue" :value="li.fullValue||li.value" v-if="checkAny&&!multiple" @click.stop="" />
         <Checkbox
           v-if="multiple"
           :disabled="li.disabled"
@@ -59,6 +60,7 @@ import pType from '../util/pType'
 import SelectDown from '../selectDown/index.vue'
 import Loading from '../loading/loading.vue'
 import Checkbox from '../checkbox/checkbox.vue'
+import {Radio} from '../radio'
 
 type cityProps = {
   [key: string]: any // 使用动态变量时不会报错
@@ -88,7 +90,7 @@ const props = defineProps({
   emptyText: pType.string('暂无数据'),
   lazy: pType.bool(),//
   lazyLoad: pType.func(),//
-  checkAny: pType.bool() // 选择任意一级选项 // todo 开发中
+  checkAny: pType.bool() // 选择任意一级选项
 })
 const emit = defineEmits(['update:modelValue', 'change', 'input'])
 const state = reactive<any>({
@@ -105,6 +107,7 @@ const {optionsKey} = toRefs(props)
 const labelKey = optionsKey.value.label
 const valueKey = optionsKey.value.value
 const selectDownEl = ref()
+const radioValue = ref(props.modelValue.join(','))
 watch(() => props.options, (val: any) => {
   state.lazyOptions = val
   if (props.filterable) {
@@ -161,13 +164,13 @@ const setDefaultShowLabel = () => {
     // state.showLabel = JSON.parse(JSON.stringify(props.modelValue)) // 默认为value，从选项数据中匹配到相同value值时返回label，否则使用传入的值
     state.showLabel = []
     props.modelValue.forEach((item: any) => {
-      // console.log(item)
+      // 将豆号转换为/
       state.showLabel.push(item.replace(/,/g, '/'))
     })
     for (let i = 0; i < props.modelValue.length; i++) {
       // console.log(props.modelValue[i])
       formatOptions.value.forEach((opt: cityProps) => {
-        if (opt.fullValue === props.modelValue[i]) {
+        if (opt.fullValue && opt.fullValue === props.modelValue[i]) {
           let fl = opt.fullLabel || opt[labelKey]
           // console.log(fl.lastIndexOf(','))
           if (!props.showAllLevels) {
@@ -179,6 +182,8 @@ const setDefaultShowLabel = () => {
         }
       })
     }
+  } else {
+    state.showLabel = []
   }
 }
 watch(() => props.modelValue, () => {
@@ -218,6 +223,9 @@ const setDefaultDownList = () => {
 const toggleClick = (visible: boolean) => {
   if (visible) {
     state.checked = (props.modelValue.join(',')).split(',')
+    if (props.checkAny) {
+      state.checked = JSON.parse(JSON.stringify(props.modelValue))
+    }
     if (props.lazy && formatOptions.value.length === 0) {
       // 异步加载，先把数据加载回来再调用setDefaultDownList
       lazyLoad()
@@ -232,6 +240,12 @@ const toggleClick = (visible: boolean) => {
     if (props.multiple) {
       // 多选在收起时需要获取勾选的所有值
       updateModelValue(state.multipleChecked)
+    } else if (props.checkAny) {
+      let temp: any = []
+      if (radioValue.value) {
+        temp = [radioValue.value]
+      }
+      updateModelValue(temp)
     }
   }
 }
@@ -252,7 +266,9 @@ const childrenClick = (obj: cityProps, index: number, evt: any) => {
       //const val = obj.fullValue
       //state.showLabel = [obj.fullLabel.replace(/,/g, '/')]
       // modelValue更新后会自动更新showlabel
-      updateModelValue([obj.fullValue])
+      if (!props.checkAny) {
+        updateModelValue([obj.fullValue])
+      }
     }
     if (props.lazy) { // 当加载进来的数据没有children:[]时，也去请求，没结果时才收起
       state.loadingId = obj[valueKey]
@@ -268,6 +284,11 @@ const childrenClick = (obj: cityProps, index: number, evt: any) => {
 // 返回下拉选中样式
 const getChecked = (item: cityProps, bool: boolean) => {
   // 当前value存在于state.checked中即可选中状态
+  if (props.checkAny) {
+    // 这里不需要半选
+    const index = state.checked.indexOf(item.fullValue || item[valueKey])
+    return index !== -1
+  }
   const index = state.checked.indexOf(item[valueKey])
   if (props.multiple && item.hasChild && index !== -1 && bool) {
     // 这里要处理半选状态，并且有子级时，需判断子级是否全选
@@ -330,16 +351,20 @@ const checkboxMultipleChange = (obj: cityProps, val: boolean) => {
   }
   // 记录下勾选状态
   // 处理当前点击项的
-  pushSpliceObj(obj[valueKey], val)
+  let valKey = obj[valueKey]
+  if (props.checkAny) {
+    valKey = obj.fullValue || obj[valueKey]
+  } else {
+    // 往上找父级
+    findParents(obj, val)
+  }
+  pushSpliceObj(valKey, val)
   // 如果有子级往下找子级，添加勾选或删除状态
-  if (obj.hasChild) {
+  if (obj.hasChild && !props.checkAny) {
     findChildren(obj, val)
   } else {
-    setMultipleChecked(obj.fullValue, val)
+    setMultipleChecked(obj.fullValue || obj[valueKey], val)
   }
-
-  // 往上找父级
-  findParents(obj, val)
 
   function findChildren(obj: cityProps, val: boolean) {
     const child = filterFormatOptions(obj[valueKey])
