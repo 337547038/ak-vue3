@@ -19,6 +19,7 @@ const value1 = ref([])
 ```
 
 ### 默认初始值
+
 ```vue demo
 <template>
   <div>
@@ -34,7 +35,9 @@ const value1 = ref(["广东,广州,白云"])
 ```
 
 ### 禁用选项
+
 通过在数据源中设置 `disabled` 字段来声明该选项是禁用的
+
 ```vue demo
 <template>
   <div>
@@ -50,7 +53,9 @@ const value1 = ref(["广东,广州,白云"])
 ```
 
 ### 可清空
+
 通过在数据源中设置 `disabled` 字段来声明该选项是禁用的
+
 ```vue demo
 <template>
   <div>
@@ -66,7 +71,9 @@ const value1 = ref(["广东,广州,白云"])
 ```
 
 ### 多选
+
 通过在数据源中设置 `disabled` 字段来声明该选项是禁用的
+
 ```vue demo
 <template>
   <div>
@@ -83,7 +90,9 @@ const value1 = ref(["广东,广州,白云","上海,黄蒲区"])
 ```
 
 ### 可搜索
+
 开启`filterable`可以快捷地搜索选项并选择
+
 ```vue demo
 <template>
   <div>
@@ -100,34 +109,143 @@ const value1 = ref(["广东,广州,白云"])
 </script>
 ```
 
+### 异步加载
+
+通过`lazy`开启异步加载，并通过`lazyload`来设置加载数据源的方法。 `lazyload`方法有两个参数，第一个参数`node`为当前点击的节点，第二个`resolve`为数据加载完成的回调(必须调用)
+
+```vue demo
+<template>
+  <div>
+    <p>当前值：{{ value1 }}</p>
+    <ak-cascader
+      v-model="value1"
+      placeholder="请选择"
+      lazy
+      :lazy-load="lazyLoad"
+      @searchChange="searchChange" />
+    <br><br><br>
+    <p>当前值：{{ value2 }}</p>
+    <ak-cascader v-model="value2" placeholder="请选择（没有初始值）" lazy :lazy-load="lazyLoad" />
+    <br><br><br>
+    <p>可搜索异步加载</p>
+    <p>当前值：{{ value3 }}</p>
+    <ak-cascader
+      v-model="value3"
+      placeholder="请选择"
+      lazy
+      :lazy-load="lazyLoad"
+      :options="options"
+      filterable
+      @searchChange="searchChange" />
+  </div>
+</template>
+<script setup>
+import {ref} from 'vue'
+
+const value1 = ref(['广东,广州,白云'])
+const value2 = ref([])
+const value3 = ref([])
+const options = ref([])
+const lazyLoad = (obj, resolve) => {
+  setTimeout(() => {
+    let temp = []
+    if (!obj) {
+      // 加载第一级
+      temp = [
+        {
+          'value': '广东',
+          'label': '广东',
+          children: []
+        },
+        {
+          'value': '北京',
+          'label': '北京',
+          children: []
+        },
+        {
+          'value': '上海',
+          'label': '上海'
+        }
+      ]
+      //resolve(temp)
+    }
+    if (obj && obj.value === '广东') {
+      temp = [
+        {
+          'value': '广州',
+          'label': '广州'
+        },
+        {
+          'value': '深圳',
+          'label': '深圳'
+        }
+      ]
+    }
+    if (obj && obj.value === '广州') {
+      temp = [
+        {
+          'value': '天河',
+          'label': '天河'
+        },
+        {
+          'value': '白云',
+          'label': '白云'
+        }
+      ]
+    }
+    resolve(temp)
+  }, 1000)
+}
+const searchChange = val => {
+  // console.log('12')
+  if (val) {
+    options.value = [
+      {
+        'value': '广东',
+        'label': '广东',
+        children: [
+          {
+            'value': '深圳',
+            'label': '深圳'
+          }
+        ]
+      }
+    ]
+  }
+}
+</script>
+
+
+```
+
 ## API
 
 ### Cascader
 
-| 参数            | 类型            | 说明                                                                                            |
-|---------------|---------------|-----------------------------------------------------------------------------------------------|
-| v-model       | array         | 显示的值                                                                                          |
-| width         | string        | 组件宽                                                                                           |
-| multiple      | boolean/false | 多选模式                                                                                          |
-| collapseTags  | boolean/false | 多选模式下是否折叠Tag                                                                                  |
-| clear         | boolean/false | 是否可清空                                                                                         |
-| filterable    | boolean/false | 是否可搜索选项                                                                                       |
-| size          | string        | 大小                                                                                            |
-| placeholder   | string        | 占位符                                                                                           |
-| disabled      | boolean/false | 禁用状态                                                                                          |
-| direction     | number        | 下拉的方向动画，0默认　1向下　2向上                                                                           |
-| downClass     | string        | 下拉面板类                                                                                         |
-| downStyle     | object        | 下拉面板样式                                                                                        |
-| appendToBody  | boolean/false | 下拉插入到body                                                                                     |
-| downHeight    | number        | 下拉的面板的高                                                                                       |
-| icon          | string        | icon图标                                                                                        |
-| options       | object        | 下拉面板选项数据                                                                                      |
-| optionsKey    | object        | 指定选择数据的`label`和`value`属于，默认{label:‘label’,value:‘value’}                                      |
-| showAllLevels | boolean/true  | 定义了是否显示完整的路径，将其赋值为`false`则仅显示最后一级                                                             |
-| lazy          | boolean/false | 是否动态加载子节点，需与 `lazyLoad` 方法结合使用                                                                |
+| 参数            | 类型            | 说明                     |
+|---------------|---------------|------------------------|
+| v-model       | array         | 显示的值                   |
+| width         | string        | 组件宽                    |
+| multiple      | boolean/false | 多选模式                   |
+| collapseTags  | boolean/false | 多选模式下是否折叠Tag           |
+| clear         | boolean/false | 是否可清空                  |
+| filterable    | boolean/false | 是否可搜索选项                |
+| size          | string        | 大小                     |
+| placeholder   | string        | 占位符                    |
+| disabled      | boolean/false | 禁用状态                   |
+| direction     | number        | 下拉的方向动画，0默认　1向下　2向上    |
+| downClass     | string        | 下拉面板类                  |
+| downStyle     | object        | 下拉面板样式                 |
+| appendToBody  | boolean/false | 下拉插入到body              |
+| downHeight    | number        | 下拉的面板的高                |
+| icon          | string        | icon图标                 |
+| options       | object        | 下拉面板选项数据               |
+| optionsKey    | object        | 指定选择数据的`label`和`value`属于，默认{label:‘label’,value:‘value’} |
+| showAllLevels | boolean/true  | 定义了是否显示完整的路径，将其赋值为`false`则仅显示最后一级 |
+| lazy          | boolean/false | 是否动态加载子节点，需与 `lazyLoad` 方法结合使用 |
 | lazyLoad      | function      | 加载动态数据的方法，仅在 `lazy` 为 `true` 时有效,function(node, resolve)，node为当前点击的节点，resolve为数据加载完成的回调(必须调用) |
-| checkAny      | boolean/false | 启用该功能后，选择任意一级选项。                                                                              |
-| emptyText      | string        | 无下拉数据提示文案                                                                                     |
+| checkAny      | boolean/false | 启用该功能后，选择任意一级选项。       |
+| emptyText      | string        | 无下拉数据提示文案              |
 
 ### Cascader Event
 
