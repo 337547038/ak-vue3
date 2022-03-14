@@ -125,7 +125,7 @@ export default {
 
 ### 异步搜索
 
-`filterable=true` `async="true"` `@searchChange="searchChange"`
+`filterable=true` `async="true"` `@input="searchChange"`
 
 ```vue demo
 <template>
@@ -135,7 +135,7 @@ export default {
     :options="options"
     :filterable="true"
     :async="true"
-    @searchChange="searchChange" />
+    @input="searchChange" />
 </template>
 <script>
 import {ref} from 'vue'
