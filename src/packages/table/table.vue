@@ -4,16 +4,17 @@
     <div
       ref="el"
       :class="{[prefixCls+'-table']:true,[className]:className}"
-      :style="{width:width,height:height,overflowY: height?'auto':'',overflowX: width?'auto':''}">
+      :style="{width:width,height:stateHeight,overflowY: height?'auto':'',overflowX: width?'auto':''}">
       <div style="display: none">
         <slot></slot>
       </div>
       <table
+        ref="tableEl"
         :class="{'no-stripe':!stripe,
-               'no-border':!border,
-               'no-hover':!hover,
-               'no-ellipsis':!ellipsis,
-               [className]:className}">
+                 'no-border':!border,
+                 'no-hover':!hover,
+                 'no-ellipsis':!ellipsis,
+                 [className]:className}">
         <colgroup>
           <col v-for="(col,index) in colWidth" :key="index" :width="col" :class="`column${index}`">
         </colgroup>
@@ -27,11 +28,11 @@
           :head-max-layer="headMaxLayer"
           @event="tableHeadEvent" />
         <tbody v-if="data.length===0">
-          <tr>
-            <td :colspan="columnsData.length" class="empty">
-              {{ emptyText }}
-            </td>
-          </tr>
+        <tr>
+          <td :colspan="columnsData.length" class="empty">
+            {{ emptyText }}
+          </td>
+        </tr>
         </tbody>
         <table-body
           v-else
@@ -89,11 +90,13 @@ export default defineComponent({
     extendToggle: pType.bool(), // 默认展开扩展
     sortSingle: pType.bool(), // 单个排序
     columns: pType.array(), // 表头数据
-    pagination: pType.object() // 分页相关参数
+    pagination: pType.object(), // 分页相关参数
+    fixedBottomScroll: pType.oneOfType([pType.bool(), pType.string()])
   },
   emits: ['selectClick', 'sortChange', 'rowClick', 'cellClick', 'dragChange', 'scroll'],
   setup(props, {emit, slots}) {
     const el = ref()
+    const tableEl = ref()
     const tableHeadEl = ref()
     const columnsData = ref<AnyPropName>([])
     const state = reactive<AnyPropName>({
@@ -103,7 +106,12 @@ export default defineComponent({
       ctrlIsDown: false, // 是否按下ctrl键
       ctrlRowIndex: -1, // 按下ctrl键盘时点击的checkbox序号
       isSetThWidth: false, // 用于记录是否已经重新设置过表头的实际宽
-      headMaxLayer: 1 // 表头的层级
+      headMaxLayer: 1, // 表头的层级
+      stateHeight: props.height
+    })
+    // 预防中途有修改高的时候
+    watch(() => props.height, val => {
+      state.stateHeight = val
     })
     provide(`${prefixCls}ColumnsType`, !!props.columns) // column组件用来判断添加表头数据
     const selectChecked = computed(() => {
@@ -399,7 +407,42 @@ export default defineComponent({
         bottom = true
       }
       emit('scroll', scrollTop, bottom, el.value)
+      //scrollFixedBottom()
     }
+    // 固定底部滚动条
+    const scrollFixedBottom = () => {
+      if (!props.fixedBottomScroll) {
+        return
+      }
+      const tableBodyWrapDom = el.value
+      const tableBodyDom = tableEl.value
+      let innerHeight = window.innerHeight
+      // const innerHeight = 400
+      if (typeof props.fixedBottomScroll === 'string') {
+        const fel: any = document.querySelector(props.fixedBottomScroll)
+        if (fel) {
+          innerHeight = fel.offsetHeight + 20
+          console.log(innerHeight)
+        }
+      }
+      //console.log(el.value)
+      // top为dom上侧距离可视窗口顶部的值
+      const {top: tableBodyDomTop} = tableBodyWrapDom.getBoundingClientRect()
+      if (tableBodyDomTop > innerHeight || tableBodyWrapDom.classList.contains('is-scrolling-none')) {
+        // 此时列表在可视窗口的下侧不可见区域，因此不做任何修改
+        tableBodyWrapDom.style.height = 'unset'
+        tableBodyWrapDom.style.marginBottom = 'unset'
+      } else {
+        // 窗口高度 - 列表距顶部值 且 不超过自身实际值
+        const wrapHeight = Math.min(innerHeight - tableBodyDomTop, tableBodyDom.offsetHeight)
+        tableBodyWrapDom.style.minHeight = '60px'
+        // tableBodyWrapDom.style.height = wrapHeight + 'px'
+        state.stateHeight = wrapHeight + 'px'
+        // 需要用marginBottom填充，以保持列表原有高度，避免页面的纵向滚动条变化导致页面滚动的不流畅
+        tableBodyWrapDom.style.marginBottom = (tableBodyDom.offsetHeight - wrapHeight) + 'px'
+      }
+    }
+    // end 固定底部滚动条
     onMounted(() => {
       getColWidth()
       window.addEventListener('keydown', keydown)
@@ -412,7 +455,17 @@ export default defineComponent({
       }
       // 固定表头和列初始
       nextTick(() => {
+        if (props.fixedBottomScroll) {
+          if (typeof props.fixedBottomScroll === 'string') {
+            const scrollEl = document.querySelector(props.fixedBottomScroll)
+            scrollEl && scrollEl.addEventListener('scroll', scrollFixedBottom)
+          } else {
+            document.addEventListener('scroll', scrollFixedBottom)
+          }
+          window.addEventListener('resize', scrollFixedBottom)
+        }
         fixedHead()
+        scrollFixedBottom()
       })
     })
     onUnmounted(() => {
@@ -424,6 +477,10 @@ export default defineComponent({
       }
       if (props.height) {
         el.value && el.value.removeEventListener('scroll', watchScroll)
+      }
+      if (props.fixedBottomScroll) {
+        document.removeEventListener('scroll', scrollFixedBottom)
+        window.removeEventListener('resize', scrollFixedBottom)
       }
     })
     return {
@@ -439,7 +496,8 @@ export default defineComponent({
       tableHeadEl,
       columnsData,
       getSelectAll,
-      toggleRowSelection
+      toggleRowSelection,
+      tableEl
     }
   }
 })

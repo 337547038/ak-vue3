@@ -1,32 +1,41 @@
 <template>
-  <div>
-    <p>当前值：{{ value1 }}</p>
-    <ak-cascader
-      checkAny
-      v-model="value1"
-      placeholder="请选择"
-      :options="options" />
-    <br><br><br>
-    <p>当前值：{{ value2 }}</p>
-    <ak-cascader
-      checkAny
-      v-model="value2"
-      placeholder="请选择"
-      :options="options" />
-    <br><br><br>
-    <p>当前值：{{ value3 }}</p>
-    <ak-cascader v-model="value3" placeholder="请选择" multiple :options="options" checkAny />
-    <br><br><br>
-    <p>当前值：{{ value4 }}</p>
-    <ak-cascader v-model="value4" placeholder="请选择" multiple :options="options" checkAny />
+  <div style="height: 400px;overflow-y: auto" class="scroll-table">
+    <ak-table :data="tableData" ref="singleTable" fixedBottomScroll=".scroll-table">
+      <ak-column prop="date" label="Date" width="180" />
+      <ak-column prop="name" label="Name1" width="180" />
+      <ak-column prop="name" label="Name2" width="180" />
+      <ak-column prop="name" label="Name3" width="180" />
+      <ak-column prop="name" label="Name4" width="280" />
+      <ak-column prop="name" label="Name5" width="280" />
+      <ak-column prop="address" label="Address6" width="380"/>
+      <ak-column prop="address" label="Address7" width="280"/>
+      <ak-column prop="address" label="Address8" width="280" />
+    </ak-table>
   </div>
 </template>
 <script setup>
 import {ref} from 'vue'
-import options from '../packages/cascader/demo.json'
-
-const value1 = ref(['广东,广州,白云'])
-const value2 = ref([])
-const value3 = ref(['广东,广州,白云', '广东,深圳'])
-const value4 = ref([])
+const tableData =ref([
+  {name: 'Tom',},{name: 'Tom',},{name: 'Tom',},{name: 'Tom',},{name: 'Tom',},{name: 'Tom',},{name: 'Tom',},{name: 'Tom',},{name: 'Tom',},{name: 'Tom',},{name: 'Tom',},{name: 'Tom',},{name: 'Tom',},{name: 'Tom',},
+  {
+    date: '2016-05-03',
+    name: 'Tom',
+    address: 'No. 189, Grove St, Los Angeles',
+  },
+  {
+    date: '2016-05-02',
+    name: 'Tom',
+    address: 'No. 189, Grove St, Los Angeles',
+  },
+  {
+    date: '2016-05-04',
+    name: 'Tom',
+    address: 'No. 189, Grove St, Los Angeles',
+  },
+  {
+    date: '2016-05-01',
+    name: 'Tom',
+    address: 'No. 189, Grove St, Los Angeles',
+  },
+])
 </script>

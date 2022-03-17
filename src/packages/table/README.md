@@ -727,6 +727,11 @@ export default {
 
 ```
 
+### 横向滚动条固定在浏览器底部
+
+通过设置`fixedBottomScroll`可将横向滚动条固定在浏览器底部，`true`时滚动主体为`document`，字符时为当前滚动的区域如`fixedBottomScroll='.scroll`'，则滚动区域为`scroll`
+，注意：此设置会覆盖`height`属性的值
+
 ### 示例数据
 
 ```json
@@ -813,29 +818,30 @@ export default {
 
 ### Table
 
-| 参数           | 类型          | 说明|
-|----------|--------------|--------|
-| data           | array         | 列表数据 |
-| columns        | array         | 表头数据 |
-| showHeader     | boolean/true  | 是否显示表头 |
-| className      | String        | 表格类名|
-| hover          | boolean/true  | 鼠标经过显示高亮|
-| border         | boolean/true  | 是否显示表格纵向边框|
-| stripe         | boolean/true  | 是否显示间隔斑马纹|
-| height         | String        | table 的高，溢出显示滚动条，且表头固定|
-| width          | String        | 表格外层 div 的宽，当单元格总和大于表格 width 时，出现横向滚动条|
-| ellipsis       | boolean/true  | 表格单元格文字溢出显示...，在不指定列宽时，各列平分表格宽 |
-| emptyText      | String        | 无数据时显示的文本|
-| title          | Boolean/true  | 鼠标滑过单元格时显示 title 提示|
-| drag           | boolean/false | 允许拖动表头改变当前单元格宽度|
-| dragLine       | boolean/true  | 拖动时显示垂直线|
-| dragWidth      | array         | 允许拖动最大与最小宽度[min,max]|
-| extendToggle   | boolean/false | 扩展行/子节点初始展开或收起状态|
-| rowColSpan     | function      | 合并行或列方法。通过给传入 rowColSpan 方法可以实现合并行或列，方法的参数(当前行号 rowIndex,当前列号 columnIndex,当前行 row,当前列 column)四个属性。该函数返回一个包含两个数字的数组，第一个 rowspan，第二个 colspan，即向纵向和横向合并多少个单元格 |
-| pagination    | object        | 有相关参数时显示分页，参数的pagination组件参数|
-| hasChild      | boolean/true  | 是否包含子节点数据，为true时，当 `row` 中包含 `children` 字段时，被视为子节点数据|
-| lazyLoad      | function      | 设置了`lazyLoad`时，被视为子节点使用懒加载方式，function(row,resolve) row当前行信息|
-| sortSingle    | boolean/false | 如果设置了排序功能，开启后只能按其中一个字段排序|
+| 参数           | 类型             | 说明                                                            |
+|----------|----------------|---------------------------------------------------------------|
+| data           | array          | 列表数据                                                          |
+| columns        | array          | 表头数据                                                          |
+| showHeader     | boolean/true   | 是否显示表头                                                        |
+| className      | String         | 表格类名                                                          |
+| hover          | boolean/true   | 鼠标经过显示高亮                                                      |
+| border         | boolean/true   | 是否显示表格纵向边框                                                    |
+| stripe         | boolean/true   | 是否显示间隔斑马纹                                                     |
+| height         | String         | table 的高，溢出显示滚动条，且表头固定                                        |
+| width          | String         | 表格外层 div 的宽，当单元格总和大于表格 width 时，出现横向滚动条                        |
+| ellipsis       | boolean/true   | 表格单元格文字溢出显示...，在不指定列宽时，各列平分表格宽                                |
+| emptyText      | String         | 无数据时显示的文本                                                     |
+| title          | Boolean/true   | 鼠标滑过单元格时显示 title 提示                                           |
+| drag           | boolean/false  | 允许拖动表头改变当前单元格宽度                                               |
+| dragLine       | boolean/true   | 拖动时显示垂直线                                                      |
+| dragWidth      | array          | 允许拖动最大与最小宽度[min,max]                                          |
+| extendToggle   | boolean/false  | 扩展行/子节点初始展开或收起状态                                              |
+| rowColSpan     | function       | 合并行或列方法。通过给传入 rowColSpan 方法可以实现合并行或列，方法的参数(当前行号 rowIndex,当前列号 columnIndex,当前行 row,当前列 column)四个属性。该函数返回一个包含两个数字的数组，第一个 rowspan，第二个 colspan，即向纵向和横向合并多少个单元格 |
+| pagination    | object         | 有相关参数时显示分页，参数的pagination组件参数                                  |
+| hasChild      | boolean/true   | 是否包含子节点数据，为true时，当 `row` 中包含 `children` 字段时，被视为子节点数据          |
+| lazyLoad      | function       | 设置了`lazyLoad`时，被视为子节点使用懒加载方式，function(row,resolve) row当前行信息   |
+| sortSingle    | boolean/false  | 如果设置了排序功能，开启后只能按其中一个字段排序                                      |
+| fixedBottomScroll    | boolean/string | 固定横向滚动条在底部,可为节点类名|
 
 ### Table Event
 

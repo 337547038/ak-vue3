@@ -3,7 +3,7 @@
   $stripe: #F9F9F9; //斑马纹
   $background: #fff; //table背景色
   $selectBackground: #fcf8e3; //勾选行的背景颜色
-  position: relative;overflow: hidden;
+  position: relative;overflow-x: auto; overflow-y: hidden; width: 100%;box-sizing: border-box;
   table {border-collapse: collapse; border-spacing: 0;margin: 0;padding: 0;transform-style: preserve-3d;width: 100%;border: none;table-layout: fixed;
   }
   td, th {text-align: left;padding: 8px 10px;box-sizing: border-box;border: 1px solid $border;white-space: nowrap;text-overflow: ellipsis;overflow: hidden;background: $background}
