@@ -1,0 +1,30 @@
+@include ns(divider) {
+  display: block;
+  height: 1px;
+  width: 100%;
+  margin: 24px 0;
+  position: relative;
+  border-top: 1px $border var(--divider-border-style, solid);
+  .divider-text {
+    position: absolute;
+    background-color: #fff;
+    padding: 0 20px;
+    font-weight: 500;
+    font-size: 14px;
+    transform: translateY(-50%);
+    &.center {
+      transform: translate(-50%, -50%);left: 50%;
+    }
+    &.left {left: 20px;}
+    &.right {right: 20px}
+  }
+  &.vertical{
+    display: inline-block;
+    width: 1px;
+    height: 1em;
+    margin: 0 8px;
+    vertical-align: middle;
+    border-top: 0;
+    border-left: 1px $border var(--divider-border-style, solid);
+  }
+}

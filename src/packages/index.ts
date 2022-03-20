@@ -40,11 +40,13 @@ import Drawer from './drawer/index.vue'
 import {Upload, ImgCrop} from './upload'
 import SelectDown from './selectDown/index.vue'
 import {Dropdown, DropdownItem} from './dropdown'
+import Divider from './divider/index.vue'
 import './theme/index.scss'
 import {prefixCls} from './prefix'
 
 const component = [
   {name: 'Cascader', component: Cascader},
+  {name: 'Divider', component: Divider},
   BackTop,
   Badge,
   Breadcrumb,
