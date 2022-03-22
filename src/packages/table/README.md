@@ -729,7 +729,8 @@ export default {
 
 ### 鼠标滑过tooltip提示
 
-添加`tooltip=true`或`tooltip="{show:true,direction:'left',..其他所有的tooltip属性}"`即可在鼠标滑过时显示`tooltip`提示
+添加`tooltip=true`或`tooltip="{show:true,direction:'left',..其他所有的tooltip属性}"`即可在鼠标滑过时显示`tooltip`提示，不显示可以传`show:false`
+默认为`true`
 
 ```vue demo
 <template>
@@ -739,6 +740,47 @@ export default {
     <ak-column label="省份" prop="province" />
     <ak-column label="城市" prop="city" />
     <ak-column label="地址" prop="address" :tooltip="{show:true,direction:'left'}" />
+    <ak-column label="邮编" prop="zip" />
+    <ak-column label="操作">
+      <template #default="scope">
+        <a @click="delClick(scope)">删除</a>
+      </template>
+    </ak-column>
+  </ak-table>
+</template>
+<script>
+import tableData from './demoJs.json'
+
+export default {
+  setup() {
+    const delClick = item => {
+      alert(JSON.stringify(item))
+    }
+    return {
+      tableData,
+      delClick
+    }
+  }
+}
+</script>
+
+```
+
+### 使用Tag显示值
+
+使用`Tag`参数`tab={dict:{},...其他所有参数}`，即可在表格中显示`tag`样式
+
+其中`dict`为值对应的`tag`类型，如`dict:{'男':'info','女':'danger'}`，即值为男时显示tag类型为`info`
+
+```vue demo
+<template>
+  <ak-table :data="tableData">
+    <ak-column label="日期" prop="date" />
+    <ak-column label="姓名" prop="name" />
+    <ak-column label="性别" prop="sex" :tag="{dict:{'男':'info','女':'danger'}}" />
+    <ak-column label="省份" prop="province" />
+    <ak-column label="城市" prop="city" />
+    <ak-column label="地址" prop="address" />
     <ak-column label="邮编" prop="zip" />
     <ak-column label="操作">
       <template #default="scope">
@@ -916,7 +958,9 @@ export default {
 | title     | Boolean/false  | 鼠标滑过单元格时显示 title 提示，仅当 table 的 title 为 false 时有效 |
 | drag      | Boolean/true   | 允许当前单元格拖动，仅在table的drag=true时有效                   |
 | formatter | function       | 用来格式化内容,Function(row, column, cellValue, index)  |
-| tooltip   | boolean/object | 鼠标滑过显示`tooltip`，参数详见`tooltip`组件 |
+| tooltip   | boolean/object | 鼠标滑过显示`tooltip`，参数详见`tooltip`组件                  |
+| tag       | object         | 使用`tag`样式显示对应值，参数详见`tag`                         |
+| tag.dict  | object         | 类型对应字典                                           |
 
 ### Table-column Slot
 

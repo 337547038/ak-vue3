@@ -3,11 +3,12 @@ import {h, defineComponent, ref, computed, inject, watch} from 'vue'
 import pType from '../util/pType'
 import {Checkbox} from '../checkbox/index'
 import Tooltip from '../tooltip/index.vue'
+import Tag from '../tag/index.vue'
 import {prefixCls} from '../prefix'
 
 export default defineComponent({
   name: 'TableTd',
-  components: {Checkbox, Tooltip},
+  components: {Checkbox, Tooltip, Tag},
   props: {
     column: pType.object(),
     columnIndex: pType.number(),//当前列号
@@ -61,6 +62,7 @@ export default defineComponent({
       emit('toggleExtend')
     }
     const defaultSlots = () => {
+      const val = props.row[props.column.prop]
       if (props.column.slots && props.column.slots.default) {
         return props.column.slots.default({
           row: props.row,
@@ -70,7 +72,7 @@ export default defineComponent({
           parentRow: props.parentRow
         })
       } else if (props.column.formatter) {
-        return props.column.formatter(props.row, props.column, props.row[props.column.prop], props.index)
+        return props.column.formatter(props.row, props.column, val, props.index)
       } else if (props.column.type === 'selection') {
         return h(Checkbox, {
           modelValue: checkValue.value,
@@ -79,17 +81,19 @@ export default defineComponent({
             checkValue.value = val // 这里要手动更新，暂不清楚原因
           }
         })
-      } else if (props.column.tooltip === true || (props.column.tooltip && props.column.tooltip.show)) {
-        let obj = {content: props.row[props.column.prop]}
+      } else if (props.column.tooltip === true || (props.column.tooltip && props.column.tooltip.show !== false)) {
+        let obj = {content: val, direction: 'top'}
         if (props.column.tooltip.show) {
-          // console.log(props.column.tooltip)
-          obj = Object.assign({content: props.row[props.column.prop], direction: 'top'}, props.column.tooltip)
+          obj = Object.assign(obj, props.column.tooltip)
         }
-        return h(Tooltip, obj, h('span', {class: 'td-tooltip'}, props.row[props.column.prop]))
+        return h(Tooltip, obj, h('span', {class: 'td-tooltip'}, val))
+      } else if (typeof props.column.tag === 'object') {
+        const obj = Object.assign({size: 'small'}, props.column.tag, {type: props.column.tag.dict[val]})
+        return h(Tag, obj, val)
       } else if (props.column.type === 'index') {
         return props.index + 1
       } else {
-        return props.row[props.column.prop]
+        return val
       }
     }
     const rowspanColspanList = (val: string) => {

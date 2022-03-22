@@ -20,7 +20,8 @@ export default defineComponent({
     title: pType.bool(true),// 鼠标滑过单元格时是否显示title提示语
     drag: pType.bool(true), // 当前单元格允许拖动，仅在table设置drag＝true时有效
     formatter: Function,
-    tooltip: pType.oneOfType([pType.bool(), pType.object()])
+    tooltip: pType.oneOfType([pType.bool(), pType.object()]),
+    tag: pType.oneOfType([pType.bool(), pType.object()])
   },
   setup(props, {slots}) {
     onMounted(() => {
