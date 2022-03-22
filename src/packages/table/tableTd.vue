@@ -2,10 +2,12 @@
 import {h, defineComponent, ref, computed, inject, watch} from 'vue'
 import pType from '../util/pType'
 import {Checkbox} from '../checkbox/index'
+import Tooltip from '../tooltip/index.vue'
 import {prefixCls} from '../prefix'
+
 export default defineComponent({
   name: 'TableTd',
-  components: {Checkbox},
+  components: {Checkbox, Tooltip},
   props: {
     column: pType.object(),
     columnIndex: pType.number(),//当前列号
@@ -37,8 +39,8 @@ export default defineComponent({
     let colspan = ref(props.colspan).value
     // 鼠标滑过单元格时显示title提示，当设置为false时不显示，否则使用父级table的设置
     const hoverTitle = computed(() => {
-      if (!props.column.title) {
-        return null // 当前设置了false不显示
+      if (!props.column.title || props.column.tooltip === true || (props.column.tooltip && props.column.tooltip.show)) {
+        return null // 当前设置了false不显示，或者是使用了tooltip时不显示
       } else {
         if (props.title) {
           return props.row[props.column.prop]
@@ -77,6 +79,13 @@ export default defineComponent({
             checkValue.value = val // 这里要手动更新，暂不清楚原因
           }
         })
+      } else if (props.column.tooltip === true || (props.column.tooltip && props.column.tooltip.show)) {
+        let obj = {content: props.row[props.column.prop]}
+        if (props.column.tooltip.show) {
+          // console.log(props.column.tooltip)
+          obj = Object.assign({content: props.row[props.column.prop], direction: 'top'}, props.column.tooltip)
+        }
+        return h(Tooltip, obj, h('span', {class: 'td-tooltip'}, props.row[props.column.prop]))
       } else if (props.column.type === 'index') {
         return props.index + 1
       } else {

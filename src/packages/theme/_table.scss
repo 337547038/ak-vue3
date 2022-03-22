@@ -75,4 +75,5 @@
   @include ns(page) {
     padding-top: 20px;
   }
+  td .td-tooltip{display: block;width: 100%;overflow: hidden;text-overflow: ellipsis;white-space: nowrap}
 }
