@@ -1,30 +1,23 @@
 <template>
-  <ak-table :data="tableData">
-    <ak-column label="日期" prop="date" />
-    <ak-column label="姓名" prop="name" />
-    <ak-column label="性别" prop="sex" :tag="{dict:{'男':'info','女':'danger'}}" />
-    <ak-column label="省份" prop="province" />
-    <ak-column label="城市" prop="city" />
-    <ak-column label="地址" prop="address" />
-    <ak-column label="邮编" prop="zip" />
-    <ak-column label="操作">
-      <template #default="scope">
-        <a @click="delClick(scope)">删除</a>
-      </template>
-    </ak-column>
-  </ak-table>
+  <ak-tabs>
+    <ak-tab-pane label="用户管理">
+      用户管理
+      <span v-show="isDisplay" :style="{ color: 'red' }">我是用户</span>
+    </ak-tab-pane>
+    <ak-tab-pane label="配置管理">配置管理</ak-tab-pane>
+    <ak-tab-pane label="角色管理">角色管理</ak-tab-pane>
+    <ak-tab-pane label="定时任务补偿">定时任务补偿</ak-tab-pane>
+  </ak-tabs>
+  <ak-button type="text" @click="() => isDisplay = !isDisplay">改变显示</ak-button>
 </template>
-<script>
-import tableData from '../packages/table/demoJs.json'
+<script lang="ts">
+import { ref } from 'vue'
 
 export default {
   setup() {
-    const delClick = item => {
-      alert(JSON.stringify(item))
-    }
+    const isDisplay = ref(true)
     return {
-      tableData,
-      delClick
+      isDisplay
     }
   }
 }
