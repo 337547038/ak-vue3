@@ -1,6 +1,6 @@
 <script lang="ts">
-import { prefixCls } from '../prefix'
-import { defineComponent } from 'vue'
+import {prefixCls} from '../prefix'
+import {defineComponent} from 'vue'
 import pType from '../util/pType'
 
 export default defineComponent({
@@ -11,7 +11,7 @@ export default defineComponent({
     name: pType.string(),
     disabled: pType.bool()
   },
-  setup(props, { slots }) {
+  setup(props, {slots}) {
   },
   render() {
     return null

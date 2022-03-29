@@ -7,8 +7,7 @@
         :key="index"
         class="tabs-tab"
         :class="{ disabled: item.props?.disabled || false, active: getShow(item, index) }"
-        @click="tabsClick(item, index)"
-      >
+        @click="tabsClick(item, index)">
         <span v-if="item.props?.label">{{ item.props?.label }}</span>
         <span v-else-if="item.children['label']">
           <RenderSlot :slots="item.children['label']()" />
@@ -28,20 +27,20 @@
   </div>
 </template>
 <script lang="ts">
-import { prefixCls } from '../prefix'
-import { defineComponent, computed, ref, onMounted } from 'vue'
+import {prefixCls} from '../prefix'
+import {defineComponent, computed, ref, onMounted} from 'vue'
 import pType from '../util/pType'
 import RenderSlot from './renderSlot'
 export default defineComponent({
   name: `${prefixCls}Tabs`,
+  components: {RenderSlot},
   props: {
     modelValue: pType.string('tab-1'),
     beforeLeave: pType.func(true),
     showContent: pType.bool(true)// 是否显示切换内容
   },
-  components: { RenderSlot },
   emits: ['change', 'update:modelValue'],
-  setup(props, { emit, slots }) {
+  setup(props, {emit, slots}) {
     const activeKey = ref(props.modelValue)
     const tabsClick = (item: any, index: number) => {
       if (props.beforeLeave && props.beforeLeave(item)) {

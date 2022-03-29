@@ -21,6 +21,7 @@ export default defineConfig({
     }
   },
   build: {
+    outDir: 'docs'
     // 去除console
     /*terserOptions: {
       compress: {

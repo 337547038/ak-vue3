@@ -1,4 +1,4 @@
-import { defineComponent, h } from 'vue'
+import {defineComponent, h} from 'vue'
 
 export default defineComponent({
   props: {
@@ -6,7 +6,7 @@ export default defineComponent({
   },
   setup(props) {
     return () => [
-      h('div', { props: props.slots?.props }, props.slots)
+      h('div', {props: props.slots?.props}, props.slots)
     ]
   }
 })

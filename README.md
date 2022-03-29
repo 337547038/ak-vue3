@@ -4,7 +4,7 @@
 
 ## 演示地址 Demo
 
-https://337547038.github.io/akvue3/
+https://337547038.github.io/ak-vue3/
 
 ## vue2版本
 
