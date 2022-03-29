@@ -47,7 +47,7 @@ export default defineComponent({
       if (props.beforeLeave && props.beforeLeave(item)) {
         // 判断阻止点击
         activeKey.value = item.props?.name || 'tab-' + (index + 1)
-        emit('change', item, index)
+        emit('change', item.props, index)
         emit('update:modelValue', activeKey.value)
       }
     }
