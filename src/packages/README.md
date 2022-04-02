@@ -2,7 +2,7 @@
 
 # 使用
 
-基于 Vue3 + Typescript + Vite
+填坑 Vue3 + Typescript + Vite + pnpm，用于学习研究，欢迎交流，QQ/微信:337547038
 
 ## 全局引入（推荐）
 
