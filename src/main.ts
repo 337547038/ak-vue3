@@ -1,13 +1,13 @@
-import { createApp } from "vue";
-import "vite-plugin-vuedoc/style.css";
-import App from "./App.vue";
-import router from "./router";
-import AKUI from "./packages";
-import "./packages/theme/index.scss";
+import { createApp } from 'vue'
+import 'vite-plugin-vuedoc/style.css'
+import App from './App.vue'
+import router from './router'
+import AKUI from './packages'
+import './packages/theme/index.scss'
 
-import "./assets/scss/app.scss";
-const app = createApp(App);
-app.use(router);
-app.use(AKUI);
+import './assets/scss/app.scss'
+const app = createApp(App)
+app.use(router)
+app.use(AKUI)
 
-app.mount("#app");
+app.mount('#app')

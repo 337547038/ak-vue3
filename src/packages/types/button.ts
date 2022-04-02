@@ -1,6 +1,6 @@
 export interface GroupConfig {
-  disabled?: boolean;
-  round?: boolean;
-  size?: string;
-  width?: string;
+  disabled?: boolean
+  round?: boolean
+  size?: string
+  width?: string
 }

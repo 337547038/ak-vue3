@@ -1,13 +1,13 @@
 interface TreeList {
-  id: string;
-  label: string;
-  open?: boolean;
-  children?: any;
-  tid?: string;
-  hasChild?: boolean;
-  checked?: boolean;
-  someChecked?: boolean;
-  isLoad?: boolean;
+  id: string
+  label: string
+  open?: boolean
+  children?: any
+  tid?: string
+  hasChild?: boolean
+  checked?: boolean
+  someChecked?: boolean
+  isLoad?: boolean
 }
 
-export type { TreeList };
+export type { TreeList }

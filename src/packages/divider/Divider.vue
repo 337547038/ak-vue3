@@ -11,18 +11,18 @@
 </template>
 
 <script lang="ts" setup>
-import prefixCls from "../prefix";
+  import prefixCls from '../prefix'
 
-withDefaults(
-  defineProps<{
-    direction?: "vertical" | "";
-    borderStyle?: "dashed" | "dashed" | "soild";
-    contentPosition?: "left" | "right" | "center";
-  }>(),
-  {
-    direction: "",
-    borderStyle: "soild",
-    contentPosition: "center",
-  }
-);
+  withDefaults(
+    defineProps<{
+      direction?: 'vertical' | ''
+      borderStyle?: 'dashed' | 'dashed' | 'soild'
+      contentPosition?: 'left' | 'right' | 'center'
+    }>(),
+    {
+      direction: '',
+      borderStyle: 'soild',
+      contentPosition: 'center'
+    }
+  )
 </script>
