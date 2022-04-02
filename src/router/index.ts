@@ -25,7 +25,6 @@ routes.push(
   //   component: () => import('../views/test.vue')
   // }
 )
-console.log(routes)
 const router = createRouter({
   // 返回 savedPosition，在按下 后退/前进 按钮时，就会像浏览器的原生表现那样
   scrollBehavior(to, from, savedPosition) {

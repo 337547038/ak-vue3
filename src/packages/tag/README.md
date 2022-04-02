@@ -59,7 +59,7 @@
       @close="closeClick(index)"
       >{{ item }}</ak-tag
     >
-    <!-- <ak-input v-model="newTag" size="small" @keyup.enter="handleInputConfirm" /> -->
+    <ak-input v-model="newTag" size="small" @keyup.enter="handleInputConfirm" />
   </div>
 </template>
 <script>
