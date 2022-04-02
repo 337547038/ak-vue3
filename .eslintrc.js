@@ -1,70 +1,81 @@
-module.exports = {
-  parser: 'vue-eslint-parser',
-  parserOptions: {
-    parser: '@typescript-eslint/parser',
-    sourceType: 'module',
-    ecmaFeatures: {
-      jsx: true,
-      tsx: true
-    }
-  },
+const { defineConfig } = require("eslint-define-config");
+module.exports = defineConfig({
+  root: true,
   env: {
     browser: true,
-    node: true
+    node: true,
+    es6: true,
   },
-  plugins: [
-    '@typescript-eslint'
-  ],
+  parser: "vue-eslint-parser",
+  parserOptions: {
+    parser: "@typescript-eslint/parser",
+    ecmaVersion: 2020,
+    sourceType: "module",
+    jsxPragma: "React",
+    ecmaFeatures: {
+      jsx: true,
+    },
+  },
   extends: [
-    'plugin:@typescript-eslint/recommended',
-    'plugin:vue/vue3-recommended'
+    "plugin:vue/vue3-recommended",
+    "plugin:@typescript-eslint/recommended",
+    "prettier",
+    "plugin:prettier/recommended",
+    // 'plugin:jest/recommended'
   ],
+  plugins: ["vue", "prettier", "import", "@typescript-eslint"],
   rules: {
-    // js/ts
-    'eol-last': 'error',
-    'no-trailing-spaces': 'error',
-    'comma-style': ['error', 'last'],
-    'comma-dangle': ['error', 'never'],
-    quotes: ['error', 'single', {avoidEscape: true, allowTemplateLiterals: true}],
-    camelcase: ['error', {properties: 'never'}],
-    semi: ['error', 'never'],
-    indent: ['error', 2, {SwitchCase: 1}],
-    'object-curly-spacing': ['error', 'never'],
-    'arrow-parens': ['error', 'as-needed'],
-    '@typescript-eslint/explicit-module-boundary-types': 'off',
-    '@typescript-eslint/no-explicit-any': 'off',
-    '@typescript-eslint/member-delimiter-style': [
-      'error',
+    semi: ["error", "always"],
+    "vue/script-setup-uses-vars": "error",
+    "@typescript-eslint/ban-ts-ignore": "off",
+    "@typescript-eslint/explicit-function-return-type": "off",
+    "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/no-var-requires": "off",
+    "@typescript-eslint/no-empty-function": "off",
+    "vue/custom-event-name-casing": "off",
+    "no-use-before-define": "off",
+    "@typescript-eslint/no-use-before-define": "off",
+    "@typescript-eslint/ban-ts-comment": "off",
+    "@typescript-eslint/ban-types": "off",
+    "@typescript-eslint/no-non-null-assertion": "off",
+    "@typescript-eslint/explicit-module-boundary-types": "off",
+    "@typescript-eslint/no-unused-vars": [
+      "error",
       {
-        multiline: {
-          delimiter: 'none',
-          requireLast: false
-        },
-        singleline: {
-          delimiter: 'semi',
-          requireLast: true
-        }
-      }
+        argsIgnorePattern: "^_",
+        varsIgnorePattern: "^_",
+      },
     ],
-    // vue
-    'vue/no-v-html': 'off',
-    'vue/singleline-html-element-content-newline': 'off',
-    'vue/html-self-closing': ['error', {
-      html: {
-        void: 'never',
-        normal: 'never',
-        component: 'always'
-      }
-    }],
-    'vue/max-attributes-per-line': ['error', {
-      singleline: 5,
-      multiline: 1
-    }],
-    'vue/require-default-prop': 'off',
-    'vue/html-closing-bracket-spacing': 'error',
-    'vue/html-closing-bracket-newline': ['error', {
-      'singleline': 'never',
-      'multiline': 'never'
-    }]
-  }
-}
+    "no-unused-vars": [
+      "error",
+      {
+        argsIgnorePattern: "^_",
+        varsIgnorePattern: "^_",
+      },
+    ],
+    "space-before-function-paren": "off",
+
+    "vue/attributes-order": "off",
+    "vue/one-component-per-file": "off",
+    "vue/html-closing-bracket-newline": "off",
+    "vue/max-attributes-per-line": "off",
+    "vue/multiline-html-element-content-newline": "off",
+    "vue/singleline-html-element-content-newline": "off",
+    "vue/attribute-hyphenation": "off",
+    "vue/require-default-prop": "off",
+    "vue/require-explicit-emits": "off",
+    "vue/html-self-closing": [
+      "error",
+      {
+        html: {
+          void: "always",
+          normal: "never",
+          component: "always",
+        },
+        svg: "always",
+        math: "always",
+      },
+    ],
+    "vue/multi-word-component-names": "off",
+  },
+});

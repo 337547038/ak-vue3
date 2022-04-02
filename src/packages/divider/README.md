@@ -10,13 +10,12 @@
     这是文本内容
     <ak-divider />
     <p>也可以是虚线 borderStyle="dashed"</p>
-    <ak-divider borderStyle="dashed"/>
+    <ak-divider borderStyle="dashed" />
     <p>这是文本内容 borderStyle="dotted"</p>
-    <ak-divider borderStyle="dotted"/>
+    <ak-divider borderStyle="dotted" />
     <p>这是文本内容</p>
   </div>
 </template>
-
 ```
 
 ### 设置文案提示
@@ -31,9 +30,7 @@
     <p>这是文本内容</p>
   </div>
 </template>
-
 ```
-
 
 ### 垂直分隔线
 
@@ -49,5 +46,4 @@
     <span>删除</span>
   </div>
 </template>
-
 ```

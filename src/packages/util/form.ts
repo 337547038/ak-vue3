@@ -1,16 +1,16 @@
-import {AnyPropName} from '../types'
-import {inject} from 'vue'
-import {prefixCls} from '../prefix'
+import { AnyPropName } from "../types";
+import { inject } from "vue";
+import prefixCls from "../prefix";
 
 export const getFormDisabled = (bool: boolean) => {
   // 如果form里设置了，使用form的
-  const formProps: AnyPropName = inject(`${prefixCls}FormProps`, {})
+  const formProps: AnyPropName = inject(`${prefixCls.value}FormProps`, {});
   if (formProps && formProps.disabled) {
-    return true
+    return true;
   } else {
-    return bool
+    return bool;
   }
-}
+};
 /*
 export const getFormSize = (size: string) => {
   const formProps: AnyPropName = inject('formProps', {})

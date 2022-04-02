@@ -4,65 +4,87 @@
 
 /* 节点操作的一些方法 */
 interface Offset {
-  width: number
-  height: number
-  left: number
-  top: number
+  width: number;
+  height: number;
+  left: number;
+  top: number;
 }
 
 const scrollTop = () => {
   // 滚动条的位置
-  return document.documentElement.scrollTop || document.body.scrollTop
-}
+  return document.documentElement.scrollTop || document.body.scrollTop;
+};
 const getOffset = (el: HTMLElement): Offset => {
   // console.log(el)
   // 返回元素偏移位置
   /*if (!el) {
     return
   }*/
-  const componentRect = el.getBoundingClientRect()
-  const top = componentRect.top + (window.pageYOffset || document.documentElement.scrollTop) - (document.documentElement.clientTop || 0)
-  const left = componentRect.left + (window.pageXOffset || document.documentElement.scrollLeft) - (document.documentElement.clientLeft || 0)
-  const width = el.offsetWidth
-  const height = el.offsetHeight
-  return {left: left, top: top, width: width, height: height}
-}
+  const componentRect: DOMRect = el.getBoundingClientRect();
+  const top =
+    componentRect.top +
+    (window.pageYOffset || document.documentElement.scrollTop) -
+    (document.documentElement.clientTop || 0);
+  const left =
+    componentRect.left +
+    (window.pageXOffset || document.documentElement.scrollLeft) -
+    (document.documentElement.clientLeft || 0);
+  const width = el.offsetWidth;
+  const height = el.offsetHeight;
+  return { left: left, top: top, width: width, height: height };
+};
 const getWindow = () => {
   // 返回窗口宽高
-  const width = document.documentElement.clientWidth || document.body.clientWidth
-  const height = document.documentElement.clientHeight || document.body.clientHeight
-  return {width: width, height: height}
-}
+  const width =
+    document.documentElement.clientWidth || document.body.clientWidth;
+  const height =
+    document.documentElement.clientHeight || document.body.clientHeight;
+  return { width: width, height: height };
+};
 const getScrollbarWidth = (bool?: boolean) => {
   // 取滚动条的宽
-  const hasScroll = document.body.scrollHeight > (window.innerHeight || document.documentElement.clientHeight)
-  const scrollDiv = document.createElement('div')
-  scrollDiv.style.cssText = 'width: 99px; height: 99px; overflow: scroll; position: absolute; top: -9999px;'
-  document.body.appendChild(scrollDiv)
-  const scrollbarWidth = scrollDiv.offsetWidth - scrollDiv.clientWidth
-  document.body.removeChild(scrollDiv)
+  const hasScroll =
+    document.body.scrollHeight >
+    (window.innerHeight || document.documentElement.clientHeight);
+  const scrollDiv: HTMLDivElement = document.createElement("div");
+  scrollDiv.style.cssText =
+    "width: 99px; height: 99px; overflow: scroll; position: absolute; top: -9999px;";
+  document.body.appendChild(scrollDiv);
+  const scrollbarWidth = scrollDiv.offsetWidth - scrollDiv.clientWidth;
+  document.body.removeChild(scrollDiv);
   if (bool) {
-    return {hasScroll: hasScroll, width: scrollbarWidth}
+    return { hasScroll: hasScroll, width: scrollbarWidth };
   } else {
-    return scrollbarWidth
+    return scrollbarWidth;
   }
-}
-const hasClass = (elements: Element, cName = '') => {
-  return !!elements.className.match(new RegExp('(\\s|^)' + cName + '(\\s|$)'))
-}
-const addClass = (elements: Element, cName = '') => {
+};
+const hasClass = (elements: Element, cName = "") => {
+  return !!elements.className.match(new RegExp("(\\s|^)" + cName + "(\\s|$)"));
+};
+const addClass = (elements: Element, cName = "") => {
   if (!hasClass(elements, cName)) {
     if (elements.className) {
-      elements.className += ' ' + cName
+      elements.className += " " + cName;
     } else {
-      elements.className += cName
+      elements.className += cName;
     }
   }
-}
-const removeClass = (elements: Element, cName = '') => {
+};
+const removeClass = (elements: Element, cName = "") => {
   if (hasClass(elements, cName)) {
-    elements.className = elements.className.replace(new RegExp('(\\s|^)' + cName + '(\\s|$)'), '')
+    elements.className = elements.className.replace(
+      new RegExp("(\\s|^)" + cName + "(\\s|$)"),
+      ""
+    );
   }
-}
+};
 
-export {scrollTop, getOffset, getWindow, getScrollbarWidth, hasClass, addClass, removeClass}
+export {
+  scrollTop,
+  getOffset,
+  getWindow,
+  getScrollbarWidth,
+  hasClass,
+  addClass,
+  removeClass,
+};
