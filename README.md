@@ -35,6 +35,7 @@ https://gitee.com/q337547038/ak-vue
 - [ ] ColorPicker 颜色选择器
 - [ ] DataPicker 时间选择器
 - [ ] Dialog 弹层对话框
+- [x] Divider 分割线
 - [ ] Alert 弹框
 - [ ] Form 表单
 - [x] Input 输入框
@@ -47,7 +48,7 @@ https://gitee.com/q337547038/ak-vue
 - [ ] Radio 单选框
 - [ ] Select 选择器
 - [ ] Switch 开关
-- [x] Table 表格
+- [ ] Table 表格
 - [ ] Tabs 标签页
 - [ ] Textarea 文本框
 - [ ] Tooltip 提示
