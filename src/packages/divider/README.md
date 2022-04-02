@@ -14,6 +14,7 @@
     <p>这是文本内容 borderStyle="dotted"</p>
     <ak-divider borderStyle="dotted" />
     <p>这是文本内容</p>
+    <ak-divider borderStyle="double" />
   </div>
 </template>
 ```

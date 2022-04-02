@@ -24,10 +24,10 @@ https://gitee.com/q337547038/ak-vue
 ## 移植完成的组件
 
 - [ ] AutoForm 自动表单
-- [ ] BackTop 返回顶部
-- [ ] Badge 标记
-- [ ] Breadcrumb 面包屑
-- [ ] Button 按钮
+- [x] BackTop 返回顶部
+- [x] Badge 标记
+- [x] Breadcrumb 面包屑
+- [x] Button 按钮
 - [ ] Carousel 跑马灯
 - [ ] Cascader 级联选择器
 - [ ] Checkbox 多选框

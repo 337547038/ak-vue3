@@ -1,12 +1,12 @@
 <!-- Created by 337547038 -->
 <template>
   <div
-    :class="[prefixCls + '-divider', direction]"
-    :style="{ '--divider-border-style': borderStyle }"
+    :class="[prefixCls + '-divider', direction, 'divider']"
+    :style="{ borderTopStyle: borderStyle }"
   >
-    <span v-if="$slots.default" class="divider-text" :class="[contentPosition]"
-      ><slot></slot
-    ></span>
+    <span class="divider-text" :class="[contentPosition]">
+      <slot></slot>
+    </span>
   </div>
 </template>
 
@@ -16,7 +16,7 @@
   withDefaults(
     defineProps<{
       direction?: 'vertical' | ''
-      borderStyle?: 'dashed' | 'dashed' | 'soild'
+      borderStyle?: 'dashed' | 'dotted' | 'soild'
       contentPosition?: 'left' | 'right' | 'center'
     }>(),
     {
