@@ -6,8 +6,9 @@
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build",
     "preview": "vite preview",
-    "lint": "eslint --ext .js,.ts,.vue src/ ",
-    "lintfix": "eslint --fix --ext .js,.ts,.vue src/"
+    "lint": "eslint --ext .js,.ts,.vue src/",
+    "lintfix": "eslint --fix --ext .js,.ts,.vue src/",
+    "lint:fromat": "prettier -c --parser typescript \"{src,__tests__,e2e}/**/*.[jt]s?(x)\""
   },
   "dependencies": {
     "vue": "^3.2.25",
@@ -26,6 +27,7 @@
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-vue": "^8.5.0",
     "prettier": "^2.6.1",
+    "prettier-eslint": "^13.0.0",
     "sass": "^1.49.11",
     "typescript": "^4.5.4",
     "vite": "^2.9.0",
