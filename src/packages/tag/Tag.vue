@@ -16,38 +16,38 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
+  import { ref } from 'vue'
 
-withDefaults(
-  defineProps<{
-    type?: string
-    closable?: boolean
-    color?: string
-    borderColor?: string
-    bgColor?: string
-    size?: string
-  }>(),
-  {
-    type: '',
-    closable: false,
-    color: '',
-    borderColor: '',
-    bgColor: '',
-    size: ''
+  withDefaults(
+    defineProps<{
+      type?: string
+      closable?: boolean
+      color?: string
+      borderColor?: string
+      bgColor?: string
+      size?: string
+    }>(),
+    {
+      type: '',
+      closable: false,
+      color: '',
+      borderColor: '',
+      bgColor: '',
+      size: ''
+    }
+  )
+
+  const emits = defineEmits<{
+    (e: 'click'): void
+    (e: 'close'): void
+  }>()
+
+  const visible = ref<boolean>(true)
+  const closeClick = () => {
+    visible.value = false
+    emits('close')
   }
-)
-
-const emits = defineEmits<{
-  (e: 'click'): void
-  (e: 'close'): void
-}>()
-
-const visible = ref<boolean>(true)
-const closeClick = () => {
-  visible.value = false
-  emits('close')
-}
-const click = () => {
-  emits('click')
-}
+  const click = () => {
+    emits('click')
+  }
 </script>
