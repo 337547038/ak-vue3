@@ -21,7 +21,7 @@
         }"
         :style="{
           width: width,
-          top: top,
+          top: state.top,
           left: state.left,
           'transition-duration': state.moveFlag ? '0s' : ''
         }"
@@ -62,15 +62,12 @@
           <slot name="footer"></slot>
         </div>
         <div v-if="confirm || cancel" :class="`${prefixCls}-dialog-footer`">
-          <d-button
-            v-if="confirm"
-            type="primary"
-            @click="btnClick('confirm')"
-            >{{ confirm }}</d-button
-          >
-          <d-button v-if="cancel" type="cancel" @click="btnClick('cancel')">{{
-            cancel
-          }}</d-button>
+          <d-button v-if="cancel" type="cancel" @click="btnClick('cancel')"
+            >{{ cancel }}
+          </d-button>
+          <d-button v-if="confirm" type="primary" @click="btnClick('confirm')"
+            >{{ confirm }}
+          </d-button>
         </div>
       </div>
     </div>
@@ -95,7 +92,17 @@
     getWindow,
     getScrollbarWidth
   } from '../util/dom'
-  import { AnyPropName } from '../types'
+  // import { AnyPropName } from '../types'
+
+  export interface stateStyle {
+    //[propName: string]: any
+    autoTime: number
+    visible: boolean
+    left?: string
+    top?: string
+    moveFlag: boolean
+    scrollbar: any
+  }
 
   const props = withDefaults(
     defineProps<{
@@ -147,7 +154,7 @@
   const el = ref()
   const headEl = ref()
   const dialogEl = ref()
-  const state = reactive<AnyPropName>({
+  const state = reactive<stateStyle>({
     autoTime: props.autoClose, // 自动关闭时间
     visible: props.modelValue, // 控制窗口显示隐藏
     left: '',
@@ -160,7 +167,7 @@
     () => props.modelValue,
     (bool: boolean) => {
       state.visible = bool
-      bool && autoClose() // 调用自动关闭
+      bool && autoCloseFn() // 调用自动关闭
       setScrollBarLock(bool) // 锁住
     }
   )
@@ -179,7 +186,7 @@
     }
     return icon
   })
-  const autoClose = () => {
+  const autoCloseFn = () => {
     // 自动关闭
     if (props.autoClose > 0) {
       state.autoTime = props.autoClose
@@ -196,7 +203,7 @@
   }
   const open = () => {
     state.visible = true
-    autoClose() // 调用自动关闭
+    autoCloseFn() // 调用自动关闭
     setScrollBarLock(true) // 锁住
   }
   defineExpose({ open })
@@ -306,5 +313,6 @@
     if (props.appendToBody && el.value.parentNode) {
       el.value.parentNode.removeChild(el.value)
     }
+    clearTime && window.clearInterval(clearTime)
   })
 </script>

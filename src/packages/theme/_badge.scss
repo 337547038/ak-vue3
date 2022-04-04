@@ -8,10 +8,10 @@
     top: 0;
     right: 10px;
     transform: translateY(-50%) translateX(100%);
-    background-color: $primary;
-    border-radius: 10px;
-    color: #fff;
     display: inline-block;
+    background-color: $primaryColor;
+    border-radius: 10px;
+    color: $textColor4;
     font-size: 12px;
     height: 18px;
     line-height: 18px;
@@ -31,4 +31,7 @@
       overflow: hidden;
     }
   }
+  &.success sup{background-color: $successColor}
+  &.warning sup{background-color: $warningColor}
+  &.danger sup{background-color: $dangerColor}
 }

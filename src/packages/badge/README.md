@@ -74,10 +74,10 @@ export default {
 ```vue demo
 <template>
    <div>
-     <ak-badge value="hot" :dot="true">
+     <ak-badge value="hot">
         <ak-button>回复</ak-button>
      </ak-badge>
-     <ak-badge value="new" :dot="true">
+     <ak-badge value="new">
         回复
      </ak-badge>  
    </div>
@@ -93,12 +93,36 @@ export default {
 </script>
 ```
 
+### 显示不同主题
+
+支持 `default`、`primary`、`success`、`warning`、`danger`、五种类型，默认为 `danger`。
+
+```vue demo
+<template>
+  <div>
+   <ak-badge :value="12" type="primary">
+     <ak-button>评论</ak-button>
+   </ak-badge>
+   <ak-badge :value="2"  type="success">
+     <ak-button>回复</ak-button>
+   </ak-badge>
+   <ak-badge :value="12" type="warning">
+     <ak-button>评论</ak-button>
+   </ak-badge>
+   <ak-badge :value="2"  type="danger">
+     <ak-button>回复</ak-button>
+   </ak-badge>
+  </div>
+</template>
+```
+
 ## API
 
 ### Badge
 
-|参数|类型|说明|
-|----------|--------------|--------|
-|value          | String/Number  |显示值|
-|max            | Number         |最大值，value为Number有效|
-|dot            | boolean/false  |显示小圆点|
+| 参数    | 类型            |说明|
+|-------|---------------|--------|
+| value | String/Number |显示值|
+| max   | Number        |最大值，value为Number有效|
+| dot   | boolean/false |显示小圆点|
+| type  | String        |支持 `default`、`primary`、`success`、`warning`、`danger`、五种类型，默认为 `danger`|

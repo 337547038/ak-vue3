@@ -1,6 +1,6 @@
 <!-- Created by 337547038 on $. -->
 <template>
-  <span :class="{ [prefixCls + '-badge']: true, dot: isDot }">
+  <span :class="{ [prefixCls + '-badge']: true, dot: isDot, [type]: true }">
     <slot></slot>
     <sup>{{ showValue }}</sup>
   </span>
@@ -15,10 +15,12 @@
       value: number | string
       dot?: boolean
       max?: number
+      type?: 'primary' | 'success' | 'warning' | 'danger'
     }>(),
     {
       dot: false,
-      max: 99
+      max: 99,
+      type: 'danger'
     }
   )
 

@@ -1,7 +1,7 @@
 <template>
   <div v-if="visible" class="container">
     <div class="sidebar">
-      <div class="logo"><img src="./assets/logo.png" alt="" />AK-Docs</div>
+      <div class="logo"><img src="./assets/logo.jpg" alt="" />AK-Docs</div>
       <!-- <div class="version">
         <ak-select-down v-model="version" width="160px">
           <p><a href="https://337547038.github.io/akvue3/" target="_blank">Vue3.X</a></p>
@@ -28,7 +28,8 @@
 <script lang="ts" setup>
   import routesList from 'virtual:generated-pages'
   import { ref } from 'vue'
-
+  // import { useRouter } from 'vue-router'
+  // const router = useRouter()
   let visible = true
   const getName = (name: string) => {
     return name.substring(0, 1).toUpperCase() + name.substring(1)
@@ -62,4 +63,10 @@
 
   routesListFilter.value.sort(sortBy('name'))
   // const version = ref(["Vue3.X"]);
+  /*const toPath = (path: string) => {
+    // console.log(path)
+    router.push({
+      path: path
+    })
+  }*/
 </script>

@@ -6,7 +6,7 @@
 
 ```vue demo
 <template>
-  <ak-input-number v-model="value1" />
+  <ak-input-number v-model="value1"/>
 </template>
 <script>
 import {ref} from 'vue'

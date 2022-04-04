@@ -2,7 +2,8 @@
 @include ns(form-input) {
   display: inline-block;position: relative;
   .suffix-icon, .prefix-icon {position: absolute;right: 5px;top: 50%;transform: translateY(-50%);display: flex;align-items: center;justify-content: flex-end;
-    i {font-size: 20px;cursor: pointer;transition: all .3s;width: 25px;height: 25px;text-align: center;line-height: 25px;color: #999}
+    i {font-size: 20px;cursor: pointer;transition: all .3s;width: 25px;height: 25px;text-align: center;line-height: 25px;color: $textColor2}
+    .icon-close{font-size: 14px}
   }
   .prefix-icon {left: 3px;right: auto;}
   .icon-close {display: none;}
@@ -11,19 +12,19 @@
   }
   .has-prefix {padding-left: 30px}
   &.input-prepend, &.input-append {display: flex;justify-content: space-between;align-items: stretch;
-    .prepend, .append {border: 1px solid $border;display: flex;align-items: center;padding: 0 5px;}
+    .prepend, .append {border: 1px solid $borderColor;display: flex;align-items: center;padding: 0 5px;}
     .prepend {border-radius: 3px 0 0 3px;border-right: none;margin-right: -1px}
     .append {border-radius: 0 3px 3px 0;border-left: none;margin-left: -1px}
   }
 }
 @include ns(input-control) {
-  height: 40px;line-height: 40px;border: 1px solid $border;border-radius: 3px;background: none;outline: none;padding: 0 10px;font-size: 14px;overflow: hidden;box-sizing: border-box;width: 100%;
+  height: 36px; line-height: 36px;border: 1px solid $borderColor;border-radius: $borderRadius;background: none;outline: none;padding: 0 10px;font-size: 14px;overflow: hidden;box-sizing: border-box;width: 100%;
   &:hover {opacity: .7}
-  &:focus, &.focus {border-color: $primary}
+  &:focus, &.focus {border-color: $primaryColor}
   &.placeholder {color: #999}
   /*禁用状态*/
-  &.disabled {cursor: not-allowed; opacity: .5}
-  &.medium {height: 36px; line-height: 36px;}
+  &.disabled {cursor: not-allowed; opacity: $disabledOpacity}
+  &.large {height: 40px; line-height: 40px;}
   &.small {height: 32px;line-height: 32px;}
   &.mini {height: 28px; line-height: 28px;}
 }

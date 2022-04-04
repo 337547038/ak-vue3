@@ -28,8 +28,15 @@
   import prefixCls from '../prefix'
   import { computed, inject, ref } from 'vue'
   import { useRouter } from 'vue-router'
-  import { GroupConfig } from '../types/button'
   import { getFormDisabled } from '../util/form'
+
+  export interface GroupPropConfig {
+    disabled?: boolean
+    round?: boolean
+    size?: string
+    width?: string
+    plain?: boolean
+  }
 
   const props = withDefaults(
     defineProps<{
@@ -43,7 +50,8 @@
       nativeType?: '' | 'button' | 'submit' | 'reset'
       width?: string
       name?: string // btn group中作为唯一标识
-      loading?: false // 是否加
+      loading?: boolean // 是否加
+      plain?: boolean // 是否为朴素按钮
     }>(),
     {
       type: '',
@@ -63,7 +71,10 @@
     (e: 'click', event: MouseEvent): void
   }>()
 
-  const groupConfig: GroupConfig = inject(`${prefixCls.value}GroupConfig`, {})
+  const groupConfig: GroupPropConfig = inject(
+    `${prefixCls.value}GroupConfig`,
+    {}
+  )
   const btnClick: any = inject(`${prefixCls.value}BtnClick`, '')
   const disabledOk = computed(() => {
     if (props.loading) {
@@ -80,7 +91,8 @@
       'is-round': props.round || groupConfig.round,
       [`${prefixCls.value}-btn-` + props.type]: props.type,
       disabled: disabledOk.value,
-      [size]: size
+      [size]: size,
+      'is-plain': props.plain || groupConfig.plain
     }
   })
   const routerHref = computed(() => {

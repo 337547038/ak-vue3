@@ -2,15 +2,15 @@
 @include ns(input-number) {display: inline-block;vertical-align: middle;position: relative;
   input {text-align: center;}
   .number-control {
-    a {display: flex;position: absolute;top: 1px;width: 38px;bottom: 1px;background: #f5f7fa;left: 1px;border-right: 1px solid #dcdfe6;text-align: center;cursor: pointer;align-items: center;justify-content: center;
+    a {display: flex;position: absolute;top: 1px;width: 38px;bottom: 1px;background: #f5f7fa;left: 1px;border-right: 1px solid $borderColor;text-align: center;cursor: pointer;align-items: center;justify-content: center;font-size: 14px;
 
-      &:last-child {left: auto;right: 1px;border-left: 1px solid #dcdfe6;border-right-color: transparent;}
+      &:last-child {left: auto;right: 1px;border-left: 1px solid $borderColor;border-right-color: transparent;}
 
-      &.disabled {cursor: not-allowed;color: #999}
+      &.disabled {cursor: not-allowed;opacity: $disabledOpacity}
     }
   }
   &.disabled {
-    .number-control {
+    .number-control {opacity: $disabledOpacity;
       a {background: #eee;cursor: not-allowed}
     }
   }

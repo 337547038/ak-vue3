@@ -102,12 +102,12 @@ export default {
 
 ### 设置大小
 
-使用`size="medium/small/mini"`设置按钮大小
+支持 `large`、`normal`、`small`、`mini` 四种尺寸，默认为 normal
 
 ```vue demo
 <template>
+   <p><ak-input placeholder="默认尺寸" size="large"></ak-input></p>
    <p><ak-input placeholder="默认尺寸"></ak-input></p>
-   <p><ak-input placeholder="sixe=medium" size="medium"></ak-input></p>
    <p><ak-input placeholder="sixe=small" size="small"></ak-input></p>
    <p><ak-input placeholder="sixe=mini" size="mini"></ak-input></p>
 </template>
@@ -134,7 +134,7 @@ export default {
 |clear          | boolean/false  |显示清空按钮|
 |showEye        | boolean/false  |密码框显示明文切换|
 |width          | string         |设置宽度属性|
-|size           | string         |添加的大小尺寸样式|
+|size           | string         |支持 `large`、`normal`、`small`、`mini` 四种尺寸，默认为 `normal`|
 |prefixIcon     | string         |前缀icon图标|
 |suffixIcon     | string         |后缀icon图标|
 |-              |                |其它原生所有属性|

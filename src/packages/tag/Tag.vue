@@ -3,9 +3,9 @@
   <span
     v-show="visible"
     :class="{
-      ['ak-tag']: true,
-      ['ak-tag-' + type]: type,
-      ['ak-tag-' + size]: size
+      [`${prefixCls}-tag`]: true,
+      [`tag-` + type]: type,
+      [`tag-` + size]: size
     }"
     :style="{ background: bgColor, borderColor: borderColor, color: color }"
     @click="click"
@@ -17,7 +17,7 @@
 
 <script lang="ts" setup>
   import { ref } from 'vue'
-
+  import prefixCls from '../prefix'
   withDefaults(
     defineProps<{
       type?: string

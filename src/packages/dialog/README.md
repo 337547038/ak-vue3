@@ -103,7 +103,7 @@ export default {
 ### 按钮事件
 
 默认下点击按钮是关闭弹窗口的，可通过`beforeClose`接收点击事件，根据实现按需关闭。`callback`同`beforeClose`，`callback`只针对确认事件。`beforeClose
-`它将会阻止窗口的关闭事件，需手动关闭
+`它将会阻止窗口的关闭事件，需另外调用方法关闭
 
 ```vue demo
 <template>

@@ -1,6 +1,6 @@
 <!--Created by 337547038 on 2017/12/14.-->
 <template>
-  <div :class="`${prefixCls}-progress`">
+  <div :class="[`${prefixCls}-progress`, status]">
     <div
       v-if="type === 'line'"
       :style="{
@@ -54,7 +54,7 @@
 <script lang="ts" setup>
   import prefixCls from '../prefix'
   import { reactive, computed, onMounted } from 'vue'
-  import { AnyPropName } from '../types'
+  import { circleStyleAttr } from './type'
 
   const props = withDefaults(
     defineProps<{
@@ -68,14 +68,15 @@
       showText?: boolean // 显示进度数字
       followText?: boolean // 进度数字跟进进度
       className?: string
+      status?: 'primary' | 'success' | 'warning' | 'danger'
     }>(),
     {
       type: 'line',
       modelValue: 0,
       radius: 0, // 外半径
       border: 0, // 边框
-      color: '#999', // 底环颜色
-      borderColor: '#41a259', // 进度条颜色
+      // color: '#999', // 底环颜色
+      // borderColor: '#41a259', // 进度条颜色
       duration: 1000, // 动画持续时间，单位毫秒
       showText: true, // 显示进度数字
       followText: true // 进度数字跟进进度
@@ -105,11 +106,13 @@
     }, props.duration / props.modelValue)
   }
   const circleStyle = (type: string) => {
-    let style: AnyPropName = {}
+    let style: circleStyleAttr = {}
     style.width = props.radius * 2 + 'px'
     style.height = props.radius * 2 + 'px'
     if (type === 'pro') {
-      style.border = `${props.border}px solid ${props.color}`
+      // style.border = `${props.border}px solid ${props.color || 'transparent'}`
+      style.borderWidth = `${props.border}px`
+      style.borderColor = props.color
     } else if (type === 'circle') {
       style.left = `-${props.border}px`
       style.top = `-${props.border}px`
@@ -121,11 +124,15 @@
         }px)`
       }
     } else if (type === 'left') {
-      style.border = `${props.border}px solid ${props.borderColor}`
+      //style.border = `${props.border}px solid ${borderColor}`
+      style.borderWidth = `${props.border}px`
+      style.borderColor = props.borderColor
       style.clip = `rect(0, ${props.radius}px, ${props.radius * 2}px, 0px)`
       style.transform = 'rotate(' + 3.6 * state.percent + 'deg)'
     } else if (type === 'right') {
-      style.border = `${props.border}px solid ${props.borderColor}`
+      //style.border = `${props.border}px solid ${borderColor}`
+      style.borderWidth = `${props.border}px`
+      style.borderColor = props.borderColor
       style.clip = `rect(0, ${props.radius * 2}px, ${props.radius * 2}px, ${
         props.radius
       }px)`

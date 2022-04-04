@@ -11,3 +11,4 @@ declare module 'virtual:generated-pages' {
   const routesList: any[]
   export default routesList
 }
+declare module '*.md'

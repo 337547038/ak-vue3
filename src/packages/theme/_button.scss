@@ -1,42 +1,82 @@
 @charset "UTF-8";
-$btn: $border #fff #666; // border background textColor
-$btnPri: $primary $primary #fff; // type=primary
-$btnCancel: #e3e3e3 #f7f7f7 #333; // type=cancel
-$btnText: transparent transparent $primary; // type=text
-@include ns(btn){
-  display: inline-block;white-space: nowrap;cursor: pointer;border: 1px solid transparent; text-align: center; box-sizing: border-box;outline: none;padding: 0 20px;border-radius: 4px;font-size: 14px;transition: .1s;@include BBT($btn);user-select: none;height: 40px;line-height: 40px;
-  @include ns(icon){margin-right: 5px;display: inline-block;vertical-align: middle}
-  &:hover{
+@mixin BBT($border,$background,$color) {
+  border-color: $border;
+  background-color: $background;
+  color: $color;
+}
+@mixin BBTLighten($color,$num,$num2) {
+  border-color: lighten($color, $num);
+  background-color: lighten($color, $num2);
+  color: $color;
+}
+@include ns(btn) {
+  @include BBT($borderColor, $backgroundColor, $textColor);
+  display: inline-block;white-space: nowrap;cursor: pointer;border: 1px solid $borderColor; text-align: center; box-sizing: border-box;outline: none;padding: 0 20px;border-radius: $borderRadius;font-size: 14px;transition: .2s;user-select: none;height: 36px;line-height: 36px;
+  @include ns(icon) {margin-right: 5px;display: inline-block;vertical-align: middle}
+  &:hover {
     opacity: .8;
   }
-  &.disabled{cursor: not-allowed;opacity: .5}
-  &.is-round{border-radius: 20px;}
+  &.disabled {cursor: not-allowed;opacity: $disabledOpacity}
+  &.is-round {border-radius: 18px;
+    &.large {border-radius: 20px}
+    &.small {border-radius: 16px}
+    &.mini {border-radius: 14px}
+  }
   /*以上为默认*/
-
   /*要对每种type定义不同的状态，如type=primary*/
-  &.#{$namespace}btn-primary{
-    @include BBT($btnPri);
-    &.border{background: none;color: nth($btnPri, 2)}
+  &.#{$namespace}btn-primary {
+    @include BBT($primaryColor, $primaryColor, $textColor5);
+    &.is-plain {
+      @include BBTLighten($primaryColor, 30, 42);
+      &:hover {
+        @include BBT($primaryColor, $primaryColor, $textColor5);
+      }
+    }
   }
-  &.#{$namespace}btn-cancel{
-    @include BBT($btnCancel);
-    &.border{background: none}
+  &.#{$namespace}btn-success {
+    @include BBT($successColor, $successColor, $textColor5);
+    &.is-plain {
+      @include BBTLighten($successColor, 30, 58);
+      &:hover {
+        @include BBT($successColor, $successColor, $textColor5);
+      }
+    }
   }
-  &.#{$namespace}btn-text{
+  &.#{$namespace}btn-warning {
+    @include BBT($warningColor, $warningColor, $textColor5);
+    &.is-plain {
+      @include BBTLighten($warningColor, 10, 26);
+      &:hover {
+        @include BBT($warningColor, $warningColor, $textColor5);
+      }
+    }
+  }
+  &.#{$namespace}btn-danger {
+    @include BBT($dangerColor, $dangerColor, $textColor5);
+    &.is-plain {
+      @include BBTLighten($dangerColor, 30, 46);
+      &:hover {
+        @include BBT($dangerColor, $dangerColor, $textColor5);
+      }
+    }
+  }
+  &.#{$namespace}btn-text {
     //文字链接按钮
-    @include BBT($btnText);border: 0;padding: 0; border-radius: 0;
+    border: 0;padding: 0;height: auto;line-height: normal;
   }
   // 尺寸大小
-  &.medium{padding: 0 20px;border-radius: 4px;font-size: 14px;height: 36px;line-height: 36px}
-  &.small{padding: 0 15px;border-radius: 3px;font-size: 12px;height: 32px;line-height: 32px}
-  &.mini{padding: 0 15px;border-radius: 4px;font-size: 12px;height: 28px;line-height: 28px}
+  &.large {padding: 0 20px;border-radius: 4px;font-size: 14px;height: 40px;line-height: 40px}
+  &.small {padding: 0 15px;border-radius: 3px;font-size: 12px;height: 32px;line-height: 32px}
+  &.mini {padding: 0 15px;border-radius: 4px;font-size: 12px;height: 28px;line-height: 28px}
   /*+ .-btn{margin-left: 10px}*/
-  + .#{$namespace}btn{margin-left: 10px}
+  + .#{$namespace}btn {margin-left: 10px}
   // loading动画
-  .icon-loading{animation: iconLoading 2s linear infinite;margin: 0}
+  .icon-loading {margin: 0 2px 0 0;position: relative;top: -2px;
+    &:before {animation: iconLoading 2s linear infinite;display: block}
+  }
 }
-@include ns(btn-group){}
+@include ns(btn-group) {}
 @keyframes iconLoading {
-  0%{transform: rotate(0)}
-  100%{transform: rotate(360deg)}
+  0% {transform: rotate(0)}
+  100% {transform: rotate(360deg)}
 }

@@ -15,7 +15,7 @@
       "vite/client","node"
     ]
   },
-  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"],
+  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue","src/*.md","src/*.md"],
   "references": [{ "path": "./tsconfig.node.json" }],
   "baseUrl": ".",
   "paths": {

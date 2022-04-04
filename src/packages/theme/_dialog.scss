@@ -1,14 +1,14 @@
 @charset "UTF-8";
 @include ns(dialog) {
-  position: absolute;box-shadow: 1px 1px 20px rgba(0, 0, 0, .3); border-radius: 5px; background: #fff; overflow: hidden;transition: all .3s;top: 20vh;
+  position: absolute;box-shadow: 1px 1px 20px rgba(0, 0, 0, .3); border-radius: $borderRadius; background:$backgroundColor; overflow: hidden;transition: all .3s;top: 20vh;min-width: 400px;
   @include ns(dialog-close) {display: flex;position: absolute;right: 5px;top: 5px;height: 30px;width: 30px;align-items: center;justify-content: center;cursor: pointer;z-index: 5;
     &:hover {opacity: .8}
   }
-  @include ns(dialog-header) {overflow: hidden; font-size: 16px; padding-left: 15px; position: relative; border-bottom: 1px solid $border; color: #333; border-radius: 5px 5px 0 0;-webkit-user-select: none;height: 40px;line-height: 40px;
+  @include ns(dialog-header) {overflow: hidden; font-size: 16px; padding-left: 15px; position: relative; border-bottom: 1px solid $borderLineColor; color: $textColor; border-radius: 5px 5px 0 0;-webkit-user-select: none;height: 44px;line-height: 44px;
     &.move {cursor: move}
   }
   @include ns(dialog-content) {overflow: hidden;overflow-y: auto;padding: 20px;box-sizing: border-box;transition: all .3s}
-  @include ns(dialog-footer) {text-align: center;padding: 10px}
+  @include ns(dialog-footer) {text-align: right;padding: 10px 20px 20px}
   @include ns(dialog-auto-close) {position: absolute; left: 10px; top: 45px;}
   @include ns(dialog-alert) {display: flex;justify-content: center;align-items: center;
     i {font-size: 30px;margin-right: 5px;}

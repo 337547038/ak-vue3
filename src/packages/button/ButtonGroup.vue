@@ -15,6 +15,7 @@
       round?: boolean
       disabled?: boolean
       width?: string
+      plain?: boolean
     }>(),
     {
       size: '',
@@ -28,8 +29,8 @@
     (e: 'click', event: MouseEvent, name: string): void
   }>()
 
-  provide(`${prefixCls}GroupConfig`, props)
-  provide(`${prefixCls}BtnClick`, (event: MouseEvent, name: string) => {
+  provide(`${prefixCls.value}GroupConfig`, props)
+  provide(`${prefixCls.value}BtnClick`, (event: MouseEvent, name: string) => {
     if (!props.disabled) {
       emits('click', event, name)
     }

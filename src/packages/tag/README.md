@@ -2,15 +2,16 @@
 
 ### 基本使用
 
-由`type`属性来选择`tag`的类型
+由`type`属性来选择`tag`的类型，支持 `default`、`success`、`warning`、`danger`类型，默认为 `default`。
 
 ```vue demo
 <template>
   <div>
     <ak-tag>标签一</ak-tag>
-    <ak-tag type="info">标签二</ak-tag>
+    <ak-tag type="success">标签二</ak-tag>
     <ak-tag type="warning">标签三</ak-tag>
     <ak-tag type="danger">标签四</ak-tag>
+    <ak-tag type="danger" color="#fff" bgColor="#c642e7" borderColor="#c642e7">自定样式</ak-tag>
   </div>
 </template>
 <script></script>
@@ -23,8 +24,8 @@
 ```vue demo
 <template>
   <div>
-    <ak-tag>默认标签</ak-tag>
-    <ak-tag size="medium">中等标签</ak-tag>
+    <ak-tag size="large">默认标签</ak-tag>
+    <ak-tag size="default">中等标签</ak-tag>
     <ak-tag size="small">小型标签</ak-tag>
     <ak-tag size="mini">超小标签</ak-tag>
   </div>
@@ -40,7 +41,7 @@
 <template>
   <div>
     <ak-tag :closable="true">标签一</ak-tag>
-    <ak-tag :closable="true" type="info">标签二</ak-tag>
+    <ak-tag :closable="true" type="success">标签二</ak-tag>
     <ak-tag :closable="true" type="warning">标签三</ak-tag>
     <ak-tag :closable="true" type="danger">标签3</ak-tag>
   </div>
@@ -73,8 +74,10 @@ export default {
       list.value.splice(index, 1);
     };
     const handleInputConfirm = () => {
+     if(newTag.value){
       list.value.push(newTag.value);
       newTag.value = "";
+      }
     };
     return {
       list,
@@ -91,11 +94,11 @@ export default {
 
 ### Tag Props
 
-| 参数        | 类型          | 说明                              |
-| ----------- | ------------- | --------------------------------- |
-| type        | string        | 类型，success/info/warning/danger |
-| closable    | boolean/false | 是否可关闭                        |
-| color       | string        | 字体颜色                          |
-| bgColor     | string        | 背景色                            |
-| borderColor | string        | 边框颜色                          |
-| size        | string        | 尺寸，medium / small / mini       |
+| 参数        | 类型          | 说明                                 |
+| ----------- | ------------- | ------------------------------------ |
+| type        | string        | 类型，success/default/warning/danger |
+| closable    | boolean/false | 是否可关闭                           |
+| color       | string        | 字体颜色                             |
+| bgColor     | string        | 背景色                               |
+| borderColor | string        | 边框颜色                             |
+| size        | string        | 尺寸，large / default/small / mini   |
