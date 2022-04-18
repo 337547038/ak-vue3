@@ -143,26 +143,18 @@
     </ak-button-group>
   </p>
 </template>
-<script>
-export default {
-  setup() {
-    const btnGroupClick = (evt, name) => {
-      console.log(name); // 用于区分点击了哪个按钮
-    };
-    const groupClick = () => {
-      console.log("groupClick");
-    };
-    const groupSingleClick = () => {
-      console.log("groupClick");
-    };
-    return {
-      btnGroupClick,
-      groupClick,
-      groupSingleClick,
-    };
-  },
-};
+<script lang="ts" setup>
+  const btnGroupClick = (evt: MouseEvent, name: string) => {
+    console.log(name) // 用于区分点击了哪个按钮
+  }
+  const groupClick = () => {
+    console.log('groupClick')
+  }
+  const groupSingleClick = () => {
+    console.log('groupClick')
+  }
 </script>
+
 ```
 
 ## API

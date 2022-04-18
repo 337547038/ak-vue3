@@ -4,22 +4,16 @@
 
 ```vue demo
 <template>
-   <p><ak-input></ak-input></p>
-   <p><ak-input placeholder="请输入内容"></ak-input></p>
-   <p><ak-input placeholder="请输入内容" v-model="defaultValue"></ak-input></p>
-   <p><ak-input placeholder="禁用状态" :disabled="true"></ak-input></p>
+  <p><ak-input /></p>
+  <p><ak-input placeholder="请输入内容" /></p>
+  <p><ak-input placeholder="请输入内容" v-model="defaultValue" /></p>
+  <p><ak-input placeholder="禁用状态" :disabled="true" /></p>
 </template>
-<script>
-import {ref} from 'vue'
-export default {
-  setup(){
+<script lang="ts" setup>
+  import { ref } from 'vue'
   const defaultValue = ref('初始默认值')
-   return {
-    defaultValue
-   }
-  }
-}
 </script>
+
 ```
 
 ### 显示清空按钮
@@ -28,17 +22,17 @@ export default {
 
 ```vue demo
 <template>
- <ak-input placeholder="试着输入些什么看看" v-model="valueClear" :clear="true"></ak-input>
+  <ak-input
+    placeholder="试着输入些什么看看"
+    v-model="valueClear"
+    :clear="true"
+  />
 </template>
-<script>
-export default {
-  data () {
-    return {
-      valueClear: '',
-    }
-  }
-}
+<script setup>
+  import { ref } from 'vue'
+  const valueClear = ref('')
 </script>
+
 ```
 
 ### 可显示密码明文
@@ -47,17 +41,18 @@ export default {
 
 ```vue demo
 <template>
- <ak-input placeholder="请输入内容" v-model="value4" :showEye="true" type="password"></ak-input>
+  <ak-input
+    placeholder="请输入内容"
+    v-model="value"
+    :showEye="true"
+    type="password"
+  />
 </template>
-<script>
-export default {
-  data () {
-    return {
-     value4: '',
-    }
-  }
-}
+<script lang="ts" setup>
+  import { ref } from 'vue'
+  const value = ref('')
 </script>
+
 ```
 
 ### 添加前后缀Icon
@@ -66,19 +61,14 @@ export default {
 
 ```vue demo
 <template>
-<p>
-   <ak-input 
-      placeholder="请输入内容" 
-      prefix-icon="icon-user">
-   </ak-input>
-   </p>
-   <p>
-   <ak-input 
-      placeholder="请输入内容" 
-      suffix-icon="icon-search">
-   </ak-input>
-   </p>
+  <p>
+    <ak-input placeholder="请输入内容" prefix-icon="icon-user" />
+  </p>
+  <p>
+    <ak-input placeholder="请输入内容" suffix-icon="icon-search" />
+  </p>
 </template>
+
 ```
 
 ### 复合型输入框
@@ -87,17 +77,18 @@ export default {
 
 ```vue demo
 <template>
-<p>
-   <ak-input placeholder="请输入内容">
+  <p>
+    <ak-input placeholder="请输入内容">
       <template #append>CM</template>
-   </ak-input>
-   </p>
-   <p>
-   <ak-input placeholder="请输入内容" >
+    </ak-input>
+  </p>
+  <p>
+    <ak-input placeholder="请输入内容">
       <template #prepend>http://</template>
-   </ak-input>
-   </p>
+    </ak-input>
+  </p>
 </template>
+
 ```
 
 ### 设置大小
@@ -106,22 +97,12 @@ export default {
 
 ```vue demo
 <template>
-   <p><ak-input placeholder="默认尺寸" size="large"></ak-input></p>
-   <p><ak-input placeholder="默认尺寸"></ak-input></p>
-   <p><ak-input placeholder="sixe=small" size="small"></ak-input></p>
-   <p><ak-input placeholder="sixe=mini" size="mini"></ak-input></p>
+  <p><ak-input placeholder="默认尺寸" size="large" /></p>
+  <p><ak-input placeholder="默认尺寸" /></p>
+  <p><ak-input placeholder="sixe=small" size="small" /></p>
+  <p><ak-input placeholder="sixe=mini" size="mini" /></p>
 </template>
-<script>
-import {ref} from 'vue'
-export default {
-  setup(){
-  const defaultValue = ref('初始默认值')
-   return {
-    defaultValue
-   }
-  }
-}
-</script>
+
 ```
 
 ## API

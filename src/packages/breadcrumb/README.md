@@ -8,21 +8,17 @@
 <template>
   <ak-breadcrumb :data="data" separator=">" />
 </template>
-<script>
-export default {
-  setup() {
-    const data = [
-      {title: '首页', href: '/'},
-      {title: '组件演示1', href: '/'},
-      {title: '组件演示2', href: '/breadcrumb'},
-      {title: '面包屑'}
-    ]
-    return {
-      data
-    }
-  }
-}
+<script lang="ts" setup>
+  import { ref } from 'vue'
+
+  const data = ref([
+    { title: '首页', href: '/' },
+    { title: '组件演示1', href: '/' },
+    { title: '组件演示2', href: '/breadcrumb' },
+    { title: '面包屑' }
+  ])
 </script>
+
 ```
 
 ## API

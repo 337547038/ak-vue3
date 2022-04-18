@@ -9,6 +9,7 @@ import prefixCls from './prefix'
 export default {
   install(app: App) {
     const moduleFilesTs = import.meta.globEager('./*/index.ts')
+    console.log(moduleFilesTs)
     Object.keys(moduleFilesTs).forEach((key: string) => {
       const componentOptions: Record<string, Component> =
         moduleFilesTs[key]?.default

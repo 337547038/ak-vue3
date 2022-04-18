@@ -63,10 +63,10 @@
         </div>
         <div v-if="confirm || cancel" :class="`${prefixCls}-dialog-footer`">
           <d-button v-if="cancel" type="cancel" @click="btnClick('cancel')"
-            >{{ cancel }}
+          >{{ cancel }}
           </d-button>
           <d-button v-if="confirm" type="primary" @click="btnClick('confirm')"
-            >{{ confirm }}
+          >{{ confirm }}
           </d-button>
         </div>
       </div>
@@ -92,6 +92,7 @@
     getWindow,
     getScrollbarWidth
   } from '../util/dom'
+
   // import { AnyPropName } from '../types'
 
   export interface stateStyle {
@@ -206,7 +207,6 @@
     autoCloseFn() // 调用自动关闭
     setScrollBarLock(true) // 锁住
   }
-  defineExpose({ open })
   const close = () => {
     state.visible = false
     if (props.autoClose) {
@@ -221,6 +221,7 @@
     emits('update:modelValue', false)
     setScrollBarLock(false) // 解锁
   }
+  defineExpose({ open, close })
   const btnClick = (type: string) => {
     // 点击遮罩层不允许操作时
     if (!props.closeModal && type === 'modal') {

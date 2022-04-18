@@ -6,39 +6,27 @@
 
 ```vue demo
 <template>
-  <ak-input-number v-model="value1"/>
+  <ak-input-number v-model="value" />
 </template>
-<script>
-import {ref} from 'vue'
-export default {
-  setup() {
-    const value1 = ref(1)
-    return {
-      value1
-    }
-  }
-}
+<script lang="ts" setup>
+  import { ref } from 'vue'
+  const value = ref(1)
 </script>
+
 ```
 
 ### 禁用状态
 
 ```vue demo
 <template>
-  <ak-input-number v-model="value1" :disabled="true" />
+  <ak-input-number v-model="value" :disabled="true" />
 </template>
-<script>
-import {ref} from 'vue'
+<script setup lang="ts">
+  import { ref } from 'vue'
 
-export default {
-  setup() {
-    const value1 = ref(1)
-    return {
-      value1
-    }
-  }
-}
+  const value = ref(1)
 </script>
+
 
 ```
 
@@ -48,20 +36,14 @@ export default {
 
 ```vue demo
 <template>
-  <ak-input-number v-model="value1" :max="10" :min="1" />
+  <ak-input-number v-model="value" :max="10" :min="1" />
 </template>
-<script>
-import {ref} from 'vue'
+<script setup lang="ts">
+  import { ref } from 'vue'
 
-export default {
-  setup() {
-    const value1 = ref(1)
-    return {
-      value1
-    }
-  }
-}
+  const value = ref(1)
 </script>
+
 
 ```
 
@@ -71,19 +53,12 @@ export default {
 
 ```vue demo
 <template>
-  <ak-input-number v-model="value1" :step="5" />
+  <ak-input-number v-model="value" :step="5" />
 </template>
-<script>
-import {ref} from 'vue'
+<script setup lang="ts">
+  import { ref } from 'vue'
 
-export default {
-  setup() {
-    const value1 = ref(1)
-    return {
-      value1
-    }
-  }
-}
+  const value = ref(1)
 </script>
 
 ```

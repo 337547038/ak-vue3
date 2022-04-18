@@ -1,0 +1,12 @@
+@charset "UTF-8";
+@include ns(time-picker) {
+  display: flex;
+  .time-picker {display: flex;flex: 2}
+  ul {flex: 2;height: 300px;overflow-y: auto;overflow-x: hidden;padding: 10px 1px;
+    @include scrollColor()
+  }
+  li {height: 22px;line-height: 22px;padding: 0 10px;border-radius: $borderRadius;cursor: pointer;
+    .disabled {opacity: $disabledOpacity}
+    &.active,&:hover {background: $backgroundColor2}
+  }
+}

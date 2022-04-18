@@ -14,7 +14,6 @@
     <ak-tag type="danger" color="#fff" bgColor="#c642e7" borderColor="#c642e7">自定样式</ak-tag>
   </div>
 </template>
-<script></script>
 ```
 
 ### 不同尺寸
@@ -30,7 +29,6 @@
     <ak-tag size="mini">超小标签</ak-tag>
   </div>
 </template>
-<script></script>
 ```
 
 ### 可移除标签
@@ -63,31 +61,21 @@
     <ak-input v-model="newTag" size="small" @keyup.enter="handleInputConfirm" />
   </div>
 </template>
-<script>
-import { ref } from "vue";
-
-export default {
-  setup() {
-    const list = ref(["标签一", "标签二", "标签三"]);
-    const newTag = ref();
-    const closeClick = (index) => {
-      list.value.splice(index, 1);
-    };
-    const handleInputConfirm = () => {
-     if(newTag.value){
-      list.value.push(newTag.value);
-      newTag.value = "";
-      }
-    };
-    return {
-      list,
-      closeClick,
-      newTag,
-      handleInputConfirm,
-    };
-  },
-};
+<script lang="ts" setup>
+  import { ref } from 'vue'
+  const list = ref(['标签一', '标签二', '标签三'])
+  const newTag = ref()
+  const closeClick = (index: number) => {
+    list.value.splice(index, 1)
+  }
+  const handleInputConfirm = () => {
+    if (newTag.value) {
+      list.value.push(newTag.value)
+      newTag.value = ''
+    }
+  }
 </script>
+
 ```
 
 ## API

@@ -5,7 +5,6 @@
 ### 基本用法
 
 ```vue demo
-
 <template>
   <p>
     <ak-switch v-model="switch1" />
@@ -14,70 +13,45 @@
     <ak-switch v-model="switch2" />
   </p>
 </template>
-<script>
-import {ref} from 'vue'
-
-export default {
-  setup() {
-    const switch1 = ref(false)
-    const switch2 = ref(true)
-    return {
-      switch1,
-      switch2
-    }
-  }
-}
+<script lang="ts" setup>
+  import { ref } from 'vue'
+  const switch1 = ref(false)
+  const switch2 = ref(true)
 </script>
+
 ```
 
 ### 自定显示文本
 
 ```vue demo
 <template>
-  <ak-switch v-model="switch3">
+  <ak-switch v-model="switch1">
     <template #open>开</template>
     <template #close>关</template>
   </ak-switch>
 </template>
-<script>
-import {ref} from 'vue'
-
-export default {
-  setup() {
-    const switch3 = ref(false)
-    return {
-      switch3
-    }
-  }
-}
+<script lang="ts" setup>
+  import { ref } from 'vue'
+  const switch1 = ref(false)
 </script>
+
 ```
 
 ### 禁用
 
 ```vue demo
-
 <template>
   <p>
-    <ak-switch v-model="switch4" :disabled="true" />
+    <ak-switch v-model="switch1" :disabled="true" />
   </p>
   <p>
-    <ak-switch v-model="switch5" :disabled="true" />
+    <ak-switch v-model="switch2" :disabled="true" />
   </p>
 </template>
-<script>
-import {ref} from 'vue'
-
-export default {
-  setup() {
-    const switch4 = ref(false)
-    const switch5 = ref(true)
-    return {
-      switch4,
-      switch5
-    }
-  }
-}
+<script setup lang="ts">
+  import { ref } from 'vue'
+  const switch1 = ref(false)
+  const switch2 = ref(true)
 </script>
 
 ```
@@ -87,24 +61,17 @@ export default {
 `closeColor`设置关闭状态颜色，`activeColor`设置打开状态颜色
 
 ```vue demo
-
 <template>
-  <p>{{switch6}}
-    <ak-switch v-model="switch6" close-color="#999" active-color="red" />
+  <p
+    >{{ switch1 }}
+    <ak-switch v-model="switch1" close-color="#999" active-color="red" />
   </p>
 </template>
-<script>
-import {ref} from 'vue'
-
-export default {
-  setup() {
-    const switch6 = ref(true)
-    return {
-      switch6
-    }
-  }
-}
+<script lang="ts" setup>
+  import { ref } from 'vue'
+  const switch1 = ref(true)
 </script>
+
 
 ```
 
@@ -114,22 +81,16 @@ export default {
 
 ```vue demo
 <template>
-  <p>{{switch7}}
-    <ak-switch v-model="switch7" close-value="a" active-value="b" />
+  <p
+    >{{ switch1 }}
+    <ak-switch v-model="switch1" close-value="a" active-value="b" />
   </p>
 </template>
-<script>
-import {ref} from 'vue'
-
-export default {
-  setup() {
-    const switch7 = ref('a')
-    return {
-      switch7
-    }
-  }
-}
+<script lang="ts" setup>
+  import { ref } from 'vue'
+  const switch1 = ref(true)
 </script>
+
 ```
 
 ### 异步控制
@@ -139,26 +100,18 @@ export default {
 ```vue demo
 <template>
   <p>
-    <ak-switch v-model="switch7" :beforeChange="beforeChange" />
+    <ak-switch v-model="switch1" :beforeChange="beforeChange" />
   </p>
 </template>
-<script>
-import {ref} from 'vue'
-
-export default {
-  setup() {
-    const switch7 = ref(false)
-    const beforeChange=()=>{
-      alert('不能切换')
-      return false
-    }
-    return {
-      switch7,
-      beforeChange
-    }
+<script lang="ts" setup>
+  import { ref } from 'vue'
+  const switch1 = ref(false)
+  const beforeChange = () => {
+    alert('不能切换')
+    return false
   }
-}
 </script>
+
 ```
 
 ## API

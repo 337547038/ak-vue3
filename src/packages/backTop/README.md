@@ -9,9 +9,6 @@
    <div style="height:900px">滚动页面试试</div>
    <ak-backTop></ak-backTop>
 </template>
-<script>
-
-</script>
 ```
 
 ## API

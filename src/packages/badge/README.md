@@ -5,40 +5,29 @@
 ```vue demo
 <template>
   <div>
-   <ak-badge :value="12">
-     <ak-button>评论</ak-button>
-   </ak-badge>
-   <ak-badge :value="2">
-     <ak-button>回复</ak-button>
-   </ak-badge>
+    <ak-badge :value="12">
+      <ak-button>评论</ak-button>
+    </ak-badge>
+    <ak-badge :value="2">
+      <ak-button>回复</ak-button>
+    </ak-badge>
   </div>
 </template>
 ```
 
 ### 最大值
 
-可自定义最大值，当value为Number时
+可自定义最大值，当 value 为 Number 时
 
 ```vue demo
 <template>
-   <div>
-     <ak-badge :value="220" :max="99">
-        <ak-button>回复</ak-button>
-     </ak-badge>
-     <ak-badge :value="220" :max="9">
-        回复
-     </ak-badge> 
-   </div>
+  <div>
+    <ak-badge :value="220" :max="99">
+      <ak-button>回复</ak-button>
+    </ak-badge>
+    <ak-badge :value="220" :max="9"> 回复 </ak-badge>
+  </div>
 </template>
-<script>
-export default {
-  methods:{
-    click(name){
-      console.log(name)
-    }
-  }
-}
-</script>
 ```
 
 ### 小圆点
@@ -47,24 +36,13 @@ export default {
 
 ```vue demo
 <template>
-   <div>
-     <ak-badge :value="220" :dot="true">
-        <ak-button>回复</ak-button>
-     </ak-badge> 
-     <ak-badge :value="220" :dot="true">
-        评论
-     </ak-badge> 
-   </div>
+  <div>
+    <ak-badge :value="220" :dot="true">
+      <ak-button>回复</ak-button>
+    </ak-badge>
+    <ak-badge :value="220" :dot="true"> 评论 </ak-badge>
+  </div>
 </template>
-<script>
-export default {
-  methods:{
-    click(name){
-      console.log(name)
-    }
-  }
-}
-</script>
 ```
 
 ### 自定义内容
@@ -73,24 +51,13 @@ export default {
 
 ```vue demo
 <template>
-   <div>
-     <ak-badge value="hot">
-        <ak-button>回复</ak-button>
-     </ak-badge>
-     <ak-badge value="new">
-        回复
-     </ak-badge>  
-   </div>
+  <div>
+    <ak-badge value="hot">
+      <ak-button>回复</ak-button>
+    </ak-badge>
+    <ak-badge value="new"> 回复 </ak-badge>
+  </div>
 </template>
-<script>
-export default {
-  methods:{
-    click(name){
-      console.log(name)
-    }
-  }
-}
-</script>
 ```
 
 ### 显示不同主题
@@ -100,18 +67,18 @@ export default {
 ```vue demo
 <template>
   <div>
-   <ak-badge :value="12" type="primary">
-     <ak-button>评论</ak-button>
-   </ak-badge>
-   <ak-badge :value="2"  type="success">
-     <ak-button>回复</ak-button>
-   </ak-badge>
-   <ak-badge :value="12" type="warning">
-     <ak-button>评论</ak-button>
-   </ak-badge>
-   <ak-badge :value="2"  type="danger">
-     <ak-button>回复</ak-button>
-   </ak-badge>
+    <ak-badge :value="12" type="primary">
+      <ak-button>评论</ak-button>
+    </ak-badge>
+    <ak-badge :value="2" type="success">
+      <ak-button>回复</ak-button>
+    </ak-badge>
+    <ak-badge :value="12" type="warning">
+      <ak-button>评论</ak-button>
+    </ak-badge>
+    <ak-badge :value="2" type="danger">
+      <ak-button>回复</ak-button>
+    </ak-badge>
   </div>
 </template>
 ```
@@ -120,9 +87,9 @@ export default {
 
 ### Badge
 
-| 参数    | 类型            |说明|
-|-------|---------------|--------|
-| value | String/Number |显示值|
-| max   | Number        |最大值，value为Number有效|
-| dot   | boolean/false |显示小圆点|
-| type  | String        |支持 `default`、`primary`、`success`、`warning`、`danger`、五种类型，默认为 `danger`|
+| 参数  | 类型          | 说明                         |
+| ----- | ------------- | ---------------------------- |
+| value | String/Number | 显示值                       |
+| max   | Number        | 最大值，value 为 Number 有效 |
+| dot   | boolean/false | 显示小圆点                   |
+| type  | String        | 支持 `default`、`primary`、`success`、`warning`、`danger`、五种类型，默认为 `danger` |

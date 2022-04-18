@@ -5,38 +5,33 @@
 ### 基础用法
 
 ```vue demo
-
 <template>
   <div>
     <p>
-      <ak-progress v-model="value1" />
+      <ak-progress v-model="value" />
     </p>
     <p>
       <ak-progress :modelValue="30" />
     </p>
     <p>
-      <ak-progress :modelValue="50" status="success"/>
+      <ak-progress :modelValue="50" status="success" />
     </p>
     <p>
-      <ak-progress :modelValue="60" status="warning"/>
+      <ak-progress :modelValue="60" status="warning" />
     </p>
-     <p>
-      <ak-progress :modelValue="70" status="danger"/>
+    <p>
+      <ak-progress :modelValue="70" status="danger" />
     </p>
     <p>
       <ak-progress :modelValue="100" />
     </p>
   </div>
 </template>
-<script>
-export default {
-  data() {
-    return {
-      value1: 0,
-    }
-  }
-}
+<script setup lang="ts">
+  import { ref } from 'vue'
+  const value = ref()
 </script>
+
 ```
 
 ### 其他用法
@@ -59,40 +54,47 @@ export default {
     </p>
   </div>
 </template>
-<script>
-export default {
-}
-</script>
 ```
 
 ### 环形进度条
 
 ```vue demo
-
 <template>
   <div>
+    <ak-progress :model-value="0" :radius="50" :border="8" type="circle" />
 
-    <ak-progress :modelValue="0" :radius="50" :border="8" type="circle"></ak-progress>
+    <ak-progress
+      :modelValue="30"
+      :radius="50"
+      :border="8"
+      type="circle"
+      status="success"
+    />
 
-    <ak-progress :modelValue="30" :radius="50" :border="8" type="circle" status="success"></ak-progress>
+    <ak-progress :modelValue="50" :radius="50" :border="8" type="circle" />
 
-    <ak-progress :modelValue="50" :radius="50" :border="8" type="circle"></ak-progress>
+    <ak-progress
+      :modelValue="80"
+      :radius="50"
+      :border="8"
+      color="#ddd"
+      borderColor="#f60"
+      type="circle"
+    />
 
-    <ak-progress :modelValue="80" :radius="50" :border="8" color="#ddd" borderColor="#f60" type="circle"></ak-progress>
+    <ak-progress :modelValue="100" :radius="50" :border="8" type="circle" />
 
-    <ak-progress :modelValue="100" :radius="50" :border="8" type="circle"></ak-progress>
-
-    <ak-progress :modelValue="80" :radius="50" :border="8" type="circle" :showText="false">自定义显示内容</ak-progress>
-
+    <ak-progress
+      :modelValue="80"
+      :radius="50"
+      :border="8"
+      type="circle"
+      :showText="false"
+      >自定义显示内容</ak-progress
+    >
   </div>
 </template>
-<script>
-export default {
-  data() {
-    return {}
-  }
-}
-</script>
+
 ```
 
 ## API
