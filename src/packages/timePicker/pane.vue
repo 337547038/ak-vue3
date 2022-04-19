@@ -1,6 +1,6 @@
 <template>
   <div class="time-picker">
-    <ul v-for="(list, index) in timeList" :key="index">
+    <ul v-for="(list, index) in timeList" :key="index" :ref="timePickerEl">
       <li
         v-for="item in list.max"
         :key="item"
@@ -14,6 +14,7 @@
 </template>
 
 <script lang="ts" setup>
+  import { ref } from 'vue'
   import { Time } from './types'
 
   const props = withDefaults(
@@ -48,6 +49,10 @@
     h: {},
     m: {},
     s: {}
+  }
+  const timePickerUl = ref([])
+  const timePickerEl = (el) => {
+    timePickerUl.value.push(el)
   }
   const padStart = (number: number | string) => {
     return `${number}`.padStart(2, '0')
@@ -100,6 +105,7 @@
           if (type === 'm') {
             setNextTime(timeObj.s, 's', timeObj)
           }
+          emits('click', timeObj)
         }
       }, 500)
     }
@@ -123,6 +129,6 @@
         selectTime.s = time
         break
     }
-    emits('click', selectTime)
+    emits('click', selectTime) // setNextTime也会触发click事件，在接收时可根据需要作处理
   }
 </script>

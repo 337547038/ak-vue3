@@ -157,12 +157,12 @@
   )
   const emits = defineEmits<{
     (e: 'update:modelValue', modelValue: string[]): void
-    (e: 'blur', value: string): void
+    (e: 'blur', value: string | string[]): void
     (e: 'toggleClick', value: boolean, evt: MouseEvent): void
     (e: 'clear'): void
     (e: 'delete', value: number): void
-    (e: 'input', value: string): void
-    (e: 'focus', value: string): void
+    (e: 'input', value: string | string[]): void
+    (e: 'focus', value: string | string[]): void
   }>()
   const el = ref()
   const selectDown = ref()
@@ -333,5 +333,12 @@
       document.body.removeChild(selectDown.value)
     }
   })
-  defineExpose({ slideUp })
+  /** 提供一个方法用于改变显示的值
+   * @param value
+   * @return
+   */
+  const setValue = (val: string[]) => {
+    state.valueLabel = JSON.parse(JSON.stringify(val))
+  }
+  defineExpose({ slideUp, setValue })
 </script>
