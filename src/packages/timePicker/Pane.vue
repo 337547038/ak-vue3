@@ -14,7 +14,6 @@
 </template>
 
 <script lang="ts" setup>
-  import { ref } from 'vue'
   import { Time } from './types'
 
   const props = withDefaults(
@@ -49,10 +48,6 @@
     h: {},
     m: {},
     s: {}
-  }
-  const timePickerUl = ref([])
-  const timePickerEl = (el) => {
-    timePickerUl.value.push(el)
   }
   const padStart = (number: number | string) => {
     return `${number}`.padStart(2, '0')

@@ -10,7 +10,7 @@
     &.active, &:hover {background: $backgroundColor2;color: $primaryColor}
   }
   &.is-range {
-    .time-picker {margin: 10px;border: 1px solid $borderColor;
+    .time-picker {margin: 10px;border: 1px solid $borderColor;border-radius: $borderRadius;
       &:first-child {margin-right: 5px}
       &:last-child {margin-left: 5px}
     }

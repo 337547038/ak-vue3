@@ -31,7 +31,7 @@
   import prefixCls from '../prefix'
   import SelectDown from '../selectDown/SelectDown.vue'
   import { computed, ref } from 'vue'
-  import Pane from './pane.vue'
+  import Pane from './Pane.vue'
 
   const props = withDefaults(
     defineProps<{

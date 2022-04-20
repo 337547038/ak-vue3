@@ -98,7 +98,9 @@
         :style="downPanelStyle"
         @click.stop=""
       >
-        <slot></slot>
+        <div :style="downHeightStyle" class="scroll-pane">
+          <slot></slot>
+        </div>
         <span class="down-arrow" :class="{ 'is-range': isRange }"></span>
       </div>
     </transition>
@@ -308,16 +310,25 @@
     }
   }
   // 下拉面板style样式
-  const downPanelStyle = computed(() => {
-    let style = {}
+  const downHeightStyle = computed(() => {
     if (props.downHeight) {
-      style = {
+      return {
         'max-height': props.downHeight + 'px',
         overflowY: 'auto'
       }
     }
-    style = Object.assign({}, state.appendStyle, props.downStyle || {}, style)
-    return style
+    return null
+  })
+  const downPanelStyle = computed(() => {
+    /*let style = {}*/
+    /*if (props.downHeight) {
+      style = {
+        'max-height': props.downHeight + 'px',
+        overflowY: 'auto'
+      }
+    }*/
+    // style = Object.assign({}, state.appendStyle, props.downStyle || {})
+    return Object.assign({}, state.appendStyle, props.downStyle || {})
   })
   onMounted(() => {
     nextTick(() => {
