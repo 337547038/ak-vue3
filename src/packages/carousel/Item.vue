@@ -1,0 +1,23 @@
+<script lang="ts">
+  import prefixCls from '../prefix'
+  import { inject, defineComponent } from 'vue'
+  export default defineComponent({
+    name: `CarouselItem`,
+    props: {
+      className: String
+    },
+    setup(props, { slots }) {
+      const childrenList: any = inject(`${prefixCls.value}ChildrenList`)
+      childrenList.push({
+        slots: slots,
+        props: props
+      })
+      return {
+        childrenList
+      }
+    },
+    render() {
+      return null
+    }
+  })
+</script>

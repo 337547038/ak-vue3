@@ -1,3 +1,10 @@
+# Drawer 抽屉对话框
+
+### 基本用法
+
+用法和所有参数同`Dialog`一样
+
+```vue demo
 <template>
   <div>
     <ak-button @click="open('left')">左边</ak-button>
@@ -19,3 +26,15 @@
     visible.value = true
   }
 </script>
+
+
+```
+
+## API
+
+### Drawer
+
+|参数|类型|说明|
+|----------|--------------|--------|
+|direction        | string/right  |显示方向，left/right/top/bottom|
+|-                | -             |其他所有参数同[dialog](/#/dialog)|
