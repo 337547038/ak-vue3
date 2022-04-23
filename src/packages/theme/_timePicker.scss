@@ -2,11 +2,17 @@
 @include ns(time-picker) {
   display: flex;
   .time-picker {display: flex;flex: 2}
-  ul {flex: 2;height: 300px;overflow-y: auto;overflow-x: hidden;padding: 10px 1px;
+  ul {flex: 2;height: 200px;overflow-y: auto;overflow-x: hidden;padding: 10px 1px;
     @include scrollColor()
   }
   li {height: 22px;line-height: 22px;padding: 0 10px;border-radius: $borderRadius;cursor: pointer;
-    .disabled {opacity: $disabledOpacity}
-    &.active,&:hover {background: $backgroundColor2}
+    &.disabled {opacity: $disabledOpacity;cursor: not-allowed}
+    &.active, &:hover {background: $backgroundColor2;color: $primaryColor}
+  }
+  &.is-range {
+    .time-picker {margin: 10px;border: 1px solid $borderColor;border-radius: $borderRadius;
+      &:first-child {margin-right: 5px}
+      &:last-child {margin-left: 5px}
+    }
   }
 }

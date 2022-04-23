@@ -1,6 +1,6 @@
 <template>
   <div class="time-picker">
-    <ul v-for="(list, index) in timeList" :key="index">
+    <ul v-for="(list, index) in timeList" :key="index" :ref="timePickerEl">
       <li
         v-for="item in list.max"
         :key="item"
@@ -100,6 +100,7 @@
           if (type === 'm') {
             setNextTime(timeObj.s, 's', timeObj)
           }
+          emits('click', timeObj)
         }
       }, 500)
     }
@@ -123,6 +124,6 @@
         selectTime.s = time
         break
     }
-    emits('click', selectTime)
+    emits('click', selectTime) // setNextTime也会触发click事件，在接收时可根据需要作处理
   }
 </script>

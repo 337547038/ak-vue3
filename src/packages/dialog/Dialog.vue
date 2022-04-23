@@ -63,10 +63,10 @@
         </div>
         <div v-if="confirm || cancel" :class="`${prefixCls}-dialog-footer`">
           <d-button v-if="cancel" type="cancel" @click="btnClick('cancel')"
-          >{{ cancel }}
+            >{{ cancel }}
           </d-button>
           <d-button v-if="confirm" type="primary" @click="btnClick('confirm')"
-          >{{ confirm }}
+            >{{ confirm }}
           </d-button>
         </div>
       </div>

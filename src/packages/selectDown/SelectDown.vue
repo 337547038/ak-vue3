@@ -98,7 +98,9 @@
         :style="downPanelStyle"
         @click.stop=""
       >
-        <slot></slot>
+        <div :style="downHeightStyle" class="scroll-pane">
+          <slot></slot>
+        </div>
         <span class="down-arrow" :class="{ 'is-range': isRange }"></span>
       </div>
     </transition>
@@ -157,12 +159,12 @@
   )
   const emits = defineEmits<{
     (e: 'update:modelValue', modelValue: string[]): void
-    (e: 'blur', value: string): void
+    (e: 'blur', value: string | string[]): void
     (e: 'toggleClick', value: boolean, evt: MouseEvent): void
     (e: 'clear'): void
     (e: 'delete', value: number): void
-    (e: 'input', value: string): void
-    (e: 'focus', value: string): void
+    (e: 'input', value: string | string[]): void
+    (e: 'focus', value: string | string[]): void
   }>()
   const el = ref()
   const selectDown = ref()
@@ -308,16 +310,25 @@
     }
   }
   // 下拉面板style样式
-  const downPanelStyle = computed(() => {
-    let style = {}
+  const downHeightStyle = computed(() => {
     if (props.downHeight) {
-      style = {
+      return {
         'max-height': props.downHeight + 'px',
         overflowY: 'auto'
       }
     }
-    style = Object.assign({}, state.appendStyle, props.downStyle || {}, style)
-    return style
+    return null
+  })
+  const downPanelStyle = computed(() => {
+    /*let style = {}*/
+    /*if (props.downHeight) {
+      style = {
+        'max-height': props.downHeight + 'px',
+        overflowY: 'auto'
+      }
+    }*/
+    // style = Object.assign({}, state.appendStyle, props.downStyle || {})
+    return Object.assign({}, state.appendStyle, props.downStyle || {})
   })
   onMounted(() => {
     nextTick(() => {
@@ -333,5 +344,12 @@
       document.body.removeChild(selectDown.value)
     }
   })
-  defineExpose({ slideUp })
+  /** 提供一个方法用于改变显示的值
+   * @param value
+   * @return
+   */
+  const setValue = (val: string[]) => {
+    state.valueLabel = JSON.parse(JSON.stringify(val))
+  }
+  defineExpose({ slideUp, setValue })
 </script>
