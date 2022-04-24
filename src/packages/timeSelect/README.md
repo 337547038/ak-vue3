@@ -8,33 +8,46 @@
   <ak-time-select v-model="value" placeholder="请选择时间" />
 </template>
 <script lang="ts" setup>
-import {ref} from 'vue'
-const value = ref('')
+  import { ref } from 'vue'
+  const value = ref('')
 </script>
+
 
 ```
 ### 选择开始和结束时间
 
 ```vue demo
 <template>
-  <ak-time-select v-model="value" placeholder="请选择时间" start="00:00" end="07:00"/>
+  <ak-time-select
+    v-model="value"
+    placeholder="请选择时间"
+    start="00:00"
+    end="07:00"
+  />
 </template>
 <script lang="ts" setup>
-import {ref} from 'vue'
-const value = ref('')
+  import { ref } from 'vue'
+  const value = ref('')
 </script>
+
 
 ```
 ### 固定时间范围
 
 ```vue demo
 <template>
-  <ak-time-select v-model="value" placeholder="请选择时间" min-time="13:00" max-time="15:00"/>
+  <ak-time-select
+    v-model="value"
+    placeholder="请选择时间"
+    min-time="13:00"
+    max-time="15:00"
+  />
 </template>
 <script lang="ts" setup>
-import {ref} from 'vue'
-const value = ref('')
+  import { ref } from 'vue'
+  const value = ref('')
 </script>
+
 
 ```
 

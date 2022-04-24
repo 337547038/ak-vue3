@@ -21,7 +21,7 @@
   height: 36px; line-height: 36px;border: 1px solid $borderColor;border-radius: $borderRadius;background: none;outline: none;padding: 0 10px;font-size: 14px;overflow: hidden;box-sizing: border-box;width: 100%;
   &:hover {opacity: .7}
   &:focus, &.focus {border-color: $primaryColor}
-  &.placeholder {color: #999}
+  &::placeholder,&.placeholder {color: $placeholder}
   /*禁用状态*/
   &.disabled {cursor: not-allowed; opacity: $disabledOpacity}
   &.large {height: 40px; line-height: 40px;}

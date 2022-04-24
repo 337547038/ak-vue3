@@ -6,7 +6,7 @@
     &.active {background: $backgroundColor2;color: $primaryColor;
     b{color: $backgroundColor}}
 
-    &.disabled {cursor: not-allowed;color: $disabledOpacity}
+    &.disabled {cursor: not-allowed;opacity: $disabledOpacity}
     b{color: $primaryColor;font-weight: 400}
   }
   .select-empty-options{color: $textColor2;margin: 0;padding: 0 10px}

@@ -6,7 +6,7 @@
   .carousel-slide {float: left;transition: all .3s;height: 100px;background: #ddd}
   .direction-nav {
     a {position: absolute;display: block;width: 30px;height: 30px;top: 50%;transform: translateY(-50%);left: 20px;z-index: 10;cursor: pointer;background: transparent;
-      &:after {content: '';border-top: 1px solid $primary;border-right: 1px solid $primary;display: block;width: 100%;height: 100%;transform: rotate(-135deg);}
+      &:after {content: '';border-top: 1px solid $primaryColor;border-right: 1px solid $primaryColor;display: block;width: 100%;height: 100%;transform: rotate(-135deg);}
       &.carousel-next {right: 20px;left: auto;
         &:after {transform: rotate(45deg)}
       }
@@ -16,7 +16,7 @@
   .control-nav {
     position: absolute; left: 0; bottom: 0; width: 100%; text-align: center; z-index: 10;
     a { display: inline-block; vertical-align: middle; width: 6px; height: 6px; border-radius: 50%; background: #ccc; margin: 0 5px;font-size: 0;
-      &.control-nav-active { background: $primary }
+      &.control-nav-active { background: $primaryColor }
     }
   }
   // 卡片式

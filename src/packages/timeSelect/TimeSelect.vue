@@ -32,13 +32,15 @@
       step?: string
       minTime?: string
       maxTime?: string
+      downHeight: number
     }>(),
     {
       start: '09:00',
       end: '18:00',
       step: '00:30',
       minTime: '',
-      maxTime: ''
+      maxTime: '',
+      downHeight: 200
     }
   )
   const emits = defineEmits<{
