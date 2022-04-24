@@ -27,6 +27,9 @@
         v-html="getItemText(item[optionsKey.label])"
       >
       </li>
+      <p v-if="optionsList.length === 0" class="select-empty-options">{{
+        emptyText
+      }}</p>
     </ul>
     <slot></slot>
   </select-down>
@@ -68,20 +71,22 @@
       optionsKey?: { label: string; value: string }
       beforeChange?: Function
       async?: boolean
+      emptyText?: string
     }>(),
     {
       options: () => [],
       optionsKey: () => {
         return { label: 'label', value: 'value' }
       },
-      downHeight: 200
+      downHeight: 200,
+      emptyText: '无数据'
     }
   )
   const emits = defineEmits<{
     (e: 'update:modelValue', modelValue: string[] | string | number): void
     (e: 'change', value: string[] | string | number, obj: any): void
     (e: 'limitChange', value: string[] | string | number): void
-    (e: 'toggleClick', value: boolean, evt: MouseEvent): void
+    //(e: 'toggleClick', value: boolean, evt: MouseEvent): void
     (e: 'clear'): void
     (e: 'delete', value: number): void
     (e: 'input', value: string): void
@@ -309,4 +314,5 @@
   onMounted(() => {
     setFirstText()
   })
+  defineExpose({ slideUp })
 </script>

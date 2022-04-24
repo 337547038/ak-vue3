@@ -120,7 +120,6 @@ export default {
 </script>
 ```
 
-
 ### 异步搜索
 
 `filterable=true` `async="true"` `@input="searchChange"`
@@ -197,7 +196,6 @@ export default {
 
 
 ```
-
 
 ### 改变前拉截事件
 
@@ -286,6 +284,39 @@ export default {
 
 ```
 
+### 选择数据指定的label和value
+
+使用`optionsKey`指定取值的key的值
+
+```vue demo
+<template>
+  <ak-select
+    width="100px"
+    placeholder="请选择"
+    v-model="value1"
+    :options="options"
+    :optionsKey="{ label: 'key', value: 'name' }"
+  />
+</template>
+<script lang="ts" setup>
+  import { ref } from 'vue'
+  const options = ref([
+    { key: '选项1', name: '1' },
+    { key: '选项2', name: '2' },
+    { key: '选项3', name: '3' },
+    { key: '选项4', name: '4', disabled: true },
+    { key: '选项5', name: '5' },
+    { key: '6' },
+    { key: '选项7', name: '7' },
+    { key: '选项8', name: '8' },
+    { key: '选项9', name: '9' },
+    { key: '选项10', name: '10', class: 'red' }
+  ])
+  const value1 = ref('')
+</script>
+
+```
+
 ## API
 
 ### Select
@@ -300,7 +331,7 @@ export default {
 | filterable    | boolean/false | 是否可搜索，对当前下拉数据筛选                            |
 | async         | boolean/false | 异步搜索，`filterable=true`时有效                    |
 | options       | array         | 下拉选项数据                                     |
-| optionsKey    | object        | 指定选择数据的label和value属于，默认{label:'label',value:'value'} |
+| optionsKey    | object        | 指定选择数据的label和value属性，默认{label:'label',value:'value'} |
 | clear         | boolean/false | 是否可以清空选项                                   |
 | downHeight    | Number        | 最大下拉高度，默认200                               |
 | downStyle     | object        | 下拉面板样式，方便对单个select个性化设置，也可通过css控制          |
