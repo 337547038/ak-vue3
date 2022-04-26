@@ -31,8 +31,8 @@
   )
   const slots = useSlots()
   const randomName = props.name || Math.random().toString(36).substr(2, 8)
-  const parentProps: any = inject(`${prefixCls.value}Props`)
-  const changePanel: any = inject(`${prefixCls.value}ChangePanel`)
+  const parentProps: any = inject(`${prefixCls}Props`)
+  const changePanel: any = inject(`${prefixCls}ChangePanel`)
   const visible = computed(() => {
     return parentProps.modelValue.indexOf(randomName) !== -1
   })

@@ -1,6 +1,6 @@
 <template>
   <div class="time-picker">
-    <ul v-for="(list, index) in timeList" :key="index" :ref="timePickerEl">
+    <ul v-for="(list, index) in timeList" :key="index">
       <li
         v-for="item in list.max"
         :key="item"

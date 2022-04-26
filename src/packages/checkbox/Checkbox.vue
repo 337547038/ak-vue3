@@ -58,7 +58,7 @@
     return bool
   })
   // formItem
-  const controlChange: any = inject(`${prefixCls.value}ControlChange`, '')
+  const controlChange: any = inject(`${prefixCls}ControlChange`, '')
   const changeHandler = () => {
     if (props.beforeChange && !props.beforeChange()) {
       return

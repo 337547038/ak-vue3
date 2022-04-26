@@ -2,7 +2,6 @@
   import prefixCls from '../prefix'
   import { inject, defineComponent, onMounted } from 'vue'
   export default defineComponent({
-    name: `${prefixCls}Option`,
     props: {
       value: String,
       label: String,
@@ -10,7 +9,7 @@
       className: String
     },
     setup(props) {
-      const getChildOption: any = inject(`${prefixCls.value}GetChildOption`, '')
+      const getChildOption: any = inject(`${prefixCls}GetChildOption`, '')
       onMounted(() => {
         getChildOption &&
           getChildOption({

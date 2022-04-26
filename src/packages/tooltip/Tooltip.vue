@@ -1,9 +1,9 @@
 <!--Created by 337547038 on 2017/12/19.-->
 <template>
-  <slot></slot>
+  <span ref="el"><slot></slot></span>
   <transition :name="transition">
     <div
-      v-if="content || $slots.content"
+      v-if="getIf($slots)"
       v-show="state.visible"
       ref="tooltipEl"
       :class="[`${prefixCls}-tooltip`, direction, className]"
@@ -17,14 +17,7 @@
 </template>
 <script lang="ts" setup>
   import prefixCls from '../prefix'
-  import {
-    reactive,
-    ref,
-    onMounted,
-    onBeforeUnmount,
-    nextTick,
-    getCurrentInstance
-  } from 'vue'
+  import { reactive, ref, onMounted, onBeforeUnmount, nextTick } from 'vue'
   import { getOffset, getWindow } from '../util/dom'
 
   interface CssStyle {
@@ -35,6 +28,7 @@
     top?: string
     right?: string
   }
+
   const props = withDefaults(
     defineProps<{
       content?: string // rgb格式，初始值
@@ -49,6 +43,7 @@
       className?: string
       trigger?: 'hover' | 'click'
       style?: Object
+      disabled?: boolean
     }>(),
     {
       direction: 'top-left',
@@ -58,13 +53,13 @@
       transition: 'fade',
       x: 8,
       y: 0,
-      trigger: 'hover'
+      trigger: 'hover',
+      disabled: false
     }
   )
   const emits = defineEmits<{
     (e: 'click', val: boolean): void
   }>()
-
   const tooltipEl = ref()
   const state = reactive({
     clearTime: 0,
@@ -72,16 +67,16 @@
     tooltipStyle: {}
   })
   const el = ref()
-  const instance = getCurrentInstance()
+  //const instance = getCurrentInstance()
   onMounted(() => {
     nextTick(() => {
-      const sel =
+      /*const sel =
         instance && instance.proxy && instance.proxy.$el.nextElementSibling
       if (!sel) {
         return
       }
       // console.log(gel)
-      el.value = sel
+      el.value = sel*/
       if (props.always) {
         // 一直显示的
         state.visible = true
@@ -90,8 +85,8 @@
       if (props.trigger === 'click') {
         document.addEventListener('click', mouseClick, false)
       } else {
-        sel.addEventListener('mouseenter', mouseEnter, false)
-        sel.addEventListener('mouseleave', mouseLeave, false)
+        el.value.addEventListener('mouseenter', mouseEnter, false)
+        el.value.addEventListener('mouseleave', mouseLeave, false)
       }
       if (props.appendToBody && tooltipEl.value) {
         document.body.appendChild(tooltipEl.value)
@@ -109,6 +104,13 @@
       document.body.removeChild(tooltipEl.value)
     }
   })
+  const getIf = (slot: any) => {
+    if (props.disabled) {
+      // 不可用状态
+      return false
+    }
+    return props.content || slot.content
+  }
   const translate = (px: number) => {
     // 通过transform平移标签时，如平移的单位为非偶数，会出现字体模糊，这里强制取偶
     if (px % 2 === 0) {
@@ -173,6 +175,9 @@
     state.tooltipStyle = Object.assign({}, props.style, style)
   }
   const mouseEnter = () => {
+    if (props.disabled) {
+      return
+    }
     if (!props.always) {
       setPosition()
       window.clearTimeout(state.clearTime)

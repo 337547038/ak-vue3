@@ -1,3 +1,3 @@
 import BackTop from './BackTop.vue'
 
-export default { BackTop }
+export { BackTop }

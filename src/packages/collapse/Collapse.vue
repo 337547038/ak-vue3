@@ -26,9 +26,9 @@
       console.log('provideChangePanel')*/
     emits('change', v)
   }
-  provide(`${prefixCls.value}ChangePanel`, provideChangePanel)
+  provide(`${prefixCls}ChangePanel`, provideChangePanel)
   provide(
-    `${prefixCls.value}Props`,
+    `${prefixCls}Props`,
     reactive({
       modelValue: props.modelValue,
       accordion: props.accordion

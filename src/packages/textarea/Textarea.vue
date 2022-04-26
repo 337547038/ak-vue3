@@ -64,7 +64,7 @@
     const { value } = evt.target as HTMLInputElement
     emitChange(value)
   }
-  const controlChange: any = inject(`${prefixCls.value}ControlChange`, '')
+  const controlChange: any = inject(`${prefixCls}ControlChange`, '')
   const emitChange = (value: string) => {
     emits('update:modelValue', value)
     controlChangeEvent(value)

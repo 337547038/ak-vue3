@@ -4,4 +4,4 @@
 import Checkbox from './Checkbox.vue'
 import CheckboxGroup from './Group.vue'
 
-export default { Checkbox, CheckboxGroup }
+export { Checkbox, CheckboxGroup }

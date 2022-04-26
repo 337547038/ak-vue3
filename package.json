@@ -11,6 +11,7 @@
     "lint:fromat": "prettier -c --parser typescript \"{src,__tests__,e2e}/**/*.[jt]s?(x)\""
   },
   "dependencies": {
+    "axios": "^0.26.1",
     "vue": "^3.2.25",
     "vue-router": "^4.0.13"
   },

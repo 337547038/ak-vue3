@@ -71,11 +71,8 @@
     (e: 'click', event: MouseEvent): void
   }>()
 
-  const groupConfig: GroupPropConfig = inject(
-    `${prefixCls.value}GroupConfig`,
-    {}
-  )
-  const btnClick: any = inject(`${prefixCls.value}BtnClick`, '')
+  const groupConfig: GroupPropConfig = inject(`${prefixCls}GroupConfig`, {})
+  const btnClick: any = inject(`${prefixCls}BtnClick`, '')
   const disabledOk = computed(() => {
     if (props.loading) {
       return true // loading情况下一定为禁用状态
@@ -87,9 +84,9 @@
   const classStyle = computed(() => {
     let size = props.size || groupConfig.size || ''
     return {
-      [`${prefixCls.value}-btn`]: true,
+      [`${prefixCls}-btn`]: true,
       'is-round': props.round || groupConfig.round,
-      [`${prefixCls.value}-btn-` + props.type]: props.type,
+      [`${prefixCls}-btn-` + props.type]: props.type,
       disabled: disabledOk.value,
       [size]: size,
       'is-plain': props.plain || groupConfig.plain

@@ -70,7 +70,6 @@
   const sidebar = ref()
   const panel = ref()
   const state: any = reactive({
-    prefixCls: prefixCls,
     visible: false,
     bgColor: {
       // 侧栏颜色

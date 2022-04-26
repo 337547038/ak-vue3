@@ -1,21 +1,8 @@
 <template>
-  <div>
-    <ak-button @click="open('left')">左边</ak-button>
-    <ak-button @click="open('top')">项部</ak-button>
-    <ak-button @click="open('right')">右边</ak-button>
-    <ak-button @click="open('bottom')">底部</ak-button>
-    <ak-drawer v-model="visible" title="title" :direction="direction"
-      >this content</ak-drawer
-    >
-  </div>
+  <ak-tooltip content="00"
+  ><span>上左</span></ak-tooltip
+  >
 </template>
-<script lang="ts" setup>
-  import { ref } from 'vue'
+<script setup>
 
-  const direction = ref('left')
-  const visible = ref(false)
-  const open = (type: string) => {
-    direction.value = type
-    visible.value = true
-  }
 </script>

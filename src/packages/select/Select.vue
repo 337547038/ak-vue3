@@ -46,7 +46,7 @@
     provide,
     onMounted
   } from 'vue'
-  import selectDown from '../selectDown/SelectDown.vue'
+  import { SelectDown } from '../selectDown'
 
   const props = withDefaults(
     defineProps<{
@@ -269,7 +269,7 @@
     selectDownEl.value.slideUp()
   }
 
-  const controlChange: any = inject(`${prefixCls.value}ControlChange`, '')
+  const controlChange: any = inject(`${prefixCls}ControlChange`, '')
   const emitCom = (item?: any, update = true) => {
     state.setFirst = update
     let val: any = []
@@ -308,7 +308,7 @@
     emitCom()
     emits('delete', index)
   }
-  provide(`${prefixCls.value}GetChildOption`, (item: any) => {
+  provide(`${prefixCls}GetChildOption`, (item: any) => {
     optionsList.value.push(item)
   })
   onMounted(() => {

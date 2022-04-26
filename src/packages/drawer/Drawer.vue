@@ -18,7 +18,7 @@
 <script lang="ts" setup>
   import prefixCls from '../prefix'
   import { ref, watch } from 'vue'
-  import Dialog from '../dialog/Dialog.vue'
+  import { Dialog } from '../dialog'
   const props = withDefaults(
     defineProps<{
       modelValue?: boolean // rgb格式，初始值

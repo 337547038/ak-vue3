@@ -29,8 +29,8 @@
 
 <script lang="ts" setup>
   import prefixCls from '../prefix'
-  import SelectDown from '../selectDown/SelectDown.vue'
-  import { computed, ref } from 'vue'
+  import { SelectDown } from '../selectDown'
+  import { computed, ref, inject } from 'vue'
   import Pane from './Pane.vue'
 
   const props = withDefaults(
@@ -78,6 +78,8 @@
   }
   /** 格式时间处理
    */
+  // formItem
+  const controlChange: any = inject(`${prefixCls}ControlChange`, '')
   const formatTime = computed(() => {
     let time: any = []
     if (props.isRange) {
@@ -144,7 +146,6 @@
       emitsUpdate(time)
     }
   }
-  // 记录每列第可用的值
   const emitsUpdate = (start: Time, end?: Time) => {
     let selectTime: string[] | string = stringifyTime(start)
     if (props.isRange) {
@@ -163,10 +164,12 @@
       }
     }
     emits('update:modelValue', selectTime)
+    controlChange && controlChange(selectTime)
   }
   const clearClick = () => {
     emits('update:modelValue', '')
     emits('clear')
+    controlChange && controlChange('')
   }
   // 可输入时的失焦事件
   const blur = (val: string | string[]) => {

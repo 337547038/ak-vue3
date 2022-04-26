@@ -1,6 +1,6 @@
 <!-- Created by 337547038 on 2022/4/5. -->
 <template>
-  <select-down
+  <SelectDown
     v-bind="$props"
     ref="selectDown"
     :model-value="showLabel"
@@ -16,14 +16,17 @@
         {{ item.value }}
       </li>
     </ul>
-  </select-down>
+  </SelectDown>
 </template>
 
 <script lang="ts" setup>
   import prefixCls from '../prefix'
-  import SelectDown from '../selectDown/SelectDown.vue'
-  import { ref, computed, watch } from 'vue'
-
+  import { SelectDown } from '../selectDown'
+  import { ref, computed, watch, inject } from 'vue'
+  interface Time {
+    hours: number
+    minutes: number
+  }
   const props = withDefaults(
     defineProps<{
       modelValue: string
@@ -32,7 +35,7 @@
       step?: string
       minTime?: string
       maxTime?: string
-      downHeight: number
+      downHeight?: number
     }>(),
     {
       start: '09:00',
@@ -49,11 +52,8 @@
     (e: 'clear'): void
   }>()
 
-  interface Time {
-    hours: number
-    minutes: number
-  }
-
+  // formItem
+  const controlChange: any = inject(`${prefixCls}ControlChange`, '')
   const verifyTime = (num: number, type?: string): number => {
     let text = num
     if (type === 'h') {
@@ -175,6 +175,7 @@
     selectDown.value.slideUp()
     emits('update:modelValue', obj.value)
     emits('change', obj.value)
+    controlChange && controlChange(obj.value)
     // evt.stopPropagation()
   }
   // 可清空
@@ -182,5 +183,6 @@
     showLabel.value = []
     emits('update:modelValue', '')
     emits('clear')
+    controlChange && controlChange('')
   }
 </script>

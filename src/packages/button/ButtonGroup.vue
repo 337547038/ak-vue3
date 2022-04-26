@@ -29,8 +29,8 @@
     (e: 'click', event: MouseEvent, name: string): void
   }>()
 
-  provide(`${prefixCls.value}GroupConfig`, props)
-  provide(`${prefixCls.value}BtnClick`, (event: MouseEvent, name: string) => {
+  provide(`${prefixCls}GroupConfig`, props)
+  provide(`${prefixCls}BtnClick`, (event: MouseEvent, name: string) => {
     if (!props.disabled) {
       emits('click', event, name)
     }

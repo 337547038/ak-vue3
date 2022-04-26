@@ -30,7 +30,7 @@
   import { ref } from 'vue'
   // import { useRouter } from 'vue-router'
   // const router = useRouter()
-  let visible = false
+  let visible = true
   const getName = (name: string) => {
     return name.substring(0, 1).toUpperCase() + name.substring(1)
   }

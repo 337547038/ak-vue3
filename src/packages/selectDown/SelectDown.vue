@@ -191,7 +191,7 @@
   })
   // 输入框类名
   const inputCls = computed(() => {
-    const cls = [`${prefixCls.value}-input-control`]
+    const cls = [`${prefixCls}-input-control`]
     if (props.size) {
       cls.push(props.size)
     }
