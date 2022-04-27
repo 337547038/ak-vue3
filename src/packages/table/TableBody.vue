@@ -56,7 +56,7 @@
             :column-index="childIndex"
             :title="title"
             :parent-row="row"
-            @cellClick="cellClick"
+            @cell-click="cellClick"
           />
         </tr>
       </template>

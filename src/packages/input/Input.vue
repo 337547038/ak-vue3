@@ -12,6 +12,7 @@
       <slot name="prepend"></slot>
     </div>
     <input
+      autocomplete="off"
       v-bind="$attrs"
       ref="inputEl"
       :value="modelValue"

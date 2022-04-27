@@ -150,23 +150,75 @@ export default {
 
 ```
 
+### 快速输入常见组件类型
+
+支持类型 `'input'、'radio'、'checkbox'、'datePicker'、'select'、'switch'、'textarea'、'timeSelect'、'timePicker'`
+
+```vue demo
+<template>
+  <div>
+    <ak-form-item label="input" type="input" :data="inputData" />
+    <ak-form-item label="select" type="select" :data="selectData" />
+  </div>
+</template>
+<script setup>
+  import { ref } from 'vue'
+  const inputData = ref({ value: 'abc' })
+  const selectData = ref({ value: '112', options: [{ label: '选项1' }], placeholder:'请选择' })
+</script>
+
+```
+
+### 可单独使用`Field`
+
+可使用data.value对控件设置值，也可以是v-model(优先)
+
+```vue demo
+<template>
+  <div>
+    <ak-field type="input" :data="inputData" v-model="value1" />
+    <br><br>
+    <ak-field type="select" :data="selectData" />
+  </div>
+</template>
+<script setup>
+  import { ref } from 'vue'
+
+  const value1 = ref()
+  const inputData = ref({ value: 'abc' })
+  const selectData = ref({
+    value: '112',
+    options: [{ label: '选项1' }],
+    placeholder: '请选择'
+  })
+  // 模拟延时设值
+  setTimeout(() => {
+    value1.value = '123'
+  }, 1000)
+</script>
+
+```
+
 ## API
 
 ### FormItem Props
 
-| 参数           |类型|说明|
-|--------------|--------------|--------|
-| label        | string         |显示的标签名|
-| labelVisible | boolean/false  |隐藏label|
-| prop         | string         |表单校验时关联表单的校验规则|
-| required     | boolean/true   |是否根据验证规则自动生成必填样式名|
-| verify       | string         |快速验证，支持required, mobile, tel, mail, digits, number,phone 多个用逗号隔开|
-| rules        | array          |校验规则|
-| showMessage  | boolean/true   |显示错误提示，在form使用时，优先使用form的设置|
-| trigger      | string/change  |change和blur两种，在form使用时，优先使用form的设置|
-| labelWidth   | string         |label的宽度|
-| size         | string         |用于控制该表单内组件的尺寸，medium / small / mini|
-| error        | string         |表单域验证错误信息, 设置该值会使表单验证状态变为error，并显示该错误信息|
+| 参数           | 类型            | 说明                               |
+|--------------|---------------|----------------------------------|
+| label        | string        | 显示的标签名                           |
+| labelVisible | boolean/false | 隐藏label                          |
+| prop         | string        | 表单校验时关联表单的校验规则                   |
+| required     | boolean/true  | 是否根据验证规则自动生成必填样式名                |
+| verify       | string        | 快速验证，支持required, mobile, tel, mail, digits, number,phone 多个用逗号隔开 |
+| rules        | array         | 校验规则                             |
+| showMessage  | boolean/true  | 显示错误提示，在form使用时，优先使用form的设置      |
+| trigger      | string/change | change和blur两种，在form使用时，优先使用form的设置 |
+| labelWidth   | string        | label的宽度                         |
+| size         | string        | 用于控制该表单内组件的尺寸，medium / small / mini |
+| error        | string        | 表单域验证错误信息, 设置该值会使表单验证状态变为error，并显示该错误信息 |
+| type         | string        | 可快速输入控件类型，可选`'input'、'radio'、'checkbox'、'datePicker'、'select'、'switch'、'textarea'、'timeSelect'、'timePicker'` |
+| data         | Object        | 仅在type不为空时，对应当前组件的props所有参数      |
+| v-model      | any           | 仅在type不为空时，当前控件的值                |
 
 ### FormItem Rules 验证规则
 
@@ -187,7 +239,15 @@ export default {
 
 ### FormItem Methods
 
+|参数| 类型| 说明                          |
+|----------|------|-----------------------------|
+|validate       | | 对单个表单项进行校验的方法，Promise返回验证结果 |
+|clearTips      | | 用于清空验证提示信息，恢复初始状态           |
+
+### Field Props
+
 |参数|说明|
 |----------|--------------|
-|validate       |对单个表单项进行校验的方法，Promise返回验证结果|
-|clearTips      |用于清空验证提示信息，恢复初始状态|
+| type     | string        | 可快速输入控件类型，可选`'input'、'radio'、'checkbox'、'datePicker'、'select'、'switch'、'textarea'、'timeSelect'、'timePicker'` |
+| data     | Object        | 对应当前组件的props所有参数      |
+| v-model  | any           | 当前控件的值                |

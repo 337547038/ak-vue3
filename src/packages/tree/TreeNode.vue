@@ -45,7 +45,7 @@
   import vTransition from '../transition/Transition.vue'
   import NodeContent from './NodeContent.vue'
   import Loading from '../loading/Loading.vue'
-  import Checkbox from '../checkbox/Checkbox.vue'
+  import { Checkbox } from '../checkbox'
   interface TreeList {
     id: string
     label: string

@@ -9,7 +9,7 @@
     &:hover {
       .icon-close {opacity: 1}
     }
-    > input {padding-right: 25px;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;
+    > input {overflow: hidden;white-space: nowrap;text-overflow: ellipsis;
       &::placeholder {color: $placeholder}
     }
     //预留方向icon位置

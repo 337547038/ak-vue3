@@ -51,7 +51,7 @@
 
 <script lang="ts" setup>
   import { reactive, inject, watch, ref } from 'vue'
-  import Checkbox from '../checkbox/Checkbox.vue'
+  import { Checkbox } from '../checkbox'
   import TableHeader from './HeaderSlot.vue'
   import prefixCls from '../prefix'
   const props = withDefaults(

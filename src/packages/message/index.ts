@@ -1,5 +1,5 @@
-import Dialog from '../dialog/Dialog.vue'
-import { createApp, defineComponent } from 'vue'
+import { Dialog } from '../dialog'
+import { createApp } from 'vue'
 import prefixCls from '../prefix'
 
 const dialogCom = (opt: any) => {

@@ -18,11 +18,7 @@
             v-for="(list, listIndex) in col.controlList"
             :key="listIndex"
           >
-            <form-control
-              :ref="formControlEl"
-              :item="list"
-              :disabled="disabled"
-            />
+            <filed :ref="formControlEl" :data="list" :disabled="disabled" />
           </template>
         </div>
       </div>
@@ -34,7 +30,7 @@
             :label="tab.tabs.label"
           >
             <template v-for="(tabs, sIndex) in tab.controlList" :key="sIndex">
-              <form-control :item="tabs" :disabled="disabled" />
+              <filed :data="tabs" :disabled="disabled" />
             </template>
           </TabPane>
         </Tabs>
@@ -44,12 +40,7 @@
         class="form-title"
         v-html="item.name"
       ></div>
-      <form-control
-        v-else
-        :ref="formControlEl"
-        :item="item"
-        :disabled="disabled"
-      />
+      <filed v-else :ref="formControlEl" :data="item" :disabled="disabled" />
     </template>
   </vForm>
 </template>
@@ -57,7 +48,7 @@
 <script lang="ts" setup>
   import { reactive, onMounted } from 'vue'
   import { Form as vForm } from '../form'
-  import FormControl from './FormControl.vue'
+  import Filed from './Filed.vue'
   import { Tabs, TabPane } from '../tabs'
   const props = withDefaults(
     defineProps<{

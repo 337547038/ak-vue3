@@ -77,8 +77,8 @@
 </template>
 <script lang="ts" setup>
   import prefixCls from '../prefix'
-  import pInput from '../input/Input.vue'
-  import pSelect from '../select/Select.vue'
+  import { Input as pInput } from '../input'
+  import { Select as pSelect } from '../select'
   import { computed, watch, reactive } from 'vue'
   const props = withDefaults(
     defineProps<{

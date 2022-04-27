@@ -17,6 +17,12 @@
       <slot name="label">{{ label }}</slot>
     </label>
     <div :class="`${prefixCls}-form-box`">
+      <filed
+        :type="props.type"
+        v-if="props.type"
+        :data="props.data"
+        :modelValue="props.modelValue"
+      />
       <slot></slot>
       <template
         v-if="
@@ -42,6 +48,7 @@
 <script lang="ts" setup>
   import prefixCls from '../prefix'
   import Validate from './validate'
+  import Filed from './Field.vue'
   import { provide, reactive, computed, inject, onMounted, watch } from 'vue'
 
   const props = withDefaults(
@@ -58,6 +65,19 @@
       labelWidth?: string
       size?: string
       error?: string
+      type?:
+        | 'input'
+        | 'radio'
+        | 'checkbox'
+        | 'datePicker'
+        | 'select'
+        | 'switch'
+        | 'textarea'
+        | 'timeSelect'
+        | 'timePicker'
+        | ''
+      data?: any // type有值时有效
+      modelValue?: any // type有值时有效
     }>(),
     {
       trigger: 'change',
@@ -65,9 +85,13 @@
       rules: () => [],
       required: true,
       labelVisible: false,
-      error: ''
+      error: '',
+      type: ''
     }
   )
+  const emits = defineEmits<{
+    (e: 'update:modelValue', modelValue: any): void
+  }>()
   const formProps: any = inject(`${prefixCls}FormProps`, {})
   let formRules
   if (
@@ -226,6 +250,9 @@
     }
   }
   provide(`${prefixCls}ControlChange`, (val: any, type: string) => {
+    if (props.type) {
+      emits('update:modelValue', val)
+    }
     state.controlValue = val
     // 将组件值存起来，不触发其他操作，在没有手动触发时也使用validate来校验
     if (type === 'mounted') {

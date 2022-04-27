@@ -1,2 +1,3 @@
 import FormItem from './FormItem.vue'
-export { FormItem }
+import Field from './Field.vue'
+export { FormItem, Field }

@@ -25,7 +25,7 @@
     },
     {
       type: 'input',
-      name: 'test',
+      name: 'text',
       formItem: {
         label: 'test'
       },
@@ -45,44 +45,126 @@
       rules: [{ type: 'required', msg: '请输入用户名' }]
     },
     {
-      type: 'password',
+      type: 'input',
       name: 'password',
       formItem: {
         label: 'password'
       },
       control: {
-        value: '123'
+        value: '',
+        type: 'password'
       },
       rules: [{ type: 'required', msg: '请输入用户名' }]
     },
     {
-      type: 'grid',
-      columns: [
-        {
-          span: 12,
-          controlList: [
-            {
-              type: 'input',
-              name: 'userName2',
-              formItem: {
-                label: 'userName'
-              },
-              control: {
-                value: ''
-              },
-              rules: [{ type: 'required', msg: '请输入用户名' }]
-            }
-          ]
-        },
-        {
-          span: 6,
-          controlList: []
-        },
-        {
-          span: 6,
-          controlList: []
-        }
-      ]
+      type: 'radio',
+      name: 'radio',
+      formItem: {
+        label: 'radio'
+      },
+      control: {
+        value: '',
+        options: [
+          { label: '选项1', value: 'a1' },
+          { label: '选项2', value: 'a2' },
+          { label: '选项3', value: 'a3' },
+          { label: '选项4', value: 'a4' },
+          { label: '禁用', value: 'a5', disabled: true }
+        ]
+      }
+    },
+    {
+      type: 'checkbox',
+      name: 'checkbox',
+      formItem: {
+        label: 'checkbox'
+      },
+      control: {
+        value: [],
+        options: [
+          { label: '选项1', value: 'a1' },
+          { label: '选项2', value: 'a2' },
+          { label: '选项3', value: 'a3' },
+          { label: '选项4', value: 'a4' },
+          { label: '禁用', value: 'a5', disabled: true }
+        ]
+      }
+    },
+    {
+      type: 'datePicker',
+      name: 'datePicker',
+      formItem: {
+        label: 'datePicker'
+      },
+      control: {
+        value: '',
+        placeholder: '请选择时间'
+      }
+    },
+    {
+      type: 'select',
+      name: 'select',
+      formItem: {
+        label: 'select'
+      },
+      control: {
+        value: '',
+        placeholder: '请选择',
+        options: [
+          { label: '选项1', value: 1 },
+          { label: '选项2', value: '2' },
+          { label: '选项3', value: '3' },
+          { label: '选项4', value: '4', disabled: true },
+          { label: '选项5', value: '5' },
+          { label: '6' },
+          { label: '选项7', value: '7' },
+          { label: '选项8', value: '8' },
+          { label: '选项9', value: '9' },
+          { label: '选项10', value: '10', class: 'red' }
+        ]
+      }
+    },
+    {
+      type: 'switch',
+      name: 'switch',
+      formItem: {
+        label: 'switch'
+      },
+      control: {
+        value: false
+      }
+    },
+    {
+      type: 'textarea',
+      name: 'textarea',
+      formItem: {
+        label: 'textarea'
+      },
+      control: {
+        value: ''
+      }
+    },
+    {
+      type: 'timePicker',
+      name: 'timePicker',
+      formItem: {
+        label: 'timePicker'
+      },
+      control: {
+        value: '',
+        placeholder: '请选择'
+      }
+    },
+    {
+      type: 'timeSelect',
+      name: 'timeSelect',
+      formItem: {
+        label: 'timeSelect'
+      },
+      control: {
+        value: '',
+        placeholder: '请选择'
+      }
     }
   ]
   const autoFormEl = ref()
@@ -103,6 +185,7 @@
     autoFormEl.value.resetForm()
   }
 </script>
+
 
 ```
 
@@ -321,6 +404,34 @@
 
 ```
 
+### Filed 快速输入formItem及子表单控件
+```vue demo
+<template>
+  <div>
+    <ak-filed :data="data" ref="filed1" />
+  </div>
+</template>
+<script setup>
+  import { ref, nextTick } from 'vue'
+  const data = {
+    type: 'input',
+    name: 'text222',
+    formItem: {
+      label: 'filed'
+    },
+    control: {
+      value: ''
+    }
+  }
+  const filed1 = ref()
+  nextTick(() => {
+    filed1.value.setValue({ text222: '123' })
+  })
+  //filed1.value.setValue({ text222: '123' })
+</script>
+
+```
+
 ## API
 
 ### AutoForm Props
@@ -344,13 +455,21 @@
 
 ### AutoForm Data
 
-|参数|类型|说明|
-|----------|--------------|--------|
-|type           | string         |组件类型，支持input,radio,checkbox,datePicker,select,switch,textarea,grid,tabs,text|
-|name           | string   |表单控件字段名，唯一性|  
-|formItem       | object   |组件formItem的props|
-|control        | object   |对应类type型的props|
-|columns        | array    |type=grid/tabs时有效，用于布局，表多分多少列/有多少tabs|
-|columns.span   | number   |type=grid时有效，当前栏的宽度比例|
-|columns.tabs   | object   |type=tabs时有效，tabs的相关props|
-|columns.controlList | array   |type=grid/tabs时有效，当前列下所有组件|
+|参数|类型| 说明                                                                  |
+|----------|--------------|---------------------------------------------------------------------|
+|type           | string         | 组件类型，支持input,radio,checkbox,datePicker,timePicker,timeSelect,select,switch,textarea,grid,tabs,text |
+|name           | string   | 表单控件字段名，唯一性                                                         |  
+|formItem       | object   | 组件formItem的props                                                    |
+|control        | object   | 对应类type型的props                                                      |
+|columns        | array    | type=grid/tabs时有效，用于布局，表多分多少列/有多少tabs                               |
+|columns.span   | number   | type=grid时有效，当前栏的宽度比例                                               |
+|columns.tabs   | object   | type=tabs时有效，tabs的相关props                                           |
+|columns.controlList | array   | type=grid/tabs时有效，当前列下所有组件                                          |
+
+### Filed Data
+|参数|类型| 说明                                                                  |
+|----------|--------------|---------------------------------------------------------------------|
+|type           | string         | 组件类型，支持input,radio,checkbox,datePicker,timePicker,timeSelect,select,switch,textarea |
+|name           | string   | 表单控件字段名，唯一性                                                         |  
+|formItem       | object   | 组件formItem的props                                                    |
+|control        | object   | 对应类type型的props                                                      |

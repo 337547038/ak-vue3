@@ -1,2 +1,3 @@
 import AutoForm from './AutoForm.vue'
-export { AutoForm }
+import Filed from './Filed.vue'
+export { AutoForm, Filed }
