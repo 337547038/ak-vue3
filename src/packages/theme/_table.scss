@@ -1,16 +1,13 @@
 @charset "UTF-8";
 @include ns(table) {
-  $stripe: #F9F9F9; //斑马纹
-  $background: #fff; //table背景色
-  $selectBackground: #fcf8e3; //勾选行的背景颜色
   position: relative;overflow-x: auto; overflow-y: hidden; width: 100%;box-sizing: border-box;
   table {border-collapse: collapse; border-spacing: 0;margin: 0;padding: 0;transform-style: preserve-3d;width: 100%;border: none;table-layout: fixed;
   }
-  td, th {text-align: left;padding: 8px 10px;box-sizing: border-box;border: 1px solid $border;white-space: nowrap;text-overflow: ellipsis;overflow: hidden;background: $background}
-  tr:nth-child(odd) td { background: $stripe }
-  tr:hover td { background: lighten($primary, 55); transition: background .5s }
+  td, th {text-align: left;padding: 8px 10px;box-sizing: border-box;border: 1px solid $borderColor;white-space: nowrap;text-overflow: ellipsis;overflow: hidden;background: $backgroundColor}
+  tr:nth-child(odd) td { background: lighten($primaryColor, 45) }
+  tr:hover td { background: lighten($primaryColor, 55); transition: background .5s }
   .no-border {border: none;
-    td, th {border: none;border-bottom: 1px solid $border;}
+    td, th {border: none;border-bottom: 1px solid $borderColor;}
   }
   .no-ellipsis {table-layout: inherit;
     td, th {}
@@ -22,14 +19,14 @@
   }
   .no-hover {
     tr:hover td {background: none}
-    tr:nth-child(odd) td { background: $stripe }
+    tr:nth-child(odd) td { background: lighten($primaryColor, 45) }
   }
   /*td.left,td.right{background: $background!important;}*/
   // transform上下移动，边框会消失，这里补上，没有纵边框时只处理头部
   .transform {
     tr {transform-style: preserve-3d;}
     th {transform: translateZ(10px);position: relative;
-      &:before {content: '';display: block;width: 100%;height: 102%;border-top: 1px solid $border;border-bottom: 1px solid $border;position: absolute;top: 0;left: 0;box-sizing: border-box}
+      &:before {content: '';display: block;width: 100%;height: 102%;border-top: 1px solid $borderColor;border-bottom: 1px solid $borderColor;position: absolute;top: 0;left: 0;box-sizing: border-box}
     }
   }
   @include ns(checkbox) {position: relative;z-index: 2}
@@ -39,14 +36,14 @@
       &.asc {border-bottom-color: #c0c4cc;top: 5px;}
       &.desc {border-top-color: #c0c4cc;bottom: 7px;}
       &.active {
-        &.asc {border-bottom-color: $primary}
-        &.desc {border-top-color: $primary}
+        &.asc {border-bottom-color: $primaryColor}
+        &.desc {border-top-color: $primaryColor}
       }
     }
   }
   /*勾选行的颜色*/
   .warning {
-    td {background: $selectBackground !important;}
+    td {background: lighten($primaryColor, 40) !important;}
   }
   // 扩展
   .extend {
@@ -70,7 +67,7 @@
       z-index: 2;
       top: 0;}
   }
-  .table-drag-line {position: absolute;top: 0;height: 100%;border-left: 1px solid $primary;cursor: ew-resize}
+  .table-drag-line {position: absolute;top: 0;height: 100%;border-left: 1px solid $primaryColor;cursor: ew-resize}
   // 分页
   @include ns(page) {
     padding-top: 20px;

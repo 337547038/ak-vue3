@@ -4,8 +4,8 @@
   }
 }
 @include ns(cascader-down) {
-  display: flex;
-  ul {padding: 10px;min-width: 100px;border-left: 1px solid $border;
+  >div{display: flex;}
+  ul {padding: 10px;min-width: 100px;border-left: 1px solid $borderColor;
     &:first-child {border: 0}
     li {padding: 3px 0;cursor: pointer;display: flex;align-items: center;justify-content: space-around;
       a {display: block;flex: 2;white-space: nowrap}
@@ -18,8 +18,8 @@
     }
   }
   .empty-text {text-align: center;width: 100%}
-  .checked {color: $primary;
-    a {color: $primary}
+  .checked {color: $primaryColor;
+    a {color: $primaryColor}
     .icon-hook {display: block}
   }
   @include ns(loading) {

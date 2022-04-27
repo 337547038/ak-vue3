@@ -1,6 +1,6 @@
 <!--Created by 337547038 on 2017/12/19.-->
 <template>
-  <span ref="el"><slot></slot></span>
+  <span ref="el" :class="[`${prefixCls}-tooltip-box`]"><slot></slot></span>
   <transition :name="transition">
     <div
       v-if="getIf($slots)"
@@ -10,6 +10,7 @@
       :style="state.tooltipStyle"
       @click.stop=""
     >
+      <i class="arrow"></i>
       <span v-if="content" v-html="content"></span>
       <slot v-else name="content"></slot>
     </div>
@@ -51,7 +52,7 @@
       delay: 0,
       appendToBody: true,
       transition: 'fade',
-      x: 8,
+      x: 0,
       y: 0,
       trigger: 'hover',
       disabled: false
@@ -123,7 +124,7 @@
   const setPosition = () => {
     const offset = getOffset(el.value)
     const windowWidth = getWindow().width
-    const space = props.y // 当前标签与提示语之间的距离
+    const space = props.y + 8 // 当前标签与提示语之间的距离
     let style: CssStyle = {
       maxWidth: props.maxWidth + 'px'
     }

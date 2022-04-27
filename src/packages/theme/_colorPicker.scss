@@ -3,12 +3,12 @@
   width: 300px;
   position: absolute;
   box-sizing: content-box;
-  border: 1px solid #ebeeff;
+  border: 1px solid $borderColor;
   box-shadow: 0 4px 15px rgba(0, 0, 0, .2);
   border-radius: 5px;
   z-index: 10;
   padding: 7px;
-  background-color: #fff;
+  background-color: $backgroundColor;
   user-select: none;
   .color-picker-content{position: relative;height: 180px;margin-bottom: 10px}
   .color-slider{position: absolute;width: 12px;

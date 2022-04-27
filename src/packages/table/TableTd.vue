@@ -127,7 +127,7 @@
           (props.column.tooltip && !props.column.tooltip.disabled)
         ) {
           let obj = { content: val, direction: 'top' }
-          if (props.column.tooltip.show) {
+          if (props.column.tooltip.disabled) {
             obj = Object.assign(obj, props.column.tooltip)
           }
           //return h(Tooltip, obj, h('span', { class: 'td-tooltip' }, val))

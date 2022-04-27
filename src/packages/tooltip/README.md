@@ -9,41 +9,41 @@
   <div>
     <div class="tooltip-demo">
       <ak-tooltip content="这是提示内容这是提示内容"
-        ><span>上左</span></ak-tooltip
+        >上左</ak-tooltip
       >
       <ak-tooltip
         content="这是提示内容这是提示内容，direction＝'top'"
         direction="top"
-        ><span>上边</span></ak-tooltip
+        >上边</ak-tooltip
       >
       <ak-tooltip
         content="这是提示内容direction='top-right'"
         direction="top-right"
-        ><span>上右</span></ak-tooltip
+        >上右</ak-tooltip
       >
     </div>
     <div class="tooltip-demo">
       <ak-tooltip direction="left" content="这是提示内容direction=left">
-        <span>左边</span>
+        左边
       </ak-tooltip>
       <span></span>
       <ak-tooltip direction="right" content="这是提示内容direction=right"
-        ><span>右边</span></ak-tooltip
+        >右边</ak-tooltip
       >
     </div>
     <div class="tooltip-demo">
       <ak-tooltip
         direction="bottom-left"
         content="这是提示内容direction=bottom-left"
-        ><span>下左</span></ak-tooltip
+        >下左</ak-tooltip
       >
       <ak-tooltip direction="bottom" content="这是提示内容direction=bottom"
-        ><span>下边</span></ak-tooltip
+        >下边</ak-tooltip
       >
       <ak-tooltip
         direction="bottom-right"
         content="这是提示内容direction=bottom-right"
-        ><span>下右</span></ak-tooltip
+        >下右</ak-tooltip
       >
     </div>
   </div>
@@ -60,37 +60,37 @@
     <div class="tooltip-demo">
       <ak-tooltip
         content="提示语的左边位置跟当前标签对齐，如提示语X轴位置到浏览器右边的距离小于最大宽，将以最小宽显示并换行"
-        ><span>上左</span></ak-tooltip
+        >上左</ak-tooltip
       >
       <ak-tooltip
         content="上边提示是根据是根据当前标签中间位置，向左偏移50%实现居中，如果当前标签到浏览器右边的距离小于最大宽时，实际显示宽为到边浏览器右边的距离，并不是最大宽"
         direction="top"
-        ><span>上边</span></ak-tooltip
+        >上边</ak-tooltip
       >
       <ak-tooltip
         content="这里跟上左类型，计算的是到浏览器左边的距离"
         direction="top-right"
         :maxWidth="200"
-        ><span>上右</span></ak-tooltip
+        >上右</ak-tooltip
       >
     </div>
     <div class="tooltip-demo">
       <ak-tooltip direction="left" content="受当前标签到浏览器左边的距离影响">
-        <span>左边</span>
+        左边
       </ak-tooltip>
       <span></span>
       <ak-tooltip
         direction="right"
         content="受当前标签到浏览器左边的距离影响"
         :maxWidth="200"
-        ><span>右边</span></ak-tooltip
+        >右边</ak-tooltip
       >
     </div>
     <div class="tooltip-demo">
       <ak-tooltip
         direction="bottom-left"
         content="这是提示内容，如果内容超过设定的最大宽时则自动换行。"
-        ><span>下左</span></ak-tooltip
+        >下左</ak-tooltip
       >
       <ak-tooltip
         direction="bottom"
@@ -119,6 +119,9 @@
     </ak-tooltip>
     <ak-tooltip content="这里是提示文字。使用x轴微调将箭头和icon对齐" :x="-10"
       ><i class="tooltip-icon">?</i></ak-tooltip
+    >
+    <ak-tooltip content="这里是提示文字。使用x轴微调将箭头和icon对齐" :x="-10"
+      ><ak-button type="primary">按钮形式</ak-button></ak-tooltip
     >
   </div>
 </template>
