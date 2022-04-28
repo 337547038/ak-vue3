@@ -35,7 +35,7 @@
         </li>
         <li v-for="(page, index) in pages[0]" :key="index">
           <a
-            :title="page"
+            :title="page.toString()"
             :class="{ active: page === state.active }"
             @click="goTo(page)"
             v-text="page"
@@ -51,7 +51,7 @@
 
         <li v-if="pageCount > 1">
           <a
-            :title="pageCount"
+            :title="pageCount + ''"
             :class="{ active: state.active === pageCount }"
             @click="goTo(pageCount)"
             >{{ pageCount }}</a
@@ -151,11 +151,11 @@
     return [showPages, start, end]
   })
   const pageEnd = computed(() => {
-    return pages.value[2]
+    return parseInt(pages.value[2].toString())
   })
   const pageStart = computed(() => {
     // 页码循环开始和结束，用来判断前后的三个点链接显示
-    return pages.value[1]
+    return parseInt(pages.value[1].toString())
   })
   const selectOptions = computed(() => {
     let options: any = []

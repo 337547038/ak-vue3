@@ -6,7 +6,7 @@
       v-for="(item, index) in yearList"
       :key="index"
       :class="[getClass(item)]"
-      @click="selectYear(item, $event)"
+      @click="selectYear(item)"
       v-text="item"
     ></a>
   </div>

@@ -133,7 +133,8 @@
       emptyText: '暂无数据',
       pagination: () => {
         return {}
-      }
+      },
+      className: ''
     }
   )
   const emits = defineEmits<{

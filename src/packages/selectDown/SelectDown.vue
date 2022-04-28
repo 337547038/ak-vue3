@@ -154,7 +154,9 @@
       direction: 0,
       icon: 'arrow',
       isRange: false,
-      rangeSeparator: 'To'
+      rangeSeparator: 'To',
+      downClass: '',
+      downHeight: 0
     }
   )
   const emits = defineEmits<{
@@ -314,10 +316,10 @@
     if (props.downHeight) {
       return {
         'max-height': props.downHeight + 'px',
-        overflowY: 'auto'
+        'overflow-y': 'auto'
       }
     }
-    return null
+    return {}
   })
   const downPanelStyle = computed(() => {
     /*let style = {}*/

@@ -318,7 +318,7 @@
     }
   }
   // 返回下拉选中样式
-  const getChecked = (item: cityProps, bool: boolean) => {
+  const getChecked = (item: cityProps, bool?: boolean) => {
     // 当前value存在于state.checked中即可选中状态
     if (props.checkAny) {
       // 这里不需要半选

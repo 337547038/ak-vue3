@@ -75,7 +75,7 @@
     }
     emits('blur', evt)
   }
-  const input = (evt: InputEvent) => {
+  const input = (evt: InputEvent): void => {
     console.log(evt)
     const { value } = evt.target as HTMLInputElement
     emitComm(parseInt(value))

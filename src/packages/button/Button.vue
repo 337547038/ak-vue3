@@ -15,7 +15,7 @@
     v-else
     v-bind="$attrs"
     :class="classStyle"
-    :href="disabledOk ? null : routerHref"
+    :href="disabledOk ? '' : routerHref"
     :style="{ width: btnWidth }"
     @click="handleClick"
   >
