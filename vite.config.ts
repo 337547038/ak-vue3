@@ -18,6 +18,9 @@ export default defineConfig({
     })
   ],
   base: './',
+  build: {
+    outDir: 'docs'
+  },
   resolve: {
     alias: [
       {

@@ -100,7 +100,7 @@
     tempUpload: [], // 存储待上传文件，用于手动上传
     source: ''
   })
-  const onFileChange = (evt: Event | any, type: string) => {
+  const onFileChange = (evt: any, type: string) => {
     emits('change', evt)
     if (!props.multiple) {
       // 多个时上传后再清除

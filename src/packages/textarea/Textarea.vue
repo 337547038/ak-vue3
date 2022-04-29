@@ -34,7 +34,8 @@
       autoHeight: true,
       width: '100%',
       height: '80px',
-      disabled: false
+      disabled: false,
+      modelValue: ''
     }
   )
   const emits = defineEmits<{
@@ -47,7 +48,7 @@
   const disabledOk = computed(() => {
     return getFormDisabled(props.disabled)
   })
-  const style = computed(() => {
+  const style = computed<any>(() => {
     return {
       width: props.width,
       height: props.height,

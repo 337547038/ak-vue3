@@ -132,7 +132,7 @@
     }
     return days
   })
-  const dayClass = (item: Day) => {
+  const dayClass = (item: any) => {
     // 添加相对应样式，今天、禁用
     let time = new Date(item.y, item.m, item.d)
     let time2 = state.selectValue.toDateString() // 这里用初始值，否则选了上下年月，会一直选中一天
@@ -143,7 +143,7 @@
       'calendar-date-disabled': setDisabledDate && setDisabledDate(time, 'day') // 不能选择的
     }
   }
-  const selectDay = (item: Day) => {
+  const selectDay = (item: any) => {
     const disabledCls = dayClass(item)
     if (!disabledCls['calendar-date-disabled']) {
       const date = new Date(item.y, item.m, item.d)
@@ -164,7 +164,7 @@
     state.selectValue.setSeconds(state.seconds)
     emits('click', state.selectValue)
   }
-  const innerText = (item: Day) => {
+  const innerText = (item: any): string => {
     let time = new Date(item.y, item.m, item.d)
     return setInnerText && setInnerText(time)
   }

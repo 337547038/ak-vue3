@@ -488,7 +488,7 @@
     state.downDataList.push(temp)
     // return temp
   }
-  const inputChange = (val: string) => {
+  const inputChange = (val: any) => {
     clearTimeout(state.timer)
     state.timer = setTimeout(() => {
       if (!props.lazy) {

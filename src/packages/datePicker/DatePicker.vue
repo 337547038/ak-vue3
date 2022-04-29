@@ -167,7 +167,7 @@
   const slideUp = () => {
     selectDown.value.slideUp()
   }
-  const blurHandler = (value: string) => {
+  const blurHandler = (value: any) => {
     // const {value} = evt.target as HTMLInputElement
     console.log(value)
     getShowValue(value)

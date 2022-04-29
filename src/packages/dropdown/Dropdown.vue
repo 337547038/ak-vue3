@@ -69,7 +69,7 @@
 
   const dropdown = ref()
   const el = ref()
-  const state = reactive({
+  const state = reactive<any>({
     visible: false,
     timer: 0,
     position: '',
@@ -105,7 +105,7 @@
     }
     emits('toggle', false)
   }
-  const click = (e: MouseEvent | any, type: string): void => {
+  const click = (e: MouseEvent | any, type: string) => {
     control('click', type, !state.visible, e)
     emits('toggle', !state.visible)
   }

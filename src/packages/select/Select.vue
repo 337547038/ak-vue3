@@ -134,7 +134,7 @@
   const { optionsKey } = toRefs(props)
   const optLabel = optionsKey.value.label
   const optValue = optionsKey.value.value
-  const inputBlur = (value: string) => {
+  const inputBlur = (value: any) => {
     // 搜索输入框失焦时，判断输入的值是否符合
     if (!props.filterable) {
       return
@@ -167,7 +167,7 @@
     }, 500)
     emits('blur', value)
   }
-  const inputChange = (value: string) => {
+  const inputChange = (value: any) => {
     // 默认情况下仅对当前下拉数据进行筛选
     if (!props.filterable) {
       return

@@ -147,7 +147,7 @@
       return {}
     }
   })
-  const containerStyle = computed(() => {
+  const containerStyle = computed<any>(() => {
     const obj = reactive({
       'overflow-x': 'hidden',
       height: '',

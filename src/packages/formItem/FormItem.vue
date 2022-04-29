@@ -179,7 +179,7 @@
     return bool
   })
   // 如果form组件设置了label的宽
-  const labelStyle = computed(() => {
+  const labelStyle = computed<any>(() => {
     const width = getFormProps(formProps.labelWidth, props.labelWidth)
     if (width) {
       return {

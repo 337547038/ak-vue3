@@ -312,7 +312,7 @@
     }
   }
   // 下拉面板style样式
-  const downHeightStyle = computed(() => {
+  const downHeightStyle: any = computed(() => {
     if (props.downHeight) {
       return {
         'max-height': props.downHeight + 'px',

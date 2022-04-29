@@ -15,7 +15,7 @@
     v-else
     v-bind="$attrs"
     :class="classStyle"
-    :href="disabledOk ? '' : routerHref"
+    :href="disabledOk ? null : routerHref"
     :style="{ width: btnWidth }"
     @click="handleClick"
   >
@@ -77,7 +77,7 @@
     if (props.loading) {
       return true // loading情况下一定为禁用状态
     } else {
-      return getFormDisabled(groupConfig.disabled || props.disabled)
+      return getFormDisabled(groupConfig.disabled || props.disabled) || false
     }
   })
   const btnWidth = ref(props.width || groupConfig.width)

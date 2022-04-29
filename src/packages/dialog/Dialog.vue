@@ -145,7 +145,8 @@
       autoClose: 0, // 自动关闭时间
       closeTips: 'S秒后自动关闭', // 自动关闭时提示语,大写S会被替换为具体时间
       animation: 'fade',
-      icon: 0 // 主要用于this.$dialog中常见的几种提示
+      icon: 0, // 主要用于this.$dialog中常见的几种提示
+      className: ''
     }
   )
 

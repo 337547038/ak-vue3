@@ -132,7 +132,7 @@
       emitsUpdate(getNowTime(), getNowTime(true))
     }
   }
-  const selectClick = (position: string, time: Time) => {
+  const selectClick = (position: string, time: any) => {
     if (props.isRange) {
       let start = formatTime.value[0]
       let end = formatTime.value[1]
