@@ -8,7 +8,7 @@
     }"
   >
     <label
-      v-if="!(limit && limit <= tempFiles.length)"
+      v-if="!(limit && limit <= state.tempFiles.length)"
       class="upload-file"
       :class="{ 'drag-file': drag }"
       @dragover="fileDragOver"
@@ -100,7 +100,7 @@
     tempUpload: [], // 存储待上传文件，用于手动上传
     source: ''
   })
-  const onFileChange = (evt: any, type: string) => {
+  const onFileChange = (evt: Event | any, type: string) => {
     emits('change', evt)
     if (!props.multiple) {
       // 多个时上传后再清除
@@ -146,7 +146,7 @@
           if (!props.multiple) {
             // 单个文件上传时，放error里提示
             emits('error', checkResult)
-            return false
+            return
           }
         }
       }

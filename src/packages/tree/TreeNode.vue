@@ -17,7 +17,7 @@
             v-model="item.checked"
             :class="{ 'some-select': item.someChecked }"
             @click.stop=""
-            @change="checkboxChange(item, $event)"
+            @change="checkboxChange(item)"
           />
           <span class="tree-label">{{ item.label }}</span>
           <span v-if="state.lazy && item.hasChild" class="lazy-loading">

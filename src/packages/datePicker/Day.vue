@@ -16,7 +16,7 @@
         v-for="(item, index) in days"
         :key="index"
         :class="[dayClass(item)]"
-        @click="selectDay(item, $event)"
+        @click="selectDay(item)"
       >
         {{ item.d }}
         <span v-if="innerText(item)" v-text="innerText(item)"></span>

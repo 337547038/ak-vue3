@@ -58,7 +58,8 @@
     }>(),
     {
       trigger: 'hover',
-      direction: 0
+      direction: 0,
+      downClass: ''
     }
   )
   const emits = defineEmits<{
@@ -88,7 +89,7 @@
       state.visible = false
     }
   }
-  const mouseOver = (e: MouseEvent, type: string) => {
+  const mouseOver = (e: MouseEvent, type: string): void => {
     if (!state.visible) {
       // 已展开时不重复
       control('hover', type, true, e)
@@ -104,7 +105,7 @@
     }
     emits('toggle', false)
   }
-  const click = (e: MouseEvent, type: string) => {
+  const click = (e: MouseEvent | any, type: string): void => {
     control('click', type, !state.visible, e)
     emits('toggle', !state.visible)
   }

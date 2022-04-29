@@ -33,7 +33,7 @@
           @click="btnClick('close')"
         ></a>
         <div v-if="autoClose > 0" :class="`${prefixCls}-dialog-auto-close`">
-          <span>{{ closeTips.replace('S', state.autoTime) }}</span>
+          <span>{{ closeTips.replace('S', state.autoTime.toString()) }}</span>
         </div>
         <div
           v-if="title || $slots.title"

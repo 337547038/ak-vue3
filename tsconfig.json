@@ -8,11 +8,11 @@
     "jsx": "preserve",
     "sourceMap": true,
     "resolveJsonModule": true,
-    "isolatedModules": true,
+    "isolatedModules": false,
     "esModuleInterop": true,
     "lib": ["esnext", "dom"],
     "types": [
-      "vite/client","node"
+      "vite/client", "node"
     ]
   },
   "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue","src/*.md","src/*.md"],
