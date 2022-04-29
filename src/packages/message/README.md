@@ -2,7 +2,7 @@
 
 # Message 信息弹窗
 
-为方便使用，定义了`Alert`,`Confirm`,`Msg`三种以适应不同场景，如果需要弹出较为复杂的内容，请使用 `Dialog`。
+为方便使用，定义了`Dialog`,`Alert`,`Confirm`,`Msg`三种以适应不同场景，如果需要弹出较为复杂的内容，请使用 `Dialog`。
 
 ### Alert
 

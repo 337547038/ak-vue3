@@ -30,31 +30,32 @@
         label: 'test'
       },
       control: {
-        value: ''
+        value: '',
+        placeholder: '请输入'
       }
     },
     {
       type: 'input',
       name: 'userName',
       formItem: {
-        label: 'userName'
+        label: 'userName',
+        rules: [{ type: 'required', msg: '请输入用户名' }]
       },
       control: {
         value: ''
-      },
-      rules: [{ type: 'required', msg: '请输入用户名' }]
+      }
     },
     {
       type: 'input',
       name: 'password',
       formItem: {
-        label: 'password'
+        label: 'password',
+        rules: [{ type: 'required', msg: '请输入password' }]
       },
       control: {
         value: '',
         type: 'password'
-      },
-      rules: [{ type: 'required', msg: '请输入用户名' }]
+      }
     },
     {
       type: 'radio',
@@ -186,7 +187,6 @@
   }
 </script>
 
-
 ```
 
 ### 格栅布局
@@ -194,10 +194,12 @@
 ```vue demo
 <template>
   <div>
-    <ak-auto-form :data="data" />
+    <ak-auto-form :data="data" ref="autoFormEl" />
+    <ak-button @click="submit">submit</ak-button>
   </div>
 </template>
 <script setup>
+  import { ref } from 'vue'
   const data = [
     {
       type: 'input',
@@ -219,12 +221,12 @@
               type: 'input',
               name: 'userName2',
               formItem: {
-                label: 'userName'
+                label: 'userName',
+                rules: [{ type: 'required', msg: '请输入用户名' }]
               },
               control: {
                 value: ''
-              },
-              rules: [{ type: 'required', msg: '请输入用户名' }]
+              }
             }
           ]
         },
@@ -235,14 +237,14 @@
               type: 'select',
               name: 'userName2',
               formItem: {
-                label: 'userName'
+                label: 'userName',
+                rules: [{ type: 'required', msg: '请输入用户名' }]
               },
               control: {
                 value: '',
                 placeholder: '请选择',
                 options: [{ label: '选项', value: 1 }]
-              },
-              rules: [{ type: 'required', msg: '请输入用户名' }]
+              }
             }
           ]
         },
@@ -253,22 +255,33 @@
               type: 'radio',
               name: 'userName3',
               formItem: {
-                label: 'userName'
+                label: 'userName',
+                rules: [{ type: 'required', msg: '请输入用户名' }]
               },
               control: {
                 value: '',
                 placeholder: '请选择',
                 options: [{ label: '选项1', value: 'a1' }]
-              },
-              rules: [{ type: 'required', msg: '请输入用户名' }]
+              }
             }
           ]
         }
       ]
     }
   ]
-</script>
 
+  const autoFormEl = ref()
+  const submit = () => {
+    autoFormEl.value
+      .validate()
+      .then((res) => {
+        console.log(res)
+      })
+      .catch((res) => {
+        console.log(res)
+      })
+  }
+</script>
 
 ```
 
@@ -293,63 +306,6 @@
       }
     },
     {
-      type: 'grid',
-      columns: [
-        {
-          span: 6,
-          controlList: [
-            {
-              type: 'input',
-              name: 'userName2',
-              formItem: {
-                label: 'userName'
-              },
-              control: {
-                value: ''
-              },
-              rules: [{ type: 'required', msg: '请输入用户名' }]
-            }
-          ]
-        },
-        {
-          span: 6,
-          controlList: [
-            {
-              type: 'select',
-              name: 'userName2',
-              formItem: {
-                label: 'userName'
-              },
-              control: {
-                value: '',
-                placeholder: '请选择',
-                options: [{ label: '选项', value: 1 }]
-              },
-              rules: [{ type: 'required', msg: '请输入用户名' }]
-            }
-          ]
-        },
-        {
-          span: 12,
-          controlList: [
-            {
-              type: 'radio',
-              name: 'userName3',
-              formItem: {
-                label: 'userName'
-              },
-              control: {
-                value: '',
-                placeholder: '请选择',
-                options: [{ label: '选项1', value: 'a1' }]
-              },
-              rules: [{ type: 'required', msg: '请输入用户名' }]
-            }
-          ]
-        }
-      ]
-    },
-    {
       type: 'tabs',
       columns: [
         {
@@ -361,12 +317,12 @@
               type: 'input',
               name: 'userName2',
               formItem: {
-                label: 'userName'
+                label: 'userName',
+                rules: [{ type: 'required', msg: '请输入用户名' }]
               },
               control: {
                 value: ''
-              },
-              rules: [{ type: 'required', msg: '请输入用户名' }]
+              }
             }
           ]
         },
@@ -404,34 +360,6 @@
 
 ```
 
-### Filed 快速输入formItem及子表单控件
-```vue demo
-<template>
-  <div>
-    <ak-filed :data="data" ref="filed1" />
-  </div>
-</template>
-<script setup>
-  import { ref, nextTick } from 'vue'
-  const data = {
-    type: 'input',
-    name: 'text222',
-    formItem: {
-      label: 'filed'
-    },
-    control: {
-      value: ''
-    }
-  }
-  const filed1 = ref()
-  nextTick(() => {
-    filed1.value.setValue({ text222: '123' })
-  })
-  //filed1.value.setValue({ text222: '123' })
-</script>
-
-```
-
 ## API
 
 ### AutoForm Props
@@ -455,21 +383,13 @@
 
 ### AutoForm Data
 
-|参数|类型| 说明                                                                  |
-|----------|--------------|---------------------------------------------------------------------|
+|参数|类型| 说明                                          |
+|----------|--------------|---------------------------------------------|
 |type           | string         | 组件类型，支持input,radio,checkbox,datePicker,timePicker,timeSelect,select,switch,textarea,grid,tabs,text |
-|name           | string   | 表单控件字段名，唯一性                                                         |  
-|formItem       | object   | 组件formItem的props                                                    |
-|control        | object   | 对应类type型的props                                                      |
-|columns        | array    | type=grid/tabs时有效，用于布局，表多分多少列/有多少tabs                               |
-|columns.span   | number   | type=grid时有效，当前栏的宽度比例                                               |
-|columns.tabs   | object   | type=tabs时有效，tabs的相关props                                           |
-|columns.controlList | array   | type=grid/tabs时有效，当前列下所有组件                                          |
-
-### Filed Data
-|参数|类型| 说明                                                                  |
-|----------|--------------|---------------------------------------------------------------------|
-|type           | string         | 组件类型，支持input,radio,checkbox,datePicker,timePicker,timeSelect,select,switch,textarea |
-|name           | string   | 表单控件字段名，唯一性                                                         |  
-|formItem       | object   | 组件formItem的props                                                    |
-|control        | object   | 对应类type型的props                                                      |
+|name           | string   | 表单控件字段名，唯一性                                 |  
+|formItem       | object   | 组件formItem的props                            |
+|control        | object   | 对应类type型的props                              |
+|columns        | array    | type=grid/tabs时有效，用于布局，表多分多少列/有多少tabs       |
+|columns.span   | number   | type=grid时有效，当前栏的宽度比例                       |
+|columns.tabs   | object   | type=tabs时有效，tabs的相关props                   |
+|columns.controlList | array   | type=grid/tabs时有效，当前列下所有组件                  |

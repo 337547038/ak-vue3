@@ -5,6 +5,7 @@
     :trigger="trigger"
     :label-width="labelWidth"
     :required="required"
+    :disabled="disabled"
   >
     <template v-for="(item, index) in data" :key="index">
       <div v-if="item.type === 'grid'" class="grid-row">
@@ -18,7 +19,13 @@
             v-for="(list, listIndex) in col.controlList"
             :key="listIndex"
           >
-            <filed :ref="formControlEl" :data="list" :disabled="disabled" />
+            <!--            <filed :ref="formControlEl" :data="list" :disabled="disabled" />-->
+            <form-item
+              :ref="formControlEl"
+              v-bind="list.formItem"
+              :type="list.type"
+              :data="list.control"
+            />
           </template>
         </div>
       </div>
@@ -30,7 +37,13 @@
             :label="tab.tabs.label"
           >
             <template v-for="(tabs, sIndex) in tab.controlList" :key="sIndex">
-              <filed :data="tabs" :disabled="disabled" />
+              <!--              <filed :data="tabs" :disabled="disabled" />-->
+              <form-item
+                :ref="formControlEl"
+                v-bind="tabs.formItem"
+                :type="tabs.type"
+                :data="tabs.control"
+              />
             </template>
           </TabPane>
         </Tabs>
@@ -40,7 +53,13 @@
         class="form-title"
         v-html="item.name"
       ></div>
-      <filed v-else :ref="formControlEl" :data="item" :disabled="disabled" />
+      <form-item
+        v-else
+        :ref="formControlEl"
+        v-bind="item.formItem"
+        :type="item.type"
+        :data="item.control"
+      />
     </template>
   </vForm>
 </template>
@@ -48,7 +67,7 @@
 <script lang="ts" setup>
   import { reactive, onMounted } from 'vue'
   import { Form as vForm } from '../form'
-  import Filed from './Filed.vue'
+  import { FormItem } from '../formItem'
   import { Tabs, TabPane } from '../tabs'
   const props = withDefaults(
     defineProps<{

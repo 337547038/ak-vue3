@@ -16,7 +16,7 @@
         ref="dialogEl"
         :class="{
           [prefixCls + '-dialog']: true,
-          [state.className]: className,
+          [className]: className,
           [prefixCls + '-dialog-isAlert']: isAlert
         }"
         :style="{

@@ -1,6 +1,6 @@
 @charset "UTF-8";
 @include ns(dialog) {
-  position: absolute;box-shadow: 1px 1px 20px rgba(0, 0, 0, .3); border-radius: $borderRadius; background:$backgroundColor; overflow: hidden;transition: all .3s;top: 20vh;min-width: 400px;
+  position: absolute;box-shadow: 1px 1px 20px rgba(0, 0, 0, .3); border-radius: $borderRadius; background: $backgroundColor; overflow: hidden;transition: all .3s;top: 20vh;min-width: 400px;
   @include ns(dialog-close) {display: flex;position: absolute;right: 5px;top: 5px;height: 30px;width: 30px;align-items: center;justify-content: center;cursor: pointer;z-index: 5;
     &:hover {opacity: .8}
   }
@@ -26,6 +26,11 @@
       &:before {color: orange;}
     }
   }
+  // msg类弹窗
+  &.dialog-msg {top: 8px;
+    @include ns(dialog-content) {padding: 8px;
+    i{font-size: 16px;}}
+  }
 }
 @include ns(dialog-modal) {position: fixed;left: 0;top: 0;right: 0;bottom: 0;z-index: 100;display: flex;justify-content: center;background: rgba(55, 55, 55, .6);
   &.modal {background: none}
@@ -37,6 +42,7 @@
 }
 @include ns(dialog-isAlert) {
   // message类的自动关闭不显示
+  min-width: 200px;
   @include ns(dialog-auto-close) {display: none}
 }
 // 遮罩层固定动画，这写法会影响到其他的动画
