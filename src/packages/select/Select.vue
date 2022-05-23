@@ -190,21 +190,36 @@
     }
     state.setFirst = false
     if (props.modelValue && optionsList.value && optionsList.value.length > 0) {
+      state.checked = []
+      if (typeof props.modelValue === 'object') {
+        props.modelValue.forEach((val: string) => {
+          state.checked.push({
+            [optLabel]: val,
+            [optValue]: val
+          })
+        })
+      } else {
+        state.checked.push({
+          [optLabel]: props.modelValue,
+          [optValue]: props.modelValue
+        })
+      }
       for (let i = 0; i < optionsList.value.length; i++) {
         const item = optionsList.value[i]
         const value = getValueLabel(item)
         if (props.multiple) {
           // 多选
           if (typeof props.modelValue === 'object') {
-            if (props.modelValue.includes(value)) {
-              state.checked.push(item)
+            const index = props.modelValue.indexOf(value)
+            if (index !== -1) {
+              state.checked.splice(index, 1, item)
             }
           }
         } else {
           // 单选
-          state.checked = []
+          //state.checked = []
           if (value === props.modelValue) {
-            state.checked.push(item) // 没有label时直接取value
+            state.checked.splice(0, 1, item) // 没有label时直接取value
             break
           }
         }

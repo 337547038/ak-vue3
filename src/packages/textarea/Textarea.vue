@@ -20,6 +20,7 @@
   import prefixCls from '../prefix'
   import { inject, computed, ref, onMounted, watch } from 'vue'
   import { getFormDisabled } from '../util/form'
+  import { debounce } from '../util'
   const props = withDefaults(
     defineProps<{
       modelValue?: string
@@ -29,6 +30,7 @@
       disabled?: boolean
       maxlength?: number
       showWordLimit?: boolean
+      maxHeight?: string
     }>(),
     {
       autoHeight: true,
@@ -45,16 +47,27 @@
   const textValue = ref(props.modelValue)
   const border = ref(2)
   const textareaEl = ref()
+  const height = ref(props.height)
+  const overflow = ref(props.autoHeight ? 'hidden' : '')
   const disabledOk = computed(() => {
     return getFormDisabled(props.disabled)
   })
   const style = computed<any>(() => {
     return {
       width: props.width,
-      height: props.height,
+      height: height.value,
       minHeight: props.height,
-      overflow: props.autoHeight ? 'hidden' : '',
-      boxSizing: 'border-box'
+      maxHeight: props.maxHeight,
+      overflow: overflow.value
+    }
+  })
+  const setAutoHeight = debounce(() => {
+    if (props.autoHeight) {
+      const sHeight = textareaEl.value.scrollHeight + border.value
+      height.value = sHeight + 'px'
+      if (sHeight > parseInt(props.maxHeight || '')) {
+        overflow.value = 'auto'
+      }
     }
   })
   const getBorder = () => {
@@ -64,6 +77,7 @@
   const change = (evt: Event) => {
     const { value } = evt.target as HTMLInputElement
     emitChange(value)
+    setAutoHeight()
   }
   const controlChange: any = inject(`${prefixCls}ControlChange`, '')
   const emitChange = (value: string) => {
@@ -74,14 +88,14 @@
     getBorder()
     controlChangeEvent(props.modelValue, 'mounted')
   })
-  watch(textValue, (value: any) => {
+  /*  watch(textValue, (value: any) => {
     emitChange(value)
     if (props.autoHeight) {
       textareaEl.value.style.height = 'auto'
       textareaEl.value.style.height =
         textareaEl.value.scrollHeight + border.value + 'px'
     }
-  })
+  })*/
   const controlChangeEvent = (val: any, type?: string) => {
     controlChange && controlChange(val, type)
   }

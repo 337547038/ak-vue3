@@ -1,7 +1,8 @@
 @charset "utf-8";
 @include ns(textarea) {position: relative;
   textarea {
-    font-size: 14px;font-family: "Microsoft YaHei UI";line-height: 22px;
+    font-size: 14px;font-family: "Microsoft YaHei UI";line-height: 22px;resize: none;
+    @include scrollColor()
   }
   .input-count {position: absolute;right: 10px;bottom: 10px;font-size: 12px;color: #999}
 }

@@ -88,30 +88,50 @@
   }
   // 全选或全不选
   const toggleSelect = (boolean: boolean) => {
-    let value: string[] = []
+    let value: string[] = props.modelValue
+    disabledList.value = {}
     props.options &&
-      props.options.forEach((item: any) => {
+      props.options.forEach((item: any, index: number) => {
+        const val = item[optValue]
         if (boolean) {
-          // 全选时
-          if (
-            item.disabled &&
-            props.modelValue.indexOf(item[optValue]) === -1
-          ) {
-            // 禁用且没有勾选的过滤
-          } else {
-            value.push(item[optValue])
+          // 全选时，将没勾选且不是禁用的选中，同时不能超过最大选择数
+          if (!item.disabled || props.modelValue.includes(val)) {
+            if (props.max > 0) {
+              // 设置有最大限制
+              if (value.length < props.max) {
+                pushValue(val)
+              } else {
+                // 将剩下的设置为disabled
+                disabledList.value[index] = true
+              }
+            } else {
+              pushValue(val)
+            }
           }
         } else {
           // 取消选择时
-          if (
-            item.disabled &&
-            props.modelValue.indexOf(item[optValue]) !== -1
-          ) {
-            // 禁用且没有勾选的过滤
-            value.push(item[optValue])
+          if (!item.disabled) {
+            const indexOf = props.modelValue.indexOf(val)
+            if (indexOf !== -1) {
+              if (props.min > 0) {
+                if (value.length > props.min) {
+                  value.splice(indexOf, 1)
+                } else {
+                  // 将不能取消的设置为disabled
+                  disabledList.value[index] = true
+                }
+              } else {
+                value.splice(indexOf, 1)
+              }
+            }
           }
         }
       })
+    function pushValue(val: string) {
+      if (!value.includes(val)) {
+        value.push(val)
+      }
+    }
     emits('update:modelValue', value)
   }
   // 返回所选值

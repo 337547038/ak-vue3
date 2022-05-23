@@ -169,13 +169,13 @@
       })
     }
     // 通过formItem写的verify也要添加
-    if (
+    /*if (
       props.required &&
       props.verify &&
       props.verify.indexOf('required') !== -1
     ) {
       bool = true
-    }
+    }*/
     return bool
   })
   // 如果form组件设置了label的宽
