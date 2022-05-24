@@ -4,7 +4,8 @@
     :class="{
       [prefixCls + '-switch']: true,
       'switch-checked': status,
-      disabled: disabledOk
+      disabled: disabledOk,
+      [size]: size
     }"
     :style="style"
     @click="click"
@@ -30,6 +31,7 @@
       activeValue?: string | number // switch 打开时的值
       closeValue?: string | number // switch 关闭时的值
       beforeChange?: Function
+      size?: string
     }>(),
     {
       modelValue: false,

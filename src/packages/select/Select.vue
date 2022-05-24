@@ -283,7 +283,6 @@
   const slideUp = () => {
     selectDownEl.value.slideUp()
   }
-
   const controlChange: any = inject(`${prefixCls}ControlChange`, '')
   const emitCom = (item?: any, update = true) => {
     state.setFirst = update

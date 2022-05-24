@@ -94,33 +94,32 @@
   }>()
   const formProps: any = inject(`${prefixCls}FormProps`, {})
   let formRules
-  if (
-    formProps &&
-    formProps.rules &&
-    props.prop &&
-    formProps.rules[props.prop]
-  ) {
+  if (formProps?.rules && props.prop && formProps.rules[props.prop]) {
     formRules = formProps.rules[props.prop]
   }
   let rules = [...props.rules]
-  if (props.rules.length === 0 && !props.verify && formRules) {
+  if (props.rules?.length === 0 && !props.verify && formRules) {
     // 使用form的，formItem没有设置时使用form
     rules = [...formRules]
   }
-  // 优先使用参数2的设置
-  const getFormProps = (formItem: any, form: any) => {
-    if (form !== undefined) {
-      return form
-    } else {
-      return formItem
+
+  // formItem设置值时使用formItem的，否则使用form的
+  const getFormProps = (params: string, defaultValue: any) => {
+    const itemProps = (props as any)[params]
+    if (itemProps === defaultValue) {
+      // formItem没有设置，返回form的
+      if (formProps && Object.keys(formProps).length > 0) {
+        return formProps[params]
+      }
     }
+    return itemProps
   }
   const state = reactive<any>({
     errorTips: '', // 有值时表示校验没通过有错误信息
     iconType: '', // 提示类型，
     rules2: rules,
-    trigger2: getFormProps(props.trigger, formProps.trigger),
-    messageShow: getFormProps(props.showMessage, formProps.showMessage), // 优先使用form的
+    trigger2: getFormProps('trigger', 'change'),
+    messageShow: getFormProps('showMessage', true),
     controlValue: '', // 组件的值，改变事件时*/
     formSize: props.size ? props.size : formProps && formProps.size
   })
@@ -159,7 +158,7 @@
   }
   const isRequired = computed(() => {
     let bool = false
-    const required = getFormProps(props.required, formProps.required)
+    const required = getFormProps('required', true)
     if (required && state.rules2 && state.rules2.length > 0) {
       state.rules2.forEach((item: any) => {
         if (item.type === 'required') {
@@ -170,17 +169,17 @@
     }
     // 通过formItem写的verify也要添加
     /*if (
-      props.required &&
-      props.verify &&
-      props.verify.indexOf('required') !== -1
-    ) {
-      bool = true
-    }*/
+props.required &&
+props.verify &&
+props.verify.indexOf('required') !== -1
+) {
+bool = true
+}*/
     return bool
   })
   // 如果form组件设置了label的宽
   const labelStyle = computed<any>(() => {
-    const width = getFormProps(formProps.labelWidth, props.labelWidth)
+    const width = getFormProps('labelWidth', undefined)
     if (width) {
       return {
         width: width
