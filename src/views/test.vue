@@ -1,22 +1,32 @@
 <template>
-  <div>
-    <p>消息提示 成功 <span class="green" @click="alertOpen(1)">试一试</span></p>
-    <p>消息提示 失败 <span class="green" @click="alertOpen(2)">试一试</span></p>
-    <p>消息提示 提示 <span class="green" @click="alertOpen(3)">试一试</span></p>
-    <p>消息提示 警告 <span class="green" @click="alertOpen(4)">试一试</span></p>
-  </div>
+  <ak-select
+    v-model="value1"
+    placeholder="请选择"
+    :options="options"
+    :filterable="true"
+    :async="true"
+    @input="searchChange"
+    multiple
+  />
 </template>
-<script>
-  export default {
-    data() {
-      return {}
-    },
-    methods: {
-      alertOpen(type) {
-        this.$msg('删除成功', {
-          icon: type
-        })
-      }
-    }
+<script lang="ts" setup>
+  import { ref } from 'vue'
+
+  const options = ref([
+    { label: '选项1', value: '1' },
+    { label: '选项2', value: '2' },
+    { label: '选项3', value: '3' },
+    { label: '选项4', value: '4', disabled: true },
+    { label: '选项5', value: '5' },
+    { label: '6' },
+    { label: '选项7', value: '7' },
+    { label: '选项8', value: '8' },
+    { label: '选项9', value: '9' },
+    { label: '选项10', value: '10', class: 'red' }
+  ])
+  const value1 = ref('')
+  const searchChange = (val: string) => {
+    console.log(val)
+    options.value = [{ label: '输入搜索', value: '18' }]
   }
 </script>

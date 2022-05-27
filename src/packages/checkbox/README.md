@@ -151,7 +151,7 @@ options中选项label可为空
 </template>
 <script lang="ts" setup>
   import { ref } from 'vue'
-  const checkbox = ref(['a1'])
+  const checkbox = ref(['a1','a6'])
 
   const groupData = [
     { label: '选项1', value: 'a1' },

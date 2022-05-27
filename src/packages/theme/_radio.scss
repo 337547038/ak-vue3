@@ -10,7 +10,7 @@
       &:after {opacity: 1;transform: scale(1)}
     }
   }
-  &.disabled {cursor: not-allowed;
+  &.disabled {cursor: not-allowed;opacity: .5;
     .radio-inner {opacity: .5}
   }
   + .#{$namespace}radio {margin-left: 10px}

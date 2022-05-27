@@ -356,7 +356,6 @@ export default {
 |参数|说明|
 |----------|--------|
 |change       |选中值发生变化时触发|
-|beforeChange |选择前事件|
 |limitChange  |超出最大选择数时事件，仅`multiple=true`和设定了`multipleLimit`时有效|
 | input       | 可搜索时输入框改变事件    |
 | blur        | 可搜索时输入框焦点事件    |

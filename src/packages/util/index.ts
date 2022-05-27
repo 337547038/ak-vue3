@@ -1,6 +1,6 @@
 export default {}
 // 防抖
-/*export function debounce(fn: any, delay = 500) {
+export function debounce(fn: any, delay = 500) {
   let timer: NodeJS.Timeout
   return function (...args: any) {
     if (timer) {
@@ -12,7 +12,7 @@ export default {}
       fn.apply(this, args)
     }, delay)
   }
-}*/
+}
 
 // 节流
 /*

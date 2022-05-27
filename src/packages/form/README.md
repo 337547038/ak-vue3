@@ -77,13 +77,13 @@
       <ak-form-item label="用户名" prop="userName">
         <ak-input v-model="formValue.userName" placeholder="请输入用户名" />
       </ak-form-item>
-      <ak-form-item label="密码" prop="password">
-        <ak-input
-          v-model="formValue.password"
-          placeholder="请输入密码"
-          type="password"
-        />
-      </ak-form-item>
+      <ak-form-item
+        label="密码"
+        prop="password"
+        v-model="formValue.password"
+        :data="{ placeholder: '请输入密码' }"
+        type="password"
+      />
       <ak-form-item prop="mobile">
         <template #label>手机号</template>
         <ak-input v-model="formValue.mobile" placeholder="请输入手机号" />
@@ -91,9 +91,12 @@
       <ak-form-item prop="mail" label="邮箱">
         <ak-input v-model="formValue.mail" placeholder="请输入邮箱地址" />
       </ak-form-item>
-      <ak-form-item prop="digits" label="digits">
-        <ak-input v-model="formValue.digits" />
-      </ak-form-item>
+      <ak-form-item
+        prop="digits"
+        label="digits"
+        type="input"
+        v-model="formValue.digits"
+      />
       <ak-form-item prop="number" label="number">
         <ak-input v-model="formValue.number" />
       </ak-form-item>
@@ -104,9 +107,7 @@
         <ak-form-item prop="city">
           <ak-input v-model="formValue.city" />
         </ak-form-item>
-        <ak-form-item prop="area">
-          <ak-input v-model="formValue.area" />
-        </ak-form-item>
+        <ak-form-item prop="area" v-model="formValue.area" type="input" />
       </ak-form-item>
       <ak-form-item label="地区选择" verify="required">
         <ak-cascader
@@ -255,6 +256,7 @@
       })
   }
 </script>
+
 
 ```
 

@@ -9,4 +9,16 @@
     .switch-text {text-align: left}
   }
   &.disabled {opacity: $disabledOpacity;cursor: not-allowed}
+  &.large {height: 24px;
+    @include ns(switch-inner) {top: 2px;}
+  }
+  &.small {height: 18px;min-width: 40px;
+    @include ns(switch-inner) {height: 14px;width: 14px;}
+  }
+  &.mini {height: 16px;min-width: 32px;
+    &.switch-checked {
+      @include ns(switch-inner) {left: 16px;}
+    }
+    @include ns(switch-inner) {height: 12px;width: 12px;}
+  }
 }

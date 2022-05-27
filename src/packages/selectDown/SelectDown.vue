@@ -51,6 +51,7 @@
           </template>
           <li v-if="filterable" class="input">
             <input
+              v-model="state.searchValueM"
               type="text"
               :disabled="disabledOk"
               :placeholder="state.valueLabel.length === 0 ? placeholder : ''"
@@ -180,7 +181,8 @@
       left: ''
     },
     direction2: props.direction,
-    stopPropagation: false
+    stopPropagation: false,
+    searchValueM: '' // 多选输入框的值
   })
   watch(
     () => props.modelValue,
@@ -244,6 +246,8 @@
       // =true就没必要执行了
       evt && emits('toggleClick', false, evt)
       state.visible = false
+      // 清空多选可输入时输入框的值
+      state.searchValueM = ''
     }
   }
   const updateModel = () => {

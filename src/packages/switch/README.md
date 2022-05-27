@@ -114,6 +114,27 @@
 
 ```
 
+### 设置大小
+
+```vue demo
+<template>
+  <p>
+    <ak-switch v-model="switch1" size='large'/>
+    <ak-switch v-model="switch2" size='normal'/>
+    <ak-switch v-model="switch3" size='small'/>
+    <ak-switch v-model="switch4" size='mini'/>
+  </p>
+</template>
+<script lang="ts" setup>
+  import { ref } from 'vue'
+  const switch1 = ref(false)
+  const switch2 = ref(false)
+  const switch3 = ref(false)
+  const switch4 = ref(false)
+</script>
+
+```
+
 ## API
 
 ### Switch
@@ -126,6 +147,7 @@
 |activeColor    | String         |设置打开时颜色值|
 |closeValue     | String         |设置关闭状态时的值|
 |activeValue    | String         |设置打开状态时的值|
+| size       | String        | 大小尺寸，支持 `large`、`normal`、`small`、`mini` 四种尺寸，默认为 `normal` |
 |beforeChange   | Function       |选项改变前事件,return false阻止选择|
 
 ### Switch Event
