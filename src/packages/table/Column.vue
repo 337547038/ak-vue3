@@ -42,7 +42,7 @@
           const columns = getColumns.value
           // 判断下不重复添加
           let has = false
-          const addData = Object.assign({}, props, { slots: slots, layer: 1 })
+          const addData = Object.assign({}, props, { slots: slots, _layer: 1 })
           columns &&
             columns.forEach((item: any) => {
               if (JSON.stringify(item) === JSON.stringify(addData)) {

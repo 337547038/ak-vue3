@@ -93,6 +93,7 @@
     useSlots
   } from 'vue'
   import { getOffset } from '../util/dom'
+
   const slots = useSlots()
   const props = withDefaults(
     defineProps<{
@@ -210,10 +211,33 @@
     () => props.columns,
     () => {
       columnsData.value = []
-      getColumns(props.columns)
+      formatColumns()
     }
   )
-  const getColumns = (data: any, layer = 0) => {
+  const formatColumns = () => {
+    getColumns(props.columns, 0, '')
+    columnsData.value.forEach((item) => {
+      console.log(item)
+      if (!item.children) {
+        // 没有子级时，计算纵向合并
+        const rowspan = state.headMaxLayer - item._layer + 1 // 纵向合并
+        if (rowspan > 1) {
+          item._rowspan = rowspan
+        }
+      } else {
+        // 计算横向合并
+        const colspan = columnsData.value.filter((col: any) => {
+          const prop = col._tProps?.split(',')
+          return prop && prop.includes(item.prop) && !col.children
+        })
+        if (colspan?.length > 0) {
+          item._colspan = colspan.length
+        }
+      }
+    })
+  }
+  // 使用columns传参时
+  const getColumns = (data: any, layer = 0, tProps = '') => {
     layer++
     if (state.headMaxLayer < layer) {
       state.headMaxLayer = layer
@@ -221,12 +245,11 @@
     // 使用传参形式
     // 有slots时，将slots添加到columns里
     data.forEach((item: any) => {
-      item.layer = layer // 表示层级
+      const prop = item.prop || ''
+      const newTProps = tProps ? tProps + ',' + prop : prop
       if (item.children) {
         // 有多级表头
-        item.colspan = item.children.length // 添加一个属性，表示横向需要合并children长度
-        columnsData.value.push(item)
-        getColumns(item.children, layer)
+        getColumns(item.children, layer, newTProps)
       } else {
         // 有具名插槽时
         if (Object.keys(slots).length) {
@@ -245,13 +268,17 @@
             }
           }
         }
-        columnsData.value.push(item)
       }
+      columnsData.value.push({
+        ...item,
+        _layer: layer,
+        _tProps: newTProps
+      })
     })
   }
   // 表头使用参数形式
   if (props.columns) {
-    getColumns(props.columns)
+    formatColumns()
   }
   provide(`${prefixCls}GetColumns`, columnsData) // columns.value的形式不是双向的
   provide(
