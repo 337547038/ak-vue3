@@ -7,7 +7,8 @@
   @include ns(dialog-header) {overflow: hidden; font-size: 16px; padding-left: 15px; position: relative; border-bottom: 1px solid $borderLineColor; color: $textColor; border-radius: 5px 5px 0 0;-webkit-user-select: none;height: 44px;line-height: 44px;
     &.move {cursor: move}
   }
-  @include ns(dialog-content) {overflow: hidden;overflow-y: auto;padding: 20px;box-sizing: border-box;transition: all .3s}
+  @include ns(dialog-content) {overflow: hidden;overflow-y: auto;padding: 20px;box-sizing: border-box;transition: all .3s;
+    @include scrollColor()}
   @include ns(dialog-footer) {text-align: right;padding: 10px 20px 20px}
   @include ns(dialog-auto-close) {position: absolute; left: 10px; top: 45px;}
   @include ns(dialog-alert) {display: flex;justify-content: center;align-items: center;

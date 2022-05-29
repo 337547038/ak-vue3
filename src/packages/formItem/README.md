@@ -62,10 +62,10 @@ export default {
 
 ```vue demo
 <template>
-  <ak-form-item label="title" verify="tel">
+  <ak-form-item label="title" verify="mobile">
     <ak-input v-model="value" placeholder="手机号验证" />
   </ak-form-item>
-  <ak-form-item label="title" :rules="rules" verify="tel">
+  <ak-form-item label="title" :rules="rules" verify="mobile">
     <ak-input v-model="value2" placeholder="手机号和必填验证" />
   </ak-form-item>
 </template>
@@ -80,6 +80,7 @@ export default {
     { type: 'number', msg: '只能输入数字' }
   ])
 </script>
+
 
 
 ```
@@ -203,22 +204,22 @@ export default {
 
 ### FormItem Props
 
-| 参数           | 类型            | 说明                                                                                         |
-|--------------|---------------|--------------------------------------------------------------------------------------------|
-| label        | string        | 显示的标签名                                                                                     |
-| labelVisible | boolean/false | 隐藏label                                                                                    |
-| prop         | string        | 表单校验时关联表单的校验规则                                                                             |
-| required     | boolean/true  | 是否根据验证规则自动生成必填样式名                                                                          |
-| verify       | string        | 快速验证，支持required, mobile, tel, mail, digits, number,phone 多个用逗号隔开                           |
-| rules        | array         | 校验规则                                                                                       |
-| showMessage  | boolean/true  | 显示错误提示，在form使用时，优先使用form的设置                                                                |
-| trigger      | string/change | change和blur两种，在form使用时，优先使用form的设置                                                         |
-| labelWidth   | string        | label的宽度                                                                                   |
-| size         | string        | 用于控制该表单内组件的尺寸，medium / small / mini                                                        |
-| error        | string        | 表单域验证错误信息, 设置该值会使表单验证状态变为error，并显示该错误信息                                                    |
+| 参数           | 类型            | 说明               |
+|--------------|---------------|------------------|
+| label        | string        | 显示的标签名           |
+| labelVisible | boolean/false | 隐藏label          |
+| prop         | string        | 表单校验时关联表单的校验规则   |
+| required     | boolean/true  | 是否根据验证规则自动生成必填样式名 |
+| verify       | string        | 快速验证，支持required, mobile, tel, mail, digits, number,phone 多个用逗号隔开 |
+| rules        | array         | 校验规则             |
+| showMessage  | boolean/true  | 显示错误提示，在form使用时，优先使用form的设置 |
+| trigger      | string/change | change和blur两种，在form使用时，优先使用form的设置 |
+| labelWidth   | string        | label的宽度         |
+| size         | string        | 用于控制该表单内组件的尺寸,支持 `large`、`normal`、`small`、`mini` 四种尺寸，默认为 `normal` |
+| error        | string        | 表单域验证错误信息, 设置该值会使表单验证状态变为error，并显示该错误信息 |
 | type         | string        | 可快速输出控件类型，可选`input、radio、checkbox、datePicker、select、switch、textarea、timeSelect、timePicker` |
-| data         | Object        | 仅在type不为空时，对应当前组件的props所有参数                                                                |
-| v-model      | any           | 仅在type不为空时，当前控件的值                                                                          |
+| data         | Object        | 仅在type不为空时，对应当前组件的props所有参数 |
+| v-model      | any           | 仅在type不为空时，当前控件的值|
 
 ### FormItem Rules 验证规则
 
