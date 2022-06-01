@@ -6,7 +6,7 @@
   }
   td, th {text-align: left;padding: 8px 10px;box-sizing: border-box;border: 1px solid $borderColor;white-space: nowrap;text-overflow: ellipsis;overflow: hidden;background: $backgroundColor}
   tr:nth-child(odd) td { background: lighten($primaryColor, 45) }
-  tr:hover td { background: lighten($primaryColor, 55); transition: background .5s }
+  tr:hover td { background: lighten($primaryColor, 42); transition: background .5s }
   .no-border {border: none;
     td, th {border: none;border-bottom: 1px solid $borderColor;}
   }
