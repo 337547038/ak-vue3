@@ -2,8 +2,8 @@
   <div v-show="!hidePage" :class="`${prefixCls}-page`">
     <div v-if="showTotal" class="total"
       >共<span>{{ formatValue }}</span
-      >条</div
-    >
+      >条
+    </div>
     <p-select
       v-if="pageSizes.length > 0"
       v-model="state.selectChange"
@@ -16,12 +16,15 @@
             title="上一页"
             class="prev"
             :class="{ disabled: state.active === 1 }"
-            @click="goTo(state.active - 1)"
+            @click="goTo(state.active - 1, state.active === 1)"
             >&lt;</a
           >
         </li>
         <li>
-          <a title="1" :class="{ active: state.active === 1 }" @click="goTo(1)"
+          <a
+            title="1"
+            :class="{ active: state.active === 1 }"
+            @click="goTo(1, state.active === 1)"
             >1</a
           >
         </li>
@@ -37,7 +40,7 @@
           <a
             :title="page.toString()"
             :class="{ active: page === state.active }"
-            @click="goTo(page)"
+            @click="goTo(page, page === state.active)"
             v-text="page"
           ></a>
         </li>
@@ -53,7 +56,7 @@
           <a
             :title="pageCount + ''"
             :class="{ active: state.active === pageCount }"
-            @click="goTo(pageCount)"
+            @click="goTo(pageCount, state.active === pageCount)"
             >{{ pageCount }}</a
           >
         </li>
@@ -62,7 +65,7 @@
             title="下一页"
             class="next"
             :class="{ disabled: pageCount <= state.active }"
-            @click="goTo(state.active + 1)"
+            @click="goTo(state.active + 1, pageCount <= state.active)"
             >&gt;</a
           >
         </li>
@@ -80,6 +83,7 @@
   import { Input as pInput } from '../input'
   import { Select as pSelect } from '../select'
   import { computed, watch, reactive } from 'vue'
+
   const props = withDefaults(
     defineProps<{
       current?: number
@@ -87,7 +91,7 @@
       pageSize?: number
       showJumper?: boolean // 显示快速切换到某一页
       pagerCount?: number // 点击折叠向前或向后跳多少页
-      pageSizes?: string[]
+      pageSizes?: number[]
       showTotal?: boolean
       hideSinglePage?: boolean // 当只有一页时，是否隐藏分页
       format?: boolean // 总记录数值转成千分制
@@ -183,7 +187,10 @@
       emits('changePageSizes', val)
     }
   )
-  const goTo = (page: number) => {
+  const goTo = (page: number, disabled?: boolean) => {
+    if (disabled) {
+      return
+    }
     let goToPage = page
     if (page > pageCount.value) {
       goToPage = pageCount.value

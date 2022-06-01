@@ -8,8 +8,8 @@
         :class="[th.fixed, th.className]"
         :style="{ textAlign: th.align }"
         :title="getShowHoverTitle(th)"
-        :colspan="th.colspan"
-        :rowspan="th.rowspan"
+        :colspan="th._colspan"
+        :rowspan="th._rowspan"
         @mousemove="headMouseMove($event, thIndex)"
       >
         <Checkbox
@@ -86,8 +86,9 @@
     }
   )
   const getColumnsFilter = (index: number) => {
+    console.log(index)
     return getColumns.value.filter((item: any) => {
-      return item.type !== 'extend' && item.layer === index
+      return item.type !== 'extend' && item._layer === index
     })
   }
   // 鼠标滑过单元格时显示title提示，当设置为false时不显示，否则使用父级table的设置
