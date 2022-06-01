@@ -501,7 +501,11 @@
     if (props.height && props.showHeader && el) {
       el.value.addEventListener('scroll', scrollHandle, false)
     }
-    fixedRight(0) // 初始化时横向滚动条在0位置
+    // 目前初始时获取到的表格宽(tableWidth)有问题，需滚动下才能获取实际的宽，加个setTimeout处理
+    setTimeout(() => {
+      fixedRight(0) // 初始化时横向滚动条在0位置
+    }, 0)
+    // fixedRight(0) // 初始化时横向滚动条在0位置
   }
   // 返回已勾选的行
   const getSelectAll = () => {
