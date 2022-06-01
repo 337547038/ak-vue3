@@ -512,10 +512,7 @@
     //console.log(el.value)
     // top为dom上侧距离可视窗口顶部的值
     const { top: tableBodyDomTop } = tableBodyWrapDom.getBoundingClientRect()
-    if (
-      tableBodyDomTop > innerHeight ||
-      tableBodyWrapDom.classList.contains('is-scrolling-none')
-    ) {
+    if (tableBodyDomTop > innerHeight) {
       // 此时列表在可视窗口的下侧不可见区域，因此不做任何修改
       tableBodyWrapDom.style.height = 'unset'
       tableBodyWrapDom.style.marginBottom = 'unset'
