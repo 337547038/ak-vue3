@@ -3,7 +3,11 @@
   <div>
     <div
       ref="el"
-      :class="{ [prefixCls + '-table']: true, [className]: className }"
+      :class="{
+        [prefixCls + '-table']: true,
+        [className]: className,
+        'is-scroll': width
+      }"
       :style="{
         width: width,
         height: state.stateHeight,
@@ -216,7 +220,7 @@
   )
   const formatColumns = () => {
     getColumns(props.columns, 0, '')
-    columnsData.value.forEach((item) => {
+    columnsData.value.forEach((item: any) => {
       console.log(item)
       if (!item.children) {
         // 没有子级时，计算纵向合并
