@@ -1,8 +1,11 @@
 @charset "UTF-8";
 @include ns(table) {
   position: relative;overflow-x: auto; overflow-y: hidden; width: 100%;box-sizing: border-box;
+  &.is-scroll { // 有滚动时才添加这样式，添加这样式有可能会出现字体模糊
+    table {transform-style: preserve-3d;}
+  }
   @include scrollColor();
-  table {border-collapse: collapse; border-spacing: 0;margin: 0;padding: 0;transform-style: preserve-3d;width: 100%;border: none;table-layout: fixed;
+  table {border-collapse: collapse; border-spacing: 0;margin: 0;padding: 0;width: 100%;border: none;table-layout: fixed;
   }
   td, th {text-align: left;padding: 8px 10px;box-sizing: border-box;border: 1px solid $borderColor;white-space: nowrap;text-overflow: ellipsis;overflow: hidden;background: $backgroundColor}
   tr:nth-child(odd) td { background: lighten($primaryColor, 45) }
@@ -24,7 +27,7 @@
   }
   /*td.left,td.right{background: $background!important;}*/
   // transform上下移动，边框会消失，这里补上，没有纵边框时只处理头部
-  thead{
+  thead {
     tr {transform-style: preserve-3d;}
   }
   .transform {

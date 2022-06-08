@@ -50,6 +50,9 @@
 
   const activeKey = ref(props.modelValue)
   const tabsClick = (item: any, index: number) => {
+    if (item.disabled) {
+      return
+    }
     if (props.beforeLeave) {
       if (!props.beforeLeave(item)) {
         console.log('阻止点击')

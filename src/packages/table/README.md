@@ -30,7 +30,7 @@
 
 ### 添加序号和checkbox勾选
 
-`type="selection"`添加勾选框,`type="index"`添加序号,getSelectAll`方法可取已勾选行。支持按住`ctrl`键一次勾选或取消多个
+`type="selection"`添加勾选框,`type="index"`添加序号,`getSelectAll`方法可取已勾选行。支持按住`ctrl`键一次勾选或取消多个
 
 ```vue demo
 <template>
@@ -134,7 +134,7 @@
       <ak-column label="省份" prop="province" width="100px" />
       <ak-column label="城市" prop="city" width="100px" />
       <ak-column label="地址" prop="address" width="300px" />
-      <ak-column label="邮编" prop="zip" width="100px" />
+      <ak-column label="邮编" prop="zip" width="100px" fixed="right" />
     </ak-table>
   </div>
 </template>
