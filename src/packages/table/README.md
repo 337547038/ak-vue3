@@ -6,26 +6,29 @@
 
 ```vue demo
 <template>
-  <ak-table :data="tableData">
-    <ak-column label="日期" prop="date" />
-    <ak-column label="姓名" prop="name" />
-    <ak-column label="省份" prop="province" />
-    <ak-column label="城市" prop="city" />
-    <ak-column label="地址" prop="address" />
-    <ak-column label="邮编" prop="zip" />
-    <ak-column label="操作">
-      <template #default="scope">
-        <a @click="delClick(scope)">删除</a>
-      </template>
-    </ak-column>
+  <ak-table :data="tableData" :columns="columns">
+    <template #control="scope">
+      <a @click="delClick(scope)">删除</a>
+    </template>
   </ak-table>
 </template>
 <script setup>
   import tableData from './demoJs.json'
+
+  const columns = [
+    { label: '日期', prop: 'date' },
+    { label: '姓名', prop: 'name' },
+    { label: '省份', prop: 'province' },
+    { label: '城市', prop: 'city' },
+    { label: '地址', prop: 'address' },
+    { label: '邮编', prop: 'zip' },
+    { label: '操作', prop: 'control' }
+  ]
   const delClick = (item) => {
     alert(JSON.stringify(item))
   }
 </script>
+
 ```
 
 ### 添加序号和checkbox勾选
@@ -35,37 +38,39 @@
 ```vue demo
 <template>
   <div>
-    <ak-table ref="tableEl" :data="tableData">
-      <ak-column type="selection" width="50px" />
-      <ak-column type="index" label="序号" width="50px" />
-      <ak-column label="日期" prop="date" />
-      <ak-column label="姓名" prop="name" />
-      <ak-column label="省份" prop="province" />
-      <ak-column label="城市" prop="city" />
-      <ak-column label="地址" prop="address" />
-      <ak-column label="邮编" prop="zip" />
-      <ak-column label="操作">
-        <template #default="scope">
-          <a @click="delClick(scope)">删除</a>
-        </template>
-      </ak-column>
+    <ak-table ref="tableEl" :data="tableData" :columns="columns">
+      <template #control="scope">
+        <a @click="delClick(scope)">删除</a>
+      </template>
     </ak-table>
     <p>
       <ak-button @click="allSelect">全选</ak-button>
       <ak-button @click="unSelect">取消全选</ak-button>
       <ak-button @click="getSelect">获取所选行</ak-button>
-      <ak-button @click="toggleRowSelection(true)"
-        >将第2,3条设为选中状态</ak-button
-      >
-      <ak-button @click="toggleRowSelection(false)"
-        >取消第2,3条选中状态</ak-button
-      >
+      <ak-button @click="toggleRowSelection(true)">
+        将第2,3条设为选中状态
+      </ak-button>
+      <ak-button @click="toggleRowSelection(false)">
+        取消第2,3条选中状态
+      </ak-button>
     </p>
   </div>
 </template>
 <script setup>
   import { ref } from 'vue'
   import tableData from './demoJs.json'
+
+  const columns = [
+    { type: 'selection', width: '50px' },
+    { type: 'index', label: '序号', width: '50px' },
+    { label: '日期', prop: 'date' },
+    { label: '姓名', prop: 'name' },
+    { label: '省份', prop: 'province' },
+    { label: '城市', prop: 'city' },
+    { label: '地址', prop: 'address' },
+    { label: '邮编', prop: 'zip' },
+    { label: '操作', prop: 'control' }
+  ]
 
   const tableEl = ref()
   const delClick = (item) => {
@@ -93,6 +98,7 @@
     })
   }
 </script>
+
 ```
 
 ### 固定表头
@@ -102,20 +108,23 @@
 ```vue demo
 <template>
   <div>
-    <ak-table :data="tableData" height="200px">
-      <ak-column type="selection" />
-      <ak-column type="index" label="序号" />
-      <ak-column label="日期" prop="date" />
-      <ak-column label="姓名" prop="name" />
-      <ak-column label="省份" prop="province" />
-      <ak-column label="城市" prop="city" />
-      <ak-column label="地址" prop="address" />
-      <ak-column label="邮编" prop="zip" />
+    <ak-table :data="tableData" height="200px" :columns="columns">
     </ak-table>
   </div>
 </template>
 <script setup>
   import tableData from './demoJs.json'
+  const columns = [
+    { type: 'selection' },
+    { type: 'index', label: '序号' },
+    { label: '日期', prop: 'date' },
+    { label: '姓名', prop: 'name' },
+    { label: '省份', prop: 'province' },
+    { label: '城市', prop: 'city' },
+    { label: '地址', prop: 'address' },
+    { label: '邮编', prop: 'zip' },
+    { label: '操作', prop: 'control' }
+  ]
 </script>
 ```
 
@@ -126,22 +135,29 @@
 ```vue demo
 <template>
   <div>
-    <ak-table :data="tableData" height="200px" width="600px">
-      <ak-column type="selection" width="50px" fixed="left" />
-      <ak-column type="index" label="序号" width="50px" />
-      <ak-column label="日期" prop="date" width="200px" />
-      <ak-column label="姓名" prop="name" width="100px" />
-      <ak-column label="省份" prop="province" width="100px" />
-      <ak-column label="城市" prop="city" width="100px" />
-      <ak-column label="地址" prop="address" width="300px" />
-      <ak-column label="邮编" prop="zip" width="100px" fixed="right" />
-    </ak-table>
+    <ak-table
+      ref="tableEl"
+      :data="tableData"
+      :columns="columns"
+      height="200px"
+      width="600px"
+    />
   </div>
 </template>
 <script setup>
   import tableData from './demoJs.json'
-</script>
 
+  const columns = [
+    { type: 'selection', width: '50px', fixed: 'left' },
+    { type: 'index', label: '序号', width: '50px' },
+    { label: '日期', prop: 'date', width: '50px' },
+    { label: '姓名', prop: 'name', width: '200px' },
+    { label: '省份', prop: 'province', width: '100px' },
+    { label: '城市', prop: 'city', width: '100px' },
+    { label: '地址', prop: 'address', width: '300px' },
+    { label: '邮编', prop: 'zip', width: '100px', fixed: 'right' }
+  ]
+</script>
 
 ```
 
@@ -152,21 +168,27 @@
 ```vue demo
 <template>
   <div>
-    <ak-table :data="tableData" @sortChange="sortChange">
-      <ak-column type="selection" />
-      <ak-column type="index" label="序号" />
-      <ak-column label="日期" prop="date" :sortBy="true" />
-      <ak-column label="姓名" prop="name" :sortBy="true" />
-      <ak-column label="省份" prop="province" />
-      <ak-column label="城市" prop="city" />
-      <ak-column label="地址" prop="address" />
-      <ak-column label="邮编" prop="zip" />
-    </ak-table>
+    <ak-table
+      ref="tableEl"
+      :data="tableData"
+      :columns="columns"
+      @sortChange="sortChange"
+    />
   </div>
 </template>
 <script setup>
   import tableData from './demoJs.json'
 
+  const columns = [
+    { type: 'selection' },
+    { type: 'index', label: '序号' },
+    { label: '日期', prop: 'date', sortBy: true },
+    { label: '姓名', prop: 'name', sortBy: true },
+    { label: '省份', prop: 'province' },
+    { label: '城市', prop: 'city' },
+    { label: '地址', prop: 'address' },
+    { label: '邮编', prop: 'zip' }
+  ]
   const sortChange = (obj) => {
     console.log(obj)
     alert(JSON.stringify(obj))
@@ -183,21 +205,27 @@
 ```vue demo
 <template>
   <div>
-    <ak-table :data="tableData" @dragChange="dragChange">
-      <ak-column type="selection" :drag="false" />
-      <ak-column type="index" label="序号" :drag="false" />
-      <ak-column label="日期" prop="date" />
-      <ak-column label="姓名" prop="name" />
-      <ak-column label="省份" prop="province" />
-      <ak-column label="城市" prop="city" />
-      <ak-column label="地址" prop="address" />
-      <ak-column label="邮编" prop="zip" />
-    </ak-table>
+    <ak-table
+      ref="tableEl"
+      :data="tableData"
+      :columns="columns"
+      @dragChange="dragChange"
+    />
   </div>
 </template>
 <script setup>
   import tableData from './demoJs.json'
 
+  const columns = [
+    { type: 'selection', drag: false },
+    { type: 'index', label: '序号', drag: false },
+    { label: '日期', prop: 'date' },
+    { label: '姓名', prop: 'name' },
+    { label: '省份', prop: 'province' },
+    { label: '城市', prop: 'city' },
+    { label: '地址', prop: 'address' },
+    { label: '邮编', prop: 'zip' }
+  ]
   const dragChange = (obj) => {
     console.log(obj)
     alert(JSON.stringify(obj))
@@ -235,22 +263,24 @@
       :stripe="state.stripe"
       :ellipsis="state.ellipsis"
       :drag-line="state.dragLine"
+      :columns="columns"
     >
-      <ak-column type="selection" />
-      <ak-column type="index" label="序号" />
-      <ak-column label="日期" prop="date" />
-      <ak-column label="姓名" prop="name" />
-      <ak-column label="省份" prop="province" />
-      <ak-column label="城市" prop="city" />
-      <ak-column label="地址" prop="address" />
-      <ak-column label="邮编" prop="zip" />
     </ak-table>
   </div>
 </template>
 <script setup>
   import { reactive } from 'vue'
   import tableData from './demoJs.json'
-
+const columns = [
+    { type: 'selection' },
+    { type: 'index', label: '序号' },
+    { label: '日期', prop: 'date' },
+    { label: '姓名', prop: 'name' },
+    { label: '省份', prop: 'province' },
+    { label: '城市', prop: 'city' },
+    { label: '地址', prop: 'address' },
+    { label: '邮编', prop: 'zip' }
+  ]
   const state = reactive({
     showHeader: true,
     hover: true,
@@ -263,7 +293,7 @@
 </script>
 ```
 
-### 扩展列
+### 扩展列 todo
 
 `type="extend"`,使用 `scope.extend()`方法可展开或收起扩展行列，`scope.toggle`返回当前展开或收起状态
 
@@ -271,29 +301,29 @@
 <template>
   <div>
     <ak-table :data="tableData">
-      <ak-column type="selection" />
-      <ak-column type="index" label="序号" />
-      <ak-column label="日期" prop="date" />
-      <ak-column label="姓名" prop="name" />
-      <ak-column label="省份" prop="province" />
-      <ak-column label="城市" prop="city" />
-      <ak-column label="地址" prop="address" />
-      <ak-column label="邮编" prop="zip" />
-      <ak-column label="操作">
-        <template #default="scope">
+      <template #control="scope">
           <span @click="scope.extend()">{{
             scope.toggle ? '收起' : '展开'
           }}</span>
         </template>
-      </ak-column>
-      <ak-column type="extend">
-        <template #default="scope"> 返回当前行所有信息：{{ scope }} </template>
-      </ak-column>
+      <template #extend="scope"> 返回当前行所有信息：{{ scope }} </template>
     </ak-table>
   </div>
 </template>
 <script setup>
   import tableData from './demoJs.json'
+  const columns = [
+    { type: 'selection' },
+    { type: 'index', label: '序号' },
+    { label: '日期', prop: 'date' },
+    { label: '姓名', prop: 'name' },
+    { label: '性别', prop: 'sex' },
+    { label: '省份', prop: 'province' },
+    { label: '城市', prop: 'city' },
+    {label: '地址', prop: 'address'},
+    { label: '操作', prop: 'control' },
+    { type: 'extend', prop: 'extend' },
+  ]
 </script>
 ```
 
@@ -304,27 +334,31 @@
 ```vue demo
 <template>
   <div>
-    <ak-table :data="tableData" :has-child="true">
-      <ak-column type="selection" />
-      <ak-column type="index" label="序号" />
-      <ak-column label="日期" prop="date" />
-      <ak-column label="姓名" prop="name" />
-      <ak-column label="省份" prop="province" />
-      <ak-column label="城市" prop="city" />
-      <ak-column label="地址" prop="address" />
-      <ak-column label="邮编" prop="zip" />
-      <ak-column label="操作">
-        <template #default="scope">
+    <ak-table :data="tableData" :has-child="true" :columns="columns">
+      <template #control="scope">
           <span v-if="scope.row.children" @click="scope.extend()">{{
             scope.toggle ? '收起' : '展开子级'
           }}</span>
         </template>
-      </ak-column>
     </ak-table>
   </div>
 </template>
 <script setup>
   import tableData from './demoJs.json'
+  const columns = [
+    { type: 'selection' },
+    { type: 'index', label: '序号' },
+    { label: '日期', prop: 'date' },
+    { label: '姓名', prop: 'name' },
+    { label: '性别', prop: 'sex' },
+    { label: '省份', prop: 'province' },
+    { label: '城市', prop: 'city' },
+    {
+      label: '地址',
+      prop: 'address'
+    },
+    { label: '操作', prop: 'control' }
+  ]
 </script>
 
 ```
@@ -336,28 +370,37 @@
 ```vue demo
 <template>
   <div>
-    <ak-table :data="tableData" :has-child="true" :lazy-load="lazyLoad">
-      <ak-column type="selection" />
-      <ak-column type="index" label="序号" />
-      <ak-column label="日期" prop="date" />
-      <ak-column label="姓名" prop="name" />
-      <ak-column label="省份" prop="province" />
-      <ak-column label="城市" prop="city" />
-      <ak-column label="地址" prop="address" />
-      <ak-column label="邮编" prop="zip" />
-      <ak-column label="操作">
-        <template #default="scope">
-          <span @click="scope.extend()">{{
-            scope.toggle ? '收起' : '加载子级'
-          }}</span>
-        </template>
-      </ak-column>
+    <ak-table
+      :data="tableData"
+      :has-child="true"
+      :lazy-load="lazyLoad"
+      :columns="columns"
+    >
+      <template #control="scope">
+        <span @click="scope.extend()">{{
+          scope.toggle ? '收起' : '加载子级'
+        }}</span>
+      </template>
     </ak-table>
   </div>
 </template>
 <script setup>
   import tableData from './demoJs.json'
 
+  const columns = [
+    { type: 'selection' },
+    { type: 'index', label: '序号' },
+    { label: '日期', prop: 'date' },
+    { label: '姓名', prop: 'name' },
+    { label: '性别', prop: 'sex' },
+    { label: '省份', prop: 'province' },
+    { label: '城市', prop: 'city' },
+    {
+      label: '地址',
+      prop: 'address'
+    },
+    { label: '操作', prop: 'control' }
+  ]
   const lazyLoad = (row, resolve) => {
     // row 当前点击行信息
     // 模拟请求加载
@@ -373,75 +416,82 @@
 </script>
 
 
+
 ```
 
 ### 合并行或列
 
-多行或多列共用一个数据时，可以合并行或列。通过给传入`rowColSpan`方法可以实现合并行或列，方法的参数(当前行号`rowIndex`,当前列号`columnIndex`,当前行`row`,当前列`column`)
-四个属性。该函数返回一个包含两个数字的数组，第一个`rowspan`，第二个`colspan`，即向纵向和横向合并多少个单元格。
+多行或多列共用一个数据时，可以合并行或列。通过给传入`rowColSpan`合并数据可以实现合并行或列，参数(当前行号`row`,当前列号`col`,当前行合并行数`rowSpan`,合并列数`colSpan`)。当`rowSpan`或`colSpan`为0时，表示隐藏当前行或列
 
 ```vue demo
 <template>
   <div>
-    <ak-table :data="tableData" :row-col-span="rowColSpan">
-      <ak-column type="selection" />
-      <ak-column type="index" label="序号" />
-      <ak-column label="日期" prop="date" />
-      <ak-column label="姓名" prop="name" />
-      <ak-column label="省份" prop="province" />
-      <ak-column label="城市" prop="city" />
-      <ak-column label="地址" prop="address" />
-      <ak-column label="邮编" prop="zip" />
-    </ak-table>
+    <ak-table :data="tableData" :row-col-span="rowColSpan" :columns="columns"/>
   </div>
 </template>
 <script setup>
   import tableData from './demoJs.json'
-  const rowColSpan = (rowIndex, columnIndex) => {
-    if (rowIndex === 0 && columnIndex === 1) {
-      return [2, 3] // 表示在rowIndex=0行，columnIndex = 1列位置，向下合并两个和向右合并3个单元格
+  const rowColSpan = [
+    {
+      row: 1,
+      col: 2,
+      colSpan: 2
+    },
+    {
+      row: 2,
+      col: 0,
+      colSpan: 2,
+      rowSpan: 2
+    },
+    {
+      row: 3,
+      col: 1,
+      colSpan: 0
     }
-  }
-</script>
-
-```
-
-### 表头参数，不使用table-column组件
-
-使用`columns`参数给表头传参，参数和column组件一致，需要注意的是没有默认值。使用`columns`的方法让代码更简洁。
-
-```vue demo
-<template>
-  <div>
-    <ak-table :data="tableData" :columns="columns" />
-  </div>
-</template>
-<script setup>
-  import tableData from './demoJs.json'
-
+  ]
   const columns = [
     {
-      type: 'selection'
-    },
-    {
-      type: 'index',
-      label: '序号'
-    },
-    {
-      prop: 'date',
-      label: '日期'
+      label: '日期',
+      prop: 'dateTime',
+      children: [
+        {
+          label: '年份',
+          prop: 'date'
+        },
+        {
+          label: '月份',
+          prop: 'date'
+        }
+      ]
     },
     {
       prop: 'name',
       label: '姓名'
     },
     {
-      prop: 'address',
-      label: '地址'
+      label: '收化地址',
+      prop: 'address2',
+      children: [
+        {
+          label: '省份',
+          prop: 'province'
+        },
+        {
+          label: '城市',
+          prop: 'city'
+        },
+        {
+          label: '地址',
+          prop: 'address'
+        }
+      ]
+    },
+    {
+      prop: 'control',
+      label: '操作'
     }
   ]
 </script>
-
 
 ```
 
@@ -500,7 +550,7 @@
 
 ### 多级表头
 
-使用`columns`表头参数可支持多级表头,目前纵向合并需要手动设置`rowspan`
+多级表头时，`prop`作为唯一的key，不能为空或重复
 
 ```vue demo
 <template>
@@ -518,6 +568,7 @@
   const columns = [
     {
       label: '日期',
+      prop: 'dateTime',
       children: [
         {
           label: '年份',
@@ -531,11 +582,11 @@
     },
     {
       prop: 'name',
-      label: '姓名',
-      rowspan: 2
+      label: '姓名'
     },
     {
       label: '收化地址',
+      prop: 'address2',
       children: [
         {
           label: '省份',
@@ -553,8 +604,7 @@
     },
     {
       prop: 'control',
-      label: '操作',
-      rowspan: 2
+      label: '操作'
     }
   ]
   const delClick = (item) => {
@@ -572,21 +622,26 @@
 ```vue demo
 <template>
   <div>
-    <ak-table :data="tableData" :pagination="pagination">
-      <ak-column type="selection" />
-      <ak-column type="index" label="序号" />
-      <ak-column label="日期" prop="date" />
-      <ak-column label="姓名" prop="name" />
-      <ak-column label="省份" prop="province" />
-      <ak-column label="城市" prop="city" />
-      <ak-column label="地址" prop="address" />
-      <ak-column label="邮编" prop="zip" />
-    </ak-table>
+    <ak-table :data="tableData" :pagination="pagination" :columns="columns" />
   </div>
 </template>
 <script setup>
   import tableData from './demoJs.json'
-
+  const columns = [
+    { type: 'selection' },
+    { type: 'index', label: '序号' },
+    { label: '日期', prop: 'date' },
+    { label: '姓名', prop: 'name' },
+    { label: '性别', prop: 'sex' },
+    { label: '省份', prop: 'province' },
+    { label: '城市', prop: 'city' },
+    {
+      label: '地址',
+      prop: 'address',
+      tooltip: { show: true, direction: 'left' }
+    },
+    { label: '邮编', prop: 'zip' }
+  ]
   const pagination = {
     current: 1,
     pageSize: 3,
@@ -595,7 +650,6 @@
     }
   }
 </script>
-
 
 ```
 
@@ -606,30 +660,25 @@
 
 ```vue demo
 <template>
-  <ak-table :data="tableData">
-    <ak-column label="日期" prop="date" />
-    <ak-column label="姓名" prop="name" />
-    <ak-column label="省份" prop="province" />
-    <ak-column label="城市" prop="city" />
-    <ak-column
-      label="地址"
-      prop="address"
-      :tooltip="{ show: true, direction: 'left' }"
-    />
-    <ak-column label="邮编" prop="zip" />
-    <ak-column label="操作">
-      <template #default="scope">
-        <a @click="delClick(scope)">删除</a>
-      </template>
-    </ak-column>
-  </ak-table>
+  <ak-table :data="tableData" :columns="columns" />
 </template>
 <script setup>
   import tableData from './demoJs.json'
-
-  const delClick = (item) => {
-    alert(JSON.stringify(item))
-  }
+  const columns = [
+    { type: 'selection' },
+    { type: 'index', label: '序号' },
+    { label: '日期', prop: 'date' },
+    { label: '姓名', prop: 'name' },
+    { label: '性别', prop: 'sex' },
+    { label: '省份', prop: 'province' },
+    { label: '城市', prop: 'city' },
+    {
+      label: '地址',
+      prop: 'address',
+      tooltip: { show: true, direction: 'left' }
+    },
+    { label: '邮编', prop: 'zip' }
+  ]
 </script>
 
 
@@ -643,32 +692,23 @@
 
 ```vue demo
 <template>
-  <ak-table :data="tableData">
-    <ak-column label="日期" prop="date" />
-    <ak-column label="姓名" prop="name" />
-    <ak-column
-      label="性别"
-      prop="sex"
-      :tag="{ dict: { 男: 'info', 女: 'danger' } }"
-    />
-    <ak-column label="省份" prop="province" />
-    <ak-column label="城市" prop="city" />
-    <ak-column label="地址" prop="address" />
-    <ak-column label="邮编" prop="zip" />
-    <ak-column label="操作">
-      <template #default="scope">
-        <a @click="delClick(scope)">删除</a>
-      </template>
-    </ak-column>
-  </ak-table>
+  <ak-table :data="tableData" :columns="columns" />
 </template>
 <script setup>
   import tableData from './demoJs.json'
-
-  const delClick = (item) => {
-    alert(JSON.stringify(item))
-  }
+  const columns = [
+    { type: 'selection' },
+    { type: 'index', label: '序号' },
+    { label: '日期', prop: 'date' },
+    { label: '姓名', prop: 'name' },
+    { label: '性别', prop: 'sex', tag: { dict: { 男: 'info', 女: 'danger' } } },
+    { label: '省份', prop: 'province' },
+    { label: '城市', prop: 'city' },
+    { label: '地址', prop: 'address' },
+    { label: '邮编', prop: 'zip' }
+  ]
 </script>
+
 
 
 ```
@@ -677,6 +717,40 @@
 
 通过设置`fixedBottomScroll`可将横向滚动条固定在浏览器底部，`true`时滚动主体为`document`，字符时为当前滚动的区域如`fixedBottomScroll='.scroll`'，则滚动区域为`scroll`
 ，注意：此设置会覆盖`height`属性的值
+
+### 使用formatter
+
+模板不支持lang='jsx'
+
+```html
+<template>
+  <div>
+    <ak-table
+    :data="tableData" :columns="columns" />
+  </div>
+</template>
+<script setup lang="jsx">
+  import tableData from './demoJs.json'
+
+  const columns = [
+  {type: 'selection'},
+  {type: 'index', label: '序号'},
+  {label: '日期', prop: 'date'},
+  {label: '姓名', prop: 'name'},
+  {label: '性别', prop: 'sex'},
+  {label: '省份', prop: 'province'},
+  {label: '城市', prop: 'city'},
+  {label: '地址', prop: 'address'},
+  {
+    label: '操作',
+    formatter: () => {
+    return <ak-button size="mini">删除</ak-button>
+  }
+  }
+  ]
+</script>
+
+```
 
 ### 示例数据
 
@@ -813,7 +887,7 @@
 
 | 参数        | 类型             | 说明                                               |
 |-----------|----------------|--------------------------------------------------|
-| prop      | String         | 对应列内容的字段名                                        |
+| prop      | String         | 对应列内容的字段名，唯一的key，不能重复                            |
 | label     | String         | 显示的标题                                            |
 | width     | String         | 对应列的宽度                                           |
 | className | String         | 对应列的类名                                           |

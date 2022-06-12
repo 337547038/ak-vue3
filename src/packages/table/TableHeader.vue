@@ -40,7 +40,7 @@
           </span>
         </template>
         <a
-          v-if="drag && th.drag"
+          v-if="drag && th.drag !== false"
           class="drag-line"
           @mousedown="headMouseDown($event, thIndex)"
         ></a>
@@ -54,6 +54,7 @@
   import { Checkbox } from '../checkbox'
   import TableHeader from './HeaderSlot.vue'
   import prefixCls from '../prefix'
+
   const props = withDefaults(
     defineProps<{
       showHeader?: boolean

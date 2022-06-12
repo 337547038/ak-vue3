@@ -97,6 +97,7 @@
     useSlots
   } from 'vue'
   import { getOffset } from '../util/dom'
+  import type { RowColSpan } from './types'
 
   const slots = useSlots()
   const props = withDefaults(
@@ -115,7 +116,7 @@
       dragWidth?: number[] // 拖动时的最小宽和最大宽限制，0为不限
       title?: boolean //鼠标滑过单元格时显示title提示
       emptyText?: string
-      rowColSpan?: Function
+      rowColSpan?: RowColSpan[]
       hasChild?: boolean
       lazyLoad?: Function
       extendToggle?: boolean // 默认展开扩展

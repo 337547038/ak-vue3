@@ -37,7 +37,12 @@
         type: Number,
         default: 0
       }, // 扩展列时才有传
-      rowColSpan: Function,
+      rowColSpan: {
+        type: Object,
+        default: () => {
+          return {}
+        }
+      },
       rowspanColspanList: {
         type: Array,
         default: () => {
@@ -61,7 +66,15 @@
       let display = false
       let rowspan = 0
       let colspan = ref(props.colspan).value
-      // 鼠标滑过单元格时显示title提示，当设置为false时不显示，否则使用父级table的设置
+      if (Object.keys(props.rowColSpan).length > 0) {
+        // 有合并项
+        // 不显示
+        display =
+          props.rowColSpan.rowSpan === 0 || props.rowColSpan.colSpan === 0
+        rowspan = props.rowColSpan && props.rowColSpan.rowSpan
+        colspan = props.rowColSpan && props.rowColSpan.colSpan
+      }
+      // 鼠标滑过单元格时显示title提示，当设置为false时不显示，否则使用父级table的设置 todo 待优化
       const hoverTitle = computed(() => {
         if (
           !props.column.title ||
@@ -155,14 +168,14 @@
           return val
         }
       }
-      const rowspanColspanList = (val: string) => {
+      /*const rowspanColspanList = (val: string) => {
         const list = props.rowspanColspanList
         if (list.indexOf(val) === -1) {
           // 没有才添加
           list.push(val)
         }
-      }
-      if (props.rowColSpan) {
+      }*/
+      /*if (props.rowColSpan) {
         // 有合并方法
         const merge = props.rowColSpan(
           props.index,
@@ -197,7 +210,7 @@
             display = true
           }
         }
-      }
+      }*/
       if (!display) {
         return () => [
           h(

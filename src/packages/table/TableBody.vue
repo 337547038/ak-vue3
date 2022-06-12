@@ -19,10 +19,10 @@
           :column-index="indexTd"
           :title="title"
           :toggle="getToggle(rowIndex)"
-          :row-col-span="rowColSpan"
+          :row-col-span="getRowColSpan(rowIndex, indexTd)"
           :rowspan-colspan-list="state.rowspanColspanList"
           @toggle-extend="toggleExtend(rowIndex, row)"
-          @cellClick="cellClick"
+          @cell-click="cellClick"
         />
       </tr>
       <tr
@@ -68,10 +68,12 @@
   import { reactive, inject, computed, ref } from 'vue'
   import TableTd from './TableTd.vue'
   import prefixCls from '../prefix'
+  import type { RowColSpan } from './types'
+
   const props = withDefaults(
     defineProps<{
       data?: any
-      rowColSpan?: Function
+      rowColSpan?: RowColSpan[]
       hasChild?: boolean
       lazyLoad?: Function
       extendToggle?: boolean // 默认展开或收起状态
@@ -142,5 +144,45 @@
     columnIndex: number
   ) => {
     emits('cellClick', row, column, rowIndex, columnIndex)
+  }
+  // 处理合并数理
+  const formatRowColSpan = computed(() => {
+    const temp: RowColSpan[] = []
+    if (props.rowColSpan && props.rowColSpan.length > 0) {
+      props.rowColSpan.forEach((item: RowColSpan) => {
+        temp.push(item)
+        if (item.colSpan && item.colSpan > 1) {
+          // 计算不需要显示的列
+          for (let i = 1; i < item.colSpan; i++) {
+            temp.push({
+              row: item.row,
+              col: item.col + i,
+              colSpan: 0
+            })
+          }
+        }
+        // 计算不需要显示的行
+        if (item.rowSpan && item.rowSpan > 1) {
+          for (let i = 1; i < item.rowSpan; i++) {
+            temp.push({
+              row: item.row + i,
+              col: item.col,
+              rowSpan: 0
+            })
+          }
+        }
+      })
+    }
+    return temp
+  })
+  const getRowColSpan = (row: number, col: number) => {
+    const newRow = formatRowColSpan.value.filter((item: RowColSpan) => {
+      return item.row === row && col === item.col
+    })
+    if (newRow.length > 0) {
+      return newRow[0]
+    } else {
+      return []
+    }
   }
 </script>
