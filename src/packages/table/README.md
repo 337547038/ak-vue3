@@ -293,14 +293,14 @@ const columns = [
 </script>
 ```
 
-### 扩展列 todo
+### 扩展列
 
 `type="extend"`,使用 `scope.extend()`方法可展开或收起扩展行列，`scope.toggle`返回当前展开或收起状态
 
 ```vue demo
 <template>
   <div>
-    <ak-table :data="tableData">
+    <ak-table :data="tableData" :columns="columns">
       <template #control="scope">
           <span @click="scope.extend()">{{
             scope.toggle ? '收起' : '展开'
