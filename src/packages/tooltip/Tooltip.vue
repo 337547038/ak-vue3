@@ -1,24 +1,33 @@
 <!--Created by 337547038 on 2017/12/19.-->
 <template>
-  <span ref="el" :class="[`${prefixCls}-tooltip-box`]"><slot></slot></span>
-  <transition :name="transition">
-    <div
-      v-if="getIf($slots)"
-      v-show="state.visible"
-      ref="tooltipEl"
-      :class="[`${prefixCls}-tooltip`, direction, className]"
-      :style="state.tooltipStyle"
-      @click.stop=""
-    >
-      <i class="arrow"></i>
-      <span v-if="content" v-html="content"></span>
-      <slot v-else name="content"></slot>
-    </div>
-  </transition>
+  <span ref="el" :class="[`${prefixCls}-tooltip-box`]">
+    <slot></slot>
+    <transition :name="transition">
+      <div
+        v-if="getIf($slots)"
+        v-show="state.visible"
+        ref="tooltipEl"
+        :class="[`${prefixCls}-tooltip`, direction, className]"
+        :style="state.tooltipStyle"
+        @click.stop=""
+      >
+        <i class="arrow"></i>
+        <span v-if="content" v-html="content"></span>
+        <slot v-else name="content"></slot>
+      </div>
+    </transition>
+  </span>
 </template>
 <script lang="ts" setup>
   import prefixCls from '../prefix'
-  import { reactive, ref, onMounted, onBeforeUnmount, nextTick } from 'vue'
+  import {
+    reactive,
+    ref,
+    onMounted,
+    onBeforeUnmount,
+    nextTick,
+    watch
+  } from 'vue'
   import { getOffset, getWindow } from '../util/dom'
 
   interface CssStyle {
@@ -50,7 +59,7 @@
       direction: 'top-left',
       maxWidth: 500,
       delay: 0,
-      appendToBody: true,
+      appendToBody: true, // 这个样式及定位没兼容，设置false时需自定义样式
       transition: 'fade',
       x: 0,
       y: 0,
@@ -68,7 +77,24 @@
     tooltipStyle: {}
   })
   const el = ref()
+  const hasAppendToBody = ref(false)
   //const instance = getCurrentInstance()
+  watch(
+    () => props.disabled,
+    (val: boolean) => {
+      nextTick(() => {
+        if (
+          !val &&
+          props.appendToBody &&
+          tooltipEl.value &&
+          !hasAppendToBody.value
+        ) {
+          document.body.appendChild(tooltipEl.value)
+          hasAppendToBody.value = true
+        }
+      })
+    }
+  )
   onMounted(() => {
     nextTick(() => {
       /*const sel =
@@ -91,6 +117,7 @@
       }
       if (props.appendToBody && tooltipEl.value) {
         document.body.appendChild(tooltipEl.value)
+        hasAppendToBody.value = true
       }
     })
   })
@@ -128,50 +155,54 @@
     let style: CssStyle = {
       maxWidth: props.maxWidth + 'px'
     }
-    const windowHeight = getWindow().height
-    const bottom = windowHeight - offset.top + space + 'px'
-    switch (props.direction) {
-      case 'top-left':
-        style.left = offset.left + props.x + 'px'
-        style.bottom = bottom
-        break
-      case 'top':
-        // 先让提示左边和当前标签中间对齐（偏移位置+标签宽的一半），再向左移50%
-        style.transform = 'translateX(-50%)'
-        style.left = translate(offset.left + offset.width / 2 + props.x) + 'px'
-        style.bottom = bottom
-        break
-      case 'top-right':
-        style.right =
-          windowWidth - (offset.left + offset.width + props.x) + 'px'
-        style.bottom = bottom
-        break
-      case 'left':
-        // top先让提示语顶部跟标签中间对齐，再上移50%
-        style.right = windowWidth - (offset.left - 8 + props.x) + 'px'
-        style.top = translate(offset.top + offset.height / 2) + 'px'
-        style.transform = 'translateY(-50%)'
-        break
-      case 'right':
-        // top和左边一样
-        style.left = offset.left + offset.width + 8 + props.x + 'px'
-        style.top = translate(offset.top + offset.height / 2) + 'px'
-        style.transform = 'translateY(-50%)'
-        break
-      case 'bottom-left':
-        style.left = offset.left + props.x + 'px'
-        style.top = offset.top + offset.height + space + 'px'
-        break
-      case 'bottom':
-        style.left = translate(offset.left + offset.width / 2 + props.x) + 'px'
-        style.transform = 'translateX(-50%)'
-        style.top = offset.top + offset.height + space + 'px'
-        break
-      case 'bottom-right':
-        style.right =
-          windowWidth - (offset.left + offset.width + props.x) + 'px'
-        style.top = offset.top + offset.height + space + 'px'
-        break
+    if (props.appendToBody) {
+      const windowHeight = getWindow().height
+      const bottom = windowHeight - offset.top + space + 'px'
+      switch (props.direction) {
+        case 'top-left':
+          style.left = offset.left + props.x + 'px'
+          style.bottom = bottom
+          break
+        case 'top':
+          // 先让提示左边和当前标签中间对齐（偏移位置+标签宽的一半），再向左移50%
+          style.transform = 'translateX(-50%)'
+          style.left =
+            translate(offset.left + offset.width / 2 + props.x) + 'px'
+          style.bottom = bottom
+          break
+        case 'top-right':
+          style.right =
+            windowWidth - (offset.left + offset.width + props.x) + 'px'
+          style.bottom = bottom
+          break
+        case 'left':
+          // top先让提示语顶部跟标签中间对齐，再上移50%
+          style.right = windowWidth - (offset.left - 8 + props.x) + 'px'
+          style.top = translate(offset.top + offset.height / 2) + 'px'
+          style.transform = 'translateY(-50%)'
+          break
+        case 'right':
+          // top和左边一样
+          style.left = offset.left + offset.width + 8 + props.x + 'px'
+          style.top = translate(offset.top + offset.height / 2) + 'px'
+          style.transform = 'translateY(-50%)'
+          break
+        case 'bottom-left':
+          style.left = offset.left + props.x + 'px'
+          style.top = offset.top + offset.height + space + 'px'
+          break
+        case 'bottom':
+          style.left =
+            translate(offset.left + offset.width / 2 + props.x) + 'px'
+          style.transform = 'translateX(-50%)'
+          style.top = offset.top + offset.height + space + 'px'
+          break
+        case 'bottom-right':
+          style.right =
+            windowWidth - (offset.left + offset.width + props.x) + 'px'
+          style.top = offset.top + offset.height + space + 'px'
+          break
+      }
     }
     state.tooltipStyle = Object.assign({}, props.style, style)
   }
