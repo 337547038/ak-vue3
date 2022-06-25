@@ -1,76 +1,88 @@
 <template>
-  <div>
-    <ak-table :data="tableData" :columns="columns" :rowColSpan="rowColSpan">
-      <template #control="scope">
-        <a @click="delClick(scope)">删除</a>
-      </template>
-    </ak-table>
+  <div style="width: 200px">
+    <div>
+      <ak-switch v-model="collapse" />
+    </div>
+    <ak-menu
+      :items="items"
+      mode="vertical"
+      :collapse="collapse"
+      @click="click"
+      @select="select"
+    />
+    <p>dark主题</p>
+    <ak-menu
+      :items="items"
+      mode="vertical"
+      theme="dark"
+      :collapse="collapse"
+      @click="click"
+      @select="select"
+    />
   </div>
 </template>
 <script setup>
-  import tableData from '../packages/table/demoJs.json'
+  import { ref } from 'vue'
 
-  const rowColSpan = [
-    {
-      row: 1,
-      col: 2,
-      colSpan: 2
-    },
-    {
-      row: 2,
-      col: 0,
-      colSpan: 2,
-      rowSpan: 2
-    },
-    {
-      row: 3,
-      col: 1,
-      colSpan: 0
-    }
-  ]
-  const columns = [
-    {
-      label: '日期',
-      prop: 'dateTime',
-      children: [
-        {
-          label: '年份',
-          prop: 'date'
-        },
-        {
-          label: '月份',
-          prop: 'date'
-        }
-      ]
-    },
-    {
-      prop: 'name',
-      label: '姓名'
-    },
-    {
-      label: '收化地址',
-      prop: 'address2',
-      children: [
-        {
-          label: '省份',
-          prop: 'province'
-        },
-        {
-          label: '城市',
-          prop: 'city'
-        },
-        {
-          label: '地址',
-          prop: 'address'
-        }
-      ]
-    },
-    {
-      prop: 'control',
-      label: '操作'
-    }
-  ]
-  const delClick = (item) => {
-    alert(JSON.stringify(item))
+  const collapse = ref(false)
+  const click = (item) => {
+    console.log('click')
+    console.log(item)
   }
+  const select = (item) => {
+    console.log('select')
+    console.log(item)
+  }
+  const items = [
+    {
+      label: '用户管理',
+      key: 'user',
+      icon: 'user',
+      children: [
+        {
+          label: '用户列表',
+          key: 'aa'
+        },
+        {
+          label: '添加用户',
+          key: 'ab'
+        }
+      ]
+    },
+    {
+      label: 'Navigator Two',
+      key: 'b',
+      icon: 'search',
+      children: [
+        {
+          label: 'item one',
+          key: 'b1',
+          children: [
+            {
+              label: 'item two',
+              key: 'b2'
+            },
+            {
+              label: 'item three',
+              key: 'b3'
+            }
+          ]
+        },
+        {
+          label: 'item one',
+          key: 'b4'
+        },
+        {
+          label: 'item one',
+          key: 'b5'
+        }
+      ]
+    },
+    {
+      label: '系统设置',
+      key: 'set',
+      icon: 'date',
+      disabled: true
+    }
+  ]
 </script>

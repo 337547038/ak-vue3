@@ -15,9 +15,6 @@
         overflowX: width ? 'auto' : ''
       }"
     >
-      <div style="display: none">
-        <slot></slot>
-      </div>
       <table
         ref="tableEl"
         :class="{
@@ -97,7 +94,7 @@
     useSlots
   } from 'vue'
   import { getOffset } from '../util/dom'
-  import type { RowColSpan } from './types'
+  import type { RowColSpan, Columns } from './types'
 
   const slots = useSlots()
   const props = withDefaults(
@@ -121,7 +118,7 @@
       lazyLoad?: Function
       extendToggle?: boolean // 默认展开扩展
       sortSingle?: boolean // 单个排序
-      columns?: any // 表头数据
+      columns?: Columns[] // 表头数据
       pagination?: Object // 分页相关参数
       fixedBottomScroll?: boolean | string
     }>(),
@@ -184,7 +181,7 @@
       state.stateHeight = val
     }
   )
-  provide(`${prefixCls}ColumnsType`, !!props.columns) // column组件用来判断添加表头数据
+  //provide(`${prefixCls}ColumnsType`, !!props.columns) // column组件用来判断添加表头数据
   const selectChecked = computed(() => {
     // 表头checkbox勾选状态0全不选，1全选，2半选
     const len = state.selectedRows.length
@@ -222,7 +219,7 @@
   const formatColumns = () => {
     getColumns(props.columns, 0, '')
     columnsData.value.forEach((item: any) => {
-      console.log(item)
+      // console.log(item)
       if (!item.children) {
         // 没有子级时，计算纵向合并
         const rowspan = state.headMaxLayer - item._layer + 1 // 纵向合并

@@ -183,7 +183,6 @@
 | x            | Number        | 弹出窗距离触发点 x 轴方向的距离，可用于微调距离 |
 | y            | Number        | 弹出窗距离触发点 y 轴方向的距离，可用于微调距离 |
 | transition   | String        | 自定义显示隐藏过渡动画名称，需要手动添加相应的 css 样式 |
-| appendToBody | Boolean/true  | 提示内容是否插入到 body     |
 | className    | String        | 自定样式类名                |
 | trigger      | String/hover  | 事件触发方式，hover/click 两种 |
 
