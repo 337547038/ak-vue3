@@ -49,10 +49,10 @@
 </template>
 
 <script lang="ts" setup>
-  import { inject } from 'vue'
-  import { useRouter } from 'vue-router'
-  import type { Items } from './types'
-  import { Tooltip } from '../tooltip'
+  import {inject} from 'vue'
+  import {useRouter} from 'vue-router'
+  import type {Items} from './types'
+  import {Tooltip} from '../tooltip'
   import prefixCls from '../prefix'
 
   withDefaults(
@@ -78,10 +78,14 @@
   const selectedKeyChange: any = inject(`${prefixCls}MenuSelectKeyChange`)
   const menuProps: any = inject(`${prefixCls}MenuProps`, {})
   const mouseenter = (item: Items) => {
-    onMouseEvent(item, true)
+    if (item.children && item?.children.length > 0) {
+      onMouseEvent(item, true)
+    }
   }
   const mouseleave = (item: Items) => {
-    onMouseEvent(item, false)
+    if (item.children && item?.children.length > 0) {
+      onMouseEvent(item, false)
+    }
   }
   const onMouseEvent = (item: Items, add: boolean) => {
     if (
