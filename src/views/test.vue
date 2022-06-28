@@ -3,7 +3,6 @@
     <p>
       选择的值：{{ value1 }}<br />
       <ak-date-picker
-        :readonly="false"
         v-model="value1"
         placeholder="请选择月份"
         endPlaceholder="请选择月份"
@@ -32,7 +31,7 @@
 <script setup>
   import { ref } from 'vue'
 
-  const value1 = ref('')
+  const value1 = ref([])
   const value2 = ref([])
   const value3 = ref([])
 </script>
