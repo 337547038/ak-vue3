@@ -78,10 +78,14 @@
   const selectedKeyChange: any = inject(`${prefixCls}MenuSelectKeyChange`)
   const menuProps: any = inject(`${prefixCls}MenuProps`, {})
   const mouseenter = (item: Items) => {
-    onMouseEvent(item, true)
+    if (item.children && item?.children.length > 0) {
+      onMouseEvent(item, true)
+    }
   }
   const mouseleave = (item: Items) => {
-    onMouseEvent(item, false)
+    if (item.children && item?.children.length > 0) {
+      onMouseEvent(item, false)
+    }
   }
   const onMouseEvent = (item: Items, add: boolean) => {
     if (
