@@ -54,22 +54,24 @@
         v-model="value3"
         placeholder="请选择时间"
         type="year"
-        :disabledDate="disabledDate"
+        :disabled-date="disabledDate"
       />
     </p>
   </div>
 </template>
 <script setup>
   import { ref } from 'vue'
-
+  const current = new Date().getFullYear()
   const value1 = ref('')
-  const value2 = ref('2019')
+  const value2 = ref(current.toString())
   const value3 = ref('')
   const disabledDate = (date) => {
     const day = date.getFullYear()
-    return day < 2018 || day > 2023
+    console.log(day)
+    return day < current - 2 || day > current + 3
   }
 </script>
+
 
 
 ```
@@ -88,7 +90,7 @@
       <ak-date-picker v-model="value2" placeholder="请选择时间" type="month" />
     </p>
     <p>
-      限制选择范围。选择的值：{{ value2 }}<br />
+      限制选择范围。选择的值：{{ value3 }}<br />
       <ak-date-picker
         v-model="value3"
         placeholder="请选择时间"
@@ -100,9 +102,9 @@
 </template>
 <script setup>
   import { ref } from 'vue'
-
+  const current = new Date().getFullYear()
   const value1 = ref('')
-  const value2 = ref('2019')
+  const value2 = ref(current + '/' + '10')
   const value3 = ref('')
   const disabledDate = (date, type) => {
     if (type === 'month') {
@@ -111,6 +113,7 @@
     }
   }
 </script>
+
 
 
 ```
@@ -129,7 +132,7 @@
       <ak-date-picker v-model="value2" placeholder="请选择时间" type="date" />
     </p>
     <p>
-      限制选择范围。选择的值：{{ value2 }}<br />
+      限制选择范围。选择的值：{{ value3 }}<br />
       <ak-date-picker
         v-model="value3"
         placeholder="请选择时间"
@@ -143,7 +146,7 @@
   import { ref } from 'vue'
 
   const value1 = ref('')
-  const value2 = ref('2019')
+  const value2 = ref(new Date().getTime().toString())
   const value3 = ref('')
   const disabledDate = (date, type) => {
     if (type === 'day') {
@@ -152,6 +155,7 @@
     }
   }
 </script>
+
 
 
 ```
@@ -183,8 +187,9 @@
   import { ref } from 'vue'
 
   const value1 = ref('')
-  const value2 = ref('2019')
+  const value2 = ref(new Date().getTime().toString())
 </script>
+
 
 
 ```
@@ -211,6 +216,7 @@
 </script>
 
 
+
 ```
 
 ### 自定显示特殊字符
@@ -226,30 +232,24 @@
   />
   <!--  <ak-date-picker v-model="value2" placeholder="请选择时间" />-->
 </template>
-<script setup>
+<script setup lang="ts">
   import { ref } from 'vue'
-
-  const value1 = ref('2019')
-  // const value2 = ref('2019a')
-  /*setTimeout(() => {
-  value1.value = '2019'
-}, 1000)*/
-  const innerText = (time) => {
-    let start = new Date(2019, 1, 1)
-    let end = new Date(2019, 1, 7)
-    if (time >= start && time <= end) {
+  const value1 = ref()
+  const innerText = (time: Date) => {
+    if ([14, 15, 16].includes(time.getDate())) {
       return '休'
     }
-    const o = new Date(2019, 8, 29)
-    if (time.toString() === o.toString()) {
+    if ([17, 18, 19].includes(time.getDate())) {
       return '班'
     }
+    return ''
   }
-  const disabledDate = (time, paneType) => {
+  const disabledDate = (time: Date, paneType: string) => {
     const day = time.getDay()
     return day === 0 || day === 6
   }
 </script>
+
 
 ```
 
@@ -296,6 +296,7 @@
   const value2 = ref('2021-06-01')
   const value3 = ref('2021-06-01')
 </script>
+
 
 ```
 

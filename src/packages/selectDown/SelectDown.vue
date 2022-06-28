@@ -17,9 +17,9 @@
           :readonly="!filterable"
           :placeholder="placeholder"
           :disabled="disabledOk"
-          @input="inputInput"
-          @focus="inputFocus"
-          @blur="inputBlur"
+          @input="inputInput($event, 0)"
+          @focus="inputFocus($event, 0)"
+          @blur="inputBlur($event, 0)"
         />
         <span>{{ rangeSeparator }}</span>
         <input
@@ -27,9 +27,9 @@
           :readonly="!filterable"
           :placeholder="endPlaceholder"
           :disabled="disabledOk"
-          @input="inputInput"
-          @focus="inputFocus"
-          @blur="inputBlur"
+          @input="inputInput($event, 1)"
+          @focus="inputFocus($event, 1)"
+          @blur="inputBlur($event, 1)"
         />
       </div>
       <div v-else-if="multiple" :class="inputCls" class="multiple-text">
@@ -162,12 +162,12 @@
   )
   const emits = defineEmits<{
     (e: 'update:modelValue', modelValue: string[]): void
-    (e: 'blur', value: string | string[]): void
+    (e: 'blur', value: string | string[], index?: number): void
     (e: 'toggleClick', value: boolean, evt: MouseEvent): void
     (e: 'clear'): void
     (e: 'delete', value: number): void
-    (e: 'input', value: string | string[]): void
-    (e: 'focus', value: string | string[]): void
+    (e: 'input', value: string | string[], index?: number): void
+    (e: 'focus', value: string | string[], index?: number): void
   }>()
   const el = ref()
   const selectDown = ref()
@@ -253,10 +253,10 @@
   const updateModel = () => {
     emits('update:modelValue', state.valueLabel)
   }
-  const mouseEvent = (evt: MouseEvent | Event, type: any) => {
+  const mouseEvent = (evt: MouseEvent | Event, type: any, index?: number) => {
     if (props.filterable) {
       if (props.isRange) {
-        emits(type, state.valueLabel)
+        emits(type, state.valueLabel, index)
         updateModel()
         return
       }
@@ -265,14 +265,14 @@
       updateModel()
     }
   }
-  const inputInput = (e: Event) => {
-    mouseEvent(e, 'input')
+  const inputInput = (e: Event, index?: number) => {
+    mouseEvent(e, 'input', index)
   }
-  const inputBlur = (e: Event) => {
-    mouseEvent(e, 'blur')
+  const inputBlur = (e: Event, index?: number) => {
+    mouseEvent(e, 'blur', index)
   }
-  const inputFocus = (e: Event) => {
-    mouseEvent(e, 'focus')
+  const inputFocus = (e: Event, index?: number) => {
+    mouseEvent(e, 'focus', index)
   }
   // 计算插入body的位置样式
   const setAppendToBodyStyle = () => {

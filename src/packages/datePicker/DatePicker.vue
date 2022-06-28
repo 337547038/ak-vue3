@@ -2,8 +2,8 @@
 <template>
   <SelectDown
     ref="selectDown"
-    :class="{ [`${prefixCls}-date-picker`]: true }"
     :placeholder="placeholder"
+    :endPlaceholder="endPlaceholder"
     :size="size"
     :disabled="disabled"
     :width="width"
@@ -14,34 +14,75 @@
     :down-class="downClass"
     :down-style="downStyle"
     icon="date"
-    :model-value="state.showValue"
+    :fixedIcon="true"
+    :model-value="showValue"
+    :rangeSeparator="rangeSeparator"
+    :isRange="isRange"
     @clear="clearClick"
     @blur="blurHandler"
+    @toggle-click="toggleClick"
   >
-    <div :class="{ [`${prefixCls}-date-picker-down`]: true }" @click.stop="">
-      <Picker
-        :value="state.childValue"
-        :type="type"
-        @change="datePickerChange"
-      />
+    <div :class="{ [`${prefixCls}-date-picker`]: true }" @click.stop="">
+      <template v-for="(item, index) in downValue" :key="index">
+        <div class="calendar">
+          <ControlHead
+            :type="type"
+            :activePanel="activePane"
+            :value="item"
+            :position="index === 0 ? 'left' : 'right'"
+            @change="controlHeadChange(index, $event)"
+          />
+          <div class="calendar-body">
+            <Day
+              :value="item"
+              :default-date="defaultValue[index] || -1"
+              :pane="activePane"
+              @click="onClickDay($event, index)"
+              :type="type"
+              :index="index"
+              :disabledDate="disabledDate"
+              :innerText="innerText"
+              v-if="activePane === 'day'"
+            />
+            <YearMonth
+              :value="item"
+              :default-date="defaultValue[index] || -1"
+              :pane="activePane"
+              :disabledDate="disabledDate"
+              @click="onClickYearMonth(index, $event)"
+              v-else
+            />
+          </div>
+        </div>
+      </template>
     </div>
   </SelectDown>
 </template>
 <script lang="ts" setup>
-  import { ref, reactive, provide, inject, watch } from 'vue'
+  import { ref, inject, watch, computed, onMounted } from 'vue'
   import prefixCls from '../prefix'
-  import Picker from './Picker.vue'
   import { SelectDown } from '../selectDown'
+  import ControlHead from './ControlHead.vue'
+  import YearMonth from './YearMonth.vue'
+  import Day from './Day.vue'
 
   const props = withDefaults(
     defineProps<{
-      modelValue: string
+      modelValue?: string | string[]
       placeholder?: string
+      endPlaceholder?: string
       clear?: boolean // 显示清空
       disabled?: boolean
-      type?: 'year' | 'month' | 'date' | 'datetime' // 下拉面板类型 四种类型，年/年月/年月日/年月日时分秒
+      type?:
+        | 'year'
+        | 'month'
+        | 'date'
+        | 'datetime'
+        | 'datetimeRange'
+        | 'dateRange'
+        | 'monthRange' // 下拉面板类型 四种类型，年/年月/年月日/年月日时分秒，range为区间
       format?: string // 显示于输入框的值
-      valueFormat?: string // 实际值，即v-model
+      valueFormat?: string
       appendToBody?: boolean // 将日期面板插入到body中
       downClass?: string // 下拉面板样式
       downStyle?: Object // 下拉面板样式
@@ -51,35 +92,69 @@
       disabledDate?: Function
       innerText?: Function
       size?: string
+      isRange?: boolean // 区间选择，此时multiple无效
+      rangeSeparator?: string
     }>(),
     {
       clear: true,
       readonly: true,
       direction: 0,
-      type: 'date'
+      type: 'date',
+      rangeSeparator: 'To'
     }
   )
   const emits = defineEmits<{
-    (e: 'update:modelValue', value: string): void
-    (e: 'change', value: string): void
+    (e: 'update:modelValue', value: string | string[]): void
+    (e: 'change', value: string | string[], val: Date | Date[]): void
   }>()
 
   const selectDown = ref()
-  const state = reactive<any>({
-    showValue: [], // 显示在输入框的值
-    childValue: new Date(), // 传给子组件的值，即通过判断的，不合法日期时取当前时间
-    isFirst: false
-  })
+  const downValue = ref() // 下拉面板的值
+  const showValue = ref<string[]>([]) // 显示于输入框的值
+  const isRange = props.type.includes('Range') // 是否为区间
+  const defaultValue = ref<number[]>([]) // 经过时间格式化的初始值
+  const activePane = ref<string>('day')
+  const rangChecked = ref<Date[]>([])
   const controlChange: any = inject(`${prefixCls}ControlChange`, '')
-  provide(`${prefixCls}SetInnerText`, (date: Date) => {
-    return props.innerText && props.innerText(date)
+  const padStart = (number: number | string) => {
+    return `${number}`.padStart(2, '0')
+  }
+  const formatType = computed(() => {
+    let fType = ''
+    if (props.format) {
+      // 指定了显示的格式时，按指定的返回
+      fType = props.format
+    } else {
+      switch (props.type) {
+        case 'year':
+          fType = 'y'
+          break
+        case 'month':
+        case 'monthRange':
+          fType = 'y-MM'
+          break
+        case 'date':
+        case 'dateRange':
+          fType = 'y-MM-dd'
+          break
+        case 'datetime':
+        case 'datetimeRange':
+          fType = 'y-MM-dd hh:mm:ss'
+          break
+        default:
+      }
+    }
+    return fType
   })
-  provide(`${prefixCls}SetDisabledDate`, (date: Date, type: string) => {
-    return props.disabledDate && props.disabledDate(date, type)
-  })
-  const emitCom = (value: string) => {
-    emits('update:modelValue', value)
-    emits('change', value)
+  const setDefaultPane = () => {
+    // 根据类型设置初始下拉面板类型
+    if (props.type === 'year' || props.type === 'month') {
+      activePane.value = props.type
+    } else if (props.type === 'monthRange') {
+      activePane.value = 'month'
+    } else {
+      activePane.value = 'day'
+    }
   }
   const parseDate = (dateTime: Date, formatType: string): string => {
     if (formatType === 'timestamp') {
@@ -93,95 +168,243 @@
     const formatObj: any = {
       y: dateTime.getFullYear(),
       M: m,
-      MM: m > 9 ? m : '0' + m,
+      MM: padStart(m),
       d: d,
-      dd: d > 9 ? d : '0' + d,
+      dd: padStart(d),
       h: h,
-      hh: h > 9 ? h : '0' + h,
+      hh: padStart(h),
       m: mi,
-      mm: mi > 9 ? mi : '0' + mi,
+      mm: padStart(mi),
       s: s,
-      ss: s > 9 ? s : '0' + s,
+      ss: padStart(s),
       w: dateTime.getDay()
     }
     return formatType.replace(/(y|MM|M|dd|d|hh|h|mm|m|ss|s|w)/g, (result) => {
-      let value = formatObj[result]
+      const value = formatObj[result]
       if (result === 'w')
         return ['日', '一', '二', '三', '四', '五', '六'][value]
       return value
     })
   }
-  // 初始化完成或是当modelValue变化时，返回指定的输出格式
-  const getShowValue = (date: string) => {
-    if (!date) {
-      return
+  const isInvalidDate = (val: string) => {
+    // 有效时返回有效时间
+    const d = new Date(val)
+    if (d.toString() !== 'Invalid Date') {
+      return d
     }
-    // 如果当前输入的日期不合法，则清空输入框
-    let dateValue = new Date(date)
-    if (dateValue.toString() === 'Invalid Date') {
-      // 日期不合法
-      emitCom('')
-      state.showValue = []
-      state.childValue = new Date()
-      console.log(new Error('日期不合法，清空输入框'))
-    } else {
-      state.childValue = dateValue // 修改为当前值入的值
-      let type = ''
-      if (props.format) {
-        // 指定了显示的格式时，按指定的返回
-        type = props.format
-      } else {
-        switch (props.type) {
-          case 'year':
-            type = 'y'
-            break
-          case 'month':
-            type = 'y-MM'
-            break
-          case 'date':
-            type = 'y-MM-dd'
-            break
-          case 'datetime':
-            type = 'y-MM-dd hh:mm:ss'
-            break
+    // 可能为时间戳，尝试转为数字
+    if (!/[^\d]/g.test(val)) {
+      const d2 = new Date(parseInt(val, 10))
+      if (d2.toString() !== 'Invalid Date') {
+        return d2
+      }
+    }
+    // 尝试将年月日中文替换
+    const d3 = new Date(val?.replace(/['年'|'月']/g, '-').replace('日', ''))
+    if (d3.toString() !== 'Invalid Date') {
+      return d3
+    }
+    console.warn('无效时间:' + val)
+    return false
+  }
+  // 初始化完成或是当modelValue变化时，返回指定的输出格式
+  const getShowValue = (dateString?: string[]) => {
+    const date = dateString || props.modelValue
+    // 当时间为空或非法时使用
+    let dateValueLeft = new Date()
+    let dateValueRight = new Date(
+      new Date().setMonth(dateValueLeft.getMonth() + 1)
+    )
+    if (props.type === 'monthRange') {
+      // 右边为下一年
+      dateValueRight = new Date(
+        new Date().setFullYear(dateValueLeft.getFullYear() + 1)
+      )
+    }
+    defaultValue.value = []
+    showValue.value = []
+    // 判断是否为有效时间类型
+    if (isRange) {
+      if (typeof date === 'object' && date?.length === 2) {
+        const d1 = isInvalidDate(date[0])
+        const d2 = isInvalidDate(date[1])
+        if (d1 && d2) {
+          dateValueLeft = d1
+          dateValueRight = d2
+          // 有合法值时设置显示的值
+          const parse = parseDate(d1, formatType.value)
+          const parse2 = parseDate(d2, formatType.value)
+          showValue.value = [parse, parse2]
+          defaultValue.value = [d1.getTime(), d2.getTime()]
         }
       }
-      state.showValue = [parseDate(dateValue, type)]
-      // console.log(dateValue)
-      // 日期合法，按选择的日期格式格式化后返回
-      const vModel = parseDate(dateValue, props.valueFormat || type)
-      emitCom(vModel)
+      downValue.value = [dateValueLeft, dateValueRight]
+    } else {
+      if (typeof date === 'string' && date) {
+        const d = isInvalidDate(date)
+        if (d) {
+          dateValueLeft = d
+          const parse = parseDate(d, formatType.value)
+          showValue.value = [parse]
+          defaultValue.value = [d.getTime()]
+        }
+      }
+      downValue.value = [dateValueLeft]
     }
   }
-  getShowValue(props.modelValue)
   watch(
     () => props.modelValue,
-    (val: string) => {
-      // console.log('watch')
-      if (!state.isFirst) {
-        getShowValue(val)
-      }
-      controlChange && controlChange(val, 'mounted')
+    () => {
+      getShowValue()
+      // controlChange && controlChange(showValue.value, 'mounted')
     }
   )
-  const slideUp = () => {
+  onMounted(() => {
+    // 初始
+    setDefaultPane()
+    getShowValue()
+  })
+  const rangOnChange = (rangChecked: Date[]) => {
+    if (rangChecked.length === 2) {
+      // 收起，并排序
+      if (rangChecked[0] > rangChecked[1]) {
+        // 前面的大
+        slideUp([rangChecked[1], rangChecked[0]])
+      } else {
+        slideUp([rangChecked[0], rangChecked[1]])
+      }
+    } else if (rangChecked.length === 1) {
+      // 当选择一个时如需将另外一个选择移除
+      /*if (index === 0) {
+    }*/
+    }
+  }
+  const onClickDay = (value: { date: Date; type?: string }, index: number) => {
+    if (isRange) {
+      if (props.type === 'datetimeRange') {
+        // 一定是点击确认才能关闭，多次点击rangChecked会超过两个
+        if (value.type === 'confirm') {
+          // 点确认，取当前的值和rangChecked最后一个值
+          let val1 = new Date()
+          if (rangChecked.value.length !== 0) {
+            val1 = rangChecked.value[rangChecked.value.length - 1]
+          }
+          rangOnChange([val1, value.date])
+        } else if (index === 0) {
+          rangChecked.value.push(value.date)
+        }
+      } else {
+        rangChecked.value.push(value.date)
+        rangOnChange(rangChecked.value)
+      }
+    } else {
+      slideUp([value.date])
+    }
+  }
+  // 顶部年或月面板切换
+  const controlHeadChange = (index: number, val: Date | string) => {
+    if (typeof val === 'string' && !isRange) {
+      // 改变下拉面板类型，区间时不能切换
+      activePane.value = val
+    } else if (typeof val === 'object') {
+      if (isRange) {
+        // 这里暂不作联左右两边联动处理
+        if (index === 0) {
+          // left
+          downValue.value[0] = val
+        } else if (index === 1) {
+          downValue.value[1] = val
+        }
+      } else {
+        downValue.value = [val]
+      }
+    }
+  }
+  // 下拉收起事件
+  const toggleClick = (val: boolean) => {
+    if (!val) {
+      // 收起时，恢复下拉面板初始值
+      setDefaultPane()
+      getShowValue()
+    }
+    rangChecked.value = []
+  }
+  const slideUp = (date: Date[]) => {
+    let label: string[] = []
+    let mv: string[] | string = '' // modelValue的值
+    downValue.value = date
+    if (isRange) {
+      if (date?.length === 2) {
+        const parse1 = parseDate(date[0], formatType.value)
+        const parse2 = parseDate(date[1], formatType.value)
+        label = [parse1, parse2]
+        mv = [parse1, parse2]
+        if (props.valueFormat) {
+          const parse3 = parseDate(date[0], props.valueFormat)
+          const parse4 = parseDate(date[1], props.valueFormat)
+          mv = [parse3, parse4]
+        }
+      }
+    } else {
+      if (date?.length === 1) {
+        mv = parseDate(date[0], formatType.value)
+        label = [mv]
+        if (props.valueFormat) {
+          mv = parseDate(date[0], props.valueFormat)
+        }
+      }
+    }
+    showValue.value = label
+    emits('update:modelValue', mv)
+    emits('change', mv, isRange ? date : date[0] || '')
+    controlChange && controlChange(mv)
     selectDown.value.slideUp()
   }
-  const blurHandler = (value: any) => {
-    // const {value} = evt.target as HTMLInputElement
-    console.log(value)
-    getShowValue(value)
-  }
-  const datePickerChange = (date: Date) => {
-    state.isFirst = true
-    getShowValue(parseDate(date, 'y-MM-dd hh:mm:ss'))
-    slideUp()
-    controlChange && controlChange(date)
+  // 可输入状态失去焦点时，判断值是否合法
+  const blurHandler = (value: string, index: number) => {
+    if (props.readonly || !value) {
+      return
+    }
+    const blurVal = isInvalidDate(value)
+    if (blurVal) {
+      // 输入合法，关闭下拉
+      //console.log('onblur')
+      //console.log(blurVal)
+      if (isRange) {
+        if (index === 1) {
+          // 区间时第二个输入框
+          slideUp([downValue.value[0], blurVal])
+        } else {
+          slideUp([blurVal, downValue.value[1]]) // 失去焦点时更新相关值，不收起
+        }
+      } else {
+        slideUp([blurVal]) // 失去焦点时更新相关值，不收起
+      }
+    }
   }
   const clearClick = () => {
-    emitCom('')
-    controlChange && controlChange('')
-    // 下拉的值设为当前时间
-    state.childValue = new Date()
+    if (props.clear) {
+      slideUp([])
+    }
+  }
+  const onClickYearMonth = (index: number, val: Date) => {
+    if (props.type === activePane.value) {
+      slideUp([val])
+    } else if (props.type === 'monthRange') {
+      rangChecked.value.push(val)
+      rangOnChange(rangChecked.value)
+    } else {
+      let paneType = ''
+      if (activePane.value === 'year') {
+        paneType = 'month'
+      }
+      if (activePane.value === 'month') {
+        paneType = 'day'
+      }
+      if (paneType) {
+        activePane.value = paneType
+      }
+      downValue.value[index] = val
+    }
   }
 </script>
