@@ -309,6 +309,7 @@
       选择的值：{{ value1 }}<br />
       <ak-date-picker
         v-model="value1"
+        type="monthRange"
         placeholder="请选择月份"
         endPlaceholder="请选择月份"
       />
@@ -346,22 +347,22 @@
 
 ### DatePicker
 
-|参数|类型|说明|
-|----------|--------------|--------|
-|v-model        | String         |绑定的值|
-|placeholder    | String         |输入框提示占位文本|
-|clear          | Boolean｜true   |显示清空|
-|disabledDate   | Function       |禁用的时间，return true时将不能选择|
-|disabled       | Boolean｜true  |是否禁用|
-|type           | String         |面板日期类型，选择后将按此格式返回，年/年月/年月日/年月日时分秒。可选year,month,date,datetime|
-|format         | String         |输入框显示的格式，为空时按type默认格式|
-|valueFormat    | String         |绑定的值格式，即v-model的格式,必须要是合法的日期格式，为空则输入format的格式|
-|innerText      | Function        |可以将特殊提示的文本插入到指定的日期里|
-|appendToBody   | Boolean｜true   |是否将弹出日期面板插入到body中|
-|downStyle      | Object          |下拉面板样式，快速个性化设置单个日期下拉面板|
-|downClass      | string          |下拉面板类名|
-|readonly       | Boolean｜true   |日期输入框只读模式|
-|size           | string         |添加的大小尺寸样式|
+|参数|类型| 说明                                                                                                   |
+|----------|--------------|------------------------------------------------------------------------------------------------------|
+|v-model        | String         | 绑定的值                                                                                                 |
+|placeholder    | String         | 输入框提示占位文本                                                                                            |
+|clear          | Boolean｜true   | 显示清空                                                                                                 |
+|disabledDate   | Function       | 禁用的时间，return true时将不能选择                                                                              |
+|disabled       | Boolean｜true  | 是否禁用                                                                                                 |
+|type           | String         | 面板日期类型，选择后将按此格式返回，年/年月/年月日/年月日时分秒。可选`year,month,date,datetime,monthRange,dateRange,datetimeRange` |
+|format         | String         | 输入框显示的格式，为空时按type默认格式                                                                                |
+|valueFormat    | String         | 绑定的值格式，即v-model的格式,必须要是合法的日期格式，为空则输入format的格式                                                        |
+|innerText      | Function        | 可以将特殊提示的文本插入到指定的日期里                                                                                  |
+|appendToBody   | Boolean｜true   | 是否将弹出日期面板插入到body中                                                                                    |
+|downStyle      | Object          | 下拉面板样式，快速个性化设置单个日期下拉面板                                                                               |
+|downClass      | string          | 下拉面板类名                                                                                               |
+|readonly       | Boolean｜true   | 日期输入框只读模式                                                                                            |
+|size           | string         | 添加的大小尺寸样式                                                                                            |
 
 ### DatePicker Event
 
