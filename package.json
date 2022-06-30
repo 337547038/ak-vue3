@@ -8,7 +8,8 @@
     "preview": "vite preview",
     "lint": "eslint --ext .js,.ts,.vue src/",
     "lintfix": "eslint --fix --ext .js,.ts,.vue src/",
-    "lint:fromat": "prettier -c --parser typescript \"{src,__tests__,e2e}/**/*.[jt]s?(x)\""
+    "lint:fromat": "prettier -c --parser typescript \"{src,__tests__,e2e}/**/*.[jt]s?(x)\"",
+    "build:lib": "vite build --config build.config.ts"
   },
   "dependencies": {
     "axios": "^0.26.1",
