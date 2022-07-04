@@ -54,22 +54,24 @@
         v-model="value3"
         placeholder="请选择时间"
         type="year"
-        :disabledDate="disabledDate"
+        :disabled-date="disabledDate"
       />
     </p>
   </div>
 </template>
 <script setup>
   import { ref } from 'vue'
-
+  const current = new Date().getFullYear()
   const value1 = ref('')
-  const value2 = ref('2019')
+  const value2 = ref(current.toString())
   const value3 = ref('')
   const disabledDate = (date) => {
     const day = date.getFullYear()
-    return day < 2018 || day > 2023
+    console.log(day)
+    return day < current - 2 || day > current + 3
   }
 </script>
+
 
 
 ```
@@ -88,7 +90,7 @@
       <ak-date-picker v-model="value2" placeholder="请选择时间" type="month" />
     </p>
     <p>
-      限制选择范围。选择的值：{{ value2 }}<br />
+      限制选择范围。选择的值：{{ value3 }}<br />
       <ak-date-picker
         v-model="value3"
         placeholder="请选择时间"
@@ -100,9 +102,9 @@
 </template>
 <script setup>
   import { ref } from 'vue'
-
+  const current = new Date().getFullYear()
   const value1 = ref('')
-  const value2 = ref('2019')
+  const value2 = ref(current + '/' + '10')
   const value3 = ref('')
   const disabledDate = (date, type) => {
     if (type === 'month') {
@@ -111,6 +113,7 @@
     }
   }
 </script>
+
 
 
 ```
@@ -129,7 +132,7 @@
       <ak-date-picker v-model="value2" placeholder="请选择时间" type="date" />
     </p>
     <p>
-      限制选择范围。选择的值：{{ value2 }}<br />
+      限制选择范围。选择的值：{{ value3 }}<br />
       <ak-date-picker
         v-model="value3"
         placeholder="请选择时间"
@@ -143,7 +146,7 @@
   import { ref } from 'vue'
 
   const value1 = ref('')
-  const value2 = ref('2019')
+  const value2 = ref(new Date().getTime().toString())
   const value3 = ref('')
   const disabledDate = (date, type) => {
     if (type === 'day') {
@@ -152,6 +155,7 @@
     }
   }
 </script>
+
 
 
 ```
@@ -183,8 +187,9 @@
   import { ref } from 'vue'
 
   const value1 = ref('')
-  const value2 = ref('2019')
+  const value2 = ref(new Date().getTime().toString())
 </script>
+
 
 
 ```
@@ -211,6 +216,7 @@
 </script>
 
 
+
 ```
 
 ### 自定显示特殊字符
@@ -226,30 +232,24 @@
   />
   <!--  <ak-date-picker v-model="value2" placeholder="请选择时间" />-->
 </template>
-<script setup>
+<script setup lang="ts">
   import { ref } from 'vue'
-
-  const value1 = ref('2019')
-  // const value2 = ref('2019a')
-  /*setTimeout(() => {
-  value1.value = '2019'
-}, 1000)*/
-  const innerText = (time) => {
-    let start = new Date(2019, 1, 1)
-    let end = new Date(2019, 1, 7)
-    if (time >= start && time <= end) {
+  const value1 = ref()
+  const innerText = (time: Date) => {
+    if ([14, 15, 16].includes(time.getDate())) {
       return '休'
     }
-    const o = new Date(2019, 8, 29)
-    if (time.toString() === o.toString()) {
+    if ([17, 18, 19].includes(time.getDate())) {
       return '班'
     }
+    return ''
   }
-  const disabledDate = (time, paneType) => {
+  const disabledDate = (time: Date, paneType: string) => {
     const day = time.getDay()
     return day === 0 || day === 6
   }
 </script>
+
 
 ```
 
@@ -297,28 +297,72 @@
   const value3 = ref('2021-06-01')
 </script>
 
+
 ```
 
+### 区间选择
+
+```vue demo
+<template>
+  <div>
+    <p>
+      选择的值：{{ value1 }}<br />
+      <ak-date-picker
+        v-model="value1"
+        type="monthRange"
+        placeholder="请选择月份"
+        endPlaceholder="请选择月份"
+      />
+    </p>
+    <p>
+      显示年月日格式。选择的值：{{ value2 }}<br />
+      <ak-date-picker
+        v-model="value2"
+        type="dateRange"
+        placeholder="请选择时间"
+        endPlaceholder="请选择时间"
+      />
+    </p>
+    <p>
+      选择的值：{{ value3 }}<br />
+      <ak-date-picker
+        v-model="value3"
+        type="datetimeRange"
+        placeholder="请选择时间"
+        endPlaceholder="请选择时间"
+      />
+    </p>
+  </div>
+</template>
+<script setup>
+  import { ref } from 'vue'
+
+  const value1 = ref([])
+  const value2 = ref([])
+  const value3 = ref([])
+</script>
+
+```
 ## API
 
 ### DatePicker
 
-|参数|类型|说明|
-|----------|--------------|--------|
-|v-model        | String         |绑定的值|
-|placeholder    | String         |输入框提示占位文本|
-|clear          | Boolean｜true   |显示清空|
-|disabledDate   | Function       |禁用的时间，return true时将不能选择|
-|disabled       | Boolean｜true  |是否禁用|
-|type           | String         |面板日期类型，选择后将按此格式返回，年/年月/年月日/年月日时分秒。可选year,month,date,datetime|
-|format         | String         |输入框显示的格式，为空时按type默认格式|
-|valueFormat    | String         |绑定的值格式，即v-model的格式,必须要是合法的日期格式，为空则输入format的格式|
-|innerText      | Function        |可以将特殊提示的文本插入到指定的日期里|
-|appendToBody   | Boolean｜true   |是否将弹出日期面板插入到body中|
-|downStyle      | Object          |下拉面板样式，快速个性化设置单个日期下拉面板|
-|downClass      | string          |下拉面板类名|
-|readonly       | Boolean｜true   |日期输入框只读模式|
-|size           | string         |添加的大小尺寸样式|
+|参数|类型| 说明                                                                                                   |
+|----------|--------------|------------------------------------------------------------------------------------------------------|
+|v-model        | String         | 绑定的值                                                                                                 |
+|placeholder    | String         | 输入框提示占位文本                                                                                            |
+|clear          | Boolean｜true   | 显示清空                                                                                                 |
+|disabledDate   | Function       | 禁用的时间，return true时将不能选择                                                                              |
+|disabled       | Boolean｜true  | 是否禁用                                                                                                 |
+|type           | String         | 面板日期类型，选择后将按此格式返回，年/年月/年月日/年月日时分秒。可选`year,month,date,datetime,monthRange,dateRange,datetimeRange` |
+|format         | String         | 输入框显示的格式，为空时按type默认格式                                                                                |
+|valueFormat    | String         | 绑定的值格式，即v-model的格式,必须要是合法的日期格式，为空则输入format的格式                                                        |
+|innerText      | Function        | 可以将特殊提示的文本插入到指定的日期里                                                                                  |
+|appendToBody   | Boolean｜true   | 是否将弹出日期面板插入到body中                                                                                    |
+|downStyle      | Object          | 下拉面板样式，快速个性化设置单个日期下拉面板                                                                               |
+|downClass      | string          | 下拉面板类名                                                                                               |
+|readonly       | Boolean｜true   | 日期输入框只读模式                                                                                            |
+|size           | string         | 添加的大小尺寸样式                                                                                            |
 
 ### DatePicker Event
 

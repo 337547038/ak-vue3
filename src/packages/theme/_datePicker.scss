@@ -1,7 +1,7 @@
 @charset "utf-8";
 @include ns(date-picker) {background: #fff;padding: 5px; overflow: hidden;box-sizing: border-box;min-width: 100%;display: flex;
   .calendar {display: block; user-select: none;width: 250px;
-    &:nth-child(2) { margin-left: 10px;border-left: 1px solid $borderColor }
+    &:nth-child(2) {border-left: 1px solid $borderColor }
   }
   .calendar-head {height: 34px;line-height: 34px;display: flex;align-items: center;justify-content: space-between;padding: 0 10px;
     span {flex: 2;text-align: center;
