@@ -22,6 +22,13 @@ export default defineConfig({
   base: './',
   build: {
     outDir: 'docs'
+    // 去除console
+    /*terserOptions: {
+      compress: {
+        drop_console: true,
+        drop_debugger: true
+      }
+    }*/
   },
   resolve: {
     alias: [
