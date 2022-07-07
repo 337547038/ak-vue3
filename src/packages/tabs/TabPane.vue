@@ -7,7 +7,8 @@
       className: String,
       label: String,
       name: String,
-      disabled: Boolean
+      disabled: Boolean,
+      closable: Boolean
     },
     setup(props, { slots }) {
       const childrenList: any = inject(`${prefixCls}ChildrenList`)

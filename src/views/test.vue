@@ -1,37 +1,21 @@
 <template>
   <div>
-    <p>
-      选择的值：{{ value1 }}<br />
-      <ak-date-picker
-        v-model="value1"
-        placeholder="请选择月份"
-        endPlaceholder="请选择月份"
-      />
-    </p>
-    <p>
-      显示年月日格式。选择的值：{{ value2 }}<br />
-      <ak-date-picker
-        v-model="value2"
-        type="dateRange"
-        placeholder="请选择时间"
-        endPlaceholder="请选择时间"
-      />
-    </p>
-    <p>
-      选择的值：{{ value3 }}<br />
-      <ak-date-picker
-        v-model="value3"
-        type="datetimeRange"
-        placeholder="请选择时间"
-        endPlaceholder="请选择时间"
-      />
-    </p>
+    <ak-radio-group v-model="position" :options="options" />
+    <ak-tabs :tab-position="position">
+      <ak-tab-pane label="用户管理">用户管理</ak-tab-pane>
+      <ak-tab-pane label="配置管理">配置管理</ak-tab-pane>
+      <ak-tab-pane label="角色管理">角色管理</ak-tab-pane>
+      <ak-tab-pane label="定时任务补偿">定时任务补偿</ak-tab-pane>
+    </ak-tabs>
   </div>
 </template>
-<script setup>
+<script setup lang="ts">
   import { ref } from 'vue'
-
-  const value1 = ref([])
-  const value2 = ref([])
-  const value3 = ref([])
+  const position = ref('top')
+  const options = [
+    { label: 'top', value: 'top' },
+    { label: 'bottom', value: 'bottom' },
+    { label: 'left', value: 'left' },
+    { label: 'right', value: 'right' }
+  ]
 </script>

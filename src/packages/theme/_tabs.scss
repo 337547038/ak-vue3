@@ -1,7 +1,14 @@
 @charset "UTF-8";
-@include ns(tabs) {
-  .tabs-nav {position: relative;border-bottom: 1px solid $borderColor;height: 40px;display: flex;
-    .tabs-tab {padding: 0 20px;position: relative;line-height: 40px;cursor: pointer;z-index: 2;
+@include ns(tabs) {display: flex;flex-wrap: wrap;flex-direction: column;
+  .tabs-nav {position: relative;border-bottom: 1px solid $borderColor;height: 40px;display: flex;align-items: center;justify-content: space-between;
+    .tabs-scroll {flex: 2;overflow: hidden;display: flex;align-items: center;}
+    .tabs-tab {display: flex;transition: all .5s}
+    .tabs-prev, .tabs-next {display: block;width: 30px;height: 30px;line-height: 30px;text-align: center;cursor: pointer;transition: all .3s;
+      &.disabled {color: #999;cursor: not-allowed}
+    }
+    .tabs-prev {transform: rotate(90deg)}
+    .tabs-next {transform: rotate(-90deg)}
+    .tabs-item {padding: 0 20px;position: relative;line-height: 40px;cursor: pointer;z-index: 2;white-space: nowrap;
       &:after {content: '';display: block;margin: 0 auto;height: 2px;background: $primaryColor;opacity: 0;width: 0;transition: all .3s;position: relative;top: -1px;}
       /*选中*/
       &.active {
@@ -9,7 +16,20 @@
       }
       /*禁用*/
       &.disabled {cursor: not-allowed;opacity: .5}
+      .icon-close {font-size: 12px;position: relative;top: -3px;left: 3px}
     }
   }
   .tabs-content {padding: 20px;}
+  &.bottom {
+    .tabs-nav {order: 1}
+  }
+  &.left, &.right {flex-direction: row;
+    .tabs-nav {width: 150px;display: block;text-align: center;height: auto}
+    .tabs-scroll {display: block;overflow-x: hidden;overflow-y: auto;@include scrollColor()}
+    .tabs-tab {display: block}
+    .tabs-content {flex: 2}
+  }
+  &.right {
+    .tabs-nav {order: 1}
+  }
 }

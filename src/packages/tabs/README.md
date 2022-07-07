@@ -39,7 +39,7 @@
   <akTabs>
     <ak-tab-pane>
      <template #label><i class="icon-user"></i> 用户管理</template>
-    用户管理
+    用户管理内容
     </ak-tab-pane>
     <ak-tab-pane label="配置管理">配置管理</ak-tab-pane>
     <ak-tab-pane label="角色管理">角色管理</ak-tab-pane>
@@ -153,14 +153,85 @@
 
 ```
 
+### 标签位置的设置
+```vue demo
+<template>
+  <div>
+    <ak-radio-group v-model="position" :options="options" />
+    <ak-tabs :tab-position="position">
+      <ak-tab-pane label="用户管理">用户管理</ak-tab-pane>
+      <ak-tab-pane label="配置管理">配置管理</ak-tab-pane>
+      <ak-tab-pane label="角色管理">角色管理</ak-tab-pane>
+      <ak-tab-pane label="定时任务补偿">定时任务补偿</ak-tab-pane>
+    </ak-tabs>
+  </div>
+</template>
+<script setup lang="ts">
+  import { ref } from 'vue'
+  const position = ref('top')
+  const options = [
+    { label: 'top', value: 'top' },
+    { label: 'bottom', value: 'bottom' },
+    { label: 'left', value: 'left' },
+    { label: 'right', value: 'right' }
+  ]
+</script>
+
+
+```
+
+### 多个超出时可左右滚动
+
+
+```vue demo
+<template>
+  <div style="width:500px">
+    <ak-tabs>
+      <ak-tab-pane label="用户管理">用户管理</ak-tab-pane>
+      <ak-tab-pane label="配置管理">配置管理</ak-tab-pane>
+      <ak-tab-pane label="角色管理">角色管理</ak-tab-pane>
+      <ak-tab-pane label="定时任务补偿">定时任务补偿</ak-tab-pane>
+      <ak-tab-pane label="用户管理2">用户管理2</ak-tab-pane>
+      <ak-tab-pane label="配置管理2">配置管理2</ak-tab-pane>
+      <ak-tab-pane label="角色管理2">角色管理2</ak-tab-pane>
+      <ak-tab-pane label="定时任务补偿2">定时任务补偿2</ak-tab-pane>
+    </ak-tabs>
+  </div>
+</template>
+<script setup>
+  
+</script>
+
+```
+
+### 可关闭标签
+```vue demo
+<template>
+  <div>
+    <ak-tabs :closable="true">
+      <ak-tab-pane label="用户管理">用户管理</ak-tab-pane>
+      <ak-tab-pane label="配置管理">配置管理</ak-tab-pane>
+      <ak-tab-pane label="角色管理">角色管理</ak-tab-pane>
+      <ak-tab-pane label="定时任务补偿">定时任务补偿</ak-tab-pane>
+    </ak-tabs>
+  </div>
+</template>
+<script setup>
+
+</script>
+
+```
+
 ## API
 
 ### Tabs
 
-|参数|类型|说明|
-|----------|--------------|--------|
-|v-model        | string         |绑定值。对应选项卡的 name，为空时自动生成`tab-*`，初始默认显示第一项|
-|beforeLeave    | function       |切换标签之前的钩子，若返回 false，则阻止切换|
+| 参数            | 类型       | 说明                                        |
+|---------------|----------|-------------------------------------------|
+| v-model       | string   | 绑定值。对应选项卡的 name，为空时自动生成`tab-*`，初始默认显示第一项  |
+| beforeLeave   | function | 切换标签之前的钩子，若返回 false，则阻止切换                 |
+| tabPosition   | string   | 显示方向 'top' 、'right'、'bottom'、'left',默认top |
+| closable      | boolean  | 显示可关闭按钮，默认false                           |
 
 ### Tabs Event
 
@@ -170,9 +241,11 @@
 
 ### Tabs Slot
 
-|参数|说明|
-|----------|--------------|
-|content          | 显示于标题和内容之间的其他内容信息|
+| 参数         | 说明                |
+|------------|-------------------|
+| content    | 显示于标题和内容之间的其他内容信息 |
+| leftExtra  | 左边扩展              |
+| rightExtra | 右边扩展              |
 
 ### TabPane
 
@@ -181,6 +254,7 @@
 |name           | string         |对应 Tabs 的 v-model 值，为空时自动生成。一般可不填写|
 |label          | string         |标签名称|
 |disabled       | boolean/false  |禁用选顶|
+| closable      | boolean  | 显示可关闭按钮，默认false                           |
 
 ### TabPane Slot
 
