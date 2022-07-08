@@ -59,7 +59,7 @@ https://github.com/337547038/vite-react
 - [ ] Transfer 穿梭框
 - [x] Tree 树形
 - [x] Upload 上传
-- [ ] Image 图片
+- [x] Image 图片
 - [x] Drawer 抽屉
 - [x] Tag 标签
 - [x] Popover 提示框

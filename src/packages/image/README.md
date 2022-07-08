@@ -1,42 +1,15 @@
-<template>
-  <div>
-    <ak-button
-      v-loading.el.lock="loading"
-      type="primary"
-      @click="openFullScreen"
-    >加载</ak-button
-    >
-    <ak-button type="primary" @click="openFullScreen2">服务方式</ak-button>
-  </div>
-</template>
-<script setup>
-  import { ref, inject } from 'vue'
+# Image 图片
 
-  const loading = ref(false)
-  const openFullScreen = () => {
-    loading.value = true
-    setTimeout(() => {
-      loading.value = false
-    }, 3000)
-  }
-  const Loading = inject('Loading')
-  const openFullScreen2 = () => {
-    const loading = Loading.loading()
-    setTimeout(() => {
-      loading.close()
-    }, 3000)
-  }
-</script>
-<!--
+### 基本使用
+
+通过`fit`确定图片如何适应到容器框
+```vue demo
 <template>
   <div class="image-demo">
-&lt;!&ndash;    <div v-for="fit in fits" :key="fit">
+    <div v-for="fit in fits" :key="fit">
       <span>{{ fit }}</span>
       <ak-image style="width: 100px; height: 100px" :src="url" :fit="fit" />
-    </div>&ndash;&gt;
-    <ak-image>
-&lt;!&ndash;      <template #placeholder>Loading</template>&ndash;&gt;
-    </ak-image>
+    </div>
   </div>
   <div>
     <p>fill:默认，不保证保持原有的比例，内容拉伸填充整个内容容器</p>
@@ -52,4 +25,24 @@
   const intro=['']
   const url = './image/img2.png'
 </script>
--->
+
+```
+
+## API
+
+### Image Props
+
+| 参数               | 类型       | 说明        |
+|------------------|----------|-----------|
+| src              | string   | 图片源地址，同原生属性一致 |
+| fit              | string   | 图片如何适应容器框，同原生 object-fit，可选`'fill'｜'contain'｜'cover'｜'none'｜'scale-down'` |
+| alt              | string   | 原生alt属性   |
+| preview-src-list | string[] | 开启图片预览功能   |
+| z-index          | number   | 设置图片预览的 z-index   |
+
+### Image Slots
+
+|参数|说明|
+|----------|--------|
+|error         |加载失败内容|
+|placeholder   |自定义占位内容|

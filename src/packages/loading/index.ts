@@ -10,19 +10,19 @@
  * **/
 import akLoading from './Loading.vue'
 import prefixCls from '../prefix'
-import { render, h, App } from 'vue'
+import { App } from 'vue'
+import { createApp } from 'vue'
 
 const appendChild = (opt: any) => {
-  const vNode = h(akLoading, opt)
-  const container = opt.el || document.createElement('div')
-  render(vNode, container)
-  // console.log(opt)
-  if (opt.el) {
-    opt.el.appendChild(container.firstElementChild)
+  const app = createApp(akLoading, opt)
+  if (opt.el === document.body || !opt.el) {
+    const container = document.createElement('div')
+    document.body.appendChild(container)
+    return app.mount(container)
   } else {
-    document.body.appendChild(container.firstElementChild)
+    // 插入到当前标签
+    return app.mount(opt.el)
   }
-  return vNode.component && vNode.component.proxy
 }
 const loading = (opt?: any) => {
   const component: any = appendChild(opt || {})
@@ -33,11 +33,11 @@ const vLoading = (app: App) => {
   app.directive('loading', {
     mounted(el, binding) {
       el.style.position = 'relative'
-      const text = el.getAttribute(`${prefixCls}-loading-text`) || ''
-      const spinner = el.getAttribute(`${prefixCls}-loading-spinner`) || ''
+      const text = el.getAttribute(`${ prefixCls }-loading-text`) || ''
+      const spinner = el.getAttribute(`${ prefixCls }-loading-spinner`) || ''
       const background =
-        el.getAttribute(`${prefixCls}-loading-background`) || ''
-      const zIndex = el.getAttribute(`${prefixCls}-loading-zIndex`) || ''
+        el.getAttribute(`${ prefixCls }-loading-background`) || ''
+      const zIndex = el.getAttribute(`${ prefixCls }-loading-zIndex`) || ''
       let bodyEl
       if (binding.modifiers.el) {
         // 插入到body
@@ -51,6 +51,8 @@ const vLoading = (app: App) => {
         zIndex: parseInt(zIndex),
         el: bodyEl || el
       })
+      console.log('component')
+      console.log(component)
       if (binding.value) {
         component && component.open()
       }
@@ -66,46 +68,4 @@ const vLoading = (app: App) => {
   })
 }
 export { loading, vLoading }
-/*export default defineComponent({
-  loading(opt?: any) {
-    const component: any = appendChild(opt || {})
-    component && component.open()
-    return component
-  },
-  vLoading(app: App) {
-    app.directive('loading', {
-      mounted(el, binding) {
-        el.style.position = 'relative'
-        const text = el.getAttribute(`${prefixCls}-loading-text`) || ''
-        const spinner = el.getAttribute(`${prefixCls}-loading-spinner`) || ''
-        const background =
-          el.getAttribute(`${prefixCls}-loading-background`) || ''
-        const zIndex = el.getAttribute(`${prefixCls}-loading-zIndex`) || ''
-        let bodyEl
-        if (binding.modifiers.el) {
-          // 插入到body
-          bodyEl = document.body
-        }
-        const component: any = appendChild({
-          text: text,
-          spinner: spinner,
-          background: background,
-          lock: binding.modifiers.lock,
-          zIndex: parseInt(zIndex),
-          el: bodyEl || el
-        })
-        if (binding.value) {
-          component && component.open()
-        }
-        el.component = component // 保存当前组件和样式，更新时调用
-      },
-      updated(el, binding) {
-        if (binding.value) {
-          el.component.open()
-        } else {
-          el.component.close()
-        }
-      }
-    })
-  }
-})*/
+
