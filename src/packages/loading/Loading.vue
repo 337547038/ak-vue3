@@ -5,6 +5,7 @@
       v-show="state.visible"
       :style="{ backgroundColor: background || '', 'z-index': zIndex }"
       :class="{
+        'no-background': background === 'none',
         [prefixCls + '-loading-full']: !el,
         [prefixCls + '-loading']: true
       }"

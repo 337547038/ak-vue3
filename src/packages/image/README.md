@@ -3,6 +3,7 @@
 ### 基本使用
 
 通过`fit`确定图片如何适应到容器框
+
 ```vue demo
 <template>
   <div class="image-demo">
@@ -22,8 +23,62 @@
 <script setup lang="ts">
   import { ref } from 'vue'
   const fits = ['fill', 'contain', 'cover', 'none', 'scale-down']
-  const intro=['']
   const url = './image/img2.png'
+</script>
+
+```
+
+### 设置边框圆角
+
+```vue demo
+<template>
+  <div class="image-demo">
+    <ak-image style="width: 100px; height: 100px" src="./image/img2.png" border fit="contain"/>
+    <ak-image style="width: 100px; height: 100px" src="./image/img2.png" radius="50%"/>
+  </div>
+</template>
+
+```
+
+### 占位符，加载状态，加载异常
+
+```vue demo
+<template>
+  <div class="image-demo">
+    <ak-image style="width: 100px; height: 100px" src="./image/img2.png">
+    <template #placeholder>
+      加载中...
+    </template>
+    </ak-image>
+    <ak-image style="width: 100px; height: 100px" src="./image/img20.png">
+    <template #error>
+      自定义加载失败
+    </template>
+    </ak-image>
+    <ak-image style="width: 100px; height: 100px" src="./image/img20.png">
+    </ak-image>
+  </div>
+</template>
+
+```
+
+### 预览
+
+```vue demo
+<template>
+  <div class="image-demo">
+    <ak-image
+      :src="url"
+      class="cls"
+      style="width: 100px; height: 100px"
+      :previewSrcList="previewSrcList"
+    />
+  </div>
+</template>
+<script setup lang="ts">
+  import { ref } from 'vue'
+  const url = ref('./image/img2.png')
+  const previewSrcList = ['./image/img1.png', './image/img2.png']
 </script>
 
 ```
@@ -32,13 +87,16 @@
 
 ### Image Props
 
-| 参数               | 类型       | 说明        |
-|------------------|----------|-----------|
-| src              | string   | 图片源地址，同原生属性一致 |
+| 参数               | 类型       | 说明                                                                        |
+|------------------|----------|---------------------------------------------------------------------------|
+| src              | string   | 图片源地址，同原生属性一致                                                             |
 | fit              | string   | 图片如何适应容器框，同原生 object-fit，可选`'fill'｜'contain'｜'cover'｜'none'｜'scale-down'` |
-| alt              | string   | 原生alt属性   |
-| preview-src-list | string[] | 开启图片预览功能   |
-| z-index          | number   | 设置图片预览的 z-index   |
+| alt              | string   | 原生alt属性                                                                   |
+| preview-src-list | string[] | 开启图片预览功能                                                                  |
+| z-index          | number   | 设置图片预览的 z-index                                                           |
+| previewCls       | string   | 图片预览窗口类名                                                                  |
+| border           | boolean  | 显示边框                                                                      |
+| radius           | number   | 圆角                                                                        |
 
 ### Image Slots
 

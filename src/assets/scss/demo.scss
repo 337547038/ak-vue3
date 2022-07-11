@@ -82,9 +82,7 @@ table {width: 100%;border-spacing: 0; border-collapse: collapse;border: 1px soli
   span {margin-right: 10px;}
 }
 .image-demo {display: flex;padding: 10px;
-  > div {border-left: 1px solid #ddd;
-    &:first-child {margin-left: 0}
-  }
+
 }
 .ak-dropdown {margin-right: 10px;}
 
