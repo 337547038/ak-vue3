@@ -6,6 +6,48 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "5831339",
+      "name": "逆时针旋转",
+      "font_class": "rotateLeft",
+      "unicode": "e65a",
+      "unicode_decimal": 58970
+    },
+    {
+      "icon_id": "5831342",
+      "name": "顺时针旋转",
+      "font_class": "rotateRight",
+      "unicode": "e65c",
+      "unicode_decimal": 58972
+    },
+    {
+      "icon_id": "9230689",
+      "name": "1:1",
+      "font_class": "icon-default",
+      "unicode": "e912",
+      "unicode_decimal": 59666
+    },
+    {
+      "icon_id": "2511003",
+      "name": "arrow-r",
+      "font_class": "arrow-r",
+      "unicode": "e788",
+      "unicode_decimal": 59272
+    },
+    {
+      "icon_id": "4777227",
+      "name": "缩小",
+      "font_class": "zoom-out",
+      "unicode": "ec13",
+      "unicode_decimal": 60435
+    },
+    {
+      "icon_id": "4777229",
+      "name": "放大",
+      "font_class": "zoom-in",
+      "unicode": "ec14",
+      "unicode_decimal": 60436
+    },
+    {
       "icon_id": "109756",
       "name": "loading",
       "font_class": "loading",
