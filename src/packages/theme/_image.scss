@@ -16,10 +16,10 @@
     i {font-size: 22px;display: block;margin: 0 5px}
     .rotate-left{transform: rotate(90deg)}
   }
-  .img{max-width: 100%;max-height: 100%;transition: all .3s}
+  .img{max-width: 100%;max-height: 100%;transition: all .3s;width: auto;height: inherit}
 }
-.image-fade-enter-active{animation: image-fade-enter .3s}
-.image-fade-leave-active{animation: image-fade-leave .3s}
+.image-fade-enter-active{animation: image-fade-enter .3s both}
+.image-fade-leave-active{animation: image-fade-leave .3s both}
 @keyframes image-fade-enter{
   0%{opacity: 0}
 }

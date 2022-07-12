@@ -87,16 +87,16 @@
 
 ### Image Props
 
-| 参数               | 类型       | 说明                                                                        |
-|------------------|----------|---------------------------------------------------------------------------|
-| src              | string   | 图片源地址，同原生属性一致                                                             |
+| 参数               | 类型       | 说明                 |
+|------------------|----------|--------------------|
+| src              | string   | 图片源地址，同原生属性一致      |
 | fit              | string   | 图片如何适应容器框，同原生 object-fit，可选`'fill'｜'contain'｜'cover'｜'none'｜'scale-down'` |
-| alt              | string   | 原生alt属性                                                                   |
-| preview-src-list | string[] | 开启图片预览功能                                                                  |
-| z-index          | number   | 设置图片预览的 z-index                                                           |
-| previewCls       | string   | 图片预览窗口类名                                                                  |
-| border           | boolean  | 显示边框                                                                      |
-| radius           | number   | 圆角                                                                        |
+| alt              | string   | 原生alt属性            |
+| preview-src-list | string[] | 开启图片预览功能           |
+| z-index          | number   | 设置图片预览的 z-index    |
+| previewCls       | string   | 图片预览窗口类名           |
+| border           | boolean  | 显示边框               |
+| radius           | string   | 圆角  |
 
 ### Image Slots
 

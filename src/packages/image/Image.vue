@@ -241,12 +241,12 @@
   }
   onMounted(() => {
     nextTick(() => {
-      document.body.appendChild(imagePreview.value)
+      //document.body.appendChild(imagePreview.value)
     })
   })
   onBeforeUnmount(() => {
-    if (imagePreview.value && imagePreview.value.parentNode) {
+    /*if (imagePreview.value && imagePreview.value.parentNode) {
       imagePreview.value.parentNode.removeChild(imagePreview.value)
-    }
+    }*/
   })
 </script>
