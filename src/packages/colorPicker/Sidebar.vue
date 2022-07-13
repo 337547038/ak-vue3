@@ -102,4 +102,5 @@
     if (r === 255 && g === 0) top = (b / 255 + 5) * total
     topStyle.value = top
   }
+  defineExpose({ calcTop })
 </script>

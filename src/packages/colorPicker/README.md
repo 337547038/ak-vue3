@@ -15,6 +15,19 @@
 
 ```
 
+### RGB模式
+
+```vue demo
+<template>
+  <ak-color-picker v-model="color" format="rgb">选择颜色{{ color }}</ak-color-picker>
+</template>
+<script lang="ts" setup>
+  import { ref } from 'vue'
+  const color = ref('#479ba6')
+</script>
+
+```
+
 ## API
 
 ### ColorPicker

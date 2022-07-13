@@ -2,6 +2,7 @@
 <template>
   <div :class="{ active: visible }" class="collapse-panel">
     <div class="collapse-title" @click="slideToggle(1)">
+      <i class="icon-arrow arrow" :class="{ down: visible }"></i>
       <slot></slot>
       <span v-if="$slots.trigger" @click="slideToggle()">
         <slot name="trigger"></slot>

@@ -2,7 +2,11 @@
 @include ns(collapse) {
   .collapse-panel {border-bottom: 1px solid $borderColor;overflow: hidden;}
   /*title*/
-  .collapse-title {height: 50px;line-height: 50px;cursor: pointer;user-select: none}
+  .collapse-title {height: 50px;line-height: 50px;cursor: pointer;user-select: none;display: flex;align-items: center;
+    .arrow {font-size: 12px;margin-right: 5px;display: block;transform: rotate(-90deg) scale(.8);transition:all .3s;
+      &.down {transform: rotate(0) scale(.8)}
+    }
+  }
   /*content*/
   .collapse-content {padding: 10px;overflow: hidden;transition: all .3s;
   }

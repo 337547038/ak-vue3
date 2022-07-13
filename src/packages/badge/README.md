@@ -87,9 +87,9 @@
 
 ### Badge
 
-| 参数  | 类型          | 说明                         |
-| ----- | ------------- | ---------------------------- |
-| value | String/Number | 显示值                       |
-| max   | Number        | 最大值，value 为 Number 有效 |
-| dot   | boolean/false | 显示小圆点                   |
+| 参数  | 类型          | 说明                                                                    |
+| ----- | ------------- |-----------------------------------------------------------------------|
+| value | String/Number | 显示值                                                                   |
+| max   | Number        | 最大值，value 为 Number 有效，默认99                                            |
+| dot   | boolean/false | 显示小圆点                                                                 |
 | type  | String        | 支持 `default`、`primary`、`success`、`warning`、`danger`、五种类型，默认为 `danger` |

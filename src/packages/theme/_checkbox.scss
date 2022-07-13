@@ -3,13 +3,14 @@
   > span {display: flex;align-items: center}
   /*默认*/
   .checkbox-text {margin-left: 5px}
-  .checkbox-inner {border: 1px solid $borderColor;border-radius: 2px;box-sizing: border-box;width: 14px;height: 14px;display: flex;align-items: center;justify-content: center;
+  .checkbox-inner {border: 1px solid $borderColor;border-radius: 2px;box-sizing: border-box;width: 14px;height: 14px;display: flex;align-items: center;justify-content: center;transition: all .3s;
 
     &:hover {opacity: .8}
 
     &:before {font-size: 12px;display: block;opacity: 0;transform: scale(0);transition: opacity .3s, transform .3s;}
 
     &.checked {
+      &.checkbox-inner{border-color: $primaryColor}
       &:before {opacity: 1;transform: scale(.9);color: $primaryColor;}
     }
   }
