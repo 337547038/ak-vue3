@@ -6,7 +6,7 @@
       :class="{
         [prefixCls + '-table']: true,
         [className]: className,
-        'is-scroll': width
+        'is-scroll': width || height
       }"
       :style="{
         width: width,
@@ -68,6 +68,7 @@
         class="table-drag-line"
       ></div>
     </div>
+    <div class="table-page-space" v-if="Object.keys(pagination).length"></div>
     <Pagination
       v-if="Object.keys(pagination).length > 0"
       :total="data && data.length"
@@ -125,7 +126,7 @@
     {
       data: () => [],
       hover: true,
-      border: true,
+      border: false,
       stripe: true,
       ellipsis: true,
       showHeader: true,

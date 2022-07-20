@@ -19,7 +19,7 @@
       .icon-close {font-size: 12px;position: relative;top: -3px;left: 3px}
     }
   }
-  .tabs-content {padding: 20px;}
+  .tabs-content {padding: 20px;overflow: hidden;}
   &.bottom {
     .tabs-nav {order: 1}
   }
@@ -33,3 +33,15 @@
     .tabs-nav {order: 1}
   }
 }
+/*@include ns(tabs-transition-enter-active){
+  animation: tabs-transition-in .5s;
+}
+@include ns(tabs-transition-leave-active){
+  animation: tabs-transition-out .1s;
+}
+@keyframes tabs-transition-in {
+  0%{opacity: 0;}
+}
+@keyframes tabs-transition-out {
+  100%{opacity: 0;}
+}*/

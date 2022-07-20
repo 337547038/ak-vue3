@@ -2,7 +2,7 @@
 <template>
   <span ref="el" :class="[`${prefixCls}-tooltip-box`]">
     <slot></slot>
-    <transition :name="transition">
+    <transition :name="`tooltip-${transition}`">
       <div
         v-if="getIf($slots)"
         v-show="state.visible"

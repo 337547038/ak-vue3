@@ -7,11 +7,31 @@
   @include scrollColor();
   table {border-collapse: collapse; border-spacing: 0;margin: 0;padding: 0;width: 100%;border: none;table-layout: fixed;
   }
-  td, th {text-align: left;padding: 8px 10px;box-sizing: border-box;border: 1px solid $borderColor;white-space: nowrap;text-overflow: ellipsis;overflow: hidden;background: $backgroundColor}
+  td, th {text-align: left;padding: 8px 10px;box-sizing: border-box;border: 1px solid $borderColor;white-space: nowrap;text-overflow: ellipsis;overflow: hidden;background: $backgroundColor;
+    // 添加两个滚动固定时的分隔线效果样式
+    &.fixed-left,&.fixed-right {transform: translateZ(10px);position: relative;
+      &:after{box-shadow: inset 10px 0 10px -10px rgba(0, 0, 0, .15);   content: "";
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 10px;
+        bottom: -1px;
+        touch-action: none;
+        }
+    }
+    &.fixed-right{
+      &:after{right: auto;left: 0}
+    }
+  }
   tr:nth-child(odd) td { background: lighten($primaryColor, 45) }
   tr:hover td { background: lighten($primaryColor, 42); transition: background .5s }
   .no-border {border: none;
     td, th {border: none;border-bottom: 1px solid $borderColor;}
+    .transform {
+      th {
+        &:before {border-top: none}
+      }
+    }
   }
   .no-ellipsis {table-layout: inherit;
     td, th {}
@@ -79,5 +99,6 @@
   @include ns(page) {
     padding-top: 20px;
   }
-  @include ns(tooltip-box){display: block;width: 100%;overflow: hidden;text-overflow: ellipsis;white-space: nowrap}
+  @include ns(tooltip-box) {display: block;width: 100%;overflow: hidden;text-overflow: ellipsis;white-space: nowrap}
 }
+.table-page-space{height: 20px}

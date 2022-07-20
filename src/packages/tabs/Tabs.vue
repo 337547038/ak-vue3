@@ -46,9 +46,11 @@
     <slot name="content"></slot>
     <div v-if="showContent" class="tabs-content">
       <template v-for="(slot, index) in paneSlots" :key="index">
+        <!--        <transition :name="`${prefixCls}-tabs-transition`">-->
         <div v-show="getShow(slot, index)">
           <RenderSlot :slots="slot.slots" />
         </div>
+        <!--        </transition>-->
       </template>
     </div>
   </div>

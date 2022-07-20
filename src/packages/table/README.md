@@ -148,14 +148,14 @@
   import tableData from './demoJs.json'
 
   const columns = [
-    { type: 'selection', width: '50px', fixed: 'left' },
+    { type: 'selection', width: '50px', fixed: 'left', className:'fixed-left'},
     { type: 'index', label: '序号', width: '50px' },
     { label: '日期', prop: 'date', width: '50px' },
     { label: '姓名', prop: 'name', width: '200px' },
     { label: '省份', prop: 'province', width: '100px' },
     { label: '城市', prop: 'city', width: '100px' },
     { label: '地址', prop: 'address', width: '300px' },
-    { label: '邮编', prop: 'zip', width: '100px', fixed: 'right' }
+    { label: '邮编', prop: 'zip', width: '100px', fixed: 'right', className:'fixed-right'}
   ]
 </script>
 
@@ -845,7 +845,7 @@ const columns = [
 | showHeader     | boolean/true   | 是否显示表头                     |
 | className      | String         | 表格类名                    |
 | hover          | boolean/true   | 鼠标经过显示高亮                   |
-| border         | boolean/true   | 是否显示表格纵向边框                 |
+| border         | boolean/false  | 是否显示表格纵向边框                 |
 | stripe         | boolean/true   | 是否显示间隔斑马纹                  |
 | height         | String         | table 的高，溢出显示滚动条，且表头固定  |
 | width          | String         | 表格外层 div 的宽，当单元格总和大于表格 width 时，出现横向滚动条 |

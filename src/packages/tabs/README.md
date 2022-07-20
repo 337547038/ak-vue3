@@ -7,10 +7,10 @@
 ```vue demo
 <template>
   <ak-tabs>
-    <ak-tab-pane label="用户管理">用户管理</ak-tab-pane>
-    <ak-tab-pane label="配置管理">配置管理</ak-tab-pane>
-    <ak-tab-pane label="角色管理">角色管理</ak-tab-pane>
-    <ak-tab-pane label="定时任务补偿">定时任务补偿</ak-tab-pane>
+    <ak-tab-pane label="用户管理">人生若只如初见，何事秋风悲画扇</ak-tab-pane>
+    <ak-tab-pane label="配置管理">众里寻他千百度，蓦然回首，那人却在，灯火阑珊处</ak-tab-pane>
+    <ak-tab-pane label="角色管理">问世间情为何物，直教生死相许</ak-tab-pane>
+    <ak-tab-pane label="定时任务补偿">同是天涯沦落人，相逢何必曾相识</ak-tab-pane>
   </ak-tabs>
 </template>
 ```
@@ -22,10 +22,10 @@
 ```vue demo
 <template>
   <akTabs>
-    <ak-tab-pane label="用户管理">用户管理</ak-tab-pane>
-    <ak-tab-pane label="配置管理" :disabled="true">配置管理</ak-tab-pane>
-    <ak-tab-pane label="角色管理">角色管理</ak-tab-pane>
-    <ak-tab-pane label="定时任务补偿">定时任务补偿</ak-tab-pane>
+    <ak-tab-pane label="用户管理">人生若只如初见，何事秋风悲画扇</ak-tab-pane>
+    <ak-tab-pane label="配置管理" :disabled="true">众里寻他千百度，蓦然回首，那人却在，灯火阑珊处</ak-tab-pane>
+    <ak-tab-pane label="角色管理">问世间情为何物，直教生死相许</ak-tab-pane>
+    <ak-tab-pane label="定时任务补偿">同是天涯沦落人，相逢何必曾相识</ak-tab-pane>
   </akTabs>
 </template>
 ```

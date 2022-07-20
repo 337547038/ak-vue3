@@ -7,7 +7,7 @@
 ```vue demo
 <template>
   <div class="image-demo">
-    <div v-for="fit in fits" :key="fit">
+    <div v-for="fit in fits" :key="fit" class="list">
       <span>{{ fit }}</span>
       <ak-image style="width: 100px; height: 100px" :src="url" :fit="fit" />
     </div>

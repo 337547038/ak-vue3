@@ -67,10 +67,8 @@
 .slide-toggle-top-enter-active { animation: slideDown .3s; transform-origin: center bottom }
 .slide-toggle-top-leave-active { animation: slideUp .3s; transform-origin: center bottom }
 @keyframes slideDown {
-  0% { opacity: 0; transform: scaleY(0); }
-  100% { opacity: 1; transform: scaleY(1); }
+  0% { opacity: 0; transform: scaleY(0) translate(30px,0) }
 }
 @keyframes slideUp {
-  0% { opacity: 1; transform: scaleY(1); }
-  100% { opacity: 0; transform: scaleY(0); }
+  100% { opacity: 0; transform: scaleY(0) translate(-30px,0)}
 }
