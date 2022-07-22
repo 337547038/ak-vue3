@@ -2,7 +2,7 @@
 
 # Message 信息弹窗
 
-为方便使用，定义了`Dialog`,`Alert`,`Confirm`,`Msg`三种以适应不同场景，如果需要弹出较为复杂的内容，请使用 `Dialog`。
+为方便使用，定义了`Dialog`,`Alert`,`Confirm`,`Msg`三种以适应不同场景，如果需要弹出较为复杂的内容，请使用 `Dialog`。可使用`inject`,`getCurrentInstance`和`Vue2`选项卡的方式，使用`this.$msg()`方式调用。同时定义了`clear`用于移除所有`message`提示
 
 ### Alert
 
@@ -48,7 +48,7 @@
 
   const instance = getCurrentInstance()
   const alertOpen = () => {
-    instance.proxy.$alert('这是alert的内容', {
+    instance.proxy.$confirm('这是alert的内容', {
       icon: 2,
       callback: (close) => {
         alert('确认回调事件')

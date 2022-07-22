@@ -166,6 +166,10 @@ const expand: any = {
   upload: {
     title: '上传',
     group: 'form'
+  },
+  slider: {
+    title: '滑块',
+    group: 'data'
   }
 }
 export const routes: any = []

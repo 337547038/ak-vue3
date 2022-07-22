@@ -63,6 +63,7 @@ https://github.com/337547038/vite-react
 - [x] Drawer 抽屉
 - [x] Tag 标签
 - [x] Popover 提示框
+- [x] Slider 滑块
 
 ## 开发
 

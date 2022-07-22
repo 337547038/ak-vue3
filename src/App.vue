@@ -25,7 +25,6 @@
 </template>
 <script lang="ts" setup>
   import { routes } from './router'
-  import { ref } from 'vue'
 
   let visible = true
   const getName = (name: string) => {

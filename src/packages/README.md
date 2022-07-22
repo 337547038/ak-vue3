@@ -26,3 +26,7 @@ Vue.use(Component);
 ```javascript
 import Button from "../packages/button.vue";
 ```
+
+## 可打包
+
+可使用命令`npm run build:lib`将组件资源打包成一个js文件
