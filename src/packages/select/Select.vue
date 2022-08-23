@@ -93,6 +93,7 @@
     (e: 'input', value: string): void
     (e: 'focus', value: string): void
     (e: 'blur', value: string): void
+    (e: 'toggleClick', value: boolean): void
   }>()
 
   interface StateType {
@@ -303,6 +304,7 @@
         }
       }
     }
+    emits('toggleClick', val)
   }
   const slideUp = () => {
     selectDownEl.value.slideUp()
