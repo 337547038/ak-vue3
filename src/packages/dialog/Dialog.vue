@@ -95,7 +95,7 @@
 
   // import { AnyPropName } from '../types'
 
-  export interface stateStyle {
+  export interface StateStyle {
     //[propName: string]: any
     autoTime: number
     visible: boolean
@@ -103,6 +103,7 @@
     top?: string
     moveFlag: boolean
     scrollbar: any
+    isDestroy: boolean
   }
 
   const props = withDefaults(
@@ -132,6 +133,7 @@
       isAlert?: boolean // 用于区别引用形式，组件或者是插件，不需要通过外部传参。true时关闭弹窗时同时从body移除
       remove?: Function // 用于移动message弹窗
       icon?: string | number // 主要用于this.$dialog中常见的几种提示
+      close?: Function // 关闭动画完成时回调
     }>(),
     {
       zIndex: 999,
@@ -156,13 +158,14 @@
   const el = ref()
   const headEl = ref()
   const dialogEl = ref()
-  const state = reactive<stateStyle>({
+  const state = reactive<StateStyle>({
     autoTime: props.autoClose, // 自动关闭时间
     visible: props.modelValue, // 控制窗口显示隐藏
     left: '',
     top: props.top,
     moveFlag: false,
-    scrollbar: {}
+    scrollbar: {},
+    isDestroy: false
   })
   let clearTime = 0
   watch(
@@ -208,6 +211,7 @@
     autoCloseFn() // 调用自动关闭
     setScrollBarLock(true) // 锁住
   }
+  const duration = 500 // 动画完成时间，由css控制，这里设个500
   const close = () => {
     state.visible = false
     if (props.autoClose) {
@@ -217,10 +221,16 @@
     if (props.isAlert && props.remove) {
       window.setTimeout(() => {
         props.remove && props.remove()
-      }, 500)
+      }, duration)
     }
     emits('update:modelValue', false)
     setScrollBarLock(false) // 解锁
+    if (typeof props.close === 'function') {
+      // 动画完成后回调，动画时间由css控制目前设置都为300
+      window.setTimeout(() => {
+        props.close && props.close()
+      }, duration)
+    }
   }
   defineExpose({ open, close })
   const btnClick = (type: string) => {

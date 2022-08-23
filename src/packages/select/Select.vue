@@ -11,6 +11,7 @@
     @delete="deleteClick"
     @input="inputChange"
     @blur="inputBlur"
+    @toggle-click="toggleClick"
   >
     <ul :class="`${prefixCls}-select`">
       <li
@@ -88,16 +89,17 @@
     (e: 'limitChange', value: string[] | string | number): void
     //(e: 'toggleClick', value: boolean, evt: MouseEvent): void
     (e: 'clear'): void
-    (e: 'delete', value: number): void
+    (e: 'delete', value?: number): void
     (e: 'input', value: string): void
     (e: 'focus', value: string): void
     (e: 'blur', value: string): void
   }>()
 
-  interface stateType {
+  interface StateType {
     checked: any
     keywords: string
     setFirst: boolean
+    tempChecked: string
   }
 
   interface FormControlOption {
@@ -109,10 +111,11 @@
   }
 
   const selectDownEl = ref()
-  const state = reactive<stateType>({
+  const state = reactive<StateType>({
     checked: [], // 所有已选择的集合
     keywords: '',
-    setFirst: false // 手动选择改变选项时，在watch时不触发setFirstText事件
+    setFirst: false, // 手动选择改变选项时，在watch时不触发setFirstText事件
+    tempChecked: ''
   })
   // 下拉的数据，存在options插槽里面插入的数据
   let optionsList: FormControlOption = ref(
@@ -277,8 +280,29 @@
         slideUp() // 收起下拉
         emitCom(item)
       }
+      // 判断有没通过点击删除
     }
     evt.stopPropagation()
+  }
+  const toggleClick = (val: boolean) => {
+    if (props.multiple && typeof props.modelValue === 'object') {
+      if (val) {
+        state.tempChecked = JSON.stringify(props.modelValue)
+      } else {
+        // 收起时判断当前所选值是否都包含了展开时的值
+        const tempChecked = JSON.parse(state.tempChecked)
+        let isDel = true
+        console.log(JSON.stringify(props.modelValue))
+        tempChecked.forEach((item: string) => {
+          if ((props.modelValue as any).indexOf(item) === -1) {
+            isDel = false // 有删除
+          }
+        })
+        if (!isDel) {
+          emits('delete', -1)
+        }
+      }
+    }
   }
   const slideUp = () => {
     selectDownEl.value.slideUp()

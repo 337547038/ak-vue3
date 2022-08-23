@@ -321,26 +321,26 @@ export default {
 
 ### Select
 
-| 参数            | 类型            | 说明                                         |
-|---------------|---------------|--------------------------------------------|
-| v-model       | string,array  | 通过v-model绑定，`multiple`时为`array`               |
-| multiple      | boolean/false | 是否多选                                       |
-| multipleLimit | number/0      | 多选时用户最多可以选择的项目数，为 0 则不限制                   |
-| disabled      | boolean/false | 是否禁用                                       |
-| placeholder   | string        | 占位符,value为空时显示。占位符为空时显示options第一项          |
-| filterable    | boolean/false | 是否可搜索，对当前下拉数据筛选                            |
-| async         | boolean/false | 异步搜索，`filterable=true`时有效                    |
-| options       | array         | 下拉选项数据                                     |
+| 参数            | 类型            | 说明                                                   |
+|---------------|---------------|------------------------------------------------------|
+| v-model       | string,array  | 通过v-model绑定，`multiple`时为`array`                      |
+| multiple      | boolean/false | 是否多选                                                 |
+| multipleLimit | number/0      | 多选时用户最多可以选择的项目数，为 0 则不限制                             |
+| disabled      | boolean/false | 是否禁用                                                 |
+| placeholder   | string        | 占位符,value为空时显示。占位符为空时显示options第一项                    |
+| filterable    | boolean/false | 是否可搜索，对当前下拉数据筛选                                      |
+| async         | boolean/false | 异步搜索，`filterable=true`时有效                            |
+| options       | array         | 下拉选项数据                                               |
 | optionsKey    | object        | 指定选择数据的label和value属性，默认{label:'label',value:'value'} |
-| clear         | boolean/false | 是否可以清空选项                                   |
-| downHeight    | Number        | 最大下拉高度，默认200                               |
-| downStyle     | object        | 下拉面板样式，方便对单个select个性化设置，也可通过css控制          |
-| downClass     | string        | 下拉面板类名                                     |
-| appendToBody  | boolean/false | 将下拉面板插入到body                               |
-| direction     | Number/0      | 下拉弹出方向，0自动，1向上，2向下                         |
-| width         | string        | 宽度                                         |
-| beforeChange  | Function      | 选项改变前事件,`return false`阻止选择                   |
-| size          | string        | 添加的大小尺寸样式                                  |
+| clear         | boolean/false | 是否可以清空选项                                             |
+| downHeight    | Number        | 最大下拉高度，默认200                                         |
+| downStyle     | object        | 下拉面板样式，方便对单个select个性化设置，也可通过css控制                    |
+| downClass     | string        | 下拉面板类名                                               |
+| appendToBody  | boolean/false | 将下拉面板插入到body                                         |
+| direction     | Number/0      | 下拉弹出方向，0自动，1向上，2向下                                   |
+| width         | string        | 宽度                                                   |
+| beforeChange  | Function      | 选项改变前事件,`return false`阻止选择                           |
+| size          | string        | 添加的大小尺寸样式                                            |
 
 ### Options Attributes
 
@@ -353,15 +353,15 @@ export default {
 
 ### Select Events
 
-|参数|说明|
-|----------|--------|
-|change       |选中值发生变化时触发|
-|limitChange  |超出最大选择数时事件，仅`multiple=true`和设定了`multipleLimit`时有效|
-| input       | 可搜索时输入框改变事件    |
-| blur        | 可搜索时输入框焦点事件    |
-| focus       | 可搜索时输入框获得焦点事件  |
-| clear       | 清空事件           |
-| delete      | 删除单个选项,多选时有效   |
+| 参数          | 说明                                                |
+|-------------|---------------------------------------------------|
+| change      | 选中值发生变化时触发                                        |
+| limitChange | 超出最大选择数时事件，仅`multiple=true`和设定了`multipleLimit`时有效 |
+| input       | 可搜索时输入框改变事件                                       |
+| blur        | 可搜索时输入框焦点事件                                       |
+| focus       | 可搜索时输入框获得焦点事件                                     |
+| clear       | 清空事件                                              |
+| delete      | 删除单个选项,多选时有效                                      |
 
 ### Select Method
 

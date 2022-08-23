@@ -1,17 +1,31 @@
 <template>
-  <div>
-    <p>展示标记{{ value1 }}</p>
-    <div><ak-slider v-model="value1" :marks="marks" /></div>
-  </div>
+  <p>
+    <ak-select
+      v-model="value1"
+      placeholder="请选择"
+      :options="options"
+      multiple
+      @delete="deleteOptions"
+    />
+  </p>
 </template>
 <script lang="ts" setup>
   import { ref } from 'vue'
-  const value1 = ref(80)
-  const marks = ref({
-    0: 'start',
-    25: '25%',
-    50: 'center',
-    75: '75%',
-    100: '<i style="color:red">end</i>'
-  })
+
+  const options = ref([
+    { label: '选项1', value: 1 },
+    { label: '选项2', value: '2' },
+    { label: '选项3', value: '3' },
+    { label: '选项4', value: '4', disabled: true },
+    { label: '选项5', value: '5' },
+    { label: '6' },
+    { label: '选项7', value: '7' },
+    { label: '选项8', value: '8' },
+    { label: '选项9', value: '9' },
+    { label: '选项10', value: '10', class: 'red' }
+  ])
+  const value1 = ref([])
+  const deleteOptions=(index:number)=>{
+    console.log(index)
+  }
 </script>
