@@ -6,6 +6,19 @@
 
 https://337547038.github.io/ak-vue3/
 
+## 使用
+
+1.将`/src/packages`复制到你的项目目录下，然后在`main.js`中引入并注册即可;
+
+2.复制`/public/static/iconfont`到项目下，在`index.html`引入组件所需的字体图标；
+
+```javascript
+import AKUI from './packages'
+app.use(AKUI)
+```
+
+喜欢发npm的同学可将项目克隆并运行起来，然后使用`build:lib`命令将组件打包，`package.json`配置可参考`vite`官网，完成打包后将配置好的`package.json`复制到生成的目录`dist`。最后发布到你npm。
+
 ## vue2 版本
 
 <font color="#f00">vue2.x 版本的请点击这里进去</font>
