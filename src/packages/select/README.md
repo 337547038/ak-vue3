@@ -317,6 +317,49 @@ export default {
 
 ```
 
+### 创建新的选项
+
+可以创建并选中选项中不存在的条目
+
+通过使用 `allow-create` 属性，用户可以通过输入框创建新项目。 为了使 allow-create 正确的工作， filterable 的值必须为 true. 按下回车就可以选中当前选项列表中的第一个选项。
+
+```vue demo
+<template>
+  <p>
+    <ak-select
+      v-model="value1"
+      placeholder="请选择"
+      :options="options"
+      multiple
+      filterable
+      allow-create
+      @delete="deleteOptions"
+    />
+  </p>
+</template>
+<script lang="ts" setup>
+  import { ref } from 'vue'
+
+  const options = ref([
+    { label: '选项1', value: 1 },
+    { label: '选项2', value: '2' },
+    { label: '选项3', value: '3' },
+    { label: '选项4', value: '4', disabled: true },
+    { label: '选项5', value: '5' },
+    { label: '6' },
+    { label: '选项7', value: '7' },
+    { label: '选项8', value: '8' },
+    { label: '选项9', value: '9' },
+    { label: '选项10', value: '10', class: 'red' }
+  ])
+  const value1 = ref([])
+  const deleteOptions = (index: number) => {
+    console.log(index)
+  }
+</script>
+
+```
+
 ## API
 
 ### Select
@@ -341,6 +384,7 @@ export default {
 | width         | string        | 宽度                                                   |
 | beforeChange  | Function      | 选项改变前事件,`return false`阻止选择                           |
 | size          | string        | 添加的大小尺寸样式                                            |
+| allowCreate   | boolean       | 允许动态创建                                               |
 
 ### Options Attributes
 

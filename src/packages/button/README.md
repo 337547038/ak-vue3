@@ -32,6 +32,14 @@
     <ak-button :plain="true" type="warning">警告按钮</ak-button>
     <ak-button :plain="true" type="text">文字按钮</ak-button>
   </div>
+  <div class="row">
+    <ak-button :plain="true" circle>默</ak-button>
+    <ak-button :plain="true" type="primary" circle>主</ak-button>
+    <ak-button :plain="true" type="success" circle icon="success"></ak-button>
+    <ak-button :plain="true" type="danger" circle>危</ak-button>
+    <ak-button :plain="true" type="warning" circle>警</ak-button>
+    <ak-button :plain="true" type="text" circle>文</ak-button>
+  </div>
 </template>
 ```
 

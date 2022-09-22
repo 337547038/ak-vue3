@@ -52,6 +52,7 @@
       name?: string // btn group中作为唯一标识
       loading?: boolean // 是否加
       plain?: boolean // 是否为朴素按钮
+      circle?: boolean // 是否为圆形
     }>(),
     {
       type: '',
@@ -89,7 +90,8 @@
       [`${prefixCls}-btn-` + props.type]: props.type,
       disabled: disabledOk.value,
       [size]: size,
-      'is-plain': props.plain || groupConfig.plain
+      'is-plain': props.plain || groupConfig.plain,
+      'is-circle': props.circle || groupConfig.plain
     }
   })
   const routerHref = computed(() => {

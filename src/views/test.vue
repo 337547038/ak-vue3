@@ -5,6 +5,8 @@
       placeholder="请选择"
       :options="options"
       multiple
+      filterable
+      allow-create
       @delete="deleteOptions"
     />
   </p>
@@ -25,7 +27,7 @@
     { label: '选项10', value: '10', class: 'red' }
   ])
   const value1 = ref([])
-  const deleteOptions=(index:number)=>{
+  const deleteOptions = (index: number) => {
     console.log(index)
   }
 </script>

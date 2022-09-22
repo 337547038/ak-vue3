@@ -12,6 +12,7 @@
     @input="inputChange"
     @blur="inputBlur"
     @toggle-click="toggleClick"
+    @keyup-enter="keyupEnter"
   >
     <ul :class="`${prefixCls}-select`">
       <li
@@ -73,6 +74,7 @@
       beforeChange?: Function
       async?: boolean
       emptyText?: string
+      allowCreate?: boolean // 允许创建
     }>(),
     {
       options: () => [],
@@ -247,7 +249,7 @@
     if (!item.disabled) {
       if (props.beforeChange && !props.beforeChange(item)) {
         slideUp()
-        evt.stopPropagation()
+        evt && evt.stopPropagation()
         return
       }
       let activeValue = getValueLabel(item) as string
@@ -283,7 +285,7 @@
       }
       // 判断有没通过点击删除
     }
-    evt.stopPropagation()
+    evt && evt.stopPropagation()
   }
   const toggleClick = (val: boolean) => {
     if (props.multiple && typeof props.modelValue === 'object') {
@@ -319,6 +321,7 @@
     if (!props.multiple) {
       val = val[0] || ''
     }
+    // console.log(item)
     emits('update:modelValue', val)
     controlChange && controlChange(val)
     emits('change', val, item) // 改变事件
@@ -351,6 +354,29 @@
   provide(`${prefixCls}GetChildOption`, (item: any) => {
     optionsList.value.push(item)
   })
+  // 输入框回车事件
+  const keyupEnter = (val: string) => {
+    if (!props.allowCreate) {
+      return false
+    }
+    const filter = optionsList.value.filter((item: any) =>
+      item[optLabel].includes(val)
+    )
+    if (filter && filter.length > 0) {
+      // 存时，则选中第一项
+      // @ts-ignore
+      itemClick(filter[0] as any, '')
+    } else {
+      // 添加一向到options，并更新modelValue
+      const newObj: any = {
+        [optLabel]: val,
+        [optValue]: val
+      }
+      state.checked = [val]
+      optionsList.value.push(newObj)
+      emitCom(newObj)
+    }
+  }
   onMounted(() => {
     setFirstText()
   })

@@ -58,6 +58,7 @@
               @input="inputInput"
               @focus="inputFocus"
               @blur="inputBlur"
+              @keyup.enter="keyupEnter"
             />
           </li>
         </ul>
@@ -72,6 +73,7 @@
         @input="inputInput"
         @focus="inputFocus"
         @blur="inputBlur"
+        @keyup.enter="keyupEnter"
       />
       <span class="group-icon">
         <i
@@ -168,6 +170,7 @@
     (e: 'delete', value: number): void
     (e: 'input', value: string | string[], index?: number): void
     (e: 'focus', value: string | string[], index?: number): void
+    (e: 'keyupEnter', value: string): void
   }>()
   const el = ref()
   const selectDown = ref()
@@ -273,6 +276,11 @@
   }
   const inputFocus = (e: Event, index?: number) => {
     mouseEvent(e, 'focus', index)
+  }
+  // 回车事件
+  const keyupEnter = (evt: Event) => {
+    const { value } = evt.target as HTMLInputElement
+    emits('keyupEnter', value)
   }
   // 计算插入body的位置样式
   const setAppendToBodyStyle = () => {
