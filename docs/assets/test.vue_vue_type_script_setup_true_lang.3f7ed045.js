@@ -1,0 +1,1 @@
+import{d as l,o as c,c as u,e as s}from"./index.63698d83.js";const d=["value"],r=l({__name:"test",props:{modelValue:null},emits:["update:modelValue","change"],setup(n,{emit:a}){const o=t=>{const{value:e}=t.target;a("update:modelValue",e),a("change",e)};return(t,e)=>(c(),u("div",null,[s("input",{value:n.modelValue,onChange:o},null,40,d)]))}});export{r as _};

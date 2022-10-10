@@ -480,7 +480,7 @@
         options: []
       },
       config: {
-        url: '/static/mock/testData.json',
+        url: './static/mock/testData.json',
         method: 'get',
         params: {}, // 请求的参数
         afterResponse: (res) => { // 请求结果，可对数据处理后返回
@@ -529,8 +529,8 @@
         options: []
       },
       config: {
-        url: '/static/mock/testData.json?name=${text}',
-        method: 'post',
+        url: './static/mock/testData.json?name=${text}',
+        method: 'get',
         params: {}
       }
     }
@@ -614,38 +614,16 @@
   import test from './test.vue'
   const data = ref([
     {
-      type: 'input',
-      name: 'text',
-      formItem: {
-        label: 'test'
-      },
-      control: {
-        value: '',
-        placeholder: '请输入'
-      }
-    },
-    {
       type: 'component',
       name: 'component',
       formItem: {
-        label: 'test'
+        label: '自定义组件'
       },
       control: {
         value: '6',
         placeholder: '请输入'
       },
       component: markRaw(test)
-    },
-    {
-      type: 'checkbox',
-      name: 'checkbox',
-      formItem: {
-        label: 'checkbox'
-      },
-      control: {
-        value: [],
-        options: []
-      }
     }
   ])
 </script>
