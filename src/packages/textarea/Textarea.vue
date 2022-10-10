@@ -4,7 +4,7 @@
     <textarea
       ref="textareaEl"
       v-bind="$attrs"
-      v-model="textValue"
+      :value="textValue"
       :class="{ [`${prefixCls}-input-control`]: true, disabled: disabledOk }"
       :style="style"
       :disabled="disabledOk"
@@ -45,6 +45,12 @@
   }>()
 
   const textValue = ref(props.modelValue)
+  watch(
+    () => props.modelValue,
+    (val) => {
+      textValue.value = val
+    }
+  )
   const border = ref(2)
   const textareaEl = ref()
   const height = ref(props.height)

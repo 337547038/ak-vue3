@@ -264,22 +264,22 @@
 
 ### Form Props
 
-|参数|类型|说明|
-|----------|--------------|--------|
-|v-model        | object          |表单值|
-|rules          | object          |校验规则|
-|showMessage    | boolean/true   |显示错误提示|
-|trigger        | string/change  |表单控件校验触发类型，change和blur两种|
-|labelWidth     | string         |label的宽度|
-|required       | boolean/true   |是否根据验证规则自动生成必填样式名|
-|size           | string         |用于控制该表单内组件的尺寸，medium / small / mini|
-|disabled       | boolean/true   |表单禁用状态，影响子级formItem,button及formItem下所有表单控件|
+| 参数          | 类型            | 说明                                         |
+|-------------|---------------|--------------------------------------------|
+| v-model     | object        | 表单值                                        |
+| rules       | object        | 校验规则                                       |
+| showMessage | boolean/true  | 显示错误提示                                     |
+| trigger     | string/change | 表单控件校验触发类型，change和blur两种                   |
+| labelWidth  | string        | label的宽度                                   |
+| required    | boolean/true  | 是否根据验证规则自动生成必填样式名                          |
+| size        | string        | 用于控制该表单内组件的尺寸，medium / small / mini        |
+| disabled    | boolean/true  | 表单禁用状态，影响子级formItem,button及formItem下所有表单控件 |
 
 ### Form Methods
 
-|参数| 说明                                               |
-|----------|--------------------------------------------------|
-|validate       | 对单个表单项进行校验的方法，Promise返回验证结果                      |
-|clearValidate  | 移除表单项的校验结果。传入待移除的表单项的 prop 组成的数组，如不传则移除整个表单的校验结果 |
-|resetForm      | 重置表单                                             |
-|setValue       | 使用resetForm功能时，当表单数据发生改变，需使用setValue设置           |
+| 参数            | 说明                                               |
+|---------------|--------------------------------------------------|
+| validate      | 对单个表单项进行校验的方法，Promise返回验证结果，可接受一个参数用于对指定项校验      |
+| clearValidate | 移除表单项的校验结果。传入待移除的表单项的 prop 组成的数组，如不传则移除整个表单的校验结果 |
+| resetForm     | 重置表单                                             |
+| setValue      | 使用resetForm功能时，当表单数据发生改变，需使用setValue设置           |

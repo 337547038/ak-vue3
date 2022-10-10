@@ -1,33 +1,45 @@
 <template>
-  <p>
-    <ak-select
-      v-model="value1"
-      placeholder="请选择"
-      :options="options"
-      multiple
-      filterable
-      allow-create
-      @delete="deleteOptions"
-    />
-  </p>
+  <div>
+    <ak-auto-form :data="data" />
+  </div>
 </template>
-<script lang="ts" setup>
-  import { ref } from 'vue'
-
-  const options = ref([
-    { label: '选项1', value: 1 },
-    { label: '选项2', value: '2' },
-    { label: '选项3', value: '3' },
-    { label: '选项4', value: '4', disabled: true },
-    { label: '选项5', value: '5' },
-    { label: '6' },
-    { label: '选项7', value: '7' },
-    { label: '选项8', value: '8' },
-    { label: '选项9', value: '9' },
-    { label: '选项10', value: '10', class: 'red' }
+<script setup>
+  import { ref, markRaw } from 'vue'
+  import test from '../packages/autoForm/test.vue'
+  const data = ref([
+    {
+      type: 'input',
+      name: 'text',
+      formItem: {
+        label: 'test'
+      },
+      control: {
+        value: '',
+        placeholder: '请输入'
+      }
+    },
+    {
+      type: 'component',
+      name: 'component',
+      formItem: {
+        label: 'test'
+      },
+      control: {
+        value: '',
+        placeholder: '请输入'
+      },
+      component: markRaw(test)
+    },
+    {
+      type: 'checkbox',
+      name: 'checkbox',
+      formItem: {
+        label: 'checkbox'
+      },
+      control: {
+        value: [],
+        options: []
+      }
+    }
   ])
-  const value1 = ref([])
-  const deleteOptions = (index: number) => {
-    console.log(index)
-  }
 </script>

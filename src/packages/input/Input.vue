@@ -113,7 +113,7 @@
   const inputHandler = (e: Event) => {
     const { value } = e.target as HTMLInputElement
     emits('update:modelValue', value)
-    controlChangeEvent(value)
+    controlChangeEvent(value, 'change')
   }
   const clearValue = () => {
     emits('update:modelValue', '')

@@ -91,6 +91,7 @@
   )
   const emits = defineEmits<{
     (e: 'update:modelValue', modelValue: any): void
+    (e: 'change', modelValue: any): void // 手动输入改变事件
   }>()
   const formProps: any = inject(`${prefixCls}FormProps`, {})
   let formRules
@@ -251,6 +252,9 @@ bool = true
   provide(`${prefixCls}ControlChange`, (val: any, type: string) => {
     if (props.type) {
       emits('update:modelValue', val)
+    }
+    if (type === 'change' || !type) {
+      emits('change', val)
     }
     state.controlValue = val
     // 将组件值存起来，不触发其他操作，在没有手动触发时也使用validate来校验

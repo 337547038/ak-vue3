@@ -61,7 +61,7 @@
     const val = props.value || true
     emits('change', val)
     emits('update:modelValue', val)
-    controlChange && controlChange(val)
+    controlChange && controlChange(val, 'change')
   }
   watch(
     () => props.modelValue,

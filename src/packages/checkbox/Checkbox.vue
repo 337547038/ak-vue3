@@ -93,7 +93,7 @@
     emits('change', val)
     emits('update:modelValue', val)
     // controlChange && controlChange(val)
-    controlChangeEvent(val)
+    controlChangeEvent(val, 'change')
   }
   watch(
     () => props.modelValue,
