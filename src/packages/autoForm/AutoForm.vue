@@ -280,7 +280,7 @@
         method: method,
         url: replaceUrl,
         data: urlParams,
-        params: method === 'get' ? urlParams : {}
+        params: method === 'get' ? params : {}
       })
         .then((res: any) => {
           let result = res.data.data

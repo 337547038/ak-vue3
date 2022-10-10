@@ -4,8 +4,7 @@
   </div>
 </template>
 <script setup>
-  import { ref, markRaw } from 'vue'
-  import test from '../packages/autoForm/test.vue'
+  import { ref } from 'vue'
   const data = ref([
     {
       type: 'input',
@@ -19,26 +18,19 @@
       }
     },
     {
-      type: 'component',
-      name: 'component',
+      type: 'radio',
+      name: 'radio',
       formItem: {
-        label: 'test'
+        label: 'radio'
       },
       control: {
         value: '',
-        placeholder: '请输入'
-      },
-      component: markRaw(test)
-    },
-    {
-      type: 'checkbox',
-      name: 'checkbox',
-      formItem: {
-        label: 'checkbox'
-      },
-      control: {
-        value: [],
         options: []
+      },
+      config: {
+        url: './static/mock/testData.json?name=${text}',
+        method: 'get',
+        params: {}
       }
     }
   ])
