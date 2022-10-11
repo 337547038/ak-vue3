@@ -87,7 +87,7 @@
     }
   )
   const getColumnsFilter = (index: number) => {
-    console.log(index)
+    // console.log(index)
     return getColumns.value.filter((item: any) => {
       return item.type !== 'extend' && item._layer === index
     })

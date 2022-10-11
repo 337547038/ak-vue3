@@ -53,7 +53,7 @@
     emits: ['cellClick', 'toggleExtend'],
     setup(props, { emit }) {
       /*onMounted(() => {
-    })*/
+  })*/
       const setSelectedRows = inject(`${prefixCls}SetSelectedRows`) as any
 
       let classNameTd = ref(props.column.fixed)
@@ -121,6 +121,26 @@
             parentRow: props.parentRow
           })
         } else if (props.column.formatter) {
+          if (['date', 'dateTime'].includes(props.column.formatter)) {
+            if (val) {
+              function pS(num: number) {
+                return num.toString().padStart(2, '0')
+              }
+              const date = new Date(val)
+              const ymd = `${date.getFullYear()}-${pS(
+                date.getMonth() + 1
+              )}-${pS(date.getDate())}`
+              switch (props.column.formatter) {
+                case 'dateTime':
+                  return `${ymd} ${pS(date.getHours())}:${pS(
+                    date.getMinutes()
+                  )}:${pS(date.getSeconds())}`
+                default:
+                  return ymd
+              }
+            }
+            return val
+          }
           return props.column.formatter(
             props.row,
             props.column,
@@ -145,72 +165,84 @@
           }
           //return h(Tooltip, obj, h('span', { class: 'td-tooltip' }, val))
           /*return h(
-            Tooltip,
-            obj,
-            h('span', { class: 'td-tooltip' }, () => {
-              return val
-            })
-          )*/
+          Tooltip,
+          obj,
+          h('span', { class: 'td-tooltip' }, () => {
+            return val
+          })
+        )*/
           return h(Tooltip, obj, () => {
             return val
           })
         } else if (typeof props.column.tag === 'object') {
+          if (!val) {
+            return val
+          }
           const obj = Object.assign({ size: 'small' }, props.column.tag, {
             type: props.column.tag.dict[val]
           })
+          let dictVal = val
+          if (typeof props.column.dict === 'object') {
+            dictVal = props.column.dict[val]
+          }
           //return h(Tag, obj, val)
           return h(Tag, obj, () => {
-            return val
+            return dictVal
           })
         } else if (props.column.type === 'index') {
           return props.index + 1
+        } else if (typeof props.column.dict === 'object') {
+          if (val) {
+            return props.column.dict[val]
+          }
+          return val
         } else {
           return val
         }
       }
       /*const rowspanColspanList = (val: string) => {
-        const list = props.rowspanColspanList
-        if (list.indexOf(val) === -1) {
-          // 没有才添加
-          list.push(val)
-        }
-      }*/
+      const list = props.rowspanColspanList
+      if (list.indexOf(val) === -1) {
+        // 没有才添加
+        list.push(val)
+      }
+    }*/
       /*if (props.rowColSpan) {
-        // 有合并方法
-        const merge = props.rowColSpan(
-          props.index,
-          props.columnIndex,
-          props.row,
-          props.column
-        )
-        if (merge) {
-          // 合并方法有返回值的单元格
-          // 大于1时
-          colspan = merge[1] > 1 ? merge[1] : 1
-          rowspan = merge[0] > 1 ? merge[0] : 1
-          // 计算出合并后不显示的单元格，如1和2合并=>显示1不显示2
-          // 这里处理同一行
-          for (let i = 1; i < colspan; i++) {
+      // 有合并方法
+      const merge = props.rowColSpan(
+        props.index,
+        props.columnIndex,
+        props.row,
+        props.column
+      )
+      if (merge) {
+        // 合并方法有返回值的单元格
+        // 大于1时
+        colspan = merge[1] > 1 ? merge[1] : 1
+        rowspan = merge[0] > 1 ? merge[0] : 1
+        // 计算出合并后不显示的单元格，如1和2合并=>显示1不显示2
+        // 这里处理同一行
+        for (let i = 1; i < colspan; i++) {
+          const col = props.columnIndex + i
+          rowspanColspanList(`${props.index}:${col}`)
+        }
+        // 这里处理不同行时，即纵向合并
+        for (let j = 1; j < rowspan; j++) {
+          for (let i = 0; i < colspan; i++) {
             const col = props.columnIndex + i
-            rowspanColspanList(`${props.index}:${col}`)
-          }
-          // 这里处理不同行时，即纵向合并
-          for (let j = 1; j < rowspan; j++) {
-            for (let i = 0; i < colspan; i++) {
-              const col = props.columnIndex + i
-              const rol = props.index + j
-              rowspanColspanList(`${rol}:${col}`)
-            }
+            const rol = props.index + j
+            rowspanColspanList(`${rol}:${col}`)
           }
         }
-        const activeRowCol = `${props.index}:${props.columnIndex}`
-        const displayArr = ref(props.rowspanColspanList).value
-        if (displayArr) {
-          if (displayArr.indexOf(activeRowCol) !== -1) {
-            display = true
-          }
+      }
+      const activeRowCol = `${props.index}:${props.columnIndex}`
+      const displayArr = ref(props.rowspanColspanList).value
+      if (displayArr) {
+        if (displayArr.indexOf(activeRowCol) !== -1) {
+          display = true
         }
-      }*/
+      }
+    }*/
       if (!display) {
         return () => [
           h(

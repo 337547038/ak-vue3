@@ -421,7 +421,8 @@ const columns = [
 
 ### 合并行或列
 
-多行或多列共用一个数据时，可以合并行或列。通过给传入`rowColSpan`合并数据可以实现合并行或列，参数(当前行号`row`,当前列号`col`,当前行合并行数`rowSpan`,合并列数`colSpan`)。当`rowSpan`或`colSpan`为0时，表示隐藏当前行或列
+多行或多列共用一个数据时，可以合并行或列。通过给传入`rowColSpan`合并数据可以实现合并行或列，参数(当前行号`row`,当前列号`col`,当前行合并行数`rowSpan`,合并列数`colSpan`)。当`rowSpan`
+或`colSpan`为0时，表示隐藏当前行或列
 
 ```vue demo
 <template>
@@ -686,7 +687,7 @@ const columns = [
 
 ### 使用Tag显示值
 
-使用`Tag`参数`tab={dict:{},...其他所有参数}`，即可在表格中显示`tag`样式
+使用`Tag`参数`tag={dict:{},...tag组件其他所有参数}`，即可在表格中显示`tag`样式
 
 其中`dict`为值对应的`tag`类型，如`dict:{'男':'info','女':'danger'}`，即值为男时显示tag类型为`info`
 
@@ -718,21 +719,79 @@ const columns = [
 通过设置`fixedBottomScroll`可将横向滚动条固定在浏览器底部，`true`时滚动主体为`document`，字符时为当前滚动的区域如`fixedBottomScroll='.scroll`'，则滚动区域为`scroll`
 ，注意：此设置会覆盖`height`属性的值
 
+### 匹配字典/转换值
+
+设置`dict`可对当前值进行转换，如示例状态字段转换；同时支持`tag`，如示例类型字段。对于时间类型时，`formatter`可设置为`date/dateTime`快速输出格式化时间
+
+```vue demo
+<template>
+  <ak-table :data="tableData" :columns="columns" />
+</template>
+<script setup>
+  import { ref } from 'vue'
+
+  const tableData = ref([
+    {
+      date: '2022-10-1',
+      sex: '男',
+      status: 1,
+      type: '1'
+    },
+    {
+      date: 1592751467000,
+      sex: '女',
+      status: '0',
+      type: '2'
+    },
+    {
+      date: '2019-01-29T16:00:00.000+0000',
+      sex: '男',
+      status: '0',
+      type: '3'
+    },
+    {
+      date: '',
+      sex: '女',
+      status: '1',
+      type: '3'
+    }
+  ])
+  const columns = [
+    { type: 'index', label: '序号' },
+    {
+      label: '日期',
+      prop: 'date',
+      formatter: 'dateTime'
+    },
+    { label: '性别', prop: 'sex', tag: { dict: { 男: 'info', 女: 'danger' } } },
+    { label: '状态', prop: 'status', dict: { 1: '启用', 0: '禁用' } },
+    {
+      label: '类型',
+      prop: 'type',
+      dict: { 1: '类型1', 2: '类型2', 3: '类型3' },
+      tag: { dict: { 1: 'danger', 2: 'success' } }
+    }
+  ]
+</script>
+
+```
+
 ### 使用formatter
 
 模板不支持lang='jsx'
 
 ```html
+
 <template>
   <div>
     <ak-table
-    :data="tableData" :columns="columns" />
+      :data="tableData" :columns="columns"/>
   </div>
 </template>
 <script setup lang="jsx">
-  import tableData from './demoJs.json'
+import tableData from './demoJs.json'
 
-  const columns = [
+const columns = [
   {type: 'selection'},
   {type: 'index', label: '序号'},
   {label: '日期', prop: 'date'},
@@ -744,10 +803,10 @@ const columns = [
   {
     label: '操作',
     formatter: () => {
-    return <ak-button size="mini">删除</ak-button>
+      return <ak-button size="mini">删除</ak-button>
+    }
   }
-  }
-  ]
+]
 </script>
 
 ```
@@ -838,69 +897,70 @@ const columns = [
 
 ### Table
 
-| 参数           | 类型             | 说明                         |
-|----------|----------------|----------------------------|
-| data           | array          | 列表数据                       |
-| columns        | array          | 表头数据                       |
-| showHeader     | boolean/true   | 是否显示表头                     |
-| className      | String         | 表格类名                    |
-| hover          | boolean/true   | 鼠标经过显示高亮                   |
-| border         | boolean/false  | 是否显示表格纵向边框                 |
-| stripe         | boolean/true   | 是否显示间隔斑马纹                  |
-| height         | String         | table 的高，溢出显示滚动条，且表头固定  |
-| width          | String         | 表格外层 div 的宽，当单元格总和大于表格 width 时，出现横向滚动条 |
-| ellipsis       | boolean/true   | 表格单元格文字溢出显示...，在不指定列宽时，各列平分表格宽 |
-| emptyText      | String         | 无数据时显示的文本                  |
-| title          | Boolean/true   | 鼠标滑过单元格时显示 title 提示        |
-| drag           | boolean/false  | 允许拖动表头改变当前单元格宽度            |
-| dragLine       | boolean/true   | 拖动时显示垂直线                   |
-| dragWidth      | array          | 允许拖动最大与最小宽度[min,max]       |
-| extendToggle   | boolean/false  | 扩展行/子节点初始展开或收起状态           |
-| rowColSpan     | function       | 合并行或列方法。通过给传入 rowColSpan 方法可以实现合并行或列，方法的参数(当前行号 rowIndex,当前列号 columnIndex,当前行 row,当前列 column)四个属性。该函数返回一个包含两个数字的数组，第一个 rowspan，第二个 colspan，即向纵向和横向合并多少个单元格 |
-| pagination    | object         | 有相关参数时显示分页，参数的pagination组件参数 |
-| hasChild      | boolean/true   | 是否包含子节点数据，为true时，当 `row` 中包含 `children` 字段时，被视为子节点数据 |
-| lazyLoad      | function       | 设置了`lazyLoad`时，被视为子节点使用懒加载方式，function(row,resolve) row当前行信息 |
-| sortSingle    | boolean/false  | 如果设置了排序功能，开启后只能按其中一个字段排序   |
-| fixedBottomScroll    | boolean/string | 固定横向滚动条在底部,可为节点类名|
+| 参数                | 类型             | 说明                                                                                                                                                         |
+|-------------------|----------------|------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| data              | array          | 列表数据                                                                                                                                                       |
+| columns           | array          | 表头数据                                                                                                                                                       |
+| showHeader        | boolean/true   | 是否显示表头                                                                                                                                                     |
+| className         | String         | 表格类名                                                                                                                                                       |
+| hover             | boolean/true   | 鼠标经过显示高亮                                                                                                                                                   |
+| border            | boolean/false  | 是否显示表格纵向边框                                                                                                                                                 |
+| stripe            | boolean/true   | 是否显示间隔斑马纹                                                                                                                                                  |
+| height            | String         | table 的高，溢出显示滚动条，且表头固定                                                                                                                                     |
+| width             | String         | 表格外层 div 的宽，当单元格总和大于表格 width 时，出现横向滚动条                                                                                                                     |
+| ellipsis          | boolean/true   | 表格单元格文字溢出显示...，在不指定列宽时，各列平分表格宽                                                                                                                             |
+| emptyText         | String         | 无数据时显示的文本                                                                                                                                                  |
+| title             | Boolean/true   | 鼠标滑过单元格时显示 title 提示                                                                                                                                        |
+| drag              | boolean/false  | 允许拖动表头改变当前单元格宽度                                                                                                                                            |
+| dragLine          | boolean/true   | 拖动时显示垂直线                                                                                                                                                   |
+| dragWidth         | array          | 允许拖动最大与最小宽度[min,max]                                                                                                                                       |
+| extendToggle      | boolean/false  | 扩展行/子节点初始展开或收起状态                                                                                                                                           |
+| rowColSpan        | function       | 合并行或列方法。通过给传入 rowColSpan 方法可以实现合并行或列，方法的参数(当前行号 rowIndex,当前列号 columnIndex,当前行 row,当前列 column)四个属性。该函数返回一个包含两个数字的数组，第一个 rowspan，第二个 colspan，即向纵向和横向合并多少个单元格 |
+| pagination        | object         | 有相关参数时显示分页，参数的pagination组件参数                                                                                                                               |
+| hasChild          | boolean/true   | 是否包含子节点数据，为true时，当 `row` 中包含 `children` 字段时，被视为子节点数据                                                                                                       |
+| lazyLoad          | function       | 设置了`lazyLoad`时，被视为子节点使用懒加载方式，function(row,resolve) row当前行信息                                                                                                |
+| sortSingle        | boolean/false  | 如果设置了排序功能，开启后只能按其中一个字段排序                                                                                                                                   |
+| fixedBottomScroll | boolean/string | 固定横向滚动条在底部,可为节点类名                                                                                                                                          |
 
 ### Table Event
 
-| 参数          | 说明                                                       |
-|-------------|----------------------------------------------------------|
+| 参数          | 说明                                                                                         |
+|-------------|--------------------------------------------------------------------------------------------|
 | selectClick | 勾选单列事件，function(list,checked,row, index) list所有已勾选的row集合，checked当前状态，row当前点击行信息，index当前行序号 |
-| sortChange  | 排序点击事件                                                   |
-| rowClick    | 当前行点击事件，即tr点击事件，function(row,index)                      |
-| cellClick   | 当前列点击事件，即td点击事件，function(row,column,rowIndex, columnIndex) |
-| dragChange  | 拖动改变列表事件，返回所有列的宽度信息                                      |
-| scroll      | 表时滚动时的滚动事件，function(scrollTop,bottom,el)，scrollTop滚动条的位置，bottom是否滚动到底部,el当前滚动的对象 |
+| sortChange  | 排序点击事件                                                                                     |
+| rowClick    | 当前行点击事件，即tr点击事件，function(row,index)                                                        |
+| cellClick   | 当前列点击事件，即td点击事件，function(row,column,rowIndex, columnIndex)                                 |
+| dragChange  | 拖动改变列表事件，返回所有列的宽度信息                                                                        |
+| scroll      | 表时滚动时的滚动事件，function(scrollTop,bottom,el)，scrollTop滚动条的位置，bottom是否滚动到底部,el当前滚动的对象           |
 
 ### Table Methods
 
-| 参数               | 类型        |
-|----------|--------------|
-| getSelectAll       | 返回所有选中的行|
+| 参数                 | 类型                                                                          |
+|--------------------|-----------------------------------------------------------------------------|
+| getSelectAll       | 返回所有选中的行                                                                    |
 | toggleRowSelection | 用于多选表格，切换某一行的选中状态，如果使用了第二个参数，则是设置这一行选中与否（selected 为 true 则选中） row, selected |
-| toggleSelection | 用于多选表格，切换所有行的选中/清空状态,true为选中，false取消选中，默认false|
-| clearSort          | 用于清空排序条件|
+| toggleSelection    | 用于多选表格，切换所有行的选中/清空状态,true为选中，false取消选中，默认false                              |
+| clearSort          | 用于清空排序条件                                                                    |
 
 ### Table-column
 
-| 参数        | 类型             | 说明                                               |
-|-----------|----------------|--------------------------------------------------|
-| prop      | String         | 对应列内容的字段名，唯一的key，不能重复                            |
-| label     | String         | 显示的标题                                            |
-| width     | String         | 对应列的宽度                                           |
-| className | String         | 对应列的类名                                           |
-| align     | String         | 对齐方式，可选 left/center/right                        |
-| type      | String         | 对应列类型，可选 selection（多选）/index 序号/extend 扩展列       |
-| fixed     | Boolean/false  | 固定列，可选 left/right                                |
-| sortBy    | Boolean/false  | 当前列显示排序按钮                                        |
-| title     | Boolean/false  | 鼠标滑过单元格时显示 title 提示，仅当 table 的 title 为 false 时有效 |
-| drag      | Boolean/true   | 允许当前单元格拖动，仅在table的drag=true时有效                   |
-| formatter | function       | 用来格式化内容,Function(row, column, cellValue, index)  |
-| tooltip   | boolean/object | 鼠标滑过显示`tooltip`，参数详见`tooltip`组件                  |
-| tag       | object         | 使用`tag`样式显示对应值，参数详见`tag`                         |
-| tag.dict  | object         | 类型对应字典                                           |
+| 参数        | 类型              | 说明                                                                                  |
+|-----------|-----------------|-------------------------------------------------------------------------------------|
+| prop      | String          | 对应列内容的字段名，唯一的key，不能重复                                                               |
+| label     | String          | 显示的标题                                                                               |
+| width     | String          | 对应列的宽度                                                                              |
+| className | String          | 对应列的类名                                                                              |
+| align     | String          | 对齐方式，可选 left/center/right                                                           |
+| type      | String          | 对应列类型，可选 selection（多选）/index 序号/extend 扩展列                                          |
+| fixed     | Boolean/false   | 固定列，可选 left/right                                                                   |
+| sortBy    | Boolean/false   | 当前列显示排序按钮                                                                           |
+| title     | Boolean/false   | 鼠标滑过单元格时显示 title 提示，仅当 table 的 title 为 false 时有效                                    |
+| drag      | Boolean/true    | 允许当前单元格拖动，仅在table的drag=true时有效                                                      |
+| formatter | function/string | 用来格式化内容,Function(row, column, cellValue, index)；当为时间类型时，值可为`date,dateTime`快速输出格式化时间 |
+| tooltip   | boolean/object  | 鼠标滑过显示`tooltip`，参数详见`tooltip`组件                                                     |
+| tag       | object          | 使用`tag`样式显示对应值，参数详见`tag`                                                            |
+| tag.dict  | object          | 类型对应字典                                                                              |
+| dict      | object          | 类型对应字典                                                                              |
 
 ### Table-column Slot
 
