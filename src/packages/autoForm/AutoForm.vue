@@ -154,7 +154,8 @@
         default:
           if (type === 'dict') {
             // dict变化时重新设置
-            const dictObj = formatDict(item.name)
+            // 只有左侧的值为null或undefined的时候才使用右侧的值
+            const dictObj = formatDict(item.config?.optionsKey ?? item.name)
             if (dictObj) {
               item.control.options = dictObj
             }
@@ -208,7 +209,7 @@
         getUrlOptions(obj)
       } else {
         // 当里面没有设置options时，则引用dict的
-        const dictObj = formatDict(obj.name)
+        const dictObj = formatDict(obj.config?.optionsKey ?? obj.name)
         if (obj.control.options?.length === 0 && dictObj) {
           obj.control.options = dictObj
         }
@@ -216,9 +217,12 @@
     }
     return obj.control
   }
-  const formatDict = (key: string) => {
+  const formatDict = (key: string | boolean) => {
     // dict支持两种格式select:{1:'选项1',2:'选项2'}或select:[{label:'选项1',value:'1'}]
-    const obj = props.dict[key]
+    if (key === false) {
+      return []
+    }
+    const obj = props.dict[key as string]
     if (obj && Object.prototype.toString.call(obj) === '[object Object]') {
       // object时,转为array
       const temp = []

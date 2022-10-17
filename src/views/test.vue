@@ -1,49 +1,90 @@
 <template>
-  <ak-table :columns="columns" :data="tableData" />
+  <div>
+    <ak-auto-form :data="data" :dict="dict" />
+  </div>
 </template>
 <script setup>
   import { ref } from 'vue'
-
-  const tableData = ref([
+  const dict = ref({
+    radio: [
+      { label: '选项1', value: 'a1' },
+      { label: '选项2', value: 'a2' },
+      { label: '选项3', value: 'a3' },
+      { label: '选项4', value: 'a4' },
+      { label: '禁用', value: 'a5', disabled: true }
+    ],
+    checkbox: [
+      { label: '选项1', value: 'a1' },
+      { label: '选项2', value: 'a2' },
+      { label: '选项3', value: 'a3' },
+      { label: '选项4', value: 'a4' },
+      { label: '禁用', value: 'a5', disabled: true }
+    ],
+    select: [
+      { label: '选项1', value: 1 },
+      { label: '选项2', value: '2' },
+      { label: '选项3', value: '3' },
+      { label: '选项4', value: '4', disabled: true },
+      { label: '选项5', value: '5' },
+      { label: '6' },
+      { label: '选项7', value: '7' },
+      { label: '选项8', value: '8' },
+      { label: '选项9', value: '9' },
+      { label: '选项10', value: '10', class: 'red' }
+    ]
+  })
+  const data = ref([
     {
-      date: '2022-10-1',
-      sex: '男',
-      status: 1,
-      type: '1'
+      type: 'radio',
+      name: 'radio',
+      formItem: {
+        label: 'radio'
+      },
+      control: {
+        value: '',
+        options: []
+      }
     },
     {
-      date: 1592751467000,
-      sex: '女',
-      status: '0',
-      type: '2'
+      type: 'checkbox',
+      name: 'checkbox',
+      formItem: {
+        label: 'checkbox'
+      },
+      control: {
+        value: [],
+        options: []
+      }
     },
     {
-      date: '2019-01-29T16:00:00.000+0000',
-      sex: '男',
-      status: '0',
-      type: '3'
+      type: 'select',
+      name: 'select',
+      formItem: {
+        label: 'select'
+      },
+      control: {
+        value: '',
+        placeholder: '请选择',
+        options: []
+      },
+      config: {
+        optionsKey: false // 可从dict里使用指定的key
+      }
     },
     {
-      date: '',
-      sex: '女',
-      status: '1',
-      type: '3'
+      type: 'checkbox',
+      name: 'checkbox2',
+      formItem: {
+        label: '指定的dict'
+      },
+      control: {
+        value: '',
+        placeholder: '请选择',
+        options: []
+      },
+      config: {
+        optionsKey: 'select' // 可从dict里使用指定的key
+      }
     }
   ])
-  const columns = [
-    { type: 'index', label: '序号' },
-    {
-      label: '日期',
-      prop: 'date',
-      formatter: 'dateTime'
-    },
-    { label: '性别', prop: 'sex', tag: { dict: { 男: 'info', 女: 'danger' } } },
-    { label: '状态', prop: 'status', dict: { 1: '启用', 0: '禁用' } },
-    {
-      label: '类型',
-      prop: 'type',
-      dict: { 1: '类型1', 2: '类型2', 3: '类型3' },
-      tag: { dict: { 1: 'danger', 2: 'success' } }
-    }
-  ]
 </script>

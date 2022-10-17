@@ -382,6 +382,8 @@
 
 ### 使用dict设置选项值
 
+可设置`optionsKey`指定从`dict`里选择对应的数据项，默认通过`name`的值从`dict`里匹配。当设置`optionsKey=false`时，则不匹配
+
 ```vue demo
 <template>
   <div>
@@ -451,6 +453,21 @@
         value: '',
         placeholder: '请选择',
         options: []
+      }
+    },
+    {
+      type: 'checkbox',
+      name: 'checkbox2',
+      formItem: {
+        label: '指定的dict'
+      },
+      control: {
+        value: '',
+        placeholder: '请选择',
+        options: []
+      },
+      config: {
+        optionsKey: 'select' // 可从dict里使用指定的key
       }
     }
   ])
@@ -666,3 +683,15 @@
 | columns      | array  | type=tabs时有效，用于布局，表示多分多少列/有多少tabs                                                                           |
 | columns.tabs | object | type=tabs时有效，tabs的相关props                                                                                   |
 | columns.list | array  | type=tabs时有效，当前列下所有组件                                                                                       |
+
+## data.config
+
+| 类型            | 类型       | 说明                                 |
+|---------------|----------|------------------------------------|
+| linkValue     | string   | 联动条件设置,`$`表示当前表单的值                 |
+| linkResult    | string   | 联动显示结果，可选`disabled`，默认隐藏           |
+| optionsKey    | boolean  | 当前项options数据关联字典数据的标识，为false时表示不关联 |
+| url           | string   | 通过url获取数据，可使用`${text}`带一个动态参数      |
+| method        | string   | 可选get或post                         |
+| params        | object   | 通过url获取数据请求参数，绝对false时不请求          |
+| afterResponse | function | 请求结果方法                             |
