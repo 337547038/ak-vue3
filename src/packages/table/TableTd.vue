@@ -120,6 +120,8 @@
             toggle: props.toggle,
             parentRow: props.parentRow
           })
+        } else if (props.column.placeholder && val === '') {
+          return props.column.placeholder
         } else if (props.column.formatter) {
           if (['date', 'dateTime'].includes(props.column.formatter)) {
             if (val) {

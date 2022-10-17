@@ -944,23 +944,24 @@ const columns = [
 
 ### Table-column
 
-| 参数        | 类型              | 说明                                                                                  |
-|-----------|-----------------|-------------------------------------------------------------------------------------|
-| prop      | String          | 对应列内容的字段名，唯一的key，不能重复                                                               |
-| label     | String          | 显示的标题                                                                               |
-| width     | String          | 对应列的宽度                                                                              |
-| className | String          | 对应列的类名                                                                              |
-| align     | String          | 对齐方式，可选 left/center/right                                                           |
-| type      | String          | 对应列类型，可选 selection（多选）/index 序号/extend 扩展列                                          |
-| fixed     | Boolean/false   | 固定列，可选 left/right                                                                   |
-| sortBy    | Boolean/false   | 当前列显示排序按钮                                                                           |
-| title     | Boolean/false   | 鼠标滑过单元格时显示 title 提示，仅当 table 的 title 为 false 时有效                                    |
-| drag      | Boolean/true    | 允许当前单元格拖动，仅在table的drag=true时有效                                                      |
-| formatter | function/string | 用来格式化内容,Function(row, column, cellValue, index)；当为时间类型时，值可为`date,dateTime`快速输出格式化时间 |
-| tooltip   | boolean/object  | 鼠标滑过显示`tooltip`，参数详见`tooltip`组件                                                     |
-| tag       | object          | 使用`tag`样式显示对应值，参数详见`tag`                                                            |
-| tag.dict  | object          | 类型对应字典                                                                              |
-| dict      | object          | 类型对应字典                                                                              |
+| 参数          | 类型              | 说明                                                                                  |
+|-------------|-----------------|-------------------------------------------------------------------------------------|
+| prop        | String          | 对应列内容的字段名，唯一的key，不能重复                                                               |
+| label       | String          | 显示的标题                                                                               |
+| width       | String          | 对应列的宽度                                                                              |
+| className   | String          | 对应列的类名                                                                              |
+| align       | String          | 对齐方式，可选 left/center/right                                                           |
+| type        | String          | 对应列类型，可选 selection（多选）/index 序号/extend 扩展列                                          |
+| fixed       | Boolean/false   | 固定列，可选 left/right                                                                   |
+| sortBy      | Boolean/false   | 当前列显示排序按钮                                                                           |
+| title       | Boolean/false   | 鼠标滑过单元格时显示 title 提示，仅当 table 的 title 为 false 时有效                                    |
+| drag        | Boolean/true    | 允许当前单元格拖动，仅在table的drag=true时有效                                                      |
+| formatter   | function/string | 用来格式化内容,Function(row, column, cellValue, index)；当为时间类型时，值可为`date,dateTime`快速输出格式化时间 |
+| tooltip     | boolean/object  | 鼠标滑过显示`tooltip`，参数详见`tooltip`组件                                                     |
+| tag         | object          | 使用`tag`样式显示对应值，参数详见`tag`                                                            |
+| tag.dict    | object          | 类型对应字典                                                                              |
+| dict        | object          | 类型对应字典                                                                              |
+| placeholder | string          | 为空时输入值                                                                              |
 
 ### Table-column Slot
 
