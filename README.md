@@ -6,6 +6,10 @@
 
 https://337547038.github.io/ak-vue3/
 
+## 微信交流群
+
+<img src="https://gitee.com/q337547038/vue-form-design/raw/main/qrcode.jpg" width ="200" alt=""/>
+
 ## 使用
 
 1.将`/src/packages`复制到你的项目目录下，然后在`main.js`中引入并注册即可;
