@@ -170,6 +170,10 @@ const expand: any = {
   slider: {
     title: '滑块',
     group: 'data'
+  },
+  marquee: {
+    title: '滚动',
+    group: 'other'
   }
 }
 export const routes: any = []

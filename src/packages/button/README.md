@@ -9,7 +9,7 @@
 ```vue demo
 <template>
   <div class="row">
-    <ak-button>默认按钮</ak-button>
+    <ak-button :loading="false">默认按钮</ak-button>
     <ak-button type="primary">主要按钮</ak-button>
     <ak-button type="success">成功按钮</ak-button>
     <ak-button type="danger">危险按钮</ak-button>
