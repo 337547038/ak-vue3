@@ -179,7 +179,7 @@
       ss: padStart(s),
       w: dateTime.getDay()
     }
-    return formatType.replace(/(y|MM|M|dd|d|hh|h|mm|m|ss|s|w)/g, (result) => {
+    return formatType.replace(/(y|MM|M|dd|d|hh|h|mm|m|ss|s|w)/g, result => {
       const value = formatObj[result]
       if (result === 'w')
         return ['日', '一', '二', '三', '四', '五', '六'][value]
@@ -211,8 +211,8 @@
   const getShowValue = (dateString?: string[]) => {
     const date = dateString || props.modelValue
     // 当时间为空或非法时使用
-    let dateValueLeft = new Date()
-    let dateValueRight = new Date(
+    let dateValueLeft: Date | boolean = new Date()
+    let dateValueRight: Date | boolean = new Date(
       new Date().setMonth(dateValueLeft.getMonth() + 1)
     )
     if (props.type === 'monthRange') {
@@ -232,8 +232,8 @@
           dateValueLeft = d1
           dateValueRight = d2
           // 有合法值时设置显示的值
-          const parse = parseDate(d1, formatType.value)
-          const parse2 = parseDate(d2, formatType.value)
+          const parse = parseDate(d1 as Date, formatType.value)
+          const parse2 = parseDate(d2 as Date, formatType.value)
           showValue.value = [parse, parse2]
           defaultValue.value = [d1.getTime(), d2.getTime()]
         }
@@ -244,7 +244,7 @@
         const d = isInvalidDate(date)
         if (d) {
           dateValueLeft = d
-          const parse = parseDate(d, formatType.value)
+          const parse = parseDate(<Date>d, formatType.value)
           showValue.value = [parse]
           defaultValue.value = [d.getTime()]
         }

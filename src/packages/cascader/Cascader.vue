@@ -81,7 +81,7 @@
       // size: pType.string(), // 尺寸
       //placeholder: pType.string(),
       //disabled: pType.bool(),
-      //direction: pType.number(0),//0自动　1向下　2向上
+      //direction: pType.number(0),//0自动 1向下 2向上
       downClass?: string
       //downStyle: pType.object(),
       //appendToBody: pType.bool(false),
@@ -142,7 +142,7 @@
   })
   // 格式化options下拉数据
   const formatOptions = computed(() => {
-    let temp: any = []
+    const temp: any = []
     if (props.lazy) {
       formatData(state.lazyOptions, {})
     } else {
@@ -300,7 +300,7 @@
         // 收起下拉，多选时点空白处收起
         //const val = obj.fullValue
         //state.showLabel = [obj.fullLabel.replace(/,/g, '/')]
-        // modelValue更新后会自动更新showlabel
+        // modelValue更新后会自动更新showLabel
         if (!props.checkAny) {
           updateModelValue([obj.fullValue || obj[valueKey]])
         }

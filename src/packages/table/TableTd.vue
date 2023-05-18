@@ -56,7 +56,7 @@
   })*/
       const setSelectedRows = inject(`${prefixCls}SetSelectedRows`) as any
 
-      let classNameTd = ref(props.column.fixed)
+      const classNameTd = ref(props.column.fixed)
       const pcl = ref(props.column.className)
       if (pcl.value && props.column.fixed) {
         classNameTd.value += ' ' + pcl.value
@@ -110,6 +110,9 @@
       const extendToggle = () => {
         emit('toggleExtend')
       }
+      function pS(num: number) {
+        return num.toString().padStart(2, '0')
+      }
       const defaultSlots = () => {
         const val = props.row[props.column.prop]
         if (props.column.slots && props.column.slots.default) {
@@ -125,9 +128,6 @@
         } else if (props.column.formatter) {
           if (['date', 'dateTime'].includes(props.column.formatter)) {
             if (val) {
-              function pS(num: number) {
-                return num.toString().padStart(2, '0')
-              }
               const date = new Date(val)
               const ymd = `${date.getFullYear()}-${pS(
                 date.getMonth() + 1

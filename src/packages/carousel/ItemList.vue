@@ -9,7 +9,7 @@
       className: String
     },
     render() {
-      let cls = ['carousel-slide']
+      const cls = ['carousel-slide']
       const itemCls = this.childItem.className
       itemCls && cls.push(itemCls)
       this.className && cls.push(this.className)

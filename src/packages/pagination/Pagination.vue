@@ -1,7 +1,7 @@
 <template>
   <div v-show="!hidePage" :class="`${prefixCls}-page`">
-    <div v-if="showTotal" class="total"
-      >共<span>{{ formatValue }}</span
+    <div v-if="showTotal" class="total">
+      共<span>{{ formatValue }}</span
       >条
     </div>
     <p-select
@@ -146,7 +146,7 @@
       end = pageCount.value - 1
     }
     // 如果只有一页时
-    let showPages = []
+    const showPages = []
     let forStart = start
     while (forStart <= end) {
       showPages.push(forStart)
@@ -162,8 +162,8 @@
     return parseInt(pages.value[1].toString())
   })
   const selectOptions = computed(() => {
-    let options: any = []
-    props.pageSizes.forEach((item) => {
+    const options: any = []
+    props.pageSizes.forEach(item => {
       options.push({ label: `每页${item}条`, value: item })
     })
     return options

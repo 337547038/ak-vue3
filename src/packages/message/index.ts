@@ -79,7 +79,7 @@ const clear = () => {
   // 添加一个简单粗暴的方法，用于清除所有alert弹窗
   const dialog = document.querySelectorAll(`.${prefixCls}-dialog-isAlert`)
   if (dialog && dialog.length > 0) {
-    dialog.forEach((item) => {
+    dialog.forEach(item => {
       document.body.removeChild(item)
       // 锁定body解锁
       document.body.style.overflow = ''

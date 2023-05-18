@@ -259,9 +259,9 @@
   const mouseDown = (evt: MouseEvent) => {
     if (props.move && headEl.value) {
       state.moveFlag = false
-      let offSet = getOffset(headEl.value)
-      let x = evt.pageX - offSet.left
-      let y = evt.pageY - offSet.top
+      const offSet = getOffset(headEl.value)
+      const x = evt.pageX - offSet.left
+      const y = evt.pageY - offSet.top
       const scrollT = scrollTop()
       state.moveFlag = true
       document.onmousemove = (evt: MouseEvent) => {

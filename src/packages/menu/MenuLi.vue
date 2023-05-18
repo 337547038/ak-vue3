@@ -49,10 +49,10 @@
 </template>
 
 <script lang="ts" setup>
-  import {inject} from 'vue'
-  import {useRouter} from 'vue-router'
-  import type {Items} from './types'
-  import {Tooltip} from '../tooltip'
+  import { inject } from 'vue'
+  import { useRouter } from 'vue-router'
+  import type { Items } from './types'
+  import { Tooltip } from '../tooltip'
   import prefixCls from '../prefix'
 
   withDefaults(

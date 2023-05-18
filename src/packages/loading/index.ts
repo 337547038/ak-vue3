@@ -33,11 +33,11 @@ const vLoading = (app: App) => {
   app.directive('loading', {
     mounted(el, binding) {
       el.style.position = 'relative'
-      const text = el.getAttribute(`${ prefixCls }-loading-text`) || ''
-      const spinner = el.getAttribute(`${ prefixCls }-loading-spinner`) || ''
+      const text = el.getAttribute(`${prefixCls}-loading-text`) || ''
+      const spinner = el.getAttribute(`${prefixCls}-loading-spinner`) || ''
       const background =
-        el.getAttribute(`${ prefixCls }-loading-background`) || ''
-      const zIndex = el.getAttribute(`${ prefixCls }-loading-zIndex`) || ''
+        el.getAttribute(`${prefixCls}-loading-background`) || ''
+      const zIndex = el.getAttribute(`${prefixCls}-loading-zIndex`) || ''
       let bodyEl
       if (binding.modifiers.el) {
         // 插入到body
@@ -68,4 +68,3 @@ const vLoading = (app: App) => {
   })
 }
 export { loading, vLoading }
-

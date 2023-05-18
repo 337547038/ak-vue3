@@ -178,7 +178,7 @@
   // 预防中途有修改高的时候
   watch(
     () => props.height,
-    (val) => {
+    val => {
       state.stateHeight = val
     }
   )
@@ -256,7 +256,7 @@
       } else {
         // 有具名插槽时
         if (Object.keys(slots).length) {
-          for (let key in slots) {
+          for (const key in slots) {
             if (item.prop === key) {
               if (!item.slots) {
                 item.slots = {}
@@ -337,7 +337,7 @@
     nextTick(() => {
       // 当前表格偏移位置
       const tableOffset = getOffset(el.value)
-      let dragLine = el.value.querySelector('.table-drag-line')
+      const dragLine = el.value.querySelector('.table-drag-line')
       if (dragLine) {
         dragLine.style.left = event.pageX - tableOffset.left + 'px'
         dragLine.style.height = tableOffset.height + 'px'
@@ -487,7 +487,7 @@
     const tableWidth = el.value.querySelector('table').offsetWidth
     // 可移动的最大宽
     // div可见宽
-    let moveMaxWidth = scrollLeft - (tableWidth - el.value.clientWidth)
+    const moveMaxWidth = scrollLeft - (tableWidth - el.value.clientWidth)
     if (fixedRight.length > 0) {
       for (let i = 0, len = fixedRight.length; i < len; i++) {
         fixedRight[

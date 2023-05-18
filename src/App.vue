@@ -4,9 +4,9 @@
       <div class="logo"><img src="./assets/logo.jpg" alt="" />AK-UI Docs</div>
       <ul>
         <template v-for="item in groupList" :key="item.group">
-          <h3
-            ><span>{{ item.title }}</span></h3
-          >
+          <h3>
+            <span>{{ item.title }}</span>
+          </h3>
           <li v-for="child in item.children" :key="child.name">
             <router-link :to="child.path">
               {{ getName(child.name) }}<span>{{ child.meta?.title }}</span>
@@ -28,7 +28,7 @@
 <script lang="ts" setup>
   import { routes } from './router'
 
-  let visible = true
+  const visible = true
   const getName = (name: string) => {
     return name.substring(0, 1).toUpperCase() + name.substring(1)
   }
@@ -69,7 +69,7 @@
       children: []
     }
   ]
-  groupList.forEach((item) => {
+  groupList.forEach(item => {
     item.children = routesListFilter.filter(
       (fi: any) => fi.meta?.group === item.group
     )

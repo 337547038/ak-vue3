@@ -42,7 +42,13 @@ https://github.com/337547038/vite-react
 分页、Progress 进度条、Radio 单选框、Select 选择器、Steps 步骤条、Swiper 图片轮播、Switch 开关、Table 表格、Tabs 标签页、Textarea 文本框、Tooltip 提示、Transfer
 穿梭框、Tree 树形、Upload 上传、Drawer 抽屉等常用组件
 
-## 开发
+### 开发环境
+| 名称           | 版本      |
+|--------------|---------|
+| node         | 18.16.x |
+| yarn         | 1.22.19 |
+| vite         | 4.3.x   |
+| vue          | 3.3.x   |
 
 ```shell
 pnpm install

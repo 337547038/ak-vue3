@@ -118,7 +118,7 @@
   })
   // 计算间断点的位置和个数，返回每个点的位置
   const sliderStops = computed(() => {
-    let stopList = []
+    const stopList = []
     if (props.showStops) {
       // (最大值－最小值)/步长＝个数，即分多少步
       const num = (props.max - props.min) / props.step
@@ -131,9 +131,9 @@
   })
   // 转换mark为key,value形式
   const marksList = computed(() => {
-    let list = []
+    const list = []
     if (props.marks) {
-      for (let i in props.marks) {
+      for (const i in props.marks) {
         list.push({
           label: props.marks[i],
           left: i + '%'
@@ -241,7 +241,7 @@
     }
     const { offsetLeft } = evt.target as HTMLElement
     const t = evt.pageX - offsetLeft
-    document.onmousemove = (ev) => {
+    document.onmousemove = ev => {
       let distance = ((ev.pageX - t) / elWidth.value) * 100 // 偏移距离转百分比
       if (distance < 0) {
         distance = 0
@@ -256,7 +256,7 @@
       }
       props.trigger && slierClick(ev)
     }
-    document.onmouseup = (ev) => {
+    document.onmouseup = ev => {
       if (!props.trigger) {
         // 默认鼠标弹起时改变
         slierClick(ev)

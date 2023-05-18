@@ -44,7 +44,7 @@
     }
   ]
   // 记录每列第可用的值
-  let timeListStatus: any = {
+  const timeListStatus: any = {
     h: {},
     m: {},
     s: {}
@@ -85,7 +85,7 @@
         if (list[time]) {
           // 表示当前时间是禁用的，则从列表里选择一个可用的
           let isEnable = 60
-          Object.keys(list).forEach((item) => {
+          Object.keys(list).forEach(item => {
             if (!list[item]) {
               // 表示当前可用的
               if (parseInt(item) < isEnable) {

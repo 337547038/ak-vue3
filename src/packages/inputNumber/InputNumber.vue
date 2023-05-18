@@ -81,7 +81,7 @@
     emitComm(parseInt(value))
   }
   const numberControl = (type: number) => {
-    let inputValue = props.modelValue || 0
+    const inputValue = props.modelValue || 0
     if (!isNaN(inputValue) && !props.disabled) {
       let val = 0
       if (type > 0) {

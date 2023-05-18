@@ -33,7 +33,7 @@
   const mouseDown = (e: MouseEvent) => {
     const h = props.sideBarHeight
     const t = e.pageY - topStyle.value
-    document.onmousemove = (ev) => {
+    document.onmousemove = ev => {
       let top = ev.pageY - t
       if (top >= h) top = h
       if (top <= 0) top = 0
@@ -49,9 +49,9 @@
   const changeBg = (top: number, h: number) => {
     // 侧栏一共分为六个区域，每块区域的长度
     topStyle.value = top
-    let total = h / 6
+    const total = h / 6
     let rgb: number[] = []
-    if (top <= (h * 1) / 6) {
+    if (top <= (h) / 6) {
       const g = getValue(top, total, 0)
       rgb = [255, g, 0]
     } else if (top <= (h * 2) / 6) {

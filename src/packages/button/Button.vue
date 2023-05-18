@@ -83,7 +83,7 @@
   })
   const btnWidth = ref(props.width || groupConfig.width)
   const classStyle = computed(() => {
-    let size = props.size || groupConfig.size || ''
+    const size = props.size || groupConfig.size || ''
     return {
       [`${prefixCls}-btn`]: true,
       'is-round': props.round || groupConfig.round,

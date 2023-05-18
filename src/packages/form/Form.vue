@@ -35,7 +35,7 @@
   const state = reactive({
     defaultValue: '' // 用于保存所有表单元素初始值
   })
-  let formItemFields: any = [] // 所有formItem
+  const formItemFields: any = [] // 所有formItem
   provide(`${prefixCls}FormProps`, props)
   provide(`${prefixCls}GetFormItemFields`, (formItem: any) => {
     formItemFields.push(formItem)
@@ -69,7 +69,7 @@
       })
   }
   const validate = (field?: string[]) => {
-    let allTips: string[] = []
+    const allTips: string[] = []
     let validateFields = formItemFields
     if (field && field.length > 0) {
       // 指定校验字段时
@@ -93,7 +93,7 @@
       })
       const returnResult = () => {
         if (allTips.length === validateFields.length) {
-          const tips = allTips.filter((fi) => {
+          const tips = allTips.filter(fi => {
             return fi !== 'true'
           })
           if (tips.length > 0) {

@@ -152,7 +152,7 @@
     const offset = getOffset(el.value)
     const windowWidth = getWindow().width
     const space = props.y + 8 // 当前标签与提示语之间的距离
-    let style: CssStyle = {
+    const style: CssStyle = {
       maxWidth: props.maxWidth + 'px'
     }
     if (props.appendToBody) {

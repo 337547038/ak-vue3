@@ -53,7 +53,7 @@
   )
   const { optionsKey } = toRefs(props)
   const optValue = optionsKey.value.value
-  let disabledList: any = ref({})
+  const disabledList: any = ref({})
   const setChecked = (arr: string[]) => {
     const newLen = arr.length
     disabledList.value = {}
@@ -88,7 +88,7 @@
   }
   // 全选或全不选
   const toggleSelect = (boolean: boolean) => {
-    let value: string[] = props.modelValue
+    const value: string[] = props.modelValue
     disabledList.value = {}
     props.options &&
       props.options.forEach((item: any, index: number) => {

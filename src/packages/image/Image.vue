@@ -40,8 +40,8 @@
         <div class="preview-loading" v-if="previewStatus === 'loading'">
           <Loading :model-value="true" background="none" :zIndex="10" />
         </div>
-        <div class="preview-error" v-else-if="previewStatus === 'error'"
-          >FAILED
+        <div class="preview-error" v-else-if="previewStatus === 'error'">
+          FAILED
         </div>
         <img
           class="img"

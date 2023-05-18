@@ -27,11 +27,10 @@
         :title="item[optionsKey.label]"
         @click="itemClick(item, $event)"
         v-html="getItemText(item[optionsKey.label])"
-      >
-      </li>
-      <p v-if="optionsList.length === 0" class="select-empty-options">{{
-        emptyText
-      }}</p>
+      ></li>
+      <p v-if="optionsList.length === 0" class="select-empty-options">
+        {{ emptyText }}
+      </p>
     </ul>
     <slot></slot>
   </select-down>
@@ -61,7 +60,7 @@
       //size?: string // 尺寸
       //placeholder?: string
       //disabled?: boolean
-      //direction?: number //0自动　1向下　2向上
+      //direction?: number //0自动 1向下 2向上
       //downClass?: string
       //downStyle?: object
       //appendToBody?: boolean
@@ -121,7 +120,7 @@
     tempChecked: ''
   })
   // 下拉的数据，存在options插槽里面插入的数据
-  let optionsList: FormControlOption = ref(
+  const optionsList: FormControlOption = ref(
     JSON.parse(JSON.stringify(props.options))
   )
   watch(
@@ -252,7 +251,7 @@
         evt && evt.stopPropagation()
         return
       }
-      let activeValue = getValueLabel(item) as string
+      const activeValue = getValueLabel(item) as string
       if (props.multiple) {
         // 多选
         if (

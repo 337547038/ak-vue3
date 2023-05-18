@@ -7,8 +7,8 @@
         :key="index"
         :class="{ 'last-child': data.length === index + 1 }"
         :to="item.href"
-        v-text="item.title"
-      />
+        >{{ item.title }}</router-link
+      >
       <span v-else :key="`span${index}`" v-text="item.title"></span>
       <span
         v-if="data.length > index + 1"

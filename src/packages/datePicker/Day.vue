@@ -113,7 +113,7 @@
     return `${number}`.padStart(2, '0')
   }
   const getDaysList = (date: Date) => {
-    let days: Day[] = []
+    const days: Day[] = []
     const year = date.getFullYear()
     const month = date.getMonth()
     const time = new Date(year, month, 1)

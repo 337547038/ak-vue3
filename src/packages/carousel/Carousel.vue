@@ -122,7 +122,7 @@
       obj.width = len * distance + 'px'
     }
     if (distance && len > 0) {
-      let moveWidth = -distance * props.move // 每次移动的宽
+      const moveWidth = -distance * props.move // 每次移动的宽
       let transformWidth = moveWidth * state.moveDirection
       if (props.loop) {
         transformWidth += moveWidth
@@ -230,7 +230,7 @@
       // 删除前面第N个，追加到最后
       const pre = state.children.slice(0, moveNum)
       state.children.splice(0, moveNum)
-      pre.forEach((item) => {
+      pre.forEach(item => {
         state.children.push(item)
       })
     } else {

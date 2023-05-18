@@ -150,7 +150,7 @@
       phone: '请输入固话或手机'
     }
     const temRule = props.verify.split(',')
-    temRule.forEach((item) => {
+    temRule.forEach(item => {
       state.rules2.push({
         type: item,
         msg: verifyMsg[item]
@@ -266,12 +266,12 @@ bool = true
     } else if (state.trigger2 === 'blur') {
       // 失去焦点校验
       if (type === 'blur') {
-        validate(val).catch((res) => {
+        validate(val).catch(res => {
           console.log(res)
         })
       }
     } else {
-      validate(val).catch((res) => {
+      validate(val).catch(res => {
         console.log(res)
       })
     }

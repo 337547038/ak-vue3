@@ -121,12 +121,12 @@
   }
   // 判断是否为16进制，返回一个色号rgb数组
   const HexToRgb = (value: string) => {
-    let color = value.replace('#', '')
+    const color = value.replace('#', '')
     // 判断格式，只能是3位和6位
     if (color.length !== 3 && color.length !== 6) return
     if (/[^0-9a-f]/g.test(color)) return
     // 将其转换成rgb色号数组 f00=>[255,0,0]
-    let rgb = []
+    const rgb = []
     for (let i = 0; i < color.length; i++) {
       let num = parseInt(color[i].toString() + color[i], 16)
       if (color.length === 6 && i % 2 === 0) {
@@ -140,7 +140,7 @@
   }
   const RgbToHex = () => {
     let value = '#'
-    for (let key in state.showColor) {
+    for (const key in state.showColor) {
       if (key === 'a') continue
       if (state.showColor[key] === null) return
 
@@ -152,8 +152,8 @@
   }
   // 根据当前颜色，计算侧栏滑块的颜色
   const calcBg = (e: any) => {
-    let { r, g, b } = state.showColor
-    let newColor = [
+    const { r, g, b } = state.showColor
+    const newColor = [
       { name: 'r', value: r },
       { name: 'g', value: g },
       { name: 'b', value: b }
@@ -161,9 +161,9 @@
     newColor.sort((a, b) => {
       return b.value - a.value
     })
-    let max = newColor[0].value
-    let mid = newColor[1].value
-    let min = newColor[2].value
+    const max = newColor[0].value
+    const mid = newColor[1].value
+    const min = newColor[2].value
 
     // 计算点像右延长至边界的点的色标
     newColor[1].value = ((min - mid) * max) / (min - max)
@@ -175,7 +175,7 @@
     if (min === max) {
       newColor[1].value = 0
     }
-    newColor.forEach((e) => {
+    newColor.forEach(e => {
       state.bgColor[e.name] = e.value
     })
     if (e) {

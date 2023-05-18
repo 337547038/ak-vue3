@@ -11,23 +11,23 @@ const service = axios.create({
 })
 
 service.interceptors.request.use(
-  (config) => {
+  config => {
     return config
   },
-  (error) => {
+  error => {
     Promise.reject(error)
   }
 )
 
 service.interceptors.response.use(
-  (response) => {
+  response => {
     if (response.data.code === 0) {
       return Promise.reject(response)
     } else {
       return response
     }
   },
-  (error) => {
+  error => {
     return Promise.reject(error)
   }
 )

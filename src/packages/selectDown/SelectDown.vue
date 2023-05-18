@@ -136,7 +136,7 @@
       size?: string // 尺寸
       placeholder?: string
       disabled?: boolean
-      direction?: number //0自动　1向下　2向上
+      direction?: number //0自动 1向下 2向上
       downClass?: string
       downStyle?: object
       appendToBody?: boolean
@@ -316,7 +316,8 @@
         document.documentElement.clientHeight || document.body.clientHeight
       const clientY = evt.clientY // 当鼠标事件发生时，鼠标相对于浏览器（这里说的是浏览器的有效区域）y轴的位置；
       // 最大下拉高度
-      let downMaxHeight = props.downHeight || selectDown.value.offsetHeight || 0
+      const downMaxHeight =
+        props.downHeight || selectDown.value.offsetHeight || 0
       if (downMaxHeight > wh - clientY && clientY > downMaxHeight) {
         // 向上
         state.direction2 = 2

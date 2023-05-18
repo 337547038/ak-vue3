@@ -77,7 +77,7 @@
 
     const newColor = JSON.parse(JSON.stringify(props.bgColor))
 
-    for (let key in newColor) {
+    for (const key in newColor) {
       // hue => 色相、三原色
       const hue = newColor[key]
       newColor[key] = ((255 - hue) * x + hue * w) / w
@@ -93,7 +93,7 @@
     h: number,
     color: any
   ) => {
-    for (let key in color) {
+    for (const key in color) {
       // hue => 色相、三原色
       const hue = color[key]
       const value = ((h - y) * hue) / h
@@ -108,7 +108,7 @@
     const l = e.pageX - state.style.left
     const t = e.pageY - state.style.top
 
-    document.onmousemove = (res) => {
+    document.onmousemove = res => {
       const { pageX, pageY } = res
       let left = pageX - l
       let top = pageY - t

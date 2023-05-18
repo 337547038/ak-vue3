@@ -47,7 +47,7 @@
   const textValue = ref(props.modelValue)
   watch(
     () => props.modelValue,
-    (val) => {
+    val => {
       textValue.value = val
     }
   )

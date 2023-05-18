@@ -11,7 +11,7 @@
     }"
     @click.stop="elClick"
   >
-    <a href="javascript:;" class="icon-top" v-text="text"></a>
+    <a href="javascript:" class="icon-top" v-text="text"></a>
   </div>
 </template>
 <script lang="ts" setup>

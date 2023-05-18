@@ -72,7 +72,7 @@
       // 当前勾选状态，
       if (typeof props.modelValue === 'object') {
         // 删除当前项
-        val = props.modelValue.filter((item) => {
+        val = props.modelValue.filter(item => {
           return item !== props.value
         })
       } else {

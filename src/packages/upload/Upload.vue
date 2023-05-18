@@ -208,16 +208,17 @@
       code: 0,
       msg: ''
     }
-    let name = file.name
-    let suffix = name.substr(name.length - 3, 3).toLocaleLowerCase()
+    const name = file.name
+    const suffix = name.substr(name.length - 3, 3).toLocaleLowerCase()
     if (props.format) {
       if (props.format.toLocaleLowerCase().indexOf(suffix) !== -1) {
+        /* empty */
       } else {
-        let format = props.format ? props.format.toString() : ''
+        const format = props.format ? props.format.toString() : ''
         error = { code: 2, msg: '只支持上传类型为：' + format }
       }
     }
-    let fileSize = file.size
+    const fileSize = file.size
     if (fileSize && fileSize && props.maxSize > props.maxSize * 1024) {
       error = { code: 1, msg: '超出上传限制' }
     }

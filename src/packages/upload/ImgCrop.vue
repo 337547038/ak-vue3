@@ -246,8 +246,8 @@
     console.log(state.drawImg.img)
     console.log(canvas.value)*/
     if (state.drawImg.img) {
-      let c = canvas.value
-      let ctx = c.getContext('2d')
+      const c = canvas.value
+      const ctx = c.getContext('2d')
       ctx.clearRect(0, 0, c.width, c.height)
       ctx.drawImage(
         state.drawImg.img,
@@ -261,6 +261,7 @@
   }
   // 裁切框
   const drawControlBox = () => {
+    // eslint-disable-next-line prefer-const
     let { width, height, left, top } = state.controlBox
     // 限制框的位置
     if (left < 0) {
@@ -279,8 +280,8 @@
     state.controlBox.left = left
     state.controlBox.top = top
     // 同时在画布上画一个拖动层
-    let c = canvasSelectBox.value
-    let ctx = c.getContext('2d')
+    const c = canvasSelectBox.value
+    const ctx = c.getContext('2d')
     ctx.fillStyle = 'rgba(0,0,0,0.6)' // 遮罩层颜色
     ctx.clearRect(0, 0, c.width, c.height)
     ctx.fillRect(0, 0, c.width, c.height)
@@ -294,7 +295,7 @@
       const offSetY = state.controlBox.top
       const x = e.pageX - offSetX
       const y = e.pageY - offSetY
-      document.onmousemove = (ev) => {
+      document.onmousemove = ev => {
         console.log('_controlBoxonmousemove')
         const left = ev.pageX - x
         const top = ev.pageY - y
@@ -317,8 +318,8 @@
     if (flag) {
       const x = e.pageX
       const y = e.pageY
-      let { width, height, left, top } = state.controlBox
-      document.onmousemove = (ev) => {
+      const { width, height, left, top } = state.controlBox
+      document.onmousemove = ev => {
         const mx = ev.pageX - x // 移动的位置
         const my = ev.pageY - y
         let mWidth = width // 移动后的宽
@@ -428,7 +429,7 @@
     if (flag) {
       const x = e.pageX - state.drawImg.x
       const y = e.pageY - state.drawImg.y
-      document.onmousemove = (ev) => {
+      document.onmousemove = ev => {
         state.drawImg.x = ev.pageX - x // 移动的位置
         state.drawImg.y = ev.pageY - y // 移动的位置
         drawImg() // 重绘
@@ -446,7 +447,7 @@
     if (state.drawImg.img) {
       let scale
       // e是FF的事件。window.event是chrome/ie/opera的事件
-      let ee = e || window.event
+      const ee = e || window.event
       if (ee.wheelDelta) {
         // IE/Opera/Chrome
         scale = -(ee.wheelDelta / 40)
@@ -454,7 +455,7 @@
         // Firefox
         scale = ee.detail
       }
-      let { x, y, height, width } = state.drawImg
+      const { x, y, height, width } = state.drawImg
       state.drawImg.x = x + scale * 3
       state.drawImg.y = y + scale * 3
       state.drawImg.width = width - scale * 9
@@ -529,7 +530,7 @@
     }
   }
   const emitEvent = (type: number, res?: any) => {
-    let error = { code: type, msg: '', data: '' }
+    const error = { code: type, msg: '', data: '' }
     switch (type) {
       case 1:
         error.msg = '超出上传限制'
@@ -554,11 +555,11 @@
     const mime = arr[0].match(/:(.*?);/)[1]
     const bstr = atob(arr[1])
     let n = bstr.length
-    let u8arr = new Uint8Array(n)
+    const u8arr = new Uint8Array(n)
     while (n--) {
       u8arr[n] = bstr.charCodeAt(n)
     }
-    let blob: any = new Blob([u8arr], { type: mime })
+    const blob: any = new Blob([u8arr], { type: mime })
     // eslint-disable-next-line
       blob.lastModifiedDate = new Date()
     // eslint-disable-next-line
@@ -578,7 +579,7 @@
   }
   onMounted(() => {
     nextTick(() => {
-      let mousewheelevt = /Firefox/i.test(navigator.userAgent)
+      const mousewheelevt = /Firefox/i.test(navigator.userAgent)
         ? 'DOMMouseScroll'
         : 'mousewheel'
       if (mousewheelevt === 'mousewheel') {

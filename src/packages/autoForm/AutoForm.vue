@@ -1,6 +1,6 @@
 <!-- Created by 337547038 -->
 <template>
-  <vForm v-bind="formData" ref="autoFormEl">
+  <v-form v-bind="formData" ref="autoFormEl">
     <template v-for="(item, index) in data" :key="index">
       <template v-if="getShow(item, index)">
         <template v-if="item.type === 'tabs'">
@@ -82,12 +82,12 @@
         />
       </template>
     </template>
-  </vForm>
+  </v-form>
 </template>
 
 <script lang="ts" setup>
   import { reactive, onMounted, ref, watch } from 'vue'
-  import { Form as vForm } from '../form'
+  import { Form as VForm } from '../form'
   import { FormItem } from '../formItem'
   import { Tabs, TabPane } from '../tabs'
   import axios from '../util/request' // 在实际项目中建议引用全局统一的设置
@@ -181,7 +181,7 @@
   }
   watch(
     () => state.formValue,
-    (val) => {
+    val => {
       emits('update:modelValue', val)
     },
     { deep: true }
@@ -241,7 +241,6 @@
     const linkValue = obj.config?.linkValue
     const linkResult = obj.config?.linkResult
     if (linkValue) {
-      // console.log('getshow')
       const Fn = new Function('$', `return (${linkValue})`)
       const pass = Fn(state.formValue)
       if (linkResult === 'disabled') {

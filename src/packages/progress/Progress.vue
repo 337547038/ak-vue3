@@ -106,7 +106,7 @@
     }, props.duration / props.modelValue)
   }
   const circleStyle = (type: string) => {
-    let style: circleStyleAttr = {}
+    const style: circleStyleAttr = {}
     style.width = props.radius * 2 + 'px'
     style.height = props.radius * 2 + 'px'
     if (type === 'pro') {

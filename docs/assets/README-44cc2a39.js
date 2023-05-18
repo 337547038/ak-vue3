@@ -1,0 +1,25 @@
+import{a as h,o as v,c as _,b as p,w as e,f as d,_ as u,g as n,n as j,t as m,d as f,r as k,h as b,i as q,j as i}from"./index-6c3c2d70.js";const w={class:"popover-demo"},y={__name:"README.md.vdpv_0",setup(l){const s=()=>{alert("点击了确定")};return(c,t)=>{const r=h("ak-button"),a=h("ak-popover");return v(),_("div",w,[p(a,{content:"这是一段内容这是一段内容确定删除吗？",confirm:"确定",cancel:"取消",callback:s},{default:e(()=>[p(r,null,{default:e(()=>[d("删除确认")]),_:1})]),_:1}),p(a,{confirm:"确定",cancel:"取消",callback:s},{content:e(()=>[d(" 这是一段内容这是一段内容确定删除吗？ ")]),default:e(()=>[p(r,null,{default:e(()=>[d("删除确认")]),_:1})]),_:1})])}}},g=f({components:{vdpv_0:y},setup(l){const s=k(),c=[s],t=b({vdpv_0Height:0});return{toggleCode:a=>{const o="vdpv_"+a;t[o+"Height"]===0?t[o+"Height"]=(c[a].value?c[a].value.offsetHeight:0)||0:t[o+"Height"]=0},...q(t),vdpv_0Ref:s}}});g.$vd={matter:{},toc:[{content:"popover（Tooltip） 弹出框",anchor:"popovertooltip-弹出框",level:1},{content:"基本用法",anchor:"基本用法",level:3},{content:"API",anchor:"api",level:2},{content:"Popover Props",anchor:"popover-props",level:3}]};const A=g,$={class:"vuedoc"},C=i('<h1 id="popovertooltip-弹出框" data-source-line="1"><a class="markdownIt-Anchor" href="#popovertooltip-弹出框">#</a> popover（Tooltip） 弹出框</h1><h3 id="基本用法" data-source-line="3"><a class="markdownIt-Anchor" href="#基本用法">#</a> 基本用法</h3><p data-source-line="5">基于<code>tooltip</code>提示</p><pre style="display:none;"></pre>',4),H={class:"vuedoc-demo"},I={class:"vuedoc-demo__inner"},P={class:"vuedoc-demo__preview"},E={ref:"vdpv_0Ref",class:"vuedoc-demo__sourceref"},R=i(`<div class="vuedoc__code"><pre class="hljs vuedoc__hljs language-vue hljs--one-dark"><code><span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">template</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;popover-demo&quot;</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">ak-popover</span>
+        <span class="hljs-attr">content</span>=<span class="hljs-string">&quot;这是一段内容这是一段内容确定删除吗？&quot;</span>
+        <span class="hljs-attr">confirm</span>=<span class="hljs-string">&quot;确定&quot;</span>
+        <span class="hljs-attr">cancel</span>=<span class="hljs-string">&quot;取消&quot;</span>
+        <span class="hljs-attr">:callback</span>=<span class="hljs-string">&quot;callback&quot;</span>
+      &gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">ak-button</span>&gt;</span>删除确认<span class="hljs-tag">&lt;/<span class="hljs-name">ak-button</span>&gt;</span>
+      <span class="hljs-tag">&lt;/<span class="hljs-name">ak-popover</span>&gt;</span>
+     
+      <span class="hljs-tag">&lt;<span class="hljs-name">ak-popover</span> <span class="hljs-attr">confirm</span>=<span class="hljs-string">&quot;确定&quot;</span> <span class="hljs-attr">cancel</span>=<span class="hljs-string">&quot;取消&quot;</span> <span class="hljs-attr">:callback</span>=<span class="hljs-string">&quot;callback&quot;</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">ak-button</span>&gt;</span>删除确认<span class="hljs-tag">&lt;/<span class="hljs-name">ak-button</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">template</span> #<span class="hljs-attr">content</span>&gt;</span> 这是一段内容这是一段内容确定删除吗？ <span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span>
+      <span class="hljs-tag">&lt;/<span class="hljs-name">ak-popover</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">setup</span>&gt;</span><span class="javascript">
+  <span class="hljs-keyword">const</span> callback = <span class="hljs-function">() =&gt;</span> {
+    alert(<span class="hljs-string">&#39;点击了确定&#39;</span>)
+  }
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+
+
+</span></code></pre></div>`,1),N=[R],T=i('<h2 id="api" data-source-line="34"><a class="markdownIt-Anchor" href="#api">#</a> API</h2><h3 id="popover-props" data-source-line="36"><a class="markdownIt-Anchor" href="#popover-props">#</a> Popover Props</h3><table data-source-line="38"><thead><tr><th>参数</th><th>类型</th><th>说明</th></tr></thead><tbody><tr><td>confirm</td><td>string</td><td>确认按钮文案</td></tr><tr><td>cancel</td><td>string</td><td>取消按钮文案</td></tr><tr><td>callback</td><td>function</td><td>确认按钮事件</td></tr><tr><td>-</td><td>-</td><td>其他同<a href="/#/tooltip">Tooltip</a></td></tr></tbody></table>',3);function V(l,s,c,t,r,a){const o=h("vdpv_0");return v(),_("div",$,[C,n("div",H,[n("div",I,[n("div",P,[p(o)]),n("div",{style:j({height:l.vdpv_0Height+"px"}),class:"vuedoc-demo__source"},[n("div",E,N,512)],4),n("div",{class:"vuedoc-demo__footer",onClick:s[0]||(s[0]=x=>l.toggleCode(0))},m(l.vdpv_0Height>0?"hidden":"show"),1)])]),T])}const D=u(A,[["render",V]]);export{D as default};
