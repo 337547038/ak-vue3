@@ -1,4 +1,5 @@
-import { App, DirectiveBinding, nextTick } from 'vue'
+// @ts-ignore
+import { App, nextTick } from 'vue'
 import prefixCls from '../prefix'
 import { addClass, removeClass } from '../util/dom'
 import LAZY_ERROR from './img/lazy-error.png'
@@ -36,7 +37,7 @@ class Lazy {
     this.el = ''
   }
 
-  mounted(el: HTMLElement, binding: DirectiveBinding): void {
+  mounted(el: HTMLElement, binding: any): void {
     const defaultImg = el.getAttribute('src') // 单个图默认初始图，一般可为gif加载图
     if (defaultImg) {
       this.loading = defaultImg
@@ -160,13 +161,14 @@ class Lazy {
 }
 
 export default {
+  // @ts-ignore
   install(app: App, options = {}) {
     app.directive('lazy', {
-      mounted(el, binding) {
+      mounted(el: HTMLElement, binding: any) {
         const lazy = new Lazy(options)
         lazy.mounted(el, binding)
       },
-      updated(el, binding) {
+      updated(el: HTMLElement, binding: any) {
         const lazy = new Lazy(options)
         lazy.mounted(el, binding)
       }

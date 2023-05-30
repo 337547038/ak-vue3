@@ -1,7 +1,7 @@
 export default {}
 // 防抖
 export function debounce(fn: any, delay = 500) {
-  let timer: NodeJS.Timeout
+  let timer: any
   return function (...args: any) {
     if (timer) {
       clearTimeout(timer)

@@ -51,7 +51,7 @@
     topStyle.value = top
     const total = h / 6
     let rgb: number[] = []
-    if (top <= (h) / 6) {
+    if (top <= h / 6) {
       const g = getValue(top, total, 0)
       rgb = [255, g, 0]
     } else if (top <= (h * 2) / 6) {

@@ -1,4 +1,5 @@
 // https://vitejs.cn/guide/build.html#library-mode
+// @ts-ignore
 import path from 'path'
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
@@ -10,7 +11,7 @@ export default defineConfig({
     lib: {
       entry: path.resolve(__dirname, './src/packages'),
       name: 'ak-vue3',
-      fileName: (format) => `ak-vue3.${format}.js`
+      fileName: format => `ak-vue3.${format}.js`
     },
     rollupOptions: {
       // 确保外部化处理那些你不想打包进库的依赖

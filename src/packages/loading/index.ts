@@ -10,7 +10,7 @@
  * **/
 import akLoading from './Loading.vue'
 import prefixCls from '../prefix'
-import { App } from 'vue'
+//import { App } from 'vue'
 import { createApp } from 'vue'
 
 const appendChild = (opt: any) => {
@@ -29,9 +29,9 @@ const loading = (opt?: any) => {
   component && component.open()
   return component
 }
-const vLoading = (app: App) => {
+const vLoading = (app: any) => {
   app.directive('loading', {
-    mounted(el, binding) {
+    mounted(el: any, binding: any) {
       el.style.position = 'relative'
       const text = el.getAttribute(`${prefixCls}-loading-text`) || ''
       const spinner = el.getAttribute(`${prefixCls}-loading-spinner`) || ''
@@ -58,7 +58,7 @@ const vLoading = (app: App) => {
       }
       el.component = component // 保存当前组件和样式，更新时调用
     },
-    updated(el, binding) {
+    updated(el: any, binding: any) {
       if (binding.value) {
         el.component.open()
       } else {
