@@ -53,7 +53,7 @@
   <div>
     <ak-tag
       v-for="(item, index) in list"
-      :key="item"
+      :key="index"
       :closable="true"
       @close="closeClick(index)"
       >{{ item }}</ak-tag

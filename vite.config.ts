@@ -1,17 +1,17 @@
-import { defineConfig } from 'vite'
-import vitePluginVuedoc, { vueDocFiles } from 'vite-plugin-vuedoc'
+import {defineConfig} from 'vite'
+import vitePluginVuedoc from 'vite-plugin-doc-preview'
 import vue from '@vitejs/plugin-vue'
 import Pages from 'vite-plugin-pages'
-import { resolve } from 'path'
+import {resolve} from 'path'
 import vueJsx from '@vitejs/plugin-vue-jsx'
 // 表格使用formatter时需要添加vueJsx这个，要不会出错。页面同时需要添加 lang="jsx"
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
     vueJsx({}),
-    vitePluginVuedoc({}),
+    vitePluginVuedoc({ previewId: 'vue demo' }),
     vue({
-      include: [...vueDocFiles] // 2. Must include .md | .vd files
+      include: [/\.vue$/, /\.md$/] // 2. Must include .md | .vd files
     }),
     Pages({
       pagesDir: 'src/packages',

@@ -1,5 +1,5 @@
 import { createApp } from 'vue'
-import 'vite-plugin-vuedoc/style.css'
+import 'vite-plugin-doc-preview/style/style.css'
 import App from './App.vue'
 import router from './router'
 import AKUI from './packages'

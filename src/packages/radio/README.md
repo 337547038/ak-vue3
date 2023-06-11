@@ -83,14 +83,14 @@
 ```vue demo
 
 <template>
-  <p>
+  <div>
   <div>当前值：{{state.radio1}}</div>
   <ak-radio-group :options="state.data1" v-model="state.radio1" @change="changeGroup"/>
-  </p>
-  <p>
+  </div>
+  <div>
   <div>整个组不可选，当前值：{{state.radio2}}</div>
   <ak-radio-group :options="state.data1" v-model="state.radio2" :disabled="true"/>
-  </p>
+  </div>
 </template>
 
 <script setup>
