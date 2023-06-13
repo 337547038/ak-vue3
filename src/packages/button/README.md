@@ -7,6 +7,7 @@
 按钮支持 `default`、`primary`、`success`、`warning`、`danger`、`text` 六种类型，默认为 `default`。
 
 ```vue demo
+
 <template>
   <div class="row">
     <ak-button :loading="false">默认按钮</ak-button>
@@ -41,6 +42,9 @@
     <ak-button :plain="true" type="text" circle>文</ak-button>
   </div>
 </template>
+<style>
+.row {margin-bottom: 10px}
+</style>
 ```
 
 ### 禁用状态
@@ -48,6 +52,7 @@
 使用`disabled="true"`禁用
 
 ```vue demo
+
 <template>
   <div>
     <ak-button :disabled="true">默认按钮</ak-button>
@@ -63,6 +68,7 @@
 支持 `large`、`normal`、`small`、`mini` 四种尺寸，默认为 normal
 
 ```vue demo
+
 <template>
   <div class="row">
     <ak-button size="large" type="primary">大号按钮</ak-button>
@@ -82,6 +88,7 @@
 ### 带 Icon 图标
 
 ```vue demo
+
 <template>
   <div>
     <ak-button icon="search">默认按钮</ak-button>
@@ -92,18 +99,11 @@
 </template>
 ```
 
-### 带路由或链接地址
-
-使用`routerTo`添加路由地址
+### 带链接地址
 
 ```vue demo
+
 <template>
-  <div>
-    <ak-button routerTo="/button">默认按钮</ak-button>
-    <ak-button routerTo="/button" type="primary">确认按钮</ak-button>
-    <ak-button routerTo="/button" type="success">成功按钮</ak-button>
-    <ak-button routerTo="/button" type="text">文字按钮</ak-button>
-  </div>
   <div>
     <p>直接添加标签属性</p>
     <ak-button href="/button">默认按钮</ak-button>
@@ -119,6 +119,7 @@
 使用`nativeType="button/submit/reset"`输出 button
 
 ```vue demo
+
 <template>
   <div>
     <ak-button nativeType="button">Button</ak-button>
@@ -133,6 +134,7 @@
 可统一设置组内按钮`size`,`disabled`,`width`,`round`属性和`click`点击事件
 
 ```vue demo
+
 <template>
   <p>
     <ak-button-group size="mini" @click="btnGroupClick">
@@ -152,15 +154,15 @@
   </p>
 </template>
 <script lang="ts" setup>
-  const btnGroupClick = (evt: MouseEvent, name: string) => {
-    console.log(name) // 用于区分点击了哪个按钮
-  }
-  const groupClick = () => {
-    console.log('groupClick')
-  }
-  const groupSingleClick = () => {
-    console.log('groupClick')
-  }
+const btnGroupClick = (evt: MouseEvent, name: string) => {
+  console.log(name) // 用于区分点击了哪个按钮
+}
+const groupClick = () => {
+  console.log('groupClick')
+}
+const groupSingleClick = () => {
+  console.log('groupClick')
+}
 </script>
 
 ```
@@ -169,39 +171,38 @@
 
 ### Button Props
 
-| 参数       | 类型          | 说明         |
-| ---------- | ------------- | ----------------------------------------------------------------- |
+| 参数         | 类型            | 说明                                                                      |
+|------------|---------------|-------------------------------------------------------------------------|
 | type       | String        | 类型，实际是给按钮添加类名，支持`default`、`primary`、`success`、`warning`、`danger`、`text` |
-| size       | String        | 大小尺寸，支持 `large`、`normal`、`small`、`mini` 四种尺寸，默认为 `normal`   |
-| width      | String        | 按钮宽      |
-| round      | boolean/false | 是否圆角按钮  |
-| plain      | boolean/false | 是否为朴素按钮  |
-| routerTo   | String        | 路由 url，输入为 a 标签时 |
-| href       | String        | a 标签链接地址                                                    |
-| disabled   | boolean/false | 是否禁用状态                                                      |
-| icon       | String        | 前缀 icon                                                         |
-| loading    | boolean/false | 是否加载中状态                                                     |
-| nativeType | String        | 原生 type 属性，button / submit / reset                           |
-| name       | String        | 按钮组时有效，按钮组点击事件时返回当前按钮唯一标识                                   |
-| -          | -             | 其它原生属性                                                      |
+| size       | String        | 大小尺寸，支持 `large`、`normal`、`small`、`mini` 四种尺寸，默认为 `normal`               |
+| width      | String        | 按钮宽                                                                     |
+| round      | boolean/false | 是否圆角按钮                                                                  |
+| plain      | boolean/false | 是否为朴素按钮                                                                 |
+| href       | String        | a 标签链接地址                                                                |
+| disabled   | boolean/false | 是否禁用状态                                                                  |
+| icon       | String        | 前缀 icon                                                                 |
+| loading    | boolean/false | 是否加载中状态                                                                 |
+| nativeType | String        | 原生 type 属性，button / submit / reset                                      |
+| name       | String        | 按钮组时有效，按钮组点击事件时返回当前按钮唯一标识                                               |
+| -          | -             | 其它原生属性                                                                  |
 
 ### Button Event
 
-| 参数  | 说明 |
-| ----- | ---- |
-| click | -    |
+| 参数    | 说明 |
+|-------|----|
+| click | -  |
 
 ### Button Group
 
-| 参数     | 类型          | 说明                                 |
-| -------- | ------------- | ------------------------------------ |
+| 参数       | 类型            | 说明                            |
+|----------|---------------|-------------------------------|
 | size     | String        | 大小尺寸，可选 medium / small / mini |
-| width    | String        | 按钮宽                               |
-| round    | boolean/false | 是否圆角按钮                         |
-| disabled | boolean/false | 是否禁用状态                         |
+| width    | String        | 按钮宽                           |
+| round    | boolean/false | 是否圆角按钮                        |
+| disabled | boolean/false | 是否禁用状态                        |
 
 ### Button Group Event
 
-| 参数  | 说明 |
-| ----- | ---- |
-| click | -    |
+| 参数    | 说明 |
+|-------|----|
+| click | -  |

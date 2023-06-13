@@ -1,0 +1,53 @@
+{
+  "name": "ak-vue3",
+  "version": "0.0.1",
+  "description": "AK UI是一个vue3的组件库，基于 Vue3 + Typescript + Vite + pnpm",
+  "license": "MIT",
+  "author": "337547038",
+  "keywords": [
+    "vue3",
+    "vite",
+    "vue ui"
+  ],
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/337547038/ak-vue3.git",
+    "directory": ""
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org"
+  },
+  "bugs": {
+    "url": "https://github.com/337547038/ak-vue3/issues"
+  },
+  "homepage": "https://github.com/337547038/ak-vue3",
+  "files": [
+    "dist",
+    "iconfont"
+  ],
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.umd.cjs"
+    },
+    "./style.css": "./dist/style.css",
+    "./iconfont.css": "./iconfont/iconfont.css"
+  },
+  "scripts": {
+    "build": "vite build"
+  },
+  "dependencies": {
+    "axios": "^1.4.0"
+  },
+  "devDependencies": {
+  }
+}

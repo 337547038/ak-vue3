@@ -28,7 +28,8 @@
         "./src/*"
       ]
       // 这里需要配置
-    }
+    },
+    "esModuleInterop": true
   },
   "include": [
     "src/**/*.ts",

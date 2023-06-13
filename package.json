@@ -2,13 +2,15 @@
   "name": "ak-vue",
   "private": true,
   "version": "0.0.0",
+  "repository": "git@github.com:337547038/ak-vue3.git",
+  "author": "337547038 <337547038@qq.com>",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
     "lint": "eslint --ext .js,.vue,.ts src --fix",
     "lint:fromat": "prettier -c --parser typescript \"{src,__tests__,e2e}/**/*.[jt]s?(x)\"",
-    "build:lib": "vite build --config build.config.ts"
+    "build:lib": "pnpm --filter ./build build"
   },
   "dependencies": {
     "axios": "^1.4.0",
@@ -30,8 +32,8 @@
     "sass": "^1.62.1",
     "typescript": "^5.0.4",
     "vite": "^4.3.9",
+    "vite-plugin-doc-preview": "^0.1.10",
     "vite-plugin-pages": "^0.31.0",
-    "vite-plugin-doc-preview": "^0.1.8",
     "vue-tsc": "^1.6.5"
   }
 }

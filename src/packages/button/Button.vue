@@ -27,7 +27,6 @@
 <script lang="ts" setup>
   import prefixCls from '../prefix'
   import { computed, inject, ref } from 'vue'
-  import { useRouter } from 'vue-router'
   import { getFormDisabled } from '../util/form'
 
   export interface GroupPropConfig {
@@ -42,7 +41,6 @@
     defineProps<{
       type?: string
       size?: string
-      routerTo?: string
       href?: string
       icon?: string
       round?: boolean
@@ -57,7 +55,6 @@
     {
       type: '',
       size: '',
-      routerTo: '',
       href: '',
       icon: '',
       round: false,
@@ -96,11 +93,7 @@
   })
   const routerHref = computed(() => {
     // 解释路由url，即<router-link :to="/button">转<a href="#/button">
-    if (props.routerTo) {
-      const router = useRouter()
-      const routeData = router.resolve({ path: props.routerTo })
-      return routeData.href
-    } else if (props.href) {
+    if (props.href) {
       return props.href
     } else {
       return null
