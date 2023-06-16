@@ -1,3 +1,5 @@
 <template>
-  <div class="marked-body"></div>
+  <div class="marked-body">
+
+  </div>
 </template>
