@@ -13,6 +13,7 @@
     @blur="inputBlur"
     @toggle-click="toggleClick"
     @keyup-enter="keyupEnter"
+    :disabledOption="disabledOption"
   >
     <ul :class="`${prefixCls}-select`">
       <li
@@ -119,10 +120,18 @@
     setFirst: false, // 手动选择改变选项时，在watch时不触发setFirstText事件
     tempChecked: ''
   })
+  const { optionsKey } = toRefs(props)
+  const optLabel = optionsKey.value.label
+  const optValue = optionsKey.value.value
   // 下拉的数据，存在options插槽里面插入的数据
   const optionsList: FormControlOption = ref(
     JSON.parse(JSON.stringify(props.options))
   )
+  const disabledOption = computed(() => {
+    return optionsList.value
+      .filter((item: any) => item.disabled)
+      .map(item => item[optLabel])
+  })
   watch(
     () => props.modelValue,
     () => {
@@ -136,9 +145,6 @@
       setFirstText()
     }
   )
-  const { optionsKey } = toRefs(props)
-  const optLabel = optionsKey.value.label
-  const optValue = optionsKey.value.value
   const inputBlur = (value: any) => {
     // 搜索输入框失焦时，判断输入的值是否符合
     if (!props.filterable) {
@@ -340,7 +346,13 @@
   })
   // 清空事件
   const clearClick = () => {
-    state.checked = []
+    // 选择的值带有禁用时，不能清空
+    const disabledOpt = optionsList.value
+      .filter((item: any) => item.disabled)
+      .map(item => item[optValue])
+    state.checked = state.checked.filter(item =>
+      disabledOpt.includes(item.value)
+    )
     emitCom()
     emits('clear')
   }

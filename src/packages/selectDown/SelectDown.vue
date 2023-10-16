@@ -36,8 +36,14 @@
         <ul :placeholder="placeholder">
           <template v-if="collapseTags">
             <li v-if="state.valueLabel.length > 0">
-              <span v-text="state.valueLabel[0]"></span>
-              <i class="icon-error" @click.stop="deleteText(0)"></i>
+              <span v-text="state.valueLabel[getShowLabelIndex]"></span>
+              <i
+                class="icon-error"
+                @click.stop="deleteText(getShowLabelIndex)"
+                v-if="
+                  !disabledOption.includes(state.valueLabel[getShowLabelIndex])
+                "
+              ></i>
             </li>
             <li v-if="state.valueLabel.length > 1">
               <tag size="mini" type="info"> +{{ state.valueLabel.length }}</tag>
@@ -46,7 +52,11 @@
           <template v-else>
             <li v-for="(item, index) in state.valueLabel" :key="index">
               <span v-text="item"></span>
-              <i class="icon-error" @click.stop="deleteText(index)"></i>
+              <i
+                class="icon-error"
+                @click.stop="deleteText(index)"
+                v-if="!disabledOption.includes(item)"
+              ></i>
             </li>
           </template>
           <li v-if="filterable" class="input">
@@ -146,6 +156,7 @@
       isRange?: boolean // 区间选择，此时multiple无效
       rangeSeparator?: string
       endPlaceholder?: string // isRange时第二个输入框
+      disabledOption?: string[] // 多选时不能删除的项
     }>(),
     {
       multiple: false,
@@ -159,7 +170,10 @@
       isRange: false,
       rangeSeparator: 'To',
       downClass: '',
-      downHeight: 0
+      downHeight: 0,
+      disabledOption: () => {
+        return []
+      }
     }
   )
   const emits = defineEmits<{
@@ -186,6 +200,18 @@
     direction2: props.direction,
     stopPropagation: false,
     searchValueM: '' // 多选输入框的值
+  })
+  const getShowLabelIndex = computed(() => {
+    if (state.valueLabel?.length === 1) {
+      return 0
+    }
+    const first = state.valueLabel[0]
+    if (props.disabledOption.includes(first)) {
+      // 第一个不能删除
+      return 1
+    } else {
+      return 0
+    }
   })
   watch(
     () => props.modelValue,
@@ -239,7 +265,7 @@
   }
   // 清空
   const clearClick = (evt: MouseEvent) => {
-    state.valueLabel = []
+    state.valueLabel = JSON.parse(JSON.stringify(props.disabledOption))
     updateModel()
     emits('clear')
     evt.stopPropagation()
