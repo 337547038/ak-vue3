@@ -3,19 +3,19 @@
   <select-down
     v-bind="$props"
     ref="selectDownEl"
-    :down-class="downClass2"
-    :options="[]"
-    options-key=""
-    lazyload=""
     :class="{ [`${prefixCls}-cascader`]: true }"
+    :down-class="downClass2"
     :model-value="showLabel"
+    :options="[]"
+    lazyload=""
+    options-key=""
     @clear="clearClick"
     @delete="deleteClick"
     @input="inputChange"
     @toggle-click="toggleClick"
   >
     <p v-if="lazy && downDataList.length === 0">
-      <loading :model-value="true" text="加载中" background="#fff" />
+      <loading :model-value="true" background="#fff" text="加载中" />
     </p>
     <ul v-else-if="downDataList.length === 0" class="empty-text">
       <li>{{ emptyText }}</li>
@@ -29,16 +29,16 @@
       >
         <i v-if="!li.hasChild && !multiple && !checkAny" class="icon-hook"></i>
         <Radio
+          v-if="checkAny && !multiple"
           v-model="radioValue"
           :value="li.fullValue || li.value"
-          v-if="checkAny && !multiple"
           @click.stop=""
         />
         <Checkbox
           v-if="multiple"
-          :disabled="li.disabled"
-          :model-value="getChecked(li, true)"
           :class="{ 'some-select': li.someSelect }"
+          :disabled="li.disabled"
+          :model-value="getChecked(li)"
           @change="checkboxMultipleChange(li, $event)"
           @click.stop=""
         />
@@ -46,9 +46,9 @@
         <loading
           v-if="lazy && li[optionsKey.value] === loadingId"
           :key="item[optionsKey.label]"
-          class="loading"
-          background="#fff"
           :model-value="true"
+          background="#fff"
+          class="loading"
         />
         <i v-if="li.hasChild" class="icon-arrow"></i>
       </li>
@@ -73,19 +73,9 @@
   const props = withDefaults(
     defineProps<{
       modelValue?: string[]
-      // width: pType.string(),
       multiple?: boolean
-      // collapseTags: pType.bool(), // 多选模式下是否折叠Tag
-      // clear: pType.bool(),// 是否支持清空选项
       filterable?: boolean // 是否可搜索选项
-      // size: pType.string(), // 尺寸
-      //placeholder: pType.string(),
-      //disabled: pType.bool(),
-      //direction: pType.number(0),//0自动 1向下 2向上
       downClass?: string
-      //downStyle: pType.object(),
-      //appendToBody: pType.bool(false),
-      //downHeight: pType.number(0), // 显示下拉最大高度，超出显示滚动条
       options?: any
       optionsKey?: { label: string; value: string }
       showAllLevels?: boolean
@@ -116,7 +106,8 @@
     multipleChecked: [], // 多选时，用于临时保存勾选的值
     loadingId: '', // 异步加载时用于显示加载状态
     timer: 0,
-    lazyOptions: props.options
+    lazyOptions: props.options,
+    init: true
   })
   const { downDataList, loadingId, showLabel } = toRefs(state)
   const { optionsKey } = toRefs(props)
@@ -221,7 +212,7 @@
   setDefaultShowLabel()
   // end 设置初始值结束
   // 从格式化后的数据里提取
-  const filterFormatOptions = (id?: [string, number]) => {
+  const filterFormatOptions = (id?: string | number | undefined) => {
     return formatOptions.value.filter((item: any) => {
       return item.tid === id
     })
@@ -239,6 +230,7 @@
     state.downDataList = [] // 先清空
     const firstOpt = filterFormatOptions()
     if (firstOpt && firstOpt.length > 0) {
+      setDefaultSomeSelect(firstOpt)
       state.downDataList.push(firstOpt) // 首先添加第一级，第一级的_tid为空
     }
     const value: any = props.modelValue[0] // 多选时默认展开第一组 添加第一级后面的
@@ -246,17 +238,38 @@
       const valueObj = value.split(',')
       for (let i = 0; i < valueObj.length - 1; i++) {
         const val = filterFormatOptions(valueObj[i])
-        if (val && val.length > 0) {
+        if (val?.length) {
+          setDefaultSomeSelect(val)
           state.downDataList.push(val) // 每次点击下拉重新设置下拉的选项，恢复上次点击的状态
         }
       }
     }
   }
+
+  /**
+   * 设置初始半选状态
+   */
+  const setDefaultSomeSelect = (list: any) => {
+    list.forEach(item => {
+      if (item.hasChild && state.checked.includes(item[valueKey])) {
+        const childList = filterFormatOptions(item[valueKey])
+        const checkList = childList.filter(ch =>
+          state.checked.includes(ch[valueKey])
+        )
+        if (childList?.length !== checkList?.length) {
+          // 半选
+          item.someSelect = true
+        }
+      }
+    })
+  }
   const toggleClick = (visible: boolean) => {
+    const val = JSON.parse(JSON.stringify(props.modelValue))
     if (visible) {
-      state.checked = props.modelValue.join(',').split(',')
+      const checkedList = val.join(',').split(',')
+      state.checked = Array.from(new Set(checkedList))
       if (props.checkAny) {
-        state.checked = JSON.parse(JSON.stringify(props.modelValue))
+        state.checked = val
       }
       if (props.lazy && formatOptions.value.length === 0) {
         // 异步加载，先把数据加载回来再调用setDefaultDownList
@@ -265,7 +278,7 @@
         setDefaultDownList()
       }
       if (props.multiple) {
-        state.multipleChecked = JSON.parse(JSON.stringify(props.modelValue))
+        state.multipleChecked = val
       }
     } else {
       // 收起时
@@ -318,7 +331,7 @@
     }
   }
   // 返回下拉选中样式
-  const getChecked = (item: cityProps, bool?: boolean) => {
+  const getChecked = (item: cityProps) => {
     // 当前value存在于state.checked中即可选中状态
     if (props.checkAny) {
       // 这里不需要半选
@@ -326,25 +339,8 @@
       return index !== -1
     }
     const index = state.checked.indexOf(item[valueKey])
-    if (props.multiple && item.hasChild && index !== -1 && bool) {
-      // 这里要处理半选状态，并且有子级时，需判断子级是否全选
-      // getChecked两个地方调用了，这里只计算一次
-      //if (index !== -1 && bool) {
-      // 这里表示为半选状态，计算下子级是否为全选
-      const child = filterFormatOptions(item[valueKey])
-      let allChecked = true
-      child.forEach((item: cityProps) => {
-        if (state.checked.indexOf(item[valueKey]) === -1) {
-          // 表示存在没勾选的
-          allChecked = false
-        }
-      })
-      if (allChecked) {
-        return true // 全选
-      } else {
-        item.someSelect = true // 半选
-      }
-      //}
+    if (props.multiple && item.hasChild && index !== -1) {
+      return !item.someSelect
     } else {
       return index !== -1
     }
@@ -357,7 +353,6 @@
   // 从数据中添加或删除指定元素，用于多选 type=true为push
   const pushSpliceObj = (val: [string, number], type: boolean) => {
     const index = state.checked.indexOf(val)
-    // console.log(val, type, index)
     if (type) {
       if (index === -1) {
         // 不存在时才添加
@@ -392,28 +387,33 @@
     let valKey = obj[valueKey]
     if (props.checkAny) {
       valKey = obj.fullValue || obj[valueKey]
-    } else {
+    }
+    pushSpliceObj(valKey, val)
+    if (!props.checkAny) {
       // 往上找父级
       findParents(obj, val)
     }
-    pushSpliceObj(valKey, val)
     // 如果有子级往下找子级，添加勾选或删除状态
     if (obj.hasChild && !props.checkAny) {
       findChildren(obj, val)
     } else {
       setMultipleChecked(obj.fullValue || obj[valueKey], val)
     }
+    // 处理当前点击的选择状态，点前当前项一定是会选或全不选的
+    obj.someSelect = false
 
     function findChildren(obj: cityProps, val: boolean) {
       const child = filterFormatOptions(obj[valueKey])
       // 将value值存入state.checked
       child.forEach((item: cityProps) => {
-        pushSpliceObj(item[valueKey], val)
-        // 继续下一级
-        if (item.hasChild) {
-          findChildren(item, val)
-        } else {
-          setMultipleChecked(item.fullValue, val)
+        if (!item.disabled) {
+          pushSpliceObj(item[valueKey], val)
+          // 继续下一级
+          if (item.hasChild) {
+            findChildren(item, val)
+          } else {
+            setMultipleChecked(item.fullValue, val)
+          }
         }
       })
     }
@@ -421,37 +421,29 @@
     function findParents(obj: cityProps, val: boolean) {
       // 同级是否为全选状态
       const brother = filterFormatOptions(obj.tid)
-      let allChecked = true // 表示为全选
       let someChecked = false
-      if (val) {
-        // 勾选情况下父级至少是半选状态，
+      //从所有兄弟节点节筛选全已选择的
+      const checkList = brother.filter(item =>
+        state.checked.includes(item[valueKey])
+      )
+      //相等时为全选
+      if (checkList?.length > 0 && checkList?.length !== brother?.length) {
+        //半选
         someChecked = true
+      } else if (checkList?.length === 0) {
+        //全不选
+        someChecked = false
       }
-      brother.forEach((item: cityProps) => {
-        if (state.checked.indexOf(item[valueKey]) === -1) {
-          // 表示至少有一条没勾选上
-          allChecked = false
-        } else {
-          someChecked = true // 表示至少有一条是勾选上
-        }
-        // 兄弟节点有半选状态的，父节点也要半选
-        if (item.someSelect) {
-          someChecked = true
-        }
-      })
       const parent = formatOptions.value.filter((item: cityProps) => {
         return item[valueKey] === obj.tid
       })
       // parent存在多条记录时表示value有重复了
       if (parent && parent.length > 0) {
-        // allChecked=true将父级勾选上，否则去掉勾选
-        pushSpliceObj(parent[0][valueKey], allChecked)
-        if (allChecked) {
-          // 全选时去掉半选样式
-          parent[0].someSelect = false
-        } else {
-          parent[0].someSelect = someChecked
+        //删除时，要为全不选时才从state.checked里splice父级
+        if ((!val && !checkList?.length) || val) {
+          pushSpliceObj(parent[0][valueKey], val)
         }
+        parent[0].someSelect = someChecked
         if (parent[0].tid) {
           // 继续找上一级
           findParents(parent[0], val)

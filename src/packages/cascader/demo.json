@@ -1,10 +1,10 @@
 [
   {
-    "value": "广东",
+    "value": "广东1",
     "label": "广东",
     "children": [
       {
-        "value": "广州",
+        "value": "广州1",
         "label": "广州",
         "children": [
           {
@@ -127,10 +127,6 @@
       {
         "value": "徐汇区",
         "label": "徐汇区"
-      },
-      {
-        "value": "广州1",
-        "label": "广州"
       }
     ]
   }
