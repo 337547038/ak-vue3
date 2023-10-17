@@ -19,7 +19,7 @@
     .group-icon i {opacity: $disabledOpacity}
     input {cursor: not-allowed}
   }
-  .multiple-text {height: auto;line-height: normal;display: flex;align-items: center;min-height: 40px;padding-right: 25px;
+  .multiple-text {height: auto;line-height: normal;display: flex;align-items: center;min-height: 36px;padding-right: 25px;
     ul {
       &:empty:before {content: attr(placeholder);color: $placeholder}
     }

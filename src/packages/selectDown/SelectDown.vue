@@ -36,13 +36,14 @@
         <ul :placeholder="placeholder">
           <template v-if="collapseTags">
             <li v-if="state.valueLabel.length > 0">
-              <span v-text="state.valueLabel[getShowLabelIndex]"></span>
+              <span
+                v-text="state.valueLabel[getShowLabelIndex]"
+                :class="{ disabled: !showDelIcon(getShowLabelIndex) }"
+              ></span>
               <i
                 class="icon-error"
                 @click.stop="deleteText(getShowLabelIndex)"
-                v-if="
-                  !disabledOption.includes(state.valueLabel[getShowLabelIndex])
-                "
+                v-if="showDelIcon(getShowLabelIndex)"
               ></i>
             </li>
             <li v-if="state.valueLabel.length > 1">
@@ -51,11 +52,14 @@
           </template>
           <template v-else>
             <li v-for="(item, index) in state.valueLabel" :key="index">
-              <span v-text="item"></span>
+              <span
+                v-text="item"
+                :class="{ disabled: !showDelIcon(index) }"
+              ></span>
               <i
                 class="icon-error"
                 @click.stop="deleteText(index)"
-                v-if="!disabledOption.includes(item)"
+                v-if="showDelIcon(index)"
               ></i>
             </li>
           </template>
@@ -135,9 +139,13 @@
   import Tag from '../tag/Tag.vue'
   import { getOffset, getWindow } from '../util/dom'
 
+  interface ShowLabelValue {
+    label: string
+    [key: string]: any
+  }
   const props = withDefaults(
     defineProps<{
-      modelValue: string[] | number[]
+      modelValue: string[] | number[] | ShowLabelValue[]
       width?: string
       multiple?: boolean
       collapseTags?: boolean
@@ -156,7 +164,6 @@
       isRange?: boolean // 区间选择，此时multiple无效
       rangeSeparator?: string
       endPlaceholder?: string // isRange时第二个输入框
-      disabledOption?: string[] // 多选时不能删除的项
     }>(),
     {
       multiple: false,
@@ -171,25 +178,28 @@
       rangeSeparator: 'To',
       downClass: '',
       downHeight: 0,
-      disabledOption: () => {
+      modelValue: () => {
         return []
       }
     }
   )
   const emits = defineEmits<{
-    (e: 'update:modelValue', modelValue: string[]): void
+    (
+      e: 'update:modelValue',
+      modelValue: string[] | number[] | ShowLabelValue[]
+    ): void
     (e: 'blur', value: string | string[], index?: number): void
     (e: 'toggleClick', value: boolean, evt: MouseEvent): void
     (e: 'clear'): void
     (e: 'delete', value: number): void
-    (e: 'input', value: string | string[], index?: number): void
-    (e: 'focus', value: string | string[], index?: number): void
+    (e: 'input', value: string, index?: number): void
+    (e: 'focus', value: string, index?: number): void
     (e: 'keyupEnter', value: string): void
   }>()
   const el = ref()
   const selectDown = ref()
   const state = reactive({
-    valueLabel: ref(JSON.parse(JSON.stringify(props.modelValue || []))),
+    valueLabel: [],
     visible: false,
     appendStyle: {
       top: '',
@@ -201,22 +211,44 @@
     stopPropagation: false,
     searchValueM: '' // 多选输入框的值
   })
+  // 判断是否显示删除单个按钮
+  const showDelIcon = (index: number) => {
+    const obj = props.modelValue[index]
+    if (typeof obj === 'object') {
+      return !obj.disabled
+    }
+    return true
+  }
   const getShowLabelIndex = computed(() => {
-    if (state.valueLabel?.length === 1) {
-      return 0
+    let index = 0
+    for (let i = 0; i < props.modelValue.length; i++) {
+      const obj = props.modelValue[i]
+      if (typeof obj === 'object' && obj.disabled) {
+        /* empty */
+      } else {
+        index = i
+        break
+      }
     }
-    const first = state.valueLabel[0]
-    if (props.disabledOption.includes(first)) {
-      // 第一个不能删除
-      return 1
-    } else {
-      return 0
-    }
+    return index
   })
-  watch(
+  const unWatch = watch(
     () => props.modelValue,
     (val: any) => {
-      state.valueLabel = JSON.parse(JSON.stringify(val))
+      state.valueLabel = []
+      if (val?.length) {
+        for (const key in val) {
+          let obj = val[key]
+          if (typeof obj === 'object') {
+            obj = obj.label
+          }
+          state.valueLabel.push(obj)
+        }
+      }
+    },
+    {
+      deep: true,
+      immediate: true
     }
   )
   const disabledOk = computed(() => {
@@ -260,13 +292,18 @@
   }
   const deleteText = (index: number) => {
     state.valueLabel.splice(index, 1)
-    updateModel()
+    const mv = props.modelValue
+    mv.splice(index, 1)
+    updateModel(mv)
     emits('delete', index)
   }
   // 清空
   const clearClick = (evt: MouseEvent) => {
-    state.valueLabel = JSON.parse(JSON.stringify(props.disabledOption))
-    updateModel()
+    // 需排除不能删除的
+    const mv = props.modelValue.filter(item => {
+      return typeof item === 'object' && item.disabled
+    })
+    updateModel(mv)
     emits('clear')
     evt.stopPropagation()
   }
@@ -277,21 +314,30 @@
       state.visible = false
       // 清空多选可输入时输入框的值
       state.searchValueM = ''
+      //可输入时恢复原值
+      if (!props.multiple && props.filterable) {
+        const val = props.modelValue[0]
+        state.valueLabel[0] = typeof val === 'object' ? val.label : val
+      }
+      if (props.filterable && props.isRange) {
+        const val = props.modelValue[1]
+        state.valueLabel[1] = typeof val === 'object' ? val.label : val
+      }
     }
   }
-  const updateModel = () => {
-    emits('update:modelValue', state.valueLabel)
+  const updateModel = (val: string[] | number[] | ShowLabelValue[]) => {
+    emits('update:modelValue', val)
   }
   const mouseEvent = (evt: MouseEvent | Event, type: any, index?: number) => {
     if (props.filterable) {
-      if (props.isRange) {
+      /*if (props.isRange) {
         emits(type, state.valueLabel, index)
-        updateModel()
+        //updateModel()
         return
-      }
+      }*/
       const { value } = evt.target as HTMLInputElement
-      emits(type, value)
-      updateModel()
+      emits(type, value, index)
+      //updateModel()
     }
   }
   const inputInput = (e: Event, index?: number) => {
@@ -384,13 +430,14 @@
     if (props.appendToBody && selectDown.value) {
       document.body.removeChild(selectDown.value)
     }
+    unWatch()
   })
   /** 提供一个方法用于改变显示的值
    * @param value
    * @return
    */
-  const setValue = (val: string[]) => {
+  /*const setValue = (val: string[]) => {
     state.valueLabel = JSON.parse(JSON.stringify(val))
-  }
-  defineExpose({ slideUp, setValue })
+  }*/
+  defineExpose({ slideUp })
 </script>

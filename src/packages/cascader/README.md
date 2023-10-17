@@ -103,7 +103,7 @@
 <script setup>
   import { ref } from 'vue'
   import options from './demo.json'
-  const value1 = ref(['广东,广州,白云', '上海,黄蒲区'])
+  const value1 = ref(['广东,广州,白云', '上海,黄浦区'])
 </script>
 
 ```
@@ -314,41 +314,41 @@
 
 ### Cascader
 
-| 参数            | 类型            | 说明                     |
-|---------------|---------------|------------------------|
-| v-model       | array         | 显示的值                   |
-| width         | string        | 组件宽                    |
-| multiple      | boolean/false | 多选模式                   |
-| collapseTags  | boolean/false | 多选模式下是否折叠Tag           |
-| clear         | boolean/false | 是否可清空                  |
-| filterable    | boolean/false | 是否可搜索选项                |
-| size          | string        | 大小                     |
-| placeholder   | string        | 占位符                    |
-| disabled      | boolean/false | 禁用状态                   |
-| direction     | number        | 下拉的方向动画，0默认　1向下　2向上    |
-| downClass     | string        | 下拉面板类                  |
-| downStyle     | object        | 下拉面板样式                 |
-| appendToBody  | boolean/false | 下拉插入到body              |
-| downHeight    | number        | 下拉的面板的高                |
-| icon          | string        | icon图标                 |
-| options       | object        | 下拉面板选项数据               |
-| optionsKey    | object        | 指定选择数据的`label`和`value`属于，默认{label:‘label’,value:‘value’} |
-| showAllLevels | boolean/true  | 定义了是否显示完整的路径，将其赋值为`false`则仅显示最后一级 |
-| lazy          | boolean/false | 是否动态加载子节点，需与 `lazyLoad` 方法结合使用 |
+| 参数            | 类型            | 说明                                                                                            |
+|---------------|---------------|-----------------------------------------------------------------------------------------------|
+| v-model       | array         | 显示的值                                                                                          |
+| width         | string        | 组件宽                                                                                           |
+| multiple      | boolean/false | 多选模式                                                                                          |
+| collapseTags  | boolean/false | 多选模式下是否折叠Tag                                                                                  |
+| clear         | boolean/false | 是否可清空                                                                                         |
+| filterable    | boolean/false | 是否可搜索选项                                                                                       |
+| size          | string        | 大小                                                                                            |
+| placeholder   | string        | 占位符                                                                                           |
+| disabled      | boolean/false | 禁用状态                                                                                          |
+| direction     | number        | 下拉的方向动画，0默认　1向下　2向上                                                                           |
+| downClass     | string        | 下拉面板类                                                                                         |
+| downStyle     | object        | 下拉面板样式                                                                                        |
+| appendToBody  | boolean/false | 下拉插入到body                                                                                     |
+| downHeight    | number        | 下拉的面板的高                                                                                       |
+| icon          | string        | icon图标                                                                                        |
+| options       | object        | 下拉面板选项数据                                                                                      |
+| optionsKey    | object        | 指定选择数据的`label`和`value`属于，默认{label:'label',value:'value'}                                      |
+| showAllLevels | boolean/true  | 定义了是否显示完整的路径，将其赋值为`false`则仅显示最后一级                                                             |
+| lazy          | boolean/false | 是否动态加载子节点，需与 `lazyLoad` 方法结合使用                                                                |
 | lazyLoad      | function      | 加载动态数据的方法，仅在 `lazy` 为 `true` 时有效,function(node, resolve)，node为当前点击的节点，resolve为数据加载完成的回调(必须调用) |
-| checkAny      | boolean/false | 启用该功能后，选择任意一级选项。       |
-| emptyText      | string        | 无下拉数据提示文案              |
+| checkAny      | boolean/false | 启用该功能后，选择任意一级选项。                                                                              |
+| emptyText     | string        | 无下拉数据提示文案                                                                                     |
 
 ### Cascader Event
 
-|参数| 说明          |
-|----------|-------------|
-|change      | 选择事件        |
-| input       | 可搜索时输入框改变事件    |
-| blur        | 可搜索时输入框焦点事件    |
-| focus       | 可搜索时输入框获得焦点事件  |
-| clear       | 清空事件           |
-| delete      | 删除单个选项,多选时有效   |
+| 参数     | 说明            |
+|--------|---------------|
+| change | 选择事件          |
+| input  | 可搜索时输入框改变事件   |
+| blur   | 可搜索时输入框焦点事件   |
+| focus  | 可搜索时输入框获得焦点事件 |
+| clear  | 清空事件          |
+| delete | 删除单个选项,多选时有效  |
 
 ### Cascader Options
 

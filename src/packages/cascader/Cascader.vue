@@ -107,7 +107,7 @@
     loadingId: '', // 异步加载时用于显示加载状态
     timer: 0,
     lazyOptions: props.options,
-    init: true
+    showValue: [] // 用于展示的文本值及对应value值，格式化后显示于输入框的值
   })
   const { downDataList, loadingId, showLabel } = toRefs(state)
   const { optionsKey } = toRefs(props)
@@ -177,7 +177,7 @@
   const setDefaultShowLabel = () => {
     // 单选 ['广东,广州,白云']
     // 多选 ['广东,广州,白云','广东,深圳,宝安区']
-    if (props.modelValue && props.modelValue.length > 0) {
+    if (props.modelValue?.length) {
       // state.showLabel = JSON.parse(JSON.stringify(props.modelValue)) // 默认为value，从选项数据中匹配到相同value值时返回label，否则使用传入的值
       state.showLabel = []
       props.modelValue.forEach((item: any) => {
@@ -185,15 +185,12 @@
         state.showLabel.push(item.replace(/,/g, '/'))
       })
       for (let i = 0; i < props.modelValue.length; i++) {
-        // console.log(props.modelValue[i])
         formatOptions.value.forEach((opt: cityProps) => {
           if (opt.fullValue && opt.fullValue === props.modelValue[i]) {
             let fl = opt.fullLabel || opt[labelKey]
-            // console.log(fl.lastIndexOf(','))
             if (!props.showAllLevels) {
               // 使用逗号分隔，取最后一个
-              const index = fl.lastIndexOf(',')
-              fl = fl.substr(index + 1)
+              fl = fl.split(',').pop()
             }
             state.showLabel.splice(i, 1, fl.replace(/,/g, '/'))
           }
@@ -407,6 +404,8 @@
       // 将value值存入state.checked
       child.forEach((item: cityProps) => {
         if (!item.disabled) {
+          //不管什么情况这里都不会是半选
+          item.someSelect = false
           pushSpliceObj(item[valueKey], val)
           // 继续下一级
           if (item.hasChild) {
@@ -420,7 +419,7 @@
 
     function findParents(obj: cityProps, val: boolean) {
       // 同级是否为全选状态
-      const brother = filterFormatOptions(obj.tid)
+      const brother = filterFormatOptions(obj.tid as string)
       let someChecked = false
       //从所有兄弟节点节筛选全已选择的
       const checkList = brother.filter(item =>

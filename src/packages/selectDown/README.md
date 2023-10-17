@@ -1,6 +1,6 @@
 # SelectDown下拉
 
-统一下拉组件，为`select`,`datePick`,`cascader`等提交统一交互
+统一下拉组件，为`select`,`datePick`,`cascader`等提供统一交互
 
 ### 基础用法
 
@@ -58,14 +58,13 @@
 ```vue demo
 <template>
   <ak-select-down v-model="modelValue" multiple placeholder="placeholder">
-    <p>21311</p>
-    <p>多选模式</p>
+    <p>多选模式，同时设置vue项不能删除</p>
   </ak-select-down>
 </template>
 <script lang="ts" setup>
   import { ref } from 'vue'
 
-  const modelValue = ref(['reactive', 'form', 'vue'])
+  const modelValue = ref(['reactive', 'form', {label:'vue',disabled:true}])
 </script>
 
 ```
@@ -75,14 +74,14 @@
 ```vue demo
 <template>
   <ak-select-down v-model="modelValue" multiple collapseTags placeholder="placeholder">
-    <p>21311</p>
+    <p>同时带有不能删除的选项</p>
     <p>多选折叠模式</p>
   </ak-select-down>
 </template>
 <script lang="ts" setup>
   import { ref } from 'vue'
 
-  const modelValue = ref(['reactive', 'form', 'vue'])
+  const modelValue = ref([{label:'del',disabled:true},'reactive', 'form', 'vue'])
 </script>
 
 ```
@@ -298,4 +297,3 @@
 | 参数       | 说明             |
 |----------|----------------|
 | slideUp  | 收起下拉           |
-| setValue | 设置显示的值，仅改变显示的值 |

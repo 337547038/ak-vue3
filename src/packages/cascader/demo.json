@@ -1,10 +1,10 @@
 [
   {
-    "value": "广东1",
+    "value": "广东",
     "label": "广东",
     "children": [
       {
-        "value": "广州1",
+        "value": "广州",
         "label": "广州",
         "children": [
           {

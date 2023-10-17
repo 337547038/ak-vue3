@@ -6,14 +6,13 @@
     before-change=""
     options=""
     optionskey=""
-    :model-value="showLabel"
+    :model-value="state.checked"
     @clear="clearClick"
     @delete="deleteClick"
     @input="inputChange"
     @blur="inputBlur"
     @toggle-click="toggleClick"
     @keyup-enter="keyupEnter"
-    :disabledOption="disabledOption"
   >
     <ul :class="`${prefixCls}-select`">
       <li
@@ -127,11 +126,6 @@
   const optionsList: FormControlOption = ref(
     JSON.parse(JSON.stringify(props.options))
   )
-  const disabledOption = computed(() => {
-    return optionsList.value
-      .filter((item: any) => item.disabled)
-      .map(item => item[optLabel])
-  })
   watch(
     () => props.modelValue,
     () => {
@@ -167,8 +161,6 @@
         emitCom(filter[0])
       }
     }
-    // 恢复输入框的值，存在输入后不点击下拉的情况
-    selectDownEl.value.setValue(showLabel.value)
     // 还原下拉数据
     state.keywords = ''
     setTimeout(() => {
@@ -195,7 +187,6 @@
   }
   // 设置初始值
   const setFirstText = () => {
-    // console.log('setFirstText')
     if (state.setFirst) {
       return
     }
@@ -340,10 +331,6 @@
       return label
     }
   }
-  // 选中的文本值
-  const showLabel = computed(() => {
-    return state.checked.map((item: any) => item[optLabel])
-  })
   // 清空事件
   const clearClick = () => {
     // 选择的值带有禁用时，不能清空
