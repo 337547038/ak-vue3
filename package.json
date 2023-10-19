@@ -1,7 +1,7 @@
 {
   "name": "ak-vue",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "repository": "git@github.com:337547038/ak-vue3.git",
   "author": "337547038 <337547038@qq.com>",
   "scripts": {

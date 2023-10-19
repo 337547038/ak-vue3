@@ -1,6 +1,6 @@
 {
   "name": "ak-vue3",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "AK UI是一个vue3的组件库，基于 Vue3 + Typescript + Vite + pnpm",
   "license": "MIT",
   "author": "337547038",
