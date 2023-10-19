@@ -12,8 +12,10 @@ AK UI是一个vue3的组件库，基于 Vue3 + Typescript + Vite + pnpm。
 ## 全局引入（推荐）
 
 ```shell
-pnpm install ak-vue2
+pnpm install ak-vue3
 ```
+
+
 ```ts
 // main.ts
 import AKVUE from 'ak-vue3'
