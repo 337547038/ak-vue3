@@ -42,7 +42,7 @@
 <script lang="ts" setup>
   import prefixCls from '../prefix'
   import { inject, computed, reactive, nextTick } from 'vue'
-  import vTransition from '../transition/Transition.vue'
+  import VTransition from '../transition/Transition.vue'
   import NodeContent from './NodeContent.vue'
   import Loading from '../loading/Loading.vue'
   import { Checkbox } from '../checkbox'
@@ -57,12 +57,12 @@
     someChecked?: boolean
     isLoad?: boolean
   }
-  interface StateReactive {
+  /*interface StateReactive {
     lazy: boolean
     showCheckbox: boolean
     itemRefs?: string[]
     loadingId: string
-  }
+  }*/
 
   const props = withDefaults(
     defineProps<{
@@ -76,7 +76,7 @@
   // const instance = getCurrentInstance()
   // const childList = instance.props.data
   const propsData = inject(`${prefixCls}PropsData`) as any
-  const state = reactive<StateReactive>({
+  const state = reactive({
     lazy: propsData.lazy,
     showCheckbox: propsData.showCheckbox,
     loadingId: ''

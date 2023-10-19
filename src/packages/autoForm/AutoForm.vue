@@ -115,7 +115,7 @@
     (e: 'change', val: any, name: string): void
   }>()
   const autoFormEl = ref()
-  const state = reactive<any>({
+  const state = reactive({
     formValue: Object.assign({}, props.modelValue),
     urlLink: {}
   })
@@ -181,7 +181,7 @@
   }
   watch(
     () => state.formValue,
-    val => {
+    (val: any) => {
       emits('update:modelValue', val)
     },
     { deep: true }

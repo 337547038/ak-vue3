@@ -10,7 +10,7 @@
       disabled: Boolean,
       closable: Boolean
     },
-    setup(props, { slots }) {
+    setup(props: any, { slots }: any) {
       const childrenList: any = inject(`${prefixCls}ChildrenList`)
       // childrenList.push(Object.assign({}, props, { slots: slots }))
       childrenList && childrenList(Object.assign({}, props, { slots: slots }))

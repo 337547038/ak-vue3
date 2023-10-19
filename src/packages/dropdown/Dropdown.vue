@@ -69,7 +69,7 @@
 
   const dropdown = ref()
   const el = ref()
-  const state = reactive<any>({
+  const state = reactive({
     visible: false,
     timer: 0,
     position: '',

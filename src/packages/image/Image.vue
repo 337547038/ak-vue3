@@ -75,13 +75,13 @@
   import prefixCls from '../prefix'
   import Loading from '../loading/Loading.vue'
 
-  interface Transform {
+  /*interface Transform {
     rotate?: number
     scale?: number
     x?: number
     y?: number
     duration?: string
-  }
+  }*/
 
   const props = withDefaults(
     defineProps<{
@@ -101,12 +101,12 @@
       radius: '2px'
     }
   )
-  const status = ref<string>('loading')
-  const previewStatus = ref<string>('loading')
+  const status = ref('loading')
+  const previewStatus = ref('loading')
   const imagePreview = ref()
   const previewImg = ref()
-  const imageVisible = ref<boolean>(false)
-  const transform = ref<Transform>({})
+  const imageVisible = ref(false)
+  const transform = ref({})
   const previewStyle = computed(() => {
     const {
       rotate = 0,
@@ -120,7 +120,7 @@
       transitionDuration: duration
     }
   })
-  const active = ref<number>(0)
+  const active = ref(0)
   const imgOnload = (src: string) => {
     return new Promise<void>((resolve, reject) => {
       if (!props.src) {

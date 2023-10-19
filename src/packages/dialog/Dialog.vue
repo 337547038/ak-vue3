@@ -158,7 +158,7 @@
   const el = ref()
   const headEl = ref()
   const dialogEl = ref()
-  const state = reactive<StateStyle>({
+  const state = reactive({
     autoTime: props.autoClose, // 自动关闭时间
     visible: props.modelValue, // 控制窗口显示隐藏
     left: '',

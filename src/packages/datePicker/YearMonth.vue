@@ -33,7 +33,7 @@
     (e: 'update:modelValue', value: string | string[]): void
     (e: 'click', value: Date): void
   }>()
-  const checkedValue = ref<number>(props.defaultDate)
+  const checkedValue = ref(props.defaultDate)
   watch(
     () => props.defaultDate,
     () => {

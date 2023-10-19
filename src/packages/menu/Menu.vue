@@ -47,7 +47,7 @@
   }>()
   provide(`${prefixCls}MenuProps`, props)
   // 展开的项集合
-  const visibleList = ref<string[]>(props.openKeys)
+  const visibleList = ref(props.openKeys)
   provide(`${prefixCls}MenuVisibleList`, visibleList)
   provide(`${prefixCls}MenuVisibleListChange`, (key: string, add: boolean) => {
     if (add) {
@@ -58,7 +58,7 @@
     }
   })
   // 当前选中的项
-  const selectKey = ref<string>(props.selectedKey)
+  const selectKey = ref(props.selectedKey)
   provide(`${prefixCls}MenuSelectKey`, selectKey)
   provide(`${prefixCls}MenuSelectKeyChange`, (val: string) => {
     selectKey.value = val

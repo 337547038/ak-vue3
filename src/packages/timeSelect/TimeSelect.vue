@@ -152,7 +152,7 @@
     }
     return result
   })
-  const showLabel = ref<string[]>([])
+  const showLabel = ref([])
   if (props.modelValue) {
     showLabel.value = [props.modelValue]
   }

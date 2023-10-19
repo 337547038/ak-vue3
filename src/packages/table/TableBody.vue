@@ -15,8 +15,8 @@
           :checked="selectedRows.indexOf(row) !== -1"
           :column="column"
           :row="row"
-          :index="rowIndex"
-          :column-index="indexTd"
+          :index="rowIndex as number"
+          :column-index="indexTd as number"
           :title="title"
           :toggle="getToggle(rowIndex)"
           :row-col-span="getRowColSpan(rowIndex, indexTd)"
@@ -34,7 +34,7 @@
         <TableTd
           :column="colsExtend[0]"
           :row="row"
-          :index="rowIndex"
+          :index="rowIndex as number"
           :colspan="colsNoExtend.length"
         />
       </tr>
@@ -52,8 +52,8 @@
             :key="'childTd' + childIndex"
             :column="child"
             :row="item"
-            :index="index"
-            :column-index="childIndex"
+            :index="index as number"
+            :column-index="childIndex as number"
             :title="title"
             :parent-row="row"
             @cell-click="cellClick"
@@ -93,7 +93,7 @@
     ): void
   }>()
   const getColumns = inject(`${prefixCls}GetColumns`) as any
-  const state = reactive<any>({
+  const state = reactive({
     toggle: {}, // {1: true, 2: false, 0: false} // 对应每行展开或收起状态
     rowspanColspanList: []
   })

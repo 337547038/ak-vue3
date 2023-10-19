@@ -164,8 +164,8 @@
   const el = ref()
   const tableEl = ref()
   const tableHeadEl = ref()
-  const columnsData = ref<any>([])
-  const state = reactive<any>({
+  const columnsData = ref([])
+  const state = reactive({
     colWidth: [],
     selectedRows: [], // 已选择的行
     dragHead: {}, // 临时存放表头拖动信息
@@ -178,7 +178,7 @@
   // 预防中途有修改高的时候
   watch(
     () => props.height,
-    val => {
+    (val: any) => {
       state.stateHeight = val
     }
   )

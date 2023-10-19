@@ -76,8 +76,8 @@
     (e: 'change', modelValue: number[] | number): void
   }>()
   const sliderEl = ref()
-  const startLeft = ref<number>(0)
-  const endLeft = ref<number>(0)
+  const startLeft = ref(0)
+  const endLeft = ref(0)
   const disabledOk = computed(() => {
     return getFormDisabled(props.disabled) || false
   })

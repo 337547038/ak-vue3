@@ -126,11 +126,11 @@
   const tabsEl = ref()
   const tabsTabEl = ref()
   const tabsScrollEl = ref() // 滚动区域
-  const isScroll = ref<boolean>(false) // 是否需要滚动
-  const moveWidth = ref<number>(0) // 已经移动的宽
-  const tabsWidth = ref<number>()
-  const prevDisabled = ref<boolean>(true)
-  const nextDisabled = ref<boolean>(false)
+  const isScroll = ref(false) // 是否需要滚动
+  const moveWidth = ref(0) // 已经移动的宽
+  const tabsWidth = ref()
+  const prevDisabled = ref(true)
+  const nextDisabled = ref(false)
   const transformStyle = computed(() => {
     return {
       transform: `translateX(-${moveWidth.value}px)`

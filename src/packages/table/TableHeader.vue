@@ -23,7 +23,7 @@
           <table-header
             v-if="th.slots && th.slots.header"
             :data="th"
-            :index="thIndex"
+            :index="thIndex as number"
           />
           <span v-else>{{ th.label }}</span>
           <span v-if="th.sortBy" class="caret-wrapper">
@@ -75,7 +75,7 @@
 
   const el = ref()
   const getColumns = inject(`${prefixCls}GetColumns`, []) as any
-  const state = reactive<any>({
+  const state = reactive({
     checkboxChecked: props.selectChecked.toString(),
     // columns: getColumns,
     sortBy: {}

@@ -37,7 +37,7 @@
   }>()
   const slots = useSlots()
   const { modelValue } = toRefs(props)
-  const state = reactive<any>({
+  const state = reactive({
     dataList: [],
     lazy: props.lazy,
     showCheckbox: props.showCheckbox,

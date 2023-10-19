@@ -42,7 +42,7 @@
     (e: 'close'): void
   }>()
 
-  const visible = ref<boolean>(true)
+  const visible = ref(true)
   const closeClick = () => {
     visible.value = false
     emits('close')

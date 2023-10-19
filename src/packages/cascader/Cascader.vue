@@ -99,7 +99,7 @@
     (e: 'change', value: string[]): void
     (e: 'input', value: string): void
   }>()
-  const state = reactive<any>({
+  const state = reactive({
     downDataList: [], // 下拉面板的数据
     showLabel: [], // 用于展示的值，格式化后显示于输入框的值
     checked: [], // 用来判断点击选中状态
@@ -247,10 +247,10 @@
    * 设置初始半选状态
    */
   const setDefaultSomeSelect = (list: any) => {
-    list.forEach(item => {
+    list.forEach((item: any) => {
       if (item.hasChild && state.checked.includes(item[valueKey])) {
         const childList = filterFormatOptions(item[valueKey])
-        const checkList = childList.filter(ch =>
+        const checkList = childList.filter((ch: any) =>
           state.checked.includes(ch[valueKey])
         )
         if (childList?.length !== checkList?.length) {
@@ -419,10 +419,10 @@
 
     function findParents(obj: cityProps, val: boolean) {
       // 同级是否为全选状态
-      const brother = filterFormatOptions(obj.tid as string)
+      const brother = filterFormatOptions(obj.tid as any)
       let someChecked = false
       //从所有兄弟节点节筛选全已选择的
-      const checkList = brother.filter(item =>
+      const checkList = brother.filter((item: { [x: string]: any }) =>
         state.checked.includes(item[valueKey])
       )
       //相等时为全选

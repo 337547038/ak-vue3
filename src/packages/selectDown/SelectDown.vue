@@ -300,7 +300,8 @@
   // 清空
   const clearClick = (evt: MouseEvent) => {
     // 需排除不能删除的
-    const mv = props.modelValue.filter(item => {
+    const mvList: any = props.modelValue
+    const mv = mvList.filter((item: any) => {
       return typeof item === 'object' && item.disabled
     })
     updateModel(mv)

@@ -115,7 +115,7 @@
     }
     return itemProps
   }
-  const state = reactive<any>({
+  const state = reactive({
     errorTips: '', // 有值时表示校验没通过有错误信息
     iconType: '', // 提示类型，
     rules2: rules,
@@ -179,7 +179,7 @@ bool = true
     return bool
   })
   // 如果form组件设置了label的宽
-  const labelStyle = computed<any>(() => {
+  const labelStyle = computed(() => {
     const width = getFormProps('labelWidth', undefined)
     if (width) {
       return {

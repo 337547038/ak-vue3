@@ -259,7 +259,7 @@
   const upload = () => {
     if (!props.auto) {
       state.tempUpload.forEach(async (item: any) => {
-        await getAxiosUpload(item.file, item.index)
+        getAxiosUpload(item.file, item.index)
       })
     }
   }

@@ -37,16 +37,7 @@
 </template>
 <script lang="ts" setup>
   import prefixCls from '../prefix'
-  import {
-    toRefs,
-    ref,
-    computed,
-    watch,
-    inject,
-    reactive,
-    provide,
-    onMounted
-  } from 'vue'
+  import { toRefs, ref, watch, inject, reactive, provide, onMounted } from 'vue'
   import { SelectDown } from '../selectDown'
 
   const props = withDefaults(
@@ -97,12 +88,12 @@
     (e: 'toggleClick', value: boolean): void
   }>()
 
-  interface StateType {
+  /*  interface StateType {
     checked: any
     keywords: string
     setFirst: boolean
     tempChecked: string
-  }
+  }*/
 
   interface FormControlOption {
     [key: string]: any // 使用动态变量时不会报错
@@ -113,7 +104,7 @@
   }
 
   const selectDownEl = ref()
-  const state = reactive<StateType>({
+  const state = reactive({
     checked: [], // 所有已选择的集合
     keywords: '',
     setFirst: false, // 手动选择改变选项时，在watch时不触发setFirstText事件
@@ -337,7 +328,7 @@
     const disabledOpt = optionsList.value
       .filter((item: any) => item.disabled)
       .map(item => item[optValue])
-    state.checked = state.checked.filter(item =>
+    state.checked = state.checked.filter((item: { value: any }) =>
       disabledOpt.includes(item.value)
     )
     emitCom()

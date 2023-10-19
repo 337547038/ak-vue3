@@ -147,7 +147,7 @@
       return {}
     }
   })
-  const containerStyle = computed<any>(() => {
+  const containerStyle = computed(() => {
     const obj = reactive({
       'overflow-x': 'hidden',
       height: '',
@@ -230,7 +230,7 @@
       // 删除前面第N个，追加到最后
       const pre = state.children.slice(0, moveNum)
       state.children.splice(0, moveNum)
-      pre.forEach(item => {
+      pre.forEach((item: any) => {
         state.children.push(item)
       })
     } else {

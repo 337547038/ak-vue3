@@ -5,11 +5,11 @@
   </transition>
 </template>
 <script lang="ts">
-  import { TransitionProps } from 'vue'
+  //import { TransitionProps } from 'vue'
 
   const elTransition =
     '0.3s height ease-in-out, 0.3s padding-top ease-in-out, 0.3s padding-bottom ease-in-out'
-  const collapseTransitionProps: TransitionProps = {
+  const collapseTransitionProps: any = {
     onBeforeEnter(_el: Element) {
       const el = _el as HTMLElement
       el.style.transition = elTransition

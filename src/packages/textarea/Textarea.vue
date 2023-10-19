@@ -47,7 +47,7 @@
   const textValue = ref(props.modelValue)
   watch(
     () => props.modelValue,
-    val => {
+    (val: any) => {
       textValue.value = val
     }
   )
@@ -58,7 +58,7 @@
   const disabledOk = computed(() => {
     return getFormDisabled(props.disabled)
   })
-  const style = computed<any>(() => {
+  const style = computed(() => {
     return {
       width: props.width,
       height: height.value,

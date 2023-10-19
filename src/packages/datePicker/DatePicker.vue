@@ -39,7 +39,7 @@
               :pane="activePane"
               @click="onClickDay($event, index)"
               :type="type"
-              :index="index"
+              :index="index as number"
               :disabledDate="disabledDate"
               :innerText="innerText"
               v-if="activePane === 'day'"
@@ -110,11 +110,11 @@
 
   const selectDown = ref()
   const downValue = ref() // 下拉面板的值
-  const showValue = ref<string[]>([]) // 显示于输入框的值
+  const showValue = ref([]) // 显示于输入框的值
   const isRange = props.type.includes('Range') // 是否为区间
-  const defaultValue = ref<number[]>([]) // 经过时间格式化的初始值
-  const activePane = ref<string>('day')
-  const rangChecked = ref<Date[]>([])
+  const defaultValue = ref([]) // 经过时间格式化的初始值
+  const activePane = ref('day')
+  const rangChecked = ref([])
   const controlChange: any = inject(`${prefixCls}ControlChange`, '')
   const padStart = (number: number | string) => {
     return `${number}`.padStart(2, '0')
@@ -240,11 +240,11 @@
       }
       downValue.value = [dateValueLeft, dateValueRight]
     } else {
-      if (typeof date === 'string' && date) {
+      if (date && typeof date === 'string') {
         const d = isInvalidDate(date)
         if (d) {
           dateValueLeft = d
-          const parse = parseDate(<Date>d, formatType.value)
+          const parse = parseDate(d, formatType.value)
           showValue.value = [parse]
           defaultValue.value = [d.getTime()]
         }

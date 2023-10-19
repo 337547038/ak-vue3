@@ -23,7 +23,7 @@
     (e: 'update:modelValue', modelValue: any): void
   }>()
 
-  const topStyle = ref<number>(0)
+  const topStyle = ref(0)
   watch(
     () => props.sideBarHeight,
     () => {

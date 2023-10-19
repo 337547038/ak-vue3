@@ -6,7 +6,7 @@
     props: {
       className: String
     },
-    setup(props, { slots }) {
+    setup(props: any, { slots }: any) {
       const childrenList: any = inject(`${prefixCls}ChildrenList`)
       childrenList.push({
         slots: slots,

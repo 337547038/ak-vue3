@@ -77,11 +77,11 @@
     p?: boolean
   }
 
-  interface DateTime {
+  /*  interface DateTime {
     hours: string
     minutes: string
     seconds: string
-  }
+  }*/
 
   const props = withDefaults(
     defineProps<{
@@ -106,9 +106,9 @@
       }
     }
   )
-  const daysList = ref<Day[]>([])
-  const dateTime = ref<DateTime>({ hours: '', minutes: '', seconds: '' })
-  const defaultDate = ref<number>(props.defaultDate)
+  const daysList = ref([])
+  const dateTime = ref({ hours: '', minutes: '', seconds: '' })
+  const defaultDate = ref(props.defaultDate)
   const padStart = (number: number | string) => {
     return `${number}`.padStart(2, '0')
   }

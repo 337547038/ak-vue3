@@ -8,7 +8,7 @@
       disabled: Boolean,
       className: String
     },
-    setup(props) {
+    setup(props: { label: any; value: any; disabled: any; className: any }) {
       const getChildOption: any = inject(`${prefixCls}GetChildOption`, '')
       onMounted(() => {
         getChildOption &&

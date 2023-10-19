@@ -165,7 +165,7 @@
     ], // 显示改变大小的8个位置点名
     progress: 0 // 上传进度
   })
-  const controlBoxStyle = computed<any>(() => {
+  const controlBoxStyle = computed(() => {
     const { height, width, left, top } = state.controlBox
     return {
       height: height + 'px',
