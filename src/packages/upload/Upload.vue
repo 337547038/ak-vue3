@@ -53,7 +53,7 @@
 <script lang="ts" setup>
   import prefixCls from '../prefix'
   import { reactive, ref } from 'vue'
-  import { getObjectURL, axiosUpload } from './comm'
+  import { getObjectURL, axiosUpload } from './Comm'
 
   const props = withDefaults(
     defineProps<{
