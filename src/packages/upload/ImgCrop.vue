@@ -96,7 +96,7 @@
     nextTick,
     onUnmounted
   } from 'vue'
-  import { getObjectURL, axiosUpload } from './comm'
+  import { getObjectURL, axiosUpload } from './Comm'
   //import button from '../button/Button.vue'
 
   const props = withDefaults(
