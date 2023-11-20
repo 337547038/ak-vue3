@@ -7,7 +7,8 @@
 <script lang="ts" setup>
   import prefixCls from '../prefix'
   import treeNode from './TreeNode.vue'
-  import { provide, toRefs, watch, reactive, useSlots } from 'vue'
+  import { provide, watch, reactive, useSlots } from 'vue'
+
   interface TreeList {
     id: string
     label: string
@@ -19,9 +20,10 @@
     someChecked?: boolean
     isLoad?: boolean
   }
+
   const props = withDefaults(
     defineProps<{
-      data?: string[]
+      data?: TreeList[]
       lazy?: boolean
       showCheckbox?: boolean // 显示checkbox
       modelValue?: string | string[]
@@ -36,7 +38,7 @@
     (e: 'click', obj: any, callback?: any): void
   }>()
   const slots = useSlots()
-  const { modelValue } = toRefs(props)
+  //const { modelValue } = toRefs(props)
   const state = reactive({
     dataList: [],
     lazy: props.lazy,
@@ -49,8 +51,13 @@
   const checkboxChange = (item: TreeList) => {
     emits('change', item)
     // console.log(item)
+    //先设置当前点击项状态，一定是全选或全不选状态
+    item.someChecked = false
     item.tid && setParentChecked(item.tid) // 设置父级
     setChildChecked(item.id, item.checked as boolean) // 设置子级
+    //这里也需要更新modelValue
+    const val = getValue(false)
+    emits('update:modelValue', val)
   }
   // 将父节点全选或全不选
   const setParentChecked = (id: string) => {
@@ -70,7 +77,8 @@
           checked = false
         }
         // 有其中一条选择了，则有部分选择
-        if (item.checked) {
+        // 或者是当前为半选状态时，上级也同时要半选
+        if (item.checked || item.someChecked) {
           someChecked = true
         }
       }
@@ -108,9 +116,9 @@
       state.modelValue = val
     }
   )
-  const getRandom = (label: string) => {
-    return label + '-' + Math.random().toString(36).substr(2, 8)
-  }
+  /* const getRandom = (label: string) => {
+return label + '-' + Math.random().toString(36).substr(2, 8)
+}*/
   // 格式化数据
   const formatData = (data: any, tid?: string) => {
     data &&
@@ -126,9 +134,9 @@
           // 添加选中属性
           checked = { checked: false, someChecked: false }
         }
-        // 如果没有id时，根据label自动生成一个
+        // 如果没有id时，则使用label的值，此时应确保label的值唯一
         if (!newItem.id) {
-          newItem.id = getRandom(item.label)
+          newItem.id = item.label
         }
         state.dataList.push(
           Object.assign({}, checked, newItem, {
@@ -157,7 +165,7 @@
         // 将数据添加上父节点信息，追加到数据列表
         result.forEach((re: TreeList) => {
           if (!re.id) {
-            re.id = getRandom(re.label)
+            re.id = re.label
           }
           state.dataList.push(Object.assign({}, checked, re, { tid: item.id }))
         })
@@ -167,17 +175,17 @@
     }
     // 更新v-model
     if (typeof props.modelValue === 'object') {
-      const temp = (modelValue.value && modelValue.value) as string[]
-      const index = temp.indexOf(item.id)
+      const temp = (state.modelValue && state.modelValue) as string[]
+      const index = temp.indexOf(id)
       if (index !== -1) {
         // 表示存在，则删除
         temp.splice(index, 1)
       } else {
-        temp.push(item.id)
+        temp.push(id)
       }
       emits('update:modelValue', temp)
     } else {
-      emits('update:modelValue', item.id)
+      emits('update:modelValue', id)
     }
   }
   // 提供方法用于取值

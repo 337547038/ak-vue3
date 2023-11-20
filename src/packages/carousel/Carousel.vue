@@ -17,7 +17,7 @@
           v-for="(item, index) in state.children"
           :key="`item${index}`"
           :child-item="item"
-          :class-name="getItemClass(index)"
+          :class-name="getItemClass(index as number)"
           :style-cls="{ width: state.width + 'px', height: itemHeight + 'px' }"
         />
       </div>

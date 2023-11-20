@@ -4,7 +4,7 @@
     v-bind="$props"
     ref="selectDownEl"
     :class="{ [`${prefixCls}-cascader`]: true }"
-    :down-class="downClass2"
+    :down-class="downClass2 as string"
     :model-value="showLabel"
     :options="[]"
     lazyload=""
