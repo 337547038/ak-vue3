@@ -1,0 +1,49 @@
+import{C as h}from"./vue-4a2b12f2.js";import{e as m,r as j,a as u,o as p,c as g,b as e,f as _,w as n,u as i,g as a,d as s,h as A}from"./index-dd3aacc0.js";/* empty css                                                            */const x=m({__name:"README.md.Virtual5b09006a",setup(d){const t=j("");return(o,l)=>{const r=u("ak-textarea");return p(),g("div",null,[e(r,{modelValue:t.value,"onUpdate:modelValue":l[0]||(l[0]=c=>t.value=c),placeholder:"placeholder"},null,8,["modelValue"])])}}}),E=m({__name:"README.md.Virtualbfe15264",setup(d){const t=j("不能输入");return(o,l)=>{const r=u("ak-textarea");return p(),g("div",null,[e(r,{modelValue:t.value,"onUpdate:modelValue":l[0]||(l[0]=c=>t.value=c),placeholder:"placeholder",disabled:"disabled"},null,8,["modelValue"])])}}}),f=m({__name:"README.md.Virtual5f6be70f",setup(d){const t=j("输入些文字回车换行试试");return(o,l)=>{const r=u("ak-textarea");return p(),_(r,{modelValue:t.value,"onUpdate:modelValue":l[0]||(l[0]=c=>t.value=c),placeholder:"placeholder"},null,8,["modelValue"])}}}),v=m({__name:"README.md.Virtual33bcb6ba",setup(d){const t=j("");return(o,l)=>{const r=u("ak-textarea");return p(),g("div",null,[e(r,{modelValue:t.value,"onUpdate:modelValue":l[0]||(l[0]=c=>t.value=c),placeholder:"placeholder",maxlength:10,showWordLimit:""},null,8,["modelValue"])])}}}),k={class:"marked-body"},C=a("h1",{id:"textarea-文本框"},"Textarea 文本框",-1),D=a("h3",{id:"基本用法"},"基本用法",-1),w=a("pre",{class:"language-xml"},[a("code",{class:"hljs"},[a("span",{class:"hljs-tag"},[s("<"),a("span",{class:"hljs-name"},"template"),s(">")]),s(`
+  `),a("span",{class:"hljs-tag"},[s("<"),a("span",{class:"hljs-name"},"div"),s(">")]),s(`
+    `),a("span",{class:"hljs-tag"},[s("<"),a("span",{class:"hljs-name"},"ak-textarea"),s(),a("span",{class:"hljs-attr"},"v-model"),s("="),a("span",{class:"hljs-string"},'"textarea1"'),s(),a("span",{class:"hljs-attr"},"placeholder"),s("="),a("span",{class:"hljs-string"},'"placeholder"'),s(" />")]),s(`
+  `),a("span",{class:"hljs-tag"},[s("</"),a("span",{class:"hljs-name"},"div"),s(">")]),s(`
+`),a("span",{class:"hljs-tag"},[s("</"),a("span",{class:"hljs-name"},"template"),s(">")]),s(`
+`),a("span",{class:"hljs-tag"},[s("<"),a("span",{class:"hljs-name"},"script"),s(),a("span",{class:"hljs-attr"},"lang"),s("="),a("span",{class:"hljs-string"},'"ts"'),s(),a("span",{class:"hljs-attr"},"setup"),s(">")]),a("span",{class:"language-javascript"},[s(`
+  `),a("span",{class:"hljs-keyword"},"import"),s(" { ref } "),a("span",{class:"hljs-keyword"},"from"),s(),a("span",{class:"hljs-string"},"'vue'"),s(`
+
+  `),a("span",{class:"hljs-keyword"},"const"),s(" textarea1 = "),a("span",{class:"hljs-title function_"},"ref"),s("("),a("span",{class:"hljs-string"},"''"),s(`)
+`)]),a("span",{class:"hljs-tag"},[s("</"),a("span",{class:"hljs-name"},"script"),s(">")]),s(`
+`)])],-1),b=a("h3",{id:"禁用"},"禁用",-1),V=a("pre",{class:"language-xml"},[a("code",{class:"hljs"},[a("span",{class:"hljs-tag"},[s("<"),a("span",{class:"hljs-name"},"template"),s(">")]),s(`
+  `),a("span",{class:"hljs-tag"},[s("<"),a("span",{class:"hljs-name"},"div"),s(">")]),s(`
+    `),a("span",{class:"hljs-tag"},[s("<"),a("span",{class:"hljs-name"},"ak-textarea"),s(`
+      `),a("span",{class:"hljs-attr"},"v-model"),s("="),a("span",{class:"hljs-string"},'"textarea1"'),s(`
+      `),a("span",{class:"hljs-attr"},"placeholder"),s("="),a("span",{class:"hljs-string"},'"placeholder"'),s(`
+      `),a("span",{class:"hljs-attr"},"disabled"),s("="),a("span",{class:"hljs-string"},'"disabled"'),s(`
+    />`)]),s(`
+  `),a("span",{class:"hljs-tag"},[s("</"),a("span",{class:"hljs-name"},"div"),s(">")]),s(`
+`),a("span",{class:"hljs-tag"},[s("</"),a("span",{class:"hljs-name"},"template"),s(">")]),s(`
+`),a("span",{class:"hljs-tag"},[s("<"),a("span",{class:"hljs-name"},"script"),s(),a("span",{class:"hljs-attr"},"lang"),s("="),a("span",{class:"hljs-string"},'"ts"'),s(),a("span",{class:"hljs-attr"},"setup"),s(">")]),a("span",{class:"language-javascript"},[s(`
+  `),a("span",{class:"hljs-keyword"},"import"),s(" { ref } "),a("span",{class:"hljs-keyword"},"from"),s(),a("span",{class:"hljs-string"},"'vue'"),s(`
+
+  `),a("span",{class:"hljs-keyword"},"const"),s(" textarea1 = "),a("span",{class:"hljs-title function_"},"ref"),s("("),a("span",{class:"hljs-string"},"'不能输入'"),s(`)
+`)]),a("span",{class:"hljs-tag"},[s("</"),a("span",{class:"hljs-name"},"script"),s(">")]),s(`
+`)])],-1),F=a("h3",{id:"自动高"},"自动高",-1),B=a("pre",{class:"language-xml"},[a("code",{class:"hljs"},[a("span",{class:"hljs-tag"},[s("<"),a("span",{class:"hljs-name"},"template"),s(">")]),s(`
+  `),a("span",{class:"hljs-tag"},[s("<"),a("span",{class:"hljs-name"},"ak-textarea"),s(),a("span",{class:"hljs-attr"},"v-model"),s("="),a("span",{class:"hljs-string"},'"textarea1"'),s(),a("span",{class:"hljs-attr"},"placeholder"),s("="),a("span",{class:"hljs-string"},'"placeholder"'),s(" />")]),s(`
+`),a("span",{class:"hljs-tag"},[s("</"),a("span",{class:"hljs-name"},"template"),s(">")]),s(`
+`),a("span",{class:"hljs-tag"},[s("<"),a("span",{class:"hljs-name"},"script"),s(),a("span",{class:"hljs-attr"},"lang"),s("="),a("span",{class:"hljs-string"},'"ts"'),s(),a("span",{class:"hljs-attr"},"setup"),s(">")]),a("span",{class:"language-javascript"},[s(`
+  `),a("span",{class:"hljs-keyword"},"import"),s(" { ref } "),a("span",{class:"hljs-keyword"},"from"),s(),a("span",{class:"hljs-string"},"'vue'"),s(`
+
+  `),a("span",{class:"hljs-keyword"},"const"),s(" textarea1 = "),a("span",{class:"hljs-title function_"},"ref"),s("("),a("span",{class:"hljs-string"},"'输入些文字回车换行试试'"),s(`)
+`)]),a("span",{class:"hljs-tag"},[s("</"),a("span",{class:"hljs-name"},"script"),s(">")]),s(`
+
+`)])],-1),y=a("h3",{id:"显示输入字数"},"显示输入字数",-1),M=a("p",null,[s("在使用 "),a("code",null,"maxlength"),s(" 属性限制最大输入长度的同时，可通过设置 "),a("code",null,"show-word-limit"),s(" 属性来展示字数统计")],-1),R=a("pre",{class:"language-xml"},[a("code",{class:"hljs"},[a("span",{class:"hljs-tag"},[s("<"),a("span",{class:"hljs-name"},"template"),s(">")]),s(`
+  `),a("span",{class:"hljs-tag"},[s("<"),a("span",{class:"hljs-name"},"div"),s(">")]),s(`
+    `),a("span",{class:"hljs-tag"},[s("<"),a("span",{class:"hljs-name"},"ak-textarea"),s(`
+      `),a("span",{class:"hljs-attr"},"v-model"),s("="),a("span",{class:"hljs-string"},'"textarea1"'),s(`
+      `),a("span",{class:"hljs-attr"},"placeholder"),s("="),a("span",{class:"hljs-string"},'"placeholder"'),s(`
+      `),a("span",{class:"hljs-attr"},":maxlength"),s("="),a("span",{class:"hljs-string"},'"10"'),s(`
+      `),a("span",{class:"hljs-attr"},"showWordLimit"),s(`
+    />`)]),s(`
+  `),a("span",{class:"hljs-tag"},[s("</"),a("span",{class:"hljs-name"},"div"),s(">")]),s(`
+`),a("span",{class:"hljs-tag"},[s("</"),a("span",{class:"hljs-name"},"template"),s(">")]),s(`
+`),a("span",{class:"hljs-tag"},[s("<"),a("span",{class:"hljs-name"},"script"),s(),a("span",{class:"hljs-attr"},"lang"),s("="),a("span",{class:"hljs-string"},'"ts"'),s(),a("span",{class:"hljs-attr"},"setup"),s(">")]),a("span",{class:"language-javascript"},[s(`
+  `),a("span",{class:"hljs-keyword"},"import"),s(" { ref } "),a("span",{class:"hljs-keyword"},"from"),s(),a("span",{class:"hljs-string"},"'vue'"),s(`
+
+  `),a("span",{class:"hljs-keyword"},"const"),s(" textarea1 = "),a("span",{class:"hljs-title function_"},"ref"),s("("),a("span",{class:"hljs-string"},"''"),s(`)
+`)]),a("span",{class:"hljs-tag"},[s("</"),a("span",{class:"hljs-name"},"script"),s(">")]),s(`
+`)])],-1),S=A('<h2 id="api">API</h2><h3 id="textarea">Textarea</h3><table><thead><tr><th>参数</th><th>类型</th><th>说明</th></tr></thead><tbody><tr><td>v-model</td><td>String</td><td>绑定的值</td></tr><tr><td>autoHeight</td><td>boolean/true</td><td>自动高</td></tr><tr><td>width</td><td>String</td><td>要带单位px/%</td></tr><tr><td>height</td><td>String</td><td>要带单位px</td></tr><tr><td>maxHeight</td><td>String</td><td>最大高度</td></tr><tr><td>showWordLimit</td><td>boolena/false</td><td>原生属性，最大输入长度</td></tr><tr><td>maxlength</td><td>number</td><td>是否显示输入字数统计</td></tr></tbody></table>',3),W={__name:"README",setup(d){return(t,o)=>(p(),g("div",k,[C,D,e(i(h),{code:"%3Ctemplate%3E%0A%20%20%3Cdiv%3E%0A%20%20%20%20%3Cak-textarea%20v-model%3D%22textarea1%22%20placeholder%3D%22placeholder%22%20%2F%3E%0A%20%20%3C%2Fdiv%3E%0A%3C%2Ftemplate%3E%0A%3Cscript%20lang%3D%22ts%22%20setup%3E%0A%20%20import%20%7B%20ref%20%7D%20from%20'vue'%0A%0A%20%20const%20textarea1%20%3D%20ref('')%0A%3C%2Fscript%3E%0A"},{code:n(()=>[w]),default:n(()=>[e(x)]),_:1}),b,e(i(h),{code:"%3Ctemplate%3E%0A%20%20%3Cdiv%3E%0A%20%20%20%20%3Cak-textarea%0A%20%20%20%20%20%20v-model%3D%22textarea1%22%0A%20%20%20%20%20%20placeholder%3D%22placeholder%22%0A%20%20%20%20%20%20disabled%3D%22disabled%22%0A%20%20%20%20%2F%3E%0A%20%20%3C%2Fdiv%3E%0A%3C%2Ftemplate%3E%0A%3Cscript%20lang%3D%22ts%22%20setup%3E%0A%20%20import%20%7B%20ref%20%7D%20from%20'vue'%0A%0A%20%20const%20textarea1%20%3D%20ref('%E4%B8%8D%E8%83%BD%E8%BE%93%E5%85%A5')%0A%3C%2Fscript%3E%0A"},{code:n(()=>[V]),default:n(()=>[e(E)]),_:1}),F,e(i(h),{code:"%3Ctemplate%3E%0A%20%20%3Cak-textarea%20v-model%3D%22textarea1%22%20placeholder%3D%22placeholder%22%20%2F%3E%0A%3C%2Ftemplate%3E%0A%3Cscript%20lang%3D%22ts%22%20setup%3E%0A%20%20import%20%7B%20ref%20%7D%20from%20'vue'%0A%0A%20%20const%20textarea1%20%3D%20ref('%E8%BE%93%E5%85%A5%E4%BA%9B%E6%96%87%E5%AD%97%E5%9B%9E%E8%BD%A6%E6%8D%A2%E8%A1%8C%E8%AF%95%E8%AF%95')%0A%3C%2Fscript%3E%0A%0A"},{code:n(()=>[B]),default:n(()=>[e(f)]),_:1}),y,M,e(i(h),{code:"%3Ctemplate%3E%0A%20%20%3Cdiv%3E%0A%20%20%20%20%3Cak-textarea%0A%20%20%20%20%20%20v-model%3D%22textarea1%22%0A%20%20%20%20%20%20placeholder%3D%22placeholder%22%0A%20%20%20%20%20%20%3Amaxlength%3D%2210%22%0A%20%20%20%20%20%20showWordLimit%0A%20%20%20%20%2F%3E%0A%20%20%3C%2Fdiv%3E%0A%3C%2Ftemplate%3E%0A%3Cscript%20lang%3D%22ts%22%20setup%3E%0A%20%20import%20%7B%20ref%20%7D%20from%20'vue'%0A%0A%20%20const%20textarea1%20%3D%20ref('')%0A%3C%2Fscript%3E%0A"},{code:n(()=>[R]),default:n(()=>[e(v)]),_:1}),S]))}};export{W as default};
